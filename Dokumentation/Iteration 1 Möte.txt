@@ -1,0 +1,135 @@
+
+
+- 9.30 är den nya tiden  till 11, På tisdagar.
+
+Handlednings går ut på :
+	-Dokumentation:	
+		-Håll nere till en rätt låg nivå, inte jätte detaljerad. då vi skriver allt åt oss själva
+	-Projekt:
+		-Vi gör projekteten för våran egen skull.
+
+-Tobias mål:
+	-hitta rätt nivå på vår dokumentation, blir en hel del trail and error.
+	-Komma fram hur vi ska dokumentera.
+	-80% ska ligga på Implementation och Testning
+	-20-25% blir projekthantering.
+
+	-Arbetsbördan är 180/140 Timmar (?) 
+		-Högre belastning i mitten av projektet.. 
+
+	-Håller man inte reda på sin tid/budget betyder att man får jobba mycket 
+		-Man måste lägga upp arbetet i veckorna baserat på tidsskattning.. vi bestämmer själva hur mkt man ska jobba per vecka..
+
+	-Se till att vi har kontroll på projekten
+	-Se till att vi har koll på Tiden 
+	-Se till att det blir en färdig produkt i slutet..
+		-Obs ibland kan vision se för stor ut, vi får helt enkelt se hur långt vi kommer!
+	-Se till att alla har roligt under kursen.. Har man ej kul under kursen har man nog valt fel..
+		-självklart finns de roligare och tråkigare bitar i projektet..
+
+
+-handledningen är driven av våra frågor, våra iterationsplaner (vad vi planerade, planerar, misstag etc)
+
+
+-Projektplaneringen säger:
+	-Vi har jobbat ihop 2 veckor
+	-vi har gått från Inception till Elaboration ! Wohoo.. 
+		-vi har kommit överens med vad vi ska jobba med
+
+	-Nu är vi inne i Elaboration-fasen:
+		-Etablera arktitektur, leverera/Testa någon form av struktur i projektet! 
+		-Detta är en förberedningsfas till Construction-fasen
+		-Börja med Implementation av kod
+			-hur ska jag lägga upp kod, hur ska delar kommuncucera? Vilka krav ska man börja med? (Svåra krav som påverkar de mesta delar i 				applikationen..) Allra första kravet man gör kan också vara väldigt Enkelt..
+ 
+VISION:	Vad man vill att projektet ska bli, får vara orealistiskt, då det är en "Dröm" etc.. :)  	= EN riktning för hur projektet ska vara när det är 100% färdigt..
+-Bra vision = Sätter en bild av vad projektet kommer framställa..
+	-Innehåller lite detaljer= Är väldigt tydlig/Klar
+	-Intressenter etc 	= Inte jätte intressant i detta projekt..
+		-Inte för stora grupper, ju mindre/Fokuserad desto bättre..
+		-Gäller för intressenter och användare..
+	-Slutanvändare	 	= bra att relatera till, första den och så..
+
+	-Liknande system	= Bra att hitta och lägga ner tid, Punktlistor Pros & Cons.
+		-Bra att hitta dåliga saker om liknande system, hur kan du göra dem bättre? 
+
+	-Det går alltid:
+		-Förbättra
+		-Förändra
+		-Lägg till
+		-Ta bort 
+		-Gör allt som gör Applikationen mer Bra!
+
+	-Visionen ska vara STABIL men inte DÖD! Du kan alltså påverka!
+		-Det ska bli "Ungefär" det som står i Visionen av applikationen.
+
+-Baskrav:
+	-Ska inte vara FunktionsDrivet 		= Fokusera på Kvalitéer i Applikationen, inte funktioner! 
+	-Inte mycket detalj  			= bra
+	-Får bra överrblick vad det ska bli 	= bra
+	-Slå ihop liknande baskrav 		= Mindre förvirring..
+	-Ta inte med teknik som ska användas i baskraven..
+	-Fokusera på det som gör produkten
+		-Unikt för produkten
+		-Bra för slutanvändargrupperna
+		-Börja baskrav med en slutanvändargrupp (Tips..)
+		-Undvik "Vanilj"-funktionalitet, alltså väldigt självklara som "Man ska kunna logga in". Både tråkigt och icke unikt
+
+-Product Backlog:
+	-Product backlog = listor på krav 	bra att ha i ett EXEL-ark...
+		-För in buggar i denna listan vart efter..
+		-Innehåller Förändringar, denna påverkas vart efter
+
+	-Kravspecification = Förklaring på kraven i Listorna
+
+	-Från Baskrav > Krav > Kravspecifikation 
+		-Från otydligt till väldigt tydligt
+
+	-Krav specifikationen = kan använda: 
+		-Användningsfall/Use Case
+		-Textförklaring (skriver hur den ska fungera lite kort..)
+
+	-Kraven ändras efter tid, tillslut kanske man får krav som bara ändrar
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

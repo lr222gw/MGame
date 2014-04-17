@@ -4,8 +4,8 @@ var init = function(){
 };
 var Machines = {
 	
-	generateCards : function(){
-		//Init all Cards
+	ReadInGameCards : function(){
+		//Init all Cards = Skapa och hämta ner korthögen basearat på datan i "GameCards"..
 	},
 	
 	generatePlayers : function(){
@@ -15,6 +15,8 @@ var Machines = {
 		//Pick random murderur
 		
 		//Pick murders Motive
+		
+		//Change Murderurs cards (To fit the game)
 		
 		//Get attribut for Murderur
 		
