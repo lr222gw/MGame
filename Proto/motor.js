@@ -8,6 +8,8 @@ var GameEngine = {
 		GameEngine.Machines.ReadInRooms();
 		GameEngine.Machines.BuildRooms();
 		
+		
+		
 	},
 	 
 	Machines : {
@@ -40,6 +42,7 @@ var GameEngine = {
 			
 			//Bygger hallway1:
 			GameEngine.GlobalRooms[0]
+			//var h = GameCardsCollectionData[0];
 		},
 		
 		generatePlayers : function(){
@@ -76,16 +79,20 @@ var GameEngine = {
 			//Hud och Tools ska ligga här också...
 		},
 		
-		GameCard : function(){
-			this.ID = 0; 	
-			this.type = ""; // Kan vara antingen personlighetsakerna (secret, other, intress, relation) eller:
+		GameCard : function(_ID, _type, _Content, _needTheseCards, _image, _AnswerCards){
+			this.ID = _ID;
+			
+			this.type = _type // Kan vara antingen personlighetsakerna (secret, other, intress, relation) eller:
 							//-WallClue  	=Om ledtråden endast går att ha på väggen
 							//-TableClue	=Om ledtråden endast går att ha på en platt yta (golv, bord, etc)
+							
+			this.Content = _Content; // innehåller en beskrivning av ledtråden, om ej är ledtråd så blir denna null..
+								
+			this.needTheseCards = _needTheseCards;// ID'n till GameCards som behövs för att denna Ledtråd ska visas
 			
-			this.Content = "";			// innehåller en beskrivning av ledtråden, om ej är ledtråd så blir denna null..
-			this.needTheseCards = [];	// ID'n till GameCards som behövs för att denna Ledtråd ska visas
-			this.image = ""; 			//URL till bilden som används för denna typ av ledtråd
-			this.AnswerCards = []; 		// Array med CardData som innehåller svar från Actors! 
+			this.image = _image;	//URL till bilden som används för denna typ av ledtråd
+					
+			this.AnswerCards  = _AnswerCards;				 							
 			
 			//this.name = ""; // Kanske inte nödvändigt? .. 
 			//this.motive = ""; // Om kortet är motivbaserat så kan man ange det här
@@ -177,5 +184,7 @@ var GameEngine = {
 
 
 window.onload = function(){
-	GameEngine.init();	
+	GameEngine.init();
+	GameData.initData();
+	
 };
