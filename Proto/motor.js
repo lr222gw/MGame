@@ -32,12 +32,14 @@ var GameEngine = {
 			var hallway3 = new GameEngine.Classes.Room(3, "Data/Map/Hallway_3/hallway_3.jpg", "Hallway End");
 			var kitchen  = new GameEngine.Classes.Room(11, "Data/Map/Kitchen/kitchen.JPG", "Kitchen");		
 			var tvroom = new GameEngine.Classes.Room(12, "Data/Map/TvRoom/tvroom.jpg", "Tv-Room");
-			GameEngine.GlobalRooms.push(bathroom, prebedroom, bedroom1, bedroom2, bedroom3, bedroom4, bedroom5, bedroom6, hallway1, hallway2, hallway3, kitchen, tvroom);
+			GameEngine.GlobalRooms.push(hallway1,hallway2,hallway3,prebedroom,bedroom1,bedroom2,bedroom3,bedroom4,bedroom5,bedroom6,tvroom,tvroom,bathroom);
 						
 		},
 		
 		BuildRooms : function(){
 			
+			//Bygger hallway1:
+			GameEngine.GlobalRooms[0]
 		},
 		
 		generatePlayers : function(){
@@ -68,6 +70,12 @@ var GameEngine = {
 	},
 	
 	Classes : {
+		
+		GameHud : function(){
+			this.ActiveRoom = GameEngine.Classes.Room; // Ska innehålla det aktiva rummet..
+			//Hud och Tools ska ligga här också...
+		},
+		
 		GameCard : function(){
 			this.ID = 0; 	
 			this.type = ""; // Kan vara antingen personlighetsakerna (secret, other, intress, relation) eller:
@@ -106,6 +114,14 @@ var GameEngine = {
 			this.WallClue_GameCards = []; 	//Varje rum kan innehålla max 2 Gamecards av typen WallClue
 			this.image = image; 			//URL till bilden som används för rummet..
 			this.ActorsInRoom = [];			//En Array som innehåller ID't på alla aktörer i rummet..
+			this.WayPoints = []; 			//En array med WayPoints-Object som är "Knappar" man kan trycka på för att ta sig till nästa rum eller tillbaka..
+											//Ett rum har minst 1 Waypoint, det är alltid bakåt och refererar till rummet man var i Innan.
+		},
+		
+		WayPoint : function(){
+			this.GoToRoom = 0; 			//Ett ID som symboliserar vilket rum man kommer i när man trycker på denna Waypoint
+			this.image = "";			//URL med bild på dörren(knappen) som tar dig till det andra rummet
+			this.Name = ""; 			//Namnet på rummet som man kommer till när man trycker...
 		},
 		
 		Actor : function(){
