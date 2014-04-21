@@ -1,0 +1,146 @@
+"use strict";
+
+var GameData = {
+	GameCardsCollectionData : [],
+	
+	initData : function(Other, Murderer, Victim, Actor1, Actor2, Actor3, Actor4, motive){	   
+	    //^Denna metod kontaktas när karaktärerna är klara och rollerna är valda, 
+	    //då skickar man med rollerna så att rätt namn hamnar rätt! Skickar även med Vilket motiv som är valt!..
+	     
+	   // cardInMotive är en Funktion som används för att ta fram rätt namn..
+       var cardInMotive = function(ID, actor){ // Denna function tar reda på om ID't (som man får ange själv) 
+                                       //finns med i Motivet. Om det gör det så Ska "Murdurer" väljas, annars "Other"
+            if(motive == undefined){
+                return "null"; //Säkerhetsspärr som ser till att funktionen ej används om motiv saknas..
+            }       
+            for(var i = 0; i < motive.LOC_other.length ; i++){
+                if(motive.LOC_other[i].ID = ID){
+                    // om KortID't finns i denna samling så är det "Murderer"-relaterat,
+                    // och ska returnera mördarens namn..
+                    return actor;
+                    
+                }
+            }
+            for(var i = 0; i < motive.LOC_murderur.length ; i++){
+                if(motive.LOC_murderur[i].ID = ID){
+                    // 
+                    return actor;
+                }
+            }
+            for(var i = 0; i < motive.LOC_victim.length ; i++){
+                if(motive.LOC_victim[i].ID = ID){
+                    // 
+                    return actor;
+                }
+            }
+            for(var i = 0; i < motive.LOC_actor1.length ; i++){
+                if(motive.LOC_actor1[i].ID = ID){
+                    // 
+                    return actor;
+                }
+            }
+            for(var i = 0; i < motive.LOC_actor2.length ; i++){
+                if(motive.LOC_actor2[i].ID = ID){
+                    // 
+                    return actor;
+                }
+            }
+            for(var i = 0; i < motive.LOC_actor3.length ; i++){
+                if(motive.LOC_actor3[i].ID = ID){
+                    // 
+                    return actor;
+                }
+            }
+            for(var i = 0; i < motive.LOC_actor4.length ; i++){
+                if(motive.LOC_actor4[i].ID = ID){
+                    // 
+                    return actor;
+                }
+            }
+            return Other;
+       };
+       	    	    	    
+		var ClueDataToInit = [ //I denna array ska all ClueData in
+		
+			new GameEngine.Classes.GameCard(
+				1,				//ID
+				"TableClue",	//Type
+				"Beskrivning!",	//Beskrivning
+				[1,2],			//NeededCards
+				"google.se",	//BildURL
+				[1,2,3,4]		//FollowUpCards (AnswerCards...)		
+			)
+		
+		
+		];
+		
+		var PersonDataToInit = [ //I denna array ska all PersonData in
+			
+			new GameEngine.Classes.GameCard(
+				2,
+				"Secret",
+				null,
+				[],
+				null,
+				[
+					new GameEngine.Classes.CardData(
+						"neutral",
+						"No, I have not seen anything.",
+						[],
+						"Do you have any secrets to share?",
+						"actor1"
+					),
+					new GameEngine.Classes.CardData(
+					    "annoyed",
+					    "I have already told you, I dont know anything.",
+					    [],
+					    "Do you have any secrets to share?",
+					    "actor1"
+					),
+					new GameEngine.Classes.CardData(
+					    "happy",
+					    "Well, You seem trustworthy. I do know some stuff..",
+					    [
+					       new GameEngine.Classes.CardData(
+					           "happy",
+					           "Sure, just promise to not tell my lover "+ cardInMotive(2, Murderer) 
+					           +"! He would be quite mad.. I had an affair with "+cardInMotive(2, Victim)+" behind my lovers back..",
+					           [],
+					           ""
+					       )
+					    ],
+					    "Do you have any secrets to share?",
+					    "actor1"
+					)
+					
+				
+				]
+				
+			),
+		];
+		
+		//Arrayen PersonDataToInit och ClueDataToInit  skickas till 
+		//GameCardsCollection för användning utanför denna funktion!
+		for(var i = 0; i < ClueDataToInit.length; i++){
+			GameData.GameCardsCollectionData.push(ClueDataToInit[i]);
+		};
+		for(var i = 0; i < PersonDataToInit.length; i++){
+			GameData.GameCardsCollectionData.push(PersonDataToInit[i]);
+		};
+		
+		
+	}
+	
+	
+	
+}; // ctrl+Space = Förslag på vad man kan göra.! 
+
+
+		//var GameCardsCollectionData = [];
+		//var h = new GameEngine.Classes.GameCard();
+		//new GameEngine.Classes.GameCard()
+		
+		//var Motives = function(){
+			//var newa = function(){};
+			
+		//}

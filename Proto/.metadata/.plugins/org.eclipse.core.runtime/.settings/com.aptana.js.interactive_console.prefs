@@ -1,0 +1,2 @@
+INITIAL_INTERPRETER_CMDS=print("JS Console")\r\n
+eclipse.preferences.version=1

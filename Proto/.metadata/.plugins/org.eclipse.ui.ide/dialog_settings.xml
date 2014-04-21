@@ -11,4 +11,17 @@
 		<item value="org.eclipse.rcp:3.7.2.v20120120-1424-9DB5FmnFq5JCf1UA38R-kz0S0272"/>
 		<item value="org.radrails.rails:3.4.2.201308081726-7n-7Z7oKfjkqlemv"/>
 	</list>
+	<section name="ExternalProjectImportWizard">
+		<item value="false" key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED"/>
+		<item value="false" key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID"/>
+	</section>
+	<section name="NewWizardAction">
+	</section>
+	<section name="CleanDialogSettings">
+		<item value="500" key="DIALOG_WIDTH"/>
+		<item value="269" key="DIALOG_Y_ORIGIN"/>
+		<item value="710" key="DIALOG_X_ORIGIN"/>
+		<item value="377" key="DIALOG_HEIGHT"/>
+		<item value="false" key="TOGGLE_SELECTED"/>
+	</section>
 </section>
