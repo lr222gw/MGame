@@ -68,7 +68,7 @@ var GameData = {
                 "TableClue",    //Type
                 "Beskrivning!", //Beskrivning
                 [1,2],          //NeededCards
-                "google.se",    //BildURL
+                "",             //BildURL
                 [1,2,3,4]       //FollowUpCards (AnswerCards...)        
             )
         
@@ -166,7 +166,7 @@ var GameData = {
                     )
                 ]
             )
-            
+
         ];
         
         //Arrayen PersonDataToInit och ClueDataToInit  skickas till 
