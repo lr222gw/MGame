@@ -1,0 +1,49 @@
+
+-Går igenom vad vi gjort i veckan
+	-Hur det gått
+	-Vad man ska fortsätta på!
+
+Notes:
+-Rekommendera: Skriv dagbok - lätt att glömma varför man gör saker, besvara det i boken..
+
+-Bättre att avsluta en uppgift innan man börjar på en annan! 
+
+-Saker du ej vet hur det ska funka: Högrisk : Ta tag tidigt! 
+
+-När kursen tar slut: Om man ej har hunnit jobba alla timmar
+	-Att man kompleterar timmarna efter Kursen är slut! (Det går att göra!!).
+
+-Liknande system: Ska ha både Pro and Cons
+
+-Bra att komma på att baskrav kräver uppdelning..
+
+
+
+-Testfall???: 
+	-optimalt : välj krav som ska bli klara/funka > när kravet är klart, testa det om det fungera
+	-Testsätt : upp till oss. använd fantasin. testa Olika saker, testa felhantering
+	-Testfall kan hitta nya krav
+	-eNHETStestning : att testa någon kod man skrivit
+	-Slutet av veckan testas flera krav med varandra. 
+	-Testfall = Testfall baserat på ett krav, vad man vill ska hända  <-görs med enhetstestning
+	
+
+Timmar per Vecka????:
+	-24H per vecka. 
+	-Fundera på hur många veckor det är kvar med timmar man har kvar
+	-Lägg till ALL tid som du lägger ner, tex om kommer på något eller tänker när du är på promenad!
+
+
+Kolla på min Vision? Feedback..
+	-Skicka mail till Tobias!
+
+Vilka IDE's Används av er? 
+	-Sublime är nice
+		-Har CodeAssit, SubliemCodeIntell får man ladda in!
+
+Vem vet vad:
+	-Tobias:
+		-PHP
+		-Hitta lösningar
+	-Emil:
+		-JavaScript
