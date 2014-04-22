@@ -161,6 +161,11 @@ var GameEngine = {
                 "Hallway entrance",
                 [
                     new GameEngine.Classes.PlaceHolder(
+                        new GameEngine.Classes.WayPoint(1,"Data/Hudd/backbutton.png", "Hallway entrance"),
+                        50, //XPosition
+                        60  //YPosition
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.WayPoint(2,"Data/Map/Hallway_1/door.jpg", "Hallway"),
                         50, //XPosition
                         60  //YPosition
@@ -232,7 +237,8 @@ var GameEngine = {
 
                 ]
             );
-			var tvroom = new GameEngine.Classes.Room(12,
+			var tvroom = new GameEngine.Classes.Room(
+                12,
                 "Data/Map/TvRoom/tvroom.jpg",
                 "Tv-Room",
                 [
@@ -244,7 +250,7 @@ var GameEngine = {
 
                 ]
             );
-			GameEngine.GlobalRooms.push(hallway1,hallway2,hallway3,prebedroom,bedroom1,bedroom2,bedroom3,bedroom4,bedroom5,bedroom6,tvroom,tvroom,bathroom);
+			GameEngine.GlobalRooms.push(hallway1,hallway2,hallway3,prebedroom,bedroom1,bedroom2,bedroom3,bedroom4,bedroom5,bedroom6,tvroom,kitchen,tvroom,bathroom);
 						
 		},
 		
@@ -259,16 +265,59 @@ var GameEngine = {
             }
             if(RoomToLoad == undefined){
                 alert("Whops! Rummet hittades inte.. Se till att verkligt ID skickas..");
+            }else{
+
+                //var Canvas = document.getElementById("CanvasBody");
+                //var Ctx = Canvas.getContext("2d");
+
+                GameEngine.Machines.WindowSizing(RoomToLoad.image, "gameframe");
+                //
+                var blackimg = new Image();
+                blackimg.src="Data/Hudd/black.jpg";
+                GameEngine.Machines.WindowSizing(blackimg, "hudd");
+                //
+                GameEngine.Machines.placeBackButton(RoomToLoad.WayPoints[0].GameCardOrContent.GoToRoom);
+                //Ctx.drawImage(RoomToLoad.image, 0, 0, 800, 600);
             }
 
+		},
+
+        WindowSizing : function(ImageToDraw, PlaceForImage, x, y){
             var Canvas = document.getElementById("CanvasBody");
             var Ctx = Canvas.getContext("2d");
+            var SizeX = 800; //Fullskärm
+            var SizeY = 750; //Fullskärm
 
-            Ctx.drawImage(RoomToLoad.image, 0, 0);
+            if(x == undefined){
+                x = 0;
+            }
+            if(y == undefined){
+                y = 0;
+            }
 
+            switch (PlaceForImage){
+                case "gameframe":
+                    Ctx.drawImage(ImageToDraw, x, y, 800, 600);
+                   break;
+                case "hudd":
+                    var blackimg = new Image();
+                    blackimg.src="Data/Hudd/black.jpg";
+                    Ctx.drawImage(blackimg, 0, 600, 800, SizeY - 600);
+                    Ctx.drawImage(ImageToDraw, x, 600 + y, 800, SizeY - 600);
+                    //Ctx.drawImage(ImageToDraw, 0, 600, 800, SizeY - 600);
+                    break;
+            }
+        },
 
+        placeBackButton : function(RoomToGoTo){
+            var backButton = new Image();
+            backButton.src = "Data/Hudd/backbutton.png";
 
-		},
+            backButton.onclick = function(RoomToGoTo){
+                GameEngine.Machines.BuildRoom(RoomToGoTo);
+            };
+            GameEngine.Machines.WindowSizing(backButton, "hudd", 30, 30);
+        },
 		
 		CreateActors : function(){
 			
@@ -278,7 +327,7 @@ var GameEngine = {
 			var actor3 = new GameEngine.Classes.Actor("Bobb", 3, "Data/Characters/char_3/bobb.jpg");
 			var actor4 = new GameEngine.Classes.Actor("Ben", 4, "Data/Characters/char_4/Ben.jpg");
 			var actor5 = new GameEngine.Classes.Actor("Loue", 5, "Data/Characters/char_5/Loue.jpg");
-			var actor5 = new GameEngine.Classes.Actor("Tom", 6, "Data/Characters/char_6/Tom.jpg");
+			var actor6 = new GameEngine.Classes.Actor("Tom", 6, "Data/Characters/char_6/Tom.jpg");
 			
 			GameEngine.GlobalActors.push(actor1, actor2, actor3, actor4, actor5, actor6);
 			
