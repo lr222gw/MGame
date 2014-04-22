@@ -149,10 +149,12 @@ var GameEngine = {
 			this.Intress = null;		//GameCard av typen "intress"
 			this.Relation = null;		//GameCard av typen "Relation"
 			this.emotionState = "neutral";	//Vilken sinnesställning karaktären har, olika sinneställningar:
-										//-Irriterad  |annoyed,
+										//-Irriterad  |Annoyed,
 										//-Glad       |Happy
+                                        //-Ledsen     |Sad
+                                        //-galenTyp.. |FreakedOut
 										//-Neutral    |Neutral
-										//-Nervös     |nervous
+										//-Nervös     |Nervous
 										//-Arg        |Angry
 										//-Bekymrad   |Concerned						
 			this.ClueList = []; 		//En array med ledtrådar relaterade till Aktören

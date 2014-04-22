@@ -92,7 +92,7 @@ var GameData = {
                              "Happy",
                              "Thanks, come back and talk to me later. There's a chance i might remember something",
                              [],
-                             "Hm, too bad. I thought you might be able to"+"
+                             "Hm, too bad. I thought you might be able to"+
                              "help, you sure do look smart enough to be able"+
                              " to notice if something weird was happening",
                              null                             
@@ -103,7 +103,7 @@ var GameData = {
                     ),
                     new GameEngine.Classes.CardData(
                         "annoyed",
-                        "I have already told you, I dont know anything.",
+                        "I have already told you, I don't know anything.",
                         [],
                         "Do you have any secrets to share?",
                         null
@@ -115,15 +115,15 @@ var GameData = {
                            new GameEngine.Classes.CardData(
                                "happy",
                                "Sure, just promise to not tell my lover "+ cardInMotive(2, Murderer) 
-                               +"! He would be quite mad.. I had an affair with "+cardInMotive(2, Victim)
-                               +" behind my lovers back..",
+                               +"! He would be quite mad... I had an affair with "+cardInMotive(2, Victim)
+                               +" behind my lovers back...",
                                [],
                                "I would love to hear the details!",
                                null
                            ),
                            new GameEngine.Classes.CardData(
                                "annoyed",
-                               "hm, well no it was really nothing..",
+                               "Hm, well no it was really nothing...",
                                [],
                                "Well, spit it out then!",
                                null
@@ -148,16 +148,16 @@ var GameData = {
                         [
                             new GameEngine.Classes.CardData(
                                 "concerned",
-                                "What?.. no! No! Not att all! I've had some tough time lately, that's all..",
+                                "What?.. no! No! Not at all! I've had some tough time lately, that's all..",
                                 [],
                                 "Hmm, you act a little shady...",
                                 null
-                            )
+                            ),
                             new GameEngine.Classes.CardData(
                                 "Happy",
                                 "Well I can try! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
-                                "Good, maybe you can help me find the murder?",
+                                "Good, maybe you can help me find the murderer?",
                                 null
                             )
                         ],
