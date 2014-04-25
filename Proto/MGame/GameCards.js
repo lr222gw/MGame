@@ -2,6 +2,7 @@
 
 var GameData = {
 	GameCardsCollectionData : [],
+    GameDataImages : [],
 	
 	initData : function(Other, Murderer, Victim, Actor1, Actor2, Actor3, Actor4, motive){     
         //^Denna metod kontaktas när karaktärerna är klara och rollerna är valda, 
@@ -177,7 +178,26 @@ var GameData = {
         for(var i = 0; i < PersonDataToInit.length; i++){
             GameData.GameCardsCollectionData.push(PersonDataToInit[i]);
         };
-        
+
+        //Detta sköter hand om att skjuta in data i form av bilder etc som behövs till
+        //spelet och inte laddas in på annat vis.. (tex Rum/actor-bilder laddas in
+        //samtidigt som de skapas och sparas i en "global" variabel i motor.js!
+
+        //Bildlista på data som ska läggas in i GameDataImages
+
+        // 0 = HuddBackground
+        var huddBackground = new Image();
+        huddBackground.src = "Data/Hudd/black.jpg";
+
+        // 1 = backButton
+        var backButton = new Image();
+        backButton.src = "Data/Hudd/backbutton.png";
+
+
+        GameData.GameDataImages.push(
+            huddBackground,     //0
+            backButton          //1
+        );
         
     }
 	

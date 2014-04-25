@@ -1,8 +1,29 @@
 "use strict";
+
+
+    var Ctx = document.getElementById("CanvasBody").getContext("2d");
+
+    Ctx.canvas.addEventListener('mousedown', function(event) {
+        if(event.button == 0){
+            var mX = event.clientX - Ctx.canvas.offsetLeft;
+            var mY = event.clientY - Ctx.canvas.offsetTop;
+            //alert(mX +" || " + mY);
+
+            var Button = GameEngine.GoToButtons.backButton;
+            if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height ){
+                //alert(mX +" || " + mY);
+                GameEngine.GoToButtons.backButton = ""; // Tömmer Arrayen
+                GameEngine.Machines.BuildRoom(Button.RoomToGo);
+
+            }
+        }
+    });
+
+
 var GameEngine = {
     GlobalRooms : [],
-	GlobalCards : [],
 	GlobalActors : [],
+    GoToButtons : {backButton : ""},
 	
 	init : function(){
 		GameEngine.Machines.ReadInRooms();
@@ -11,7 +32,7 @@ var GameEngine = {
 		
 		
 	},
-	 
+
 	Machines : {
 		
 		ReadInGameCards : function(){
@@ -35,11 +56,11 @@ var GameEngine = {
             );
 			var prebedroom = new GameEngine.Classes.Room(
                 4,
-                "Data/Map/PreBedroom/prebedroom.jpg",
+                "Data/Map/PreBedroom/prebedroom.png",
                 "Bedroom Corridor",
                 [
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.WayPoint(3,"Data/Hudd/backbutton.png","Hallway End"),
+                        new GameEngine.Classes.WayPoint(2,"Data/Hudd/backbutton.png","Hallway End"),
                         50, //XPosition
                         60  //YPosition
                     ),
@@ -49,32 +70,32 @@ var GameEngine = {
                         60  //YPosition
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.WayPoint(5,"Data/Map/Bedrom_1/door.jpg", "Bedroom 1"),
+                        new GameEngine.Classes.WayPoint(5,"Data/Map/Bedrom_1/doors_1.png", "Bedroom 1"),
                         50, //XPosition
                         60  //YPosition
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.WayPoint(6,"Data/Map/Bedrom_2/door.jpg", "Bedroom 2"),
+                        new GameEngine.Classes.WayPoint(6,"Data/Map/Bedrom_2/doors_2-left.png", "Bedroom 2"),
                         50, //XPosition
                         60  //YPosition
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.WayPoint(7,"Data/Map/Bedrom_3/door.jpg", "Bedroom 3"),
+                        new GameEngine.Classes.WayPoint(7,"Data/Map/Bedrom_3/doors_3-left.png", "Bedroom 3"),
                         50, //XPosition
                         60  //YPosition
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.WayPoint(8,"Data/Map/Bedrom_4/door.jpg", "Bedroom 4"),
+                        new GameEngine.Classes.WayPoint(8,"Data/Map/Bedrom_4/doors_1-right.png", "Bedroom 4"),
                         50, //XPosition
                         60  //YPosition
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.WayPoint(9,"Data/Map/Bedrom_5/door.jpg", "Bedroom 5"),
+                        new GameEngine.Classes.WayPoint(9,"Data/Map/Bedrom_5/doors_2-right.png", "Bedroom 5"),
                         50, //XPosition
                         60  //YPosition
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.WayPoint(10,"Data/Map/Bedrom_6/door.jpg", "Bedroom 6"),
+                        new GameEngine.Classes.WayPoint(10,"Data/Map/Bedrom_6/doors_3-right.png", "Bedroom 6"),
                         50, //XPosition
                         60  //YPosition
                     )
@@ -157,7 +178,7 @@ var GameEngine = {
             );
 			var hallway1 = new GameEngine.Classes.Room(
                 1,
-                "Data/Map/Hallway_1/hallway_1.jpg",
+                "Data/Map/Hallway_1/hallway_1.png",
                 "Hallway entrance",
                 [
                     new GameEngine.Classes.PlaceHolder(
@@ -180,7 +201,7 @@ var GameEngine = {
             );
 			var hallway2 = new GameEngine.Classes.Room(
                 2,
-                "Data/Map/Hallway_2/hallway_2.jpg",
+                "Data/Map/Hallway_2/hallway_2.png",
                 "Hallway",
                 [
                     new GameEngine.Classes.PlaceHolder(
@@ -203,7 +224,7 @@ var GameEngine = {
             );
 			var hallway3 = new GameEngine.Classes.Room(
                 3,
-                "Data/Map/Hallway_3/hallway_3.jpg",
+                "Data/Map/Hallway_3/hallway_3.png",
                 "Hallway End",
                 [
                     new GameEngine.Classes.PlaceHolder(
@@ -267,56 +288,86 @@ var GameEngine = {
                 alert("Whops! Rummet hittades inte.. Se till att verkligt ID skickas..");
             }else{
 
-                //var Canvas = document.getElementById("CanvasBody");
-                //var Ctx = Canvas.getContext("2d");
+                GameEngine.Machines.WindowSizing(RoomToLoad.image, "",0,0,800,600);
 
-                GameEngine.Machines.WindowSizing(RoomToLoad.image, "gameframe");
-                //
-                var blackimg = new Image();
-                blackimg.src="Data/Hudd/black.jpg";
-                GameEngine.Machines.WindowSizing(blackimg, "hudd");
-                //
                 GameEngine.Machines.placeBackButton(RoomToLoad.WayPoints[0].GameCardOrContent.GoToRoom);
                 //Ctx.drawImage(RoomToLoad.image, 0, 0, 800, 600);
             }
 
 		},
 
-        WindowSizing : function(ImageToDraw, PlaceForImage, x, y){
+        WindowSizing : function(ImageToDraw, PlaceForImage, PosX, PosY, obSizeX, obSizeY){
             var Canvas = document.getElementById("CanvasBody");
             var Ctx = Canvas.getContext("2d");
-            var SizeX = 800; //Fullskärm
-            var SizeY = 750; //Fullskärm
+            var SizeX = 800; //Fullskärm (representerar Canvasens faktiska storlek..)
+            var SizeY = 750; //Fullskärm (representerar Canvasens faktiska storlek..)
 
-            if(x == undefined){
-                x = 0;
+            if(PosX == undefined){
+                PosX = 0;
             }
-            if(y == undefined){
-                y = 0;
+            if(PosY == undefined){
+                PosY = 0;
             }
 
-            switch (PlaceForImage){
-                case "gameframe":
-                    Ctx.drawImage(ImageToDraw, x, y, 800, 600);
-                   break;
-                case "hudd":
-                    var blackimg = new Image();
-                    blackimg.src="Data/Hudd/black.jpg";
-                    Ctx.drawImage(blackimg, 0, 600, 800, SizeY - 600);
-                    Ctx.drawImage(ImageToDraw, x, 600 + y, 800, SizeY - 600);
-                    //Ctx.drawImage(ImageToDraw, 0, 600, 800, SizeY - 600);
+            //om ingen storlek på objektet anges så använder man hela skärmstorleken
+            if(obSizeX == undefined){
+                obSizeX = SizeX;
+            }
+            if(obSizeY == undefined){
+                obSizeY = SizeY;
+            }
+
+            Ctx.drawImage(ImageToDraw, PosX, PosY, obSizeX, obSizeY);
+
+//            switch (PlaceForImage){
+//                case "background":
+//                    Ctx.drawImage(ImageToDraw, PosX, PosY, obSizeX, obSizeY - 150);
+//                    break;
+//                case "gameframe":
+//
+//                   break;
+//                case "hudd":
+//                    Ctx.drawImage(ImageToDraw, PosX, (600 + PosY), obSizeX, obSizeY);
+//                    break;
+//            }
+        },
+
+        getPosition : function(ObjOfPosition){
+            var PosObj = {posX : 0, posY : 0};
+            switch (ObjOfPosition.placeForImage){
+                case "hudd" :
+                    PosObs.posY = 600 + ObjOfPosition.PosY;
                     break;
-            }
+                case "background":
+                    break;
+                case "gameframe":
+                    break;
+            };
+            return PosObj;
         },
 
         placeBackButton : function(RoomToGoTo){
-            var backButton = new Image();
-            backButton.src = "Data/Hudd/backbutton.png";
+            if(GameData.GameDataImages[0] !== undefined){
+                var backButton = new GameEngine.Classes.GoToButton(
+                    30,
+                    630,
+                    50,
+                    50,
+                    GameData.GameDataImages[1],
+                    RoomToGoTo,
+                    "hudd"
+                );
 
-            backButton.onclick = function(RoomToGoTo){
-                GameEngine.Machines.BuildRoom(RoomToGoTo);
-            };
-            GameEngine.Machines.WindowSizing(backButton, "hudd", 30, 30);
+               //backButton.image.addEventListener("mousedown", function(){
+               //     GameEngine.Machines.BuildRoom(roomToBuild);
+               //});
+                GameEngine.GoToButtons.backButton = backButton;
+
+                GameEngine.Machines.WindowSizing(backButton.image, backButton.placeForImage, 30, 630, 50, 50);
+            }else{
+                alert("PlaceBackButton funktionen anropades innan nödvändig data var inläst..");
+            }
+
         },
 		
 		CreateActors : function(){
@@ -355,7 +406,19 @@ var GameEngine = {
 	},
 	
 	Classes : {
-		
+
+        GoToButton : function(_PosX, _PosY, _Width, _Height, _img, _RoomToGo, _placeForImage){
+            this.PosY = _PosY;
+            this.PosX = _PosX;
+            this.Width = _Width;
+            this.Height = _Height;
+            this.image = _img;
+            this.RoomToGo = _RoomToGo;
+            this.placeForImage = _placeForImage;
+            //this.image.src = _imgSrc;
+
+        },
+
 		GameHud : function(){
 			this.ActiveRoom = GameEngine.Classes.Room; // Ska innehålla det aktiva rummet..
 			//Hud och Tools ska ligga här också...
@@ -505,8 +568,10 @@ var GameEngine = {
 
 
 
-window.onload = function(){
-	GameEngine.init();
-	GameData.initData();
+//window.onload = function(){
+// ^Window.onload behövdes ej pga att detta ska göras efter att data lagts in..
+
+	GameData.initData(); //Läser in Kort/Bild-data
+    GameEngine.init();  //Påbörjar session
 	
-};
+//};
