@@ -41,6 +41,7 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
             if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height ){
                 //alert(mX +" || " + mY);
                 GameEngine.GoToButtons.backButton = ""; // Tömmer knappen
+                GameEngine.GoToButtons.WayPoints = []; //Tömmer waypoints
                 GameEngine.Machines.BuildRoom(Button.RoomToGo);
             }
 
@@ -51,8 +52,10 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
                 Button = GameEngine.GoToButtons.WayPoints[i];
                 if(mX >= Button.PosX && mX < Button.PosX + (Button.GameCardOrContent.image.width / widthOfObj) &&
                     mY >= Button.PosY && mY < Button.PosY + (Button.GameCardOrContent.image.height / heighOfObj) ){
-                    GameEngine.GoToButtons.WayPoints = [];
+                    GameEngine.GoToButtons.backButton = ""; // Tömmer knappen
+                    GameEngine.GoToButtons.WayPoints = []; //Tömmer waypoints
                     GameEngine.Machines.BuildRoom(Button.GameCardOrContent.GoToRoom);
+                    return;
                 }
             }
 
@@ -70,6 +73,7 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
             if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height ){
                 //alert(mX +" || " + mY);
                 document.body.style.cursor = "pointer";
+                return;
 
             }else{
                 document.body.style.cursor = "default";
@@ -87,7 +91,7 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
                 if(mX >= Button.PosX && mX < Button.PosX + (Button.GameCardOrContent.image.width / widthOfObj) &&
                     mY >= Button.PosY && mY < Button.PosY + (Button.GameCardOrContent.image.height / heighOfObj)){
                     document.body.style.cursor = "pointer";
-                    break;
+                    return;
 
                 }else{
                     document.body.style.cursor = "default";
