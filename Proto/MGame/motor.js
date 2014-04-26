@@ -1,20 +1,98 @@
 "use strict";
+var ScreenSpec = { //object som hanterar Canvas storleken..
+    SizeX : 800, //800
+    SizeY : 750, //750
+    gameFrameY : 600,
+    CreateCanvas : function(){
+        var Canvas = document.createElement("canvas");
+        Canvas.width = ScreenSpec.SizeX;
+        Canvas.height = ScreenSpec.SizeY;
+        Canvas.id = "CanvasBody";
+        var body = document.getElementsByTagName("body");
+        body[0].appendChild(Canvas);
+        //body.[0] för att GetElementsByTagName blir en lista.. finns bara en body, så 0!
+    },
+    BackgroundStandardSizeX : 4092, //Storleken på bakgrunds/rum-bilderna innan förminskning..
+    BackgroundStandardSizeY : 2893
+};
 
+ScreenSpec.CreateCanvas(); //Skapar Canvasen..
 
     var Ctx = document.getElementById("CanvasBody").getContext("2d");
 
+    //Denna Eventlistner känner av om man klickar på ett objekt och reagerar på den!
     Ctx.canvas.addEventListener('mousedown', function(event) {
         if(event.button == 0){
-            var mX = event.clientX - Ctx.canvas.offsetLeft;
-            var mY = event.clientY - Ctx.canvas.offsetTop;
+            var mX = event.clientX - Ctx.canvas.offsetLeft + scrollX;
+            var mY = event.clientY - Ctx.canvas.offsetTop + scrollY;
+            //Event.ClientX/Y tar reda på var på skärmen muspekaren klickas
+            //Ctx.Canvas.OffsetLeft/Top tar bort området utanför canvasen (räknar bara klick innanför den..)
+            // + scrollY/X gör så att Scrollens position inte spelar någon roll, om man har scrollat ner kan man
+            //trycka på knappen utan att positionen blir konstig!
+            //alert("X= "+ mX /ScreenSpec.SizeX +" || Y= " + mY/ScreenSpec.SizeY);
+
+            //Nedan är en loggare som loggar nödvändig data för att ta reda på var jag ska ange för position gällande
+            //ledtrådar och waypoints, den är kommenterad som standard men sätter på den när den behövs..
+            //console.log("X= "+ mX /ScreenSpec.SizeX +" || Y= " + mY/ScreenSpec.SizeY);
+            //console.log("X= "+ mX +" || Y= " + mY);
+
+            var Button = GameEngine.GoToButtons.backButton;
+            //Kontrollerar om bakåt knappen trycktes på..
+            if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height ){
+                //alert(mX +" || " + mY);
+                GameEngine.GoToButtons.backButton = ""; // Tömmer knappen
+                GameEngine.Machines.BuildRoom(Button.RoomToGo);
+            }
+
+            //Kontrollerar om någon Waypoints Trycktes på
+            var widthOfObj = ScreenSpec.BackgroundStandardSizeX / ScreenSpec.SizeX;
+            var heighOfObj = ScreenSpec.BackgroundStandardSizeY / ScreenSpec.gameFrameY;
+            for(var i =0; i < GameEngine.GoToButtons.WayPoints.length; i++){
+                Button = GameEngine.GoToButtons.WayPoints[i];
+                if(mX >= Button.PosX && mX < Button.PosX + (Button.GameCardOrContent.image.width / widthOfObj) &&
+                    mY >= Button.PosY && mY < Button.PosY + (Button.GameCardOrContent.image.height / heighOfObj) ){
+                    GameEngine.GoToButtons.WayPoints = [];
+                    GameEngine.Machines.BuildRoom(Button.GameCardOrContent.GoToRoom);
+                }
+            }
+
+        }
+    });
+
+    //Denna Eventlistner kollar vad som Hovras över och ser till att markera klickbara objekt med Cursor: Pointern!
+    Ctx.canvas.addEventListener('mousemove', function(event) {
+        if(event.button == 0){
+            var mX = event.clientX - Ctx.canvas.offsetLeft + scrollX;
+            var mY = event.clientY - Ctx.canvas.offsetTop + scrollY;
             //alert(mX +" || " + mY);
 
             var Button = GameEngine.GoToButtons.backButton;
             if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height ){
                 //alert(mX +" || " + mY);
-                GameEngine.GoToButtons.backButton = ""; // Tömmer Arrayen
-                GameEngine.Machines.BuildRoom(Button.RoomToGo);
+                document.body.style.cursor = "pointer";
 
+            }else{
+                document.body.style.cursor = "default";
+            }
+
+            var widthOfObj = ScreenSpec.BackgroundStandardSizeX / ScreenSpec.SizeX;
+            var heighOfObj = ScreenSpec.BackgroundStandardSizeY / ScreenSpec.gameFrameY;
+            for(var i =0; i < GameEngine.GoToButtons.WayPoints.length; i++){
+                Button = GameEngine.GoToButtons.WayPoints[i];
+//                console.log(mX >= Button.PosX );
+//                console.log(mX < Button.PosX + (Button.GameCardOrContent.image.width ));
+//                console.log(mY >= Button.PosY);
+//                console.log(mY < Button.PosY + (Button.GameCardOrContent.image.height ));
+
+                if(mX >= Button.PosX && mX < Button.PosX + (Button.GameCardOrContent.image.width / widthOfObj) &&
+                    mY >= Button.PosY && mY < Button.PosY + (Button.GameCardOrContent.image.height / heighOfObj)){
+                    document.body.style.cursor = "pointer";
+                    break;
+
+                }else{
+                    document.body.style.cursor = "default";
+
+                }
             }
         }
     });
@@ -23,9 +101,14 @@
 var GameEngine = {
     GlobalRooms : [],
 	GlobalActors : [],
-    GoToButtons : {backButton : ""},
+    GoToButtons : {
+        backButton : "",
+        WayPoints : []
+
+    },
 	
 	init : function(){
+
 		GameEngine.Machines.ReadInRooms();
 		GameEngine.Machines.BuildRoom(1);
 		
@@ -41,7 +124,7 @@ var GameEngine = {
 		
 		ReadInRooms : function(){ 		// Funktion som laddar in alla rum + rumdatan..
 			//Skapar alla rummen och sparar ner dem i GlobalRooms arrayen..
-			
+
 			var bathroom = new GameEngine.Classes.Room(
                 13,
                 "Data/Map/BathRoom/bathroom.jpg",
@@ -49,8 +132,8 @@ var GameEngine = {
                 [
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.WayPoint(3,"Data/Hudd/backbutton.png","Hallway End"),
-                        50, //XPosition
-                        60  //YPosition
+                        0, //XPosition
+                        0  //YPosition
                     )
                 ]
             );
@@ -59,45 +142,48 @@ var GameEngine = {
                 "Data/Map/PreBedroom/prebedroom.png",
                 "Bedroom Corridor",
                 [
-                    new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.WayPoint(2,"Data/Hudd/backbutton.png","Hallway End"),
-                        50, //XPosition
-                        60  //YPosition
-                    ),
+//                    new GameEngine.Classes.PlaceHolder(
+//                        new GameEngine.Classes.WayPoint(2,"Data/Hudd/backbutton.png","Hallway End"),
+//                        50, //XPosition
+//                        60  //YPosition
+//                    ),
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.WayPoint(2,"Data/Hudd/backbutton.png", "Hallway"),
-                        50, //XPosition
-                        60  //YPosition
+                        0, //XPosition
+                        0  //YPosition
                     ),
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.WayPoint(5,"Data/Map/Bedrom_1/doors_1.png", "Bedroom 1"),
-                        50, //XPosition
-                        60  //YPosition
+                        GameEngine.Machines.getPosition(0.0075  , "x"), //XPosition
+                        0  //YPosition
                     ),
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.WayPoint(6,"Data/Map/Bedrom_2/doors_2-left.png", "Bedroom 2"),
-                        50, //XPosition
-                        60  //YPosition
+                        GameEngine.Machines.getPosition(0.24125, "x"), //XPosition
+                        GameEngine.Machines.getPosition(0.18  , "y")  //YPosition
                     ),
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.WayPoint(7,"Data/Map/Bedrom_3/doors_3-left.png", "Bedroom 3"),
-                        50, //XPosition
-                        60  //YPosition
+                        GameEngine.Machines.getPosition(0.32375  , "x"), //XPosition
+                        GameEngine.Machines.getPosition(0.25466666666666665  , "y")  //YPosition
                     ),
+
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.WayPoint(8,"Data/Map/Bedrom_4/doors_1-right.png", "Bedroom 4"),
-                        50, //XPosition
-                        60  //YPosition
+                        GameEngine.Machines.getPosition(0.8425   , "x"), //XPosition
+                        0  //YPosition
+
                     ),
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.WayPoint(9,"Data/Map/Bedrom_5/doors_2-right.png", "Bedroom 5"),
-                        50, //XPosition
-                        60  //YPosition
+                        GameEngine.Machines.getPosition(0.70625, "x"), //XPosition
+                        GameEngine.Machines.getPosition(0.18   , "y")  //YPosition
                     ),
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.WayPoint(10,"Data/Map/Bedrom_6/doors_3-right.png", "Bedroom 6"),
-                        50, //XPosition
-                        60  //YPosition
+                        GameEngine.Machines.getPosition(0.6425, "x"), //XPosition
+                        GameEngine.Machines.getPosition(0.26, "y")  //YPosition
+
                     )
                 ]
             );
@@ -288,19 +374,46 @@ var GameEngine = {
                 alert("Whops! Rummet hittades inte.. Se till att verkligt ID skickas..");
             }else{
 
-                GameEngine.Machines.WindowSizing(RoomToLoad.image, "",0,0,800,600);
-
+                //Laddar rumbilden
+                GameEngine.Machines.WindowSizing(RoomToLoad.image, "",0,0,ScreenSpec.SizeX,ScreenSpec.gameFrameY); //ScreenSpec.gameFrameY för att resten är hudd.. (tog bort 150 från ScreenSpec.PosY först..)
+                //Laddar bakgrund till Hudden
+                GameEngine.Machines.WindowSizing(GameData.GameDataImages.HuddBackground,"hudd", 0,ScreenSpec.gameFrameY);
+                //Laddar in knappar > BakåtKnappen
                 GameEngine.Machines.placeBackButton(RoomToLoad.WayPoints[0].GameCardOrContent.GoToRoom);
+
+                //Kollar om det finns mer WayPoints, om det finns så ska knapparna placeras ut!
+                for(var i = 1; i < RoomToLoad.WayPoints.length ; i++){ // i = 1 pga att WayPoint 0 alltid är för bakåt knappen..
+                    GameEngine.Machines.placeWayPoint(RoomToLoad.WayPoints[i]);
+                    //OBS "RoomToLoad.WayPoints" <-kan vara missledande. är en Placeholder som
+                    //innehåller en waypoint!
+                }
                 //Ctx.drawImage(RoomToLoad.image, 0, 0, 800, 600);
             }
 
 		},
+        placeWayPoint : function(PlaceholderWithContent){
+
+            var widthOfObj = ScreenSpec.BackgroundStandardSizeX / ScreenSpec.SizeX;
+            var heighOfObj = ScreenSpec.BackgroundStandardSizeY / ScreenSpec.gameFrameY; //ScreenSpec.gameFrameY för att bara räkna in det som ska in på scene
+
+            GameEngine.Machines.WindowSizing(
+                PlaceholderWithContent.GameCardOrContent.image,
+                "gameframe",
+                PlaceholderWithContent.PosX,
+                PlaceholderWithContent.PosY,
+                PlaceholderWithContent.GameCardOrContent.image.width / widthOfObj,
+                //ScreenSpec.BackgroundStandardSizeX / widthOfObj,
+                PlaceholderWithContent.GameCardOrContent.image.height / heighOfObj
+                //ScreenSpec.BackgroundStandardSizeY / heighOfObj
+            )
+
+            GameEngine.GoToButtons.WayPoints.push(PlaceholderWithContent); //skjuter in Placeholdern med Waypointsen till GoToButtons WayPoints Array!
+
+        },
 
         WindowSizing : function(ImageToDraw, PlaceForImage, PosX, PosY, obSizeX, obSizeY){
             var Canvas = document.getElementById("CanvasBody");
             var Ctx = Canvas.getContext("2d");
-            var SizeX = 800; //Fullskärm (representerar Canvasens faktiska storlek..)
-            var SizeY = 750; //Fullskärm (representerar Canvasens faktiska storlek..)
 
             if(PosX == undefined){
                 PosX = 0;
@@ -311,10 +424,10 @@ var GameEngine = {
 
             //om ingen storlek på objektet anges så använder man hela skärmstorleken
             if(obSizeX == undefined){
-                obSizeX = SizeX;
+                obSizeX = ScreenSpec.SizeX;//ImageToDraw.width;
             }
             if(obSizeY == undefined){
-                obSizeY = SizeY;
+                obSizeY = ScreenSpec.SizeY; //ImageToDraw.height;
             }
 
             Ctx.drawImage(ImageToDraw, PosX, PosY, obSizeX, obSizeY);
@@ -332,28 +445,28 @@ var GameEngine = {
 //            }
         },
 
-        getPosition : function(ObjOfPosition){
-            var PosObj = {posX : 0, posY : 0};
-            switch (ObjOfPosition.placeForImage){
-                case "hudd" :
-                    PosObs.posY = 600 + ObjOfPosition.PosY;
-                    break;
-                case "background":
-                    break;
-                case "gameframe":
-                    break;
-            };
-            return PosObj;
+
+        getPosition : function(Pos_Percent, yORx){
+            var pushToPixel
+            if(yORx == "x"){
+                var middleWidth = ScreenSpec.SizeX;
+                pushToPixel = middleWidth * Pos_Percent;
+            }
+            if(yORx == "y"){
+                var middleTop = ScreenSpec.SizeY;
+                pushToPixel = middleTop * Pos_Percent;
+            }
+            return pushToPixel;
         },
 
         placeBackButton : function(RoomToGoTo){
-            if(GameData.GameDataImages[0] !== undefined){
+            if(GameData.GameDataImages.backButton !== undefined){
                 var backButton = new GameEngine.Classes.GoToButton(
                     30,
                     630,
                     50,
                     50,
-                    GameData.GameDataImages[1],
+                    GameData.GameDataImages.backButton,
                     RoomToGoTo,
                     "hudd"
                 );
