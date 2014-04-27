@@ -33,8 +33,8 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
 
             //Nedan är en loggare som loggar nödvändig data för att ta reda på var jag ska ange för position gällande
             //ledtrådar och waypoints, den är kommenterad som standard men sätter på den när den behövs..
-            //console.log("X= "+ mX /ScreenSpec.SizeX +" || Y= " + mY/ScreenSpec.SizeY);
-            //console.log("X= "+ mX +" || Y= " + mY);
+            console.log("X= "+ mX /ScreenSpec.SizeX +" || Y= " + mY/ScreenSpec.SizeY);
+            console.log("X= "+ mX +" || Y= " + mY);
 
             var Button = GameEngine.GoToButtons.backButton;
             //Kontrollerar om bakåt knappen trycktes på..
@@ -50,12 +50,22 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
             var heighOfObj = ScreenSpec.BackgroundStandardSizeY / ScreenSpec.gameFrameY;
             for(var i =0; i < GameEngine.GoToButtons.WayPoints.length; i++){
                 Button = GameEngine.GoToButtons.WayPoints[i];
-                if(mX >= Button.PosX && mX < Button.PosX + (Button.GameCardOrContent.image.width / widthOfObj) &&
-                    mY >= Button.PosY && mY < Button.PosY + (Button.GameCardOrContent.image.height / heighOfObj) ){
-                    GameEngine.GoToButtons.backButton = ""; // Tömmer knappen
-                    GameEngine.GoToButtons.WayPoints = []; //Tömmer waypoints
-                    GameEngine.Machines.BuildRoom(Button.GameCardOrContent.GoToRoom);
-                    return;
+                if(Button.SizeWidth != undefined || Button.SizeHeight != undefined){ //Om Placeholdern har en storlek, använd den
+                    if(mX >= Button.PosX && mX < Button.PosX + (Button.SizeWidth ) &&
+                        mY >= Button.PosY && mY < Button.PosY + (Button.SizeHeight )) {
+                        GameEngine.GoToButtons.backButton = ""; // Tömmer knappen
+                        GameEngine.GoToButtons.WayPoints = []; //Tömmer waypoints
+                        GameEngine.Machines.BuildRoom(Button.GameCardOrContent.GoToRoom);
+                    }
+
+                }else {
+                    if (mX >= Button.PosX && mX < Button.PosX + (Button.GameCardOrContent.image.width / widthOfObj) &&
+                        mY >= Button.PosY && mY < Button.PosY + (Button.GameCardOrContent.image.height / heighOfObj)) {
+                        GameEngine.GoToButtons.backButton = ""; // Tömmer knappen
+                        GameEngine.GoToButtons.WayPoints = []; //Tömmer waypoints
+                        GameEngine.Machines.BuildRoom(Button.GameCardOrContent.GoToRoom);
+                        return;
+                    }
                 }
             }
 
@@ -87,16 +97,29 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
 //                console.log(mX < Button.PosX + (Button.GameCardOrContent.image.width ));
 //                console.log(mY >= Button.PosY);
 //                console.log(mY < Button.PosY + (Button.GameCardOrContent.image.height ));
+                if(Button.SizeWidth != undefined || Button.SizeHeight != undefined){ //Om Placeholdern har en storlek, använd den
+                    if(mX >= Button.PosX && mX < Button.PosX + (Button.SizeWidth ) &&
+                        mY >= Button.PosY && mY < Button.PosY + (Button.SizeHeight )){
+                        document.body.style.cursor = "pointer";
+                        return;
 
-                if(mX >= Button.PosX && mX < Button.PosX + (Button.GameCardOrContent.image.width / widthOfObj) &&
-                    mY >= Button.PosY && mY < Button.PosY + (Button.GameCardOrContent.image.height / heighOfObj)){
-                    document.body.style.cursor = "pointer";
-                    return;
+                    }else{
+                        document.body.style.cursor = "default";
 
-                }else{
-                    document.body.style.cursor = "default";
+                    }
 
+                }else{ // Om placeholdern inte har en storlek, använd bilden storlek..
+                    if(mX >= Button.PosX && mX < Button.PosX + (Button.GameCardOrContent.image.width / widthOfObj) &&
+                        mY >= Button.PosY && mY < Button.PosY + (Button.GameCardOrContent.image.height / heighOfObj)){
+                        document.body.style.cursor = "pointer";
+                        return;
+
+                    }else{
+                        document.body.style.cursor = "default";
+
+                    }
                 }
+
             }
         }
     });
@@ -277,14 +300,17 @@ var GameEngine = {
                         60  //YPosition
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.WayPoint(2,"Data/Map/Hallway_1/door.jpg", "Hallway"),
-                        50, //XPosition
-                        60  //YPosition
+                        new GameEngine.Classes.WayPoint(2,"Data/Map/Hallway_2/left.jpg", "Hallway"),
+                        GameEngine.Machines.getPosition(0.46375 , "x"), //XPosition
+                        GameEngine.Machines.getPosition(0.252, "y"),  //YPosition
+                        GameEngine.Machines.getPosition(0.03, "x"),
+                        GameEngine.Machines.getPosition(0.03, "y")
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.WayPoint(11,"Data/Map/Kitchen/door.jpg", "Kitchen"),
-                        50, //XPosition
-                        60  //YPosition
+                        new GameEngine.Classes.WayPoint(11,"Data/Map/Kitchen/door.png", "Kitchen"),
+                        GameEngine.Machines.getPosition(0.5025, "x"),//XPosition
+                        GameEngine.Machines.getPosition(0.304, "y")
+                            //YPosition
                     )
 
                 ]
@@ -300,14 +326,18 @@ var GameEngine = {
                         60  //YPosition
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.WayPoint(4,"Data/Map/PreBedroom/door.jpg", "Bedroom Corridor"),
-                        50, //XPosition
-                        60  //YPosition
+                        new GameEngine.Classes.WayPoint(4,"Data/Map/PreBedroom/doors_2-left.png", "Bedroom Corridor"),
+                        GameEngine.Machines.getPosition(0.24125, "x"), //XPosition
+                        GameEngine.Machines.getPosition(0.18, "y")//YPosition
+
+
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.WayPoint(3,"Data/Map/Hallway_3/door.jpg", "Hallway End"),
-                        50, //XPosition
-                        60  //YPosition
+                        new GameEngine.Classes.WayPoint(3,"Data/Map/Hallway_3/right.jpg", "Hallway End"),
+                        GameEngine.Machines.getPosition(0.54625, "x" ), //XPosition
+                        GameEngine.Machines.getPosition(0.26, "y" ),//YPosition
+                        GameEngine.Machines.getPosition(0.03, "x"), //Bredd
+                        GameEngine.Machines.getPosition(0.03, "y") //Höjd
                     )
 
                 ]
@@ -319,18 +349,19 @@ var GameEngine = {
                 [
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.WayPoint(2,"Data/Hudd/backbutton.png", "Hallway"),
-                        50, //XPosition
-                        60  //YPosition
+                        0,
+                        0
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.WayPoint(13,"Data/Map/BathRoom/door.jpg", "Bathroom"),
-                        50, //XPosition
-                        60  //YPosition
+                        new GameEngine.Classes.WayPoint(13,"Data/Map/BathRoom/doors_3-right.png", "Bathroom"),
+                        GameEngine.Machines.getPosition(0.64125, "x"), //XPosition
+                        GameEngine.Machines.getPosition(0.256, "y")  //YPosition
+
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.WayPoint(12,"Data/Map/TvRoom/door.jpg", "Tv-Room"),
-                        50, //XPosition
-                        60  //YPosition
+                        new GameEngine.Classes.WayPoint(12,"Data/Map/TvRoom/door.png", "Tv-Room"),
+                        GameEngine.Machines.getPosition(0.4675, "x"), //XPosition
+                        GameEngine.Machines.getPosition(0.304, "y")  //YPosition
                     )
 
                 ]
@@ -396,9 +427,17 @@ var GameEngine = {
 
 		},
         placeWayPoint : function(PlaceholderWithContent){
+            var widthOfObj;
+            var heighOfObj;
 
-            var widthOfObj = ScreenSpec.BackgroundStandardSizeX / ScreenSpec.SizeX;
-            var heighOfObj = ScreenSpec.BackgroundStandardSizeY / ScreenSpec.gameFrameY; //ScreenSpec.gameFrameY för att bara räkna in det som ska in på scene
+            if(PlaceholderWithContent.SizeWidth == undefined || PlaceholderWithContent.SizeHeight == undefined){
+                widthOfObj = ScreenSpec.BackgroundStandardSizeX / ScreenSpec.SizeX;
+                heighOfObj = ScreenSpec.BackgroundStandardSizeY / ScreenSpec.gameFrameY; //ScreenSpec.gameFrameY för att bara räkna in det som ska in på scene
+            }else{
+                widthOfObj = PlaceholderWithContent.SizeWidth;
+                heighOfObj = PlaceholderWithContent.SizeHeight;
+            }
+
 
             GameEngine.Machines.WindowSizing(
                 PlaceholderWithContent.GameCardOrContent.image,
@@ -598,10 +637,12 @@ var GameEngine = {
 			this.WayPoints = _waypointsArr; //En array med WayPoints-Object som är "Knappar" man kan trycka på för att ta sig till nästa rum eller tillbaka..
 											//Ett rum har minst 1 Waypoint, det är alltid bakåt och refererar till rummet man var i Innan. || Använder PLACEHOLDER
 		},
-        PlaceHolder : function(_gameCardOrContent, _PosX, _PosY){ //till för att hålla ett kort samt kortets Position
+        PlaceHolder : function(_gameCardOrContent, _PosX, _PosY, _sizeWidth, _sizeHeight){ //till för att hålla ett kort samt kortets Position
             this.GameCardOrContent = _gameCardOrContent;
             this.PosX = _PosX;
             this.PosY = _PosY;
+            this.SizeWidth = _sizeWidth;
+            this.SizeHeight = _sizeHeight;
         },
 		
 		WayPoint : function(_GoToRoom, _image, _RoomName){
