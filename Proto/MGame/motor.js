@@ -1,8 +1,8 @@
 "use strict";
 var ScreenSpec = { //object som hanterar Canvas storleken..
-    SizeX : 800, //800
-    SizeY : 750, //750
-    gameFrameY : 600,
+    SizeX : 1023, //800     //New 4092 * 0.25 = 1023
+    SizeY : 723.25 + 150, //750 // New, anpassar efter storleken..
+    gameFrameY : 723.25,  //New 2893 * 0.25 = 723.25 <- denna appliceras på GameFrameY då vi anpassar storleken efter A4 som bakgrunderna är ritade på
     CreateCanvas : function(){
         var Canvas = document.createElement("canvas");
         Canvas.width = ScreenSpec.SizeX;
@@ -40,8 +40,7 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
             //Kontrollerar om bakåt knappen trycktes på..
             if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height ){
                 //alert(mX +" || " + mY);
-                GameEngine.GoToButtons.backButton = ""; // Tömmer knappen
-                GameEngine.GoToButtons.WayPoints = []; //Tömmer waypoints
+                GameEngine.Machines.clearRoomData();
                 GameEngine.Machines.BuildRoom(Button.RoomToGo);
             }
 
@@ -53,16 +52,14 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
                 if(Button.SizeWidth != undefined || Button.SizeHeight != undefined){ //Om Placeholdern har en storlek, använd den
                     if(mX >= Button.PosX && mX < Button.PosX + (Button.SizeWidth ) &&
                         mY >= Button.PosY && mY < Button.PosY + (Button.SizeHeight )) {
-                        GameEngine.GoToButtons.backButton = ""; // Tömmer knappen
-                        GameEngine.GoToButtons.WayPoints = []; //Tömmer waypoints
+                        GameEngine.Machines.clearRoomData();
                         GameEngine.Machines.BuildRoom(Button.GameCardOrContent.GoToRoom);
                     }
 
                 }else {
                     if (mX >= Button.PosX && mX < Button.PosX + (Button.GameCardOrContent.image.width / widthOfObj) &&
                         mY >= Button.PosY && mY < Button.PosY + (Button.GameCardOrContent.image.height / heighOfObj)) {
-                        GameEngine.GoToButtons.backButton = ""; // Tömmer knappen
-                        GameEngine.GoToButtons.WayPoints = []; //Tömmer waypoints
+                        GameEngine.Machines.clearRoomData();
                         GameEngine.Machines.BuildRoom(Button.GameCardOrContent.GoToRoom);
                         return;
                     }
@@ -130,7 +127,8 @@ var GameEngine = {
 	GlobalActors : [],
     GoToButtons : {
         backButton : "",
-        WayPoints : []
+        WayPoints : [],
+        ContainerButton : []
 
     },
 	
@@ -156,12 +154,63 @@ var GameEngine = {
                 13,
                 "Data/Map/BathRoom/bathroom.jpg",
                 "Bathroom",
-                [
+                [//WaypointsArr
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.WayPoint(3,"Data/Hudd/backbutton.png","Hallway End"),
                         0, //XPosition
                         0  //YPosition
                     )
+                ],
+                [//Containers_Arr
+                    new GameEngine.Classes.PlaceHolder(
+                        new GameEngine.Classes.Container("Data/Map/Extras/recyclebin.png"),
+                        GameEngine.Machines.getPosition(0.895405669599218, "x"),
+                        GameEngine.Machines.getPosition(0.6618952190094475, "y"),
+                        GameEngine.Machines.getPosition(0.08, "x"),
+                        GameEngine.Machines.getPosition(0.10, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        new GameEngine.Classes.Container("Data/Map/Extras/cabinet.jpg"),
+                        GameEngine.Machines.getPosition(0.2883675464320626, "x"),
+                        GameEngine.Machines.getPosition(0.16490123103349555, "y"),
+                        GameEngine.Machines.getPosition(0.20, "x"),
+                        GameEngine.Machines.getPosition(0.20, "y")
+                    )
+                ],
+                [//TableClueArr
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.6754643206256109, "x"),
+                        GameEngine.Machines.getPosition(0.5073003149155454, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.1906158357771261 , "x"),
+                        GameEngine.Machines.getPosition(0.6298310907529344, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.9022482893450635 , "x"),
+                        GameEngine.Machines.getPosition(0.7672487832808474, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.30303030303030304  , "x"),
+                        GameEngine.Machines.getPosition(0.4901231033495563, "y")
+                    )
+                ],
+                [//WallClueArr
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.5425219941348973 , "x"),
+                        GameEngine.Machines.getPosition(0.1843687374749499, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.8426197458455523 , "x"),
+                        GameEngine.Machines.getPosition(0.05840251932436301, "y")
+                    )
+
                 ]
             );
 			var prebedroom = new GameEngine.Classes.Room(
@@ -212,6 +261,41 @@ var GameEngine = {
                         GameEngine.Machines.getPosition(0.26, "y")  //YPosition
 
                     )
+                ],
+                [//Containers_Arr
+                    new GameEngine.Classes.PlaceHolder(
+                        new GameEngine.Classes.Container("Data/Map/Extras/recyclebin.png"),
+                        GameEngine.Machines.getPosition(0.4232649071358749, "x"),
+                        GameEngine.Machines.getPosition(0.4683653020326367, "y"),
+                        GameEngine.Machines.getPosition(0.05, "x"),
+                        GameEngine.Machines.getPosition(0.07, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.jpg"),
+                        GameEngine.Machines.getPosition(0.5865102639296188 , "x"),
+                        GameEngine.Machines.getPosition(0.3103349556255368, "y"),
+                        GameEngine.Machines.getPosition(0.05, "x"),
+                        GameEngine.Machines.getPosition(0.20, "y")
+                    )
+                ],
+                [//TableClueArr
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.5601173020527859 , "x"),
+                        GameEngine.Machines.getPosition(0.63670197537933, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.40078201368523947 , "x"),
+                        GameEngine.Machines.getPosition(0.5531062124248497, "y")
+                    )
+                ],
+                [//WallClueArr
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.46236559139784944 , "x"),
+                        GameEngine.Machines.getPosition(0.3114801030632694, "y")
+                    )
                 ]
             );
 			var bedroom1 = new GameEngine.Classes.Room(
@@ -225,6 +309,51 @@ var GameEngine = {
                         60  //YPosition
                     )
 
+                ],
+                [//Containers_Arr
+                    new GameEngine.Classes.PlaceHolder(
+                        new GameEngine.Classes.Container("Data/Map/Extras/recyclebin.png"),
+                        GameEngine.Machines.getPosition(0.7086999022482894, "x"),
+                        GameEngine.Machines.getPosition(0.6069281419982823, "y"),
+                        GameEngine.Machines.getPosition(0.08, "x"),
+                        GameEngine.Machines.getPosition(0.10, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.jpg"),
+                        GameEngine.Machines.getPosition(0.002932551319648094  , "x"),
+                        GameEngine.Machines.getPosition(0.24506155167477814, "y"),
+                        GameEngine.Machines.getPosition(0.05, "x"),
+                        GameEngine.Machines.getPosition(0.20, "y")
+                    )
+                ],
+                [//TableClueArr
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.7311827956989247, "x"),
+                        GameEngine.Machines.getPosition(0.5508159175493845, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.21114369501466276 , "x"),
+                        GameEngine.Machines.getPosition(0.5210420841683366, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.42424242424242425 , "x"),
+                        GameEngine.Machines.getPosition(0.6080732894360149, "y")
+                    )
+                ],
+                [//WallClueArr
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.5591397849462365 , "x"),
+                        GameEngine.Machines.getPosition(0.280561122244489, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.270772238514174, "x"),
+                        GameEngine.Machines.getPosition(0.25765817348983683, "y")
+                    )
                 ]
             );
 			var bedroom2 = new GameEngine.Classes.Room(
@@ -238,6 +367,51 @@ var GameEngine = {
                         60  //YPosition
                     )
 
+                ],
+                [//Containers_Arr
+                    new GameEngine.Classes.PlaceHolder(
+                        new GameEngine.Classes.Container("Data/Map/Extras/recyclebin.png"),
+                        GameEngine.Machines.getPosition(0.20625610948191594 , "x"),
+                        GameEngine.Machines.getPosition(0.6504437446321214, "y"),
+                        GameEngine.Machines.getPosition(0.08, "x"),
+                        GameEngine.Machines.getPosition(0.10, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.jpg"),
+                        GameEngine.Machines.getPosition(0.9100684261974584  , "x"),
+                        GameEngine.Machines.getPosition(0.27483538505582594, "y"),
+                        GameEngine.Machines.getPosition(0.05, "x"),
+                        GameEngine.Machines.getPosition(0.20, "y")
+                    )
+                ],
+                [//TableClueArr
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.16129032258064516, "x"),
+                        GameEngine.Machines.getPosition(0.5485256226739192, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.7204301075268817 , "x"),
+                        GameEngine.Machines.getPosition(0.5210420841683366, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.46529814271749753 , "x"),
+                        GameEngine.Machines.getPosition(0.619524763813341, "y")
+                    )
+                ],
+                [//WallClueArr
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.26295210166177907 , "x"),
+                        GameEngine.Machines.getPosition(0.2691096478671629, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.6217008797653959, "x"),
+                        GameEngine.Machines.getPosition(0.2691096478671629, "y")
+                    )
                 ]
             );
 			var bedroom3 = new GameEngine.Classes.Room(
@@ -251,6 +425,51 @@ var GameEngine = {
                         60  //YPosition
                     )
 
+                ],
+                [//Containers_Arr
+                    new GameEngine.Classes.PlaceHolder(
+                        new GameEngine.Classes.Container("Data/Map/Extras/recyclebin.png"),
+                        GameEngine.Machines.getPosition(0.7086999022482894, "x"),
+                        GameEngine.Machines.getPosition(0.6069281419982823, "y"),
+                        GameEngine.Machines.getPosition(0.08, "x"),
+                        GameEngine.Machines.getPosition(0.10, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.jpg"),
+                        GameEngine.Machines.getPosition(0.002932551319648094  , "x"),
+                        GameEngine.Machines.getPosition(0.24506155167477814, "y"),
+                        GameEngine.Machines.getPosition(0.05, "x"),
+                        GameEngine.Machines.getPosition(0.20, "y")
+                    )
+                ],
+                [//TableClueArr
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.7311827956989247, "x"),
+                        GameEngine.Machines.getPosition(0.5508159175493845, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.21114369501466276 , "x"),
+                        GameEngine.Machines.getPosition(0.5210420841683366, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.42424242424242425 , "x"),
+                        GameEngine.Machines.getPosition(0.6080732894360149, "y")
+                    )
+                ],
+                [//WallClueArr
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.5591397849462365 , "x"),
+                        GameEngine.Machines.getPosition(0.280561122244489, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.270772238514174, "x"),
+                        GameEngine.Machines.getPosition(0.25765817348983683, "y")
+                    )
                 ]
             );
 			var bedroom4 = new GameEngine.Classes.Room(
@@ -262,6 +481,51 @@ var GameEngine = {
                         new GameEngine.Classes.WayPoint(4,"Data/Hudd/backbutton.png", "Bedroom Corridor"),
                         50, //XPosition
                         60  //YPosition
+                    )
+                ],
+                [//Containers_Arr
+                    new GameEngine.Classes.PlaceHolder(
+                        new GameEngine.Classes.Container("Data/Map/Extras/recyclebin.png"),
+                        GameEngine.Machines.getPosition(0.7086999022482894, "x"),
+                        GameEngine.Machines.getPosition(0.6069281419982823, "y"),
+                        GameEngine.Machines.getPosition(0.08, "x"),
+                        GameEngine.Machines.getPosition(0.10, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.jpg"),
+                        GameEngine.Machines.getPosition(0.002932551319648094  , "x"),
+                        GameEngine.Machines.getPosition(0.24506155167477814, "y"),
+                        GameEngine.Machines.getPosition(0.05, "x"),
+                        GameEngine.Machines.getPosition(0.20, "y")
+                    )
+                ],
+                [//TableClueArr
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.7311827956989247, "x"),
+                        GameEngine.Machines.getPosition(0.5508159175493845, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.21114369501466276 , "x"),
+                        GameEngine.Machines.getPosition(0.5210420841683366, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.42424242424242425 , "x"),
+                        GameEngine.Machines.getPosition(0.6080732894360149, "y")
+                    )
+                ],
+                [//WallClueArr
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.5591397849462365 , "x"),
+                        GameEngine.Machines.getPosition(0.280561122244489, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.270772238514174, "x"),
+                        GameEngine.Machines.getPosition(0.25765817348983683, "y")
                     )
                 ]
             );
@@ -275,6 +539,51 @@ var GameEngine = {
                         50, //XPosition
                         60  //YPosition
                     )
+                ],
+                [//Containers_Arr
+                    new GameEngine.Classes.PlaceHolder(
+                        new GameEngine.Classes.Container("Data/Map/Extras/recyclebin.png"),
+                        GameEngine.Machines.getPosition(0.7086999022482894, "x"),
+                        GameEngine.Machines.getPosition(0.6069281419982823, "y"),
+                        GameEngine.Machines.getPosition(0.08, "x"),
+                        GameEngine.Machines.getPosition(0.10, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.jpg"),
+                        GameEngine.Machines.getPosition(0.002932551319648094  , "x"),
+                        GameEngine.Machines.getPosition(0.24506155167477814, "y"),
+                        GameEngine.Machines.getPosition(0.05, "x"),
+                        GameEngine.Machines.getPosition(0.20, "y")
+                    )
+                ],
+                [//TableClueArr
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.7311827956989247, "x"),
+                        GameEngine.Machines.getPosition(0.5508159175493845, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.21114369501466276 , "x"),
+                        GameEngine.Machines.getPosition(0.5210420841683366, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.42424242424242425 , "x"),
+                        GameEngine.Machines.getPosition(0.6080732894360149, "y")
+                    )
+                ],
+                [//WallClueArr
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.5591397849462365 , "x"),
+                        GameEngine.Machines.getPosition(0.280561122244489, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.270772238514174, "x"),
+                        GameEngine.Machines.getPosition(0.25765817348983683, "y")
+                    )
                 ]
             );
 			var bedroom6 = new GameEngine.Classes.Room(
@@ -286,6 +595,51 @@ var GameEngine = {
                         new GameEngine.Classes.WayPoint(4,"Data/Hudd/backbutton.png", "Bedroom Corridor"),
                         50, //XPosition
                         60  //YPosition
+                    )
+                ],
+                [//Containers_Arr
+                    new GameEngine.Classes.PlaceHolder(
+                        new GameEngine.Classes.Container("Data/Map/Extras/recyclebin.png"),
+                        GameEngine.Machines.getPosition(0.7086999022482894, "x"),
+                        GameEngine.Machines.getPosition(0.6069281419982823, "y"),
+                        GameEngine.Machines.getPosition(0.08, "x"),
+                        GameEngine.Machines.getPosition(0.10, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.jpg"),
+                        GameEngine.Machines.getPosition(0.002932551319648094  , "x"),
+                        GameEngine.Machines.getPosition(0.24506155167477814, "y"),
+                        GameEngine.Machines.getPosition(0.05, "x"),
+                        GameEngine.Machines.getPosition(0.20, "y")
+                    )
+                ],
+                [//TableClueArr
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.7311827956989247, "x"),
+                        GameEngine.Machines.getPosition(0.5508159175493845, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.21114369501466276 , "x"),
+                        GameEngine.Machines.getPosition(0.5210420841683366, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.42424242424242425 , "x"),
+                        GameEngine.Machines.getPosition(0.6080732894360149, "y")
+                    )
+                ],
+                [//WallClueArr
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.5591397849462365 , "x"),
+                        GameEngine.Machines.getPosition(0.280561122244489, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.270772238514174, "x"),
+                        GameEngine.Machines.getPosition(0.25765817348983683, "y")
                     )
                 ]
             );
@@ -312,6 +666,24 @@ var GameEngine = {
                         GameEngine.Machines.getPosition(0.304, "y")
                             //YPosition
                     )
+
+                ],
+                [//ContainersArr
+                    //No Containers for Hallways..
+                ],
+                [//TableClueArr
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.6089931573802542, "x"),
+                        GameEngine.Machines.getPosition(0.683653020326367, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.14565004887585534 , "x"),
+                        GameEngine.Machines.getPosition(0.2129974234182651 , "y")
+                    )
+                ],
+                [//WallClueArr
 
                 ]
             );
@@ -340,6 +712,24 @@ var GameEngine = {
                         GameEngine.Machines.getPosition(0.03, "y") //Höjd
                     )
 
+                ],
+                [//ContainersArr
+                    //No Containers for Hallways..
+                ],
+                [//TableClueArr
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.3763440860215054, "x"),
+                        GameEngine.Machines.getPosition(0.6012024048096193, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.6940371456500489  , "x"),
+                        GameEngine.Machines.getPosition(0.5198969367306041  , "y")
+                    )
+                ],
+                [//WallClueArr
+
                 ]
             );
 			var hallway3 = new GameEngine.Classes.Room(
@@ -364,6 +754,24 @@ var GameEngine = {
                         GameEngine.Machines.getPosition(0.304, "y")  //YPosition
                     )
 
+                ],
+                [//ContainersArr
+                    //No Containers for Hallways..
+                ],
+                [//TableClueArr
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.31867057673509286 , "x"),
+                        GameEngine.Machines.getPosition(0.6882336100772974, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.6871945259042033, "x"),
+                        GameEngine.Machines.getPosition(0.5737188663040367, "y")
+                    )
+                ],
+                [//WallClueArr
+
                 ]
             );
 			var kitchen  = new GameEngine.Classes.Room(
@@ -377,6 +785,51 @@ var GameEngine = {
                         60  //YPosition
                     )
 
+                ],
+                [//Containers_Arr
+                    new GameEngine.Classes.PlaceHolder(
+                        new GameEngine.Classes.Container("Data/Map/Extras/recyclebin.png"),
+                        GameEngine.Machines.getPosition(0.03421309872922776, "x"),
+                        GameEngine.Machines.getPosition(0.7477812768393931, "y"),
+                        GameEngine.Machines.getPosition(0.08, "x"),
+                        GameEngine.Machines.getPosition(0.10, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.jpg"),
+                        GameEngine.Machines.getPosition(0.6256109481915934, "x"),
+                        GameEngine.Machines.getPosition(0.14543372459204124, "y"),
+                        GameEngine.Machines.getPosition(0.075, "x"),
+                        GameEngine.Machines.getPosition(0.15, "y")
+                    )
+                ],
+                [//TableClueArr
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.6334310850439883 , "x"),
+                        GameEngine.Machines.getPosition(0.6298310907529344, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.29227761485826004  , "x"),
+                        GameEngine.Machines.getPosition(0.4649298597194389, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.8240469208211144  , "x"),
+                        GameEngine.Machines.getPosition(0.16146578872029774 , "y")
+                    )
+                ],
+                [//WallClueArr
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.08993157380254155 , "x"),
+                        GameEngine.Machines.getPosition(0.17520755797308904, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.4780058651026393, "x"),
+                        GameEngine.Machines.getPosition(0.21643286573146292, "y")
+                    )
                 ]
             );
 			var tvroom = new GameEngine.Classes.Room(
@@ -390,6 +843,51 @@ var GameEngine = {
                         60  //YPosition
                     )
 
+                ],
+                [//Containers_Arr
+                    new GameEngine.Classes.PlaceHolder(
+                        new GameEngine.Classes.Container("Data/Map/Extras/recyclebin.png"),
+                        GameEngine.Machines.getPosition(0.39589442815249265, "x"),
+                        GameEngine.Machines.getPosition(0.7145720011451474, "y"),
+                        GameEngine.Machines.getPosition(0.08, "x"),
+                        GameEngine.Machines.getPosition(0.10, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.jpg"),
+                        GameEngine.Machines.getPosition(0.8347996089931574 , "x"),
+                        GameEngine.Machines.getPosition(0.195820211852276, "y"),
+                        GameEngine.Machines.getPosition(0.075, "x"),
+                        GameEngine.Machines.getPosition(0.15, "y")
+                    )
+                ],
+                [//TableClueArr
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.44574780058651026, "x"),
+                        GameEngine.Machines.getPosition(0.598912109934154, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.8084066471163245, "x"),
+                        GameEngine.Machines.getPosition(0.7477812768393931, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.9130009775171065, "x"),
+                        GameEngine.Machines.getPosition(0.5886057829945606, "y")
+                    )
+                ],
+                [//WallClueArr
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.46236559139784944 , "x"),
+                        GameEngine.Machines.getPosition(0.1820784425994847, "y")
+                    ),
+                    new GameEngine.Classes.PlaceHolder(
+                        null,
+                        GameEngine.Machines.getPosition(0.004887585532746823, "x"),
+                        GameEngine.Machines.getPosition(0.2267391926710564, "y")
+                    )
                 ]
             );
 			GameEngine.GlobalRooms.push(hallway1,hallway2,hallway3,prebedroom,bedroom1,bedroom2,bedroom3,bedroom4,bedroom5,bedroom6,tvroom,kitchen,tvroom,bathroom);
@@ -422,17 +920,51 @@ var GameEngine = {
                     //OBS "RoomToLoad.WayPoints" <-kan vara missledande. är en Placeholder som
                     //innehåller en waypoint!
                 }
-                //Ctx.drawImage(RoomToLoad.image, 0, 0, 800, 600);
+
+                //Kollar om det finns Containers och placerar ut dem.
+                for(var i = 0; i < RoomToLoad.Containers.length; i++ ){
+                    GameEngine.Machines.placeContainers(RoomToLoad.Containers[i]);
+                }
             }
 
 		},
+
+        placeContainers : function(PlaceholderWithContent){
+            var width, height;
+            if(PlaceholderWithContent.SizeWidth == undefined || PlaceholderWithContent.SizeHeight == undefined){
+                height = PlaceholderWithContent.GameCardOrContent.image.height;
+                width = PlaceholderWithContent.GameCardOrContent.image.width;
+            }else{
+                width = PlaceholderWithContent.SizeWidth,
+                height = PlaceholderWithContent.SizeHeight
+            }
+
+              GameEngine.Machines.WindowSizing(
+                  PlaceholderWithContent.GameCardOrContent.image,
+                  "gameframe",
+                  PlaceholderWithContent.PosX,
+                  PlaceholderWithContent.PosY,
+                  width,
+                  height
+
+              );
+            GameEngine.GoToButtons.ContainerButton.push(PlaceholderWithContent);
+        },
+
+        clearRoomData : function(){
+            GameEngine.GoToButtons.backButton = ""; // Tömmer knappen
+            GameEngine.GoToButtons.WayPoints = []; //Tömmer waypoints
+            GameEngine.GoToButtons.ContainerButton = [];
+
+        },
+
         placeWayPoint : function(PlaceholderWithContent){
             var widthOfObj;
             var heighOfObj;
 
             if(PlaceholderWithContent.SizeWidth == undefined || PlaceholderWithContent.SizeHeight == undefined){
-                widthOfObj = ScreenSpec.BackgroundStandardSizeX / ScreenSpec.SizeX;
-                heighOfObj = ScreenSpec.BackgroundStandardSizeY / ScreenSpec.gameFrameY; //ScreenSpec.gameFrameY för att bara räkna in det som ska in på scene
+                widthOfObj = PlaceholderWithContent.GameCardOrContent.image.width / (ScreenSpec.BackgroundStandardSizeX / ScreenSpec.SizeX);
+                heighOfObj = PlaceholderWithContent.GameCardOrContent.image.height /(ScreenSpec.BackgroundStandardSizeY / ScreenSpec.gameFrameY); //ScreenSpec.gameFrameY för att bara räkna in det som ska in på scene
             }else{
                 widthOfObj = PlaceholderWithContent.SizeWidth;
                 heighOfObj = PlaceholderWithContent.SizeHeight;
@@ -444,9 +976,9 @@ var GameEngine = {
                 "gameframe",
                 PlaceholderWithContent.PosX,
                 PlaceholderWithContent.PosY,
-                PlaceholderWithContent.GameCardOrContent.image.width / widthOfObj,
+                widthOfObj,
                 //ScreenSpec.BackgroundStandardSizeX / widthOfObj,
-                PlaceholderWithContent.GameCardOrContent.image.height / heighOfObj
+                heighOfObj
                 //ScreenSpec.BackgroundStandardSizeY / heighOfObj
             )
 
@@ -506,7 +1038,7 @@ var GameEngine = {
             if(GameData.GameDataImages.backButton !== undefined){
                 var backButton = new GameEngine.Classes.GoToButton(
                     30,
-                    630,
+                    750,
                     50,
                     50,
                     GameData.GameDataImages.backButton,
@@ -519,7 +1051,7 @@ var GameEngine = {
                //});
                 GameEngine.GoToButtons.backButton = backButton;
 
-                GameEngine.Machines.WindowSizing(backButton.image, backButton.placeForImage, 30, 630, 50, 50);
+                GameEngine.Machines.WindowSizing(backButton.image, backButton.placeForImage, 30, 750, 50, 50);
             }else{
                 alert("PlaceBackButton funktionen anropades innan nödvändig data var inläst..");
             }
@@ -620,17 +1152,18 @@ var GameEngine = {
                     //      om det inte finns några mer alternativ så används ett förbestämt svar (?)..
 		},
 		
-		Container : function(){		
+		Container : function(_image){
 			this.cardsOfContainer = []; 	// Varje Container kan innehålla max 3 GameCards
-			this.image = ""; 				//URL till bilden Containern använder
+			this.image = new Image(); 				//URL till bilden Containern använder
+            this.image.src = _image;
 		},
 		
-		Room : function(_ID, _image, _roomname, _waypointsArr){
+		Room : function(_ID, _image, _roomname, _waypointsArr, _Containers_Arr, _TableClue_GameCards_Arr, _WallClue_GameCards_Arr){
 			this.ID = _ID;
 			this.roomname = _roomname;		//Namnen på rummen
-			this.Containers = []; 			//Varje rum kan innehålla 3 Containers, varav 2 är Papperskorg och Garderob () || Använder PLACEHOLDER
-			this.TableClue_GameCards = [];  //Varje rum kan innehålla max 5 GameCards av typen TableClue || Använder PLACEHOLDER
-			this.WallClue_GameCards = []; 	//Varje rum kan innehålla max 2 Gamecards av typen WallClue || Använder PLACEHOLDER
+			this.Containers = _Containers_Arr; 			//Varje rum kan innehålla 3 Containers, varav 2 är Papperskorg och Garderob () || Använder PLACEHOLDER
+			this.TableClue_GameCards = _TableClue_GameCards_Arr;  //Varje rum kan innehålla max 5 GameCards av typen TableClue || Använder PLACEHOLDER
+			this.WallClue_GameCards = _WallClue_GameCards_Arr; 	//Varje rum kan innehålla max 2 Gamecards av typen WallClue || Använder PLACEHOLDER
             this.image = new Image();
 			this.image.src = _image; 		//URL till bilden som används för rummet.. || Använder PLACEHOLDER
 			this.ActorsInRoom = [];			//En Array som innehåller ID't på alla aktörer i rummet..

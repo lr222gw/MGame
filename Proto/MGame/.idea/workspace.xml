@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/motor.js" line="491" mnemonic="7" />
+    <bookmark url="file://$PROJECT_DIR$/motor.js" line="1023" mnemonic="7" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f70785b6-6824-4a1c-b4c0-df82f291d3e7" name="Default" comment="" />
@@ -55,10 +55,10 @@
           <file leaf-file-name="motor.js" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/motor.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.27714932" vertical-offset="5756" max-vertical-offset="12563">
-                  <caret line="355" column="91" selection-start-line="355" selection-start-column="91" selection-end-line="355" selection-end-column="91" />
+                <state vertical-scroll-proportion="0.42307693" vertical-offset="14501" max-vertical-offset="21624">
+                  <caret line="877" column="21" selection-start-line="877" selection-start-column="21" selection-end-line="877" selection-end-column="21" />
                   <folding>
-                    <element signature="e#6791#6882#0" expanded="false" />
+                    <element signature="e#6723#6814#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
@@ -314,10 +314,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/motor.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.27714932" vertical-offset="5756" max-vertical-offset="12563">
-          <caret line="355" column="91" selection-start-line="355" selection-start-column="91" selection-end-line="355" selection-end-column="91" />
+        <state vertical-scroll-proportion="0.42307693" vertical-offset="14501" max-vertical-offset="21624">
+          <caret line="877" column="21" selection-start-line="877" selection-start-column="21" selection-end-line="877" selection-end-column="21" />
           <folding>
-            <element signature="e#6791#6882#0" expanded="false" />
+            <element signature="e#6723#6814#0" expanded="false" />
           </folding>
         </state>
       </provider>
