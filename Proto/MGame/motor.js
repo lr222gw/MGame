@@ -66,6 +66,15 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
                 }
             }
 
+            //Kontrollerar om någon Fram/bak-knapp trycks på..
+            for(var i = 0; i < GameEngine.GoToButtons.prevOrNextButton.length; i++){
+                Button = GameEngine.GoToButtons.prevOrNextButton[i];
+                if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
+                    Button.pageToGo();
+                    return;
+                }
+            }
+
         }
     });
 
@@ -118,6 +127,18 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
                 }
 
             }
+            //hover om någon Fram/bak-knapp hovras på..
+            for(var i = 0; i < GameEngine.GoToButtons.prevOrNextButton.length; i++){
+                Button = GameEngine.GoToButtons.prevOrNextButton[i];
+                if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
+                    document.body.style.cursor = "pointer";
+                    return;
+
+                }else{
+                    document.body.style.cursor = "default";
+
+                }
+            }
         }
     });
 
@@ -128,7 +149,8 @@ var GameEngine = {
     GoToButtons : {
         backButton : "",
         WayPoints : [],
-        ContainerButton : []
+        ContainerButton : [],
+        prevOrNextButton : []
 
     },
 	
@@ -955,6 +977,7 @@ var GameEngine = {
             GameEngine.GoToButtons.backButton = ""; // Tömmer knappen
             GameEngine.GoToButtons.WayPoints = []; //Tömmer waypoints
             GameEngine.GoToButtons.ContainerButton = [];
+            GameEngine.GoToButtons.prevOrNextButton = [];
 
         },
 
@@ -1057,6 +1080,187 @@ var GameEngine = {
             }
 
         },
+        //Functionen wrapText är tagen från : http://www.html5canvastutorials.com/tutorials/html5-canvas-wrap-text-tutorial/
+        //Och innehåller ingen egen skriven kod.. EDIT: lägger till MaxHeight, för att kunna skrolla om det blir mycket text.
+        wrapText : function(context, text, x, y, maxWidth, lineHeight, textHeight, maxHeight, counter, nBeforeX, nBeforeValue){
+            var words, line, whenToStopNewLines, n, topPos;
+            topPos = y;
+            var nBefore;
+            if(!(text instanceof Array)){
+                words = text.split(' ');
+                line = '';
+                whenToStopNewLines = 0;
+                n=0;
+                nBefore = [0];
+            }else{
+                words = text;
+                n=counter;
+                nBefore = nBeforeX;
+                //nBefore.push(n);
+                whenToStopNewLines = 0;
+                line = '';
+            }
+            if(nBefore[nBefore.length-2] == nBefore[nBefore.length-1]){
+                nBefore.pop();
+            }
+            if(nBefore[0] != 0){
+                nBefore[0] = 0;
+                n = 0;
+            }
+
+
+            for(n ; n < words.length; n++) {
+                var testLine = line + words[n] + ' ';
+                var metrics = context.measureText(testLine);
+                var testWidth = metrics.width;
+                if (testWidth > maxWidth && n > 0) {
+                    context.fillText(line, x, y);
+                    line = words[n] + ' ';
+                    y += lineHeight;
+                    whenToStopNewLines += textHeight;
+                    if(whenToStopNewLines >= maxHeight){
+                        GameEngine.Machines.clearRoomData();
+                        var nextButton = new GameEngine.Classes.NextOrPreviousButton(
+                            x + maxWidth,
+                            topPos + maxHeight,
+                            GameEngine.Machines.getPosition(0.03,"x"),
+                            GameEngine.Machines.getPosition(0.03,"x"),
+                            GameData.GameDataImages.nextButton,
+                            function(){
+
+                                Ctx.fillStyle = "rgb(0, 102, 255)";
+                                var ActorBubblePosX = GameEngine.Machines.getPosition(0.0469208211143695, "x");
+                                var ActorBubblePosY = GameEngine.Machines.getPosition(0.4981391354136845, "y");
+                                var SizeWidth = GameEngine.Machines.getPosition(0.90, "x");
+                                var SizeHeight = GameEngine.Machines.getPosition(0.15, "y");
+                                Ctx.fillRect(
+                                    ActorBubblePosX,
+                                    ActorBubblePosY,
+                                    SizeWidth,
+                                    SizeHeight
+                                );
+                                Ctx.fillStyle = "rgb(63, 0, 0)";
+                                nBefore.push(n);
+                                GameEngine.Machines.wrapText(Ctx, words, x, topPos, maxWidth, lineHeight,textHeight, maxHeight, n, nBefore)
+
+                            }
+
+                        );
+                        GameEngine.Machines.WindowSizing(nextButton.image,"gameframe",nextButton.PosX,nextButton.PosY, nextButton.Width, nextButton.Height)
+                        GameEngine.GoToButtons.prevOrNextButton.push(nextButton);
+                        if(true){
+                            var backButton = new GameEngine.Classes.NextOrPreviousButton(
+                                x - 55,
+                                topPos + maxHeight,
+                                GameEngine.Machines.getPosition(0.03,"x"),
+                                GameEngine.Machines.getPosition(0.03,"x"),
+                                GameData.GameDataImages.prevButton,
+                                function(){
+                                    Ctx.fillStyle = "rgb(0, 102, 255)";
+                                    var ActorBubblePosX = GameEngine.Machines.getPosition(0.0469208211143695, "x");
+                                    var ActorBubblePosY = GameEngine.Machines.getPosition(0.4981391354136845, "y");
+                                    var SizeWidth = GameEngine.Machines.getPosition(0.90, "x");
+                                    var SizeHeight = GameEngine.Machines.getPosition(0.15, "y");
+                                    Ctx.fillRect(
+                                        ActorBubblePosX,
+                                        ActorBubblePosY,
+                                        SizeWidth,
+                                        SizeHeight
+                                    );
+                                    Ctx.fillStyle = "rgb(63, 0, 0)";
+
+                                    nBefore.pop();
+                                    GameEngine.Machines.wrapText(Ctx, words, x, topPos, maxWidth, lineHeight,textHeight, maxHeight, nBefore[nBefore.length-1], nBefore)
+
+                                }
+                            );
+                            GameEngine.Machines.WindowSizing(backButton.image,"gameframe",backButton.PosX,backButton.PosY, backButton.Width, backButton.Height);
+                            GameEngine.GoToButtons.prevOrNextButton.push(backButton);
+
+                        };
+                        while(false){
+
+                        }
+
+                        return;
+                    }
+
+                }
+                else {
+                    line = testLine;
+                }
+            }
+            context.fillText(line, x, y);
+        },
+
+        InterviewActor : function(actor){
+            //Hämtar ner data så att datan kan tas bort (så att inga knappar kan tryckas på..)
+            //Medans InterviewFasen pågår.
+            var GlobalRooms, GoToButtons, GlobalActors,ActorBubblePosX,ActorBubblePosY, SizeWidth, SizeHeight, TextHeight;
+            GlobalRooms = GameEngine.GlobalRooms;
+            GoToButtons = GameEngine.GoToButtons;
+            GlobalActors =GameEngine.GlobalActors;
+            GameEngine.Machines.clearRoomData();
+
+            //Fyller i bakgrunden för att demonstrera att inget är klickbart
+            Ctx.fillStyle = "rgba(119, 119, 119, 0.65)";
+            Ctx.fillRect(0,0,ScreenSpec.SizeX, ScreenSpec.gameFrameY);
+
+            //Ritar upp PratRuta för Aktör
+            Ctx.fillStyle = "rgb(0, 102, 255)";
+
+            ActorBubblePosX = GameEngine.Machines.getPosition(0.0469208211143695, "x");
+            ActorBubblePosY = GameEngine.Machines.getPosition(0.4981391354136845, "y");
+            SizeWidth = GameEngine.Machines.getPosition(0.90, "x");
+            SizeHeight = GameEngine.Machines.getPosition(0.15, "y");
+            Ctx.fillRect(
+                ActorBubblePosX,
+                ActorBubblePosY,
+                SizeWidth,
+                SizeHeight
+            );
+            //Byter till textfärg..
+            TextHeight = GameEngine.Machines.getPosition(0.016, "x");
+            Ctx.fillStyle = "rgb(63, 0, 0)";
+            Ctx.font= TextHeight+"px arial, sans-serif";
+            GameEngine.Machines.wrapText(Ctx,"Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                    " Donec eu tortor ut ligula condimentum vehicula. Aliquam iaculis non est posuere convallis. Nulla erat mi, vehicula" +
+                    " ac odio non, auctor interdum nulla. Pellentesque sed semper quam, a bibendum felis. Sed sollicitudin dictum convallis." +
+                    " Donec sodales, massa vitae mollis porttitor, eros lectus congue nunc, sit amet vehicula metus eros vitae nisl. Etiam risus " +
+                    "enim, aliquam vel posuere quis, euismod in elit. Sed lacinia ante nec diam tristique, ac interdum turpis sagittis." +
+                    " Aliquam id volutpat quam. Donec sit amet accumsan justo, volutpat sodales velit. Quisque sit amet erat nibh. Morbi " +
+                    "interdum mi leo, nec molestie ipsum tempus id. Donec ullamcorper risus orci, quis fermentum dolor accumsan vitae." +
+                    " Praesent lobortis leo magna, vel luctus augue tempus nec. In id ligula mauris.         Pellentesque est felis, " +
+                    "suscipit et ultrices at, placerat eget mi. Integer eget tempus neque, et mattis ipsum. Cras nec molestie arcu. " +
+                    "Vivamus sed leo ut nibh accumsan blandit sed bibendum tellus. Suspendisse feugiat erat tellus, quis ornare augue eleifend ac." +
+                    " Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec eu mauris pulvinar, accumsan urna sit amet, imperdiet urna." +
+                    " Praesent gravida, orci a ultricies laoreet, dui dolor cursus orci, id mattis risus turpis in eros.               Sed sodales nisi " +
+                    "eget lectus aliquam posuere. Proin eleifend lobortis enim ut viverra. Fusce vestibulum mauris non molestie convallis. Aenean id risus " +
+                    "aliquam, ornare turpis sit amet, aliquam massa. Nullam condimentum sit amet velit quis tempus. Maecenas faucibus, nulla eu aliquam molestie," +
+                    " ipsum orci congue enim, vitae ultrices ante neque quis lacus. Donec eget imperdiet dolor. Cras faucibus lacus purus." +
+                    " Etiam a velit ut purus sodales semper at ut diam. Proin sed accumsan turpis. Cum sociis natoque penatibus et magnis " +
+                    "dis parturient montes, nascetur ridiculus mus.               Aliquam vitae sem id neque sodales vulputate. Suspendisse eu magna" +
+                    " vitae ante eleifend aliquet. Praesent eu egestas ante. Maecenas sapien augue, commodo eget orci a, pellentesque congue libero." +
+                    " Pellentesque bibendum mollis tortor. Aenean a dictum odio. Etiam dictum quis nisl a volutpat. Donec blandit ultrices ante eu egestas. " +
+                    "Sed eros leo, mattis in mi id, lacinia vehicula enim. Praesent condimentum mi sed ante aliquam, ac semper nulla viverra. Donec ornare " +
+                    "sed risus id egestas.               Sed lacus libero, imperdiet at facilisis ut, tempor nec massa. Aenean imperdiet, nunc eget commodo" +
+                    " eleifend, sem erat placerat nunc, at convallis neque odio a nunc. Fusce tempor sem vitae vehicula ultricies. Vestibulum tempor laoreet" +
+                    " feugiat. In varius adipiscing leo, vel porttitor mi elementum a. Nulla dignissim mi nulla, a " +
+                    "blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim rutrum tincidunt." +
+                    " Mauris pellentesque lorem dapibus posuere tincidunt. Donec id lectus felis. Maecenas a odio quis" +
+                    " tortor condimentum gravida. Aenean ut diam nec sapien commodo venenatis. Cras eget erat turpis." +
+                    " Morbi volutpat, velit auctor auctor aliquam, purus enim tristique sem, nec vulputate metus purus" +
+                    " ultrices leo. Interdum et malesuada fames ac ante ipsum primis in faucibus.!"
+             ,ActorBubblePosX+20, ActorBubblePosY +25,SizeWidth-15, 20, TextHeight +10, SizeHeight-10);
+
+
+            //Skjuter tillbaka datan så att den kan användas utanför IntervjuFasen..
+            //OBS denna + att spara datan i variabel (högst upp) fungerar EJ!!!! (än..)
+            GameEngine.GlobalRooms = GlobalRooms;
+            GameEngine.GoToButtons = GoToButtons;
+            GameEngine.GlobalActors = GlobalActors;
+
+        },
 		
 		CreateActors : function(){
 			
@@ -1105,6 +1309,15 @@ var GameEngine = {
             this.placeForImage = _placeForImage;
             //this.image.src = _imgSrc;
 
+        },
+        NextOrPreviousButton:function(_PosX, _PosY, _Width, _Height, _img, _pageToGo, _placeForImage){
+            this.PosY = _PosY;
+            this.PosX = _PosX;
+            this.Width = _Width;
+            this.Height = _Height;
+            this.image = _img;
+            this.pageToGo = _pageToGo;
+            this.placeForImage = _placeForImage;
         },
 
 		GameHud : function(){

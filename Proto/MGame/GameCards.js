@@ -193,9 +193,20 @@ var GameData = {
         var backButton = new Image();
         backButton.src = "Data/Hudd/backbutton.png";
 
+        // 2 = nextButton
+        var nextButton = new Image();
+        nextButton.src = "Data/Hudd/right.jpg";
+
+        // 3 = prevButton
+        var prevButton = new Image();
+        prevButton.src = "Data/Hudd/left.jpg";
+
         GameData.GameDataImages = {
             HuddBackground : huddBackground,
-            backButton : backButton
+            backButton : backButton,
+            nextButton : nextButton,
+            prevButton : prevButton
+
         }
 
     }
