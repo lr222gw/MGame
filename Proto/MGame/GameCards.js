@@ -201,11 +201,43 @@ var GameData = {
         var prevButton = new Image();
         prevButton.src = "Data/Hudd/left.jpg";
 
+        // 4 = upButton
+        var upButton = new Image();
+        upButton.src = "Data/Hudd/up.jpg";
+
+        // 5 = downButton
+        var downButton = new Image();
+        downButton.src = "Data/Hudd/down.jpg";
+
+        //disabled Buttons:
+
+        //6 = nextButtonDisabled
+        var nextButtonDisabled = new Image();
+        nextButtonDisabled.src = "Data/Hudd/rightDisabled.jpg";
+
+        //7 = prevButtonDisabled
+        var prevButtonDisabled = new Image();
+        prevButtonDisabled.src = "Data/Hudd/leftDisabled.jpg";
+
+        //8 = upButtonDisabled
+        var upButtonDisabled = new Image();
+        upButtonDisabled.src = "Data/Hudd/upDisabled.jpg";
+
+        //9 = downButtonDisabled
+        var downButtonDisabled = new Image();
+        downButtonDisabled.src = "Data/Hudd/downDisabled.jpg";
+
         GameData.GameDataImages = {
             HuddBackground : huddBackground,
             backButton : backButton,
             nextButton : nextButton,
-            prevButton : prevButton
+            prevButton : prevButton,
+            downButton : downButton,
+            upButton   : upButton,
+            nextButtonDisabled: nextButtonDisabled,
+            prevButtonDisabled : prevButtonDisabled,
+            upButtonDisabled : upButtonDisabled,
+            downButtonDisabled : downButtonDisabled
 
         }
 

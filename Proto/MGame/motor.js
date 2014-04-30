@@ -74,6 +74,23 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
                     return;
                 }
             }
+            //kontrollerar om en dialogknapp trycks på
+            for(var i = 0; i < GameEngine.GoToButtons.DialogButtonsActive.length; i++){
+                Button = GameEngine.GoToButtons.DialogButtonsActive[i];
+                if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
+                    alert(i);
+                    return;
+                }
+            }
+            // kontrollerar om en DialogDownorUp trycks på
+            for(var i = 0; i < GameEngine.GoToButtons.DialogDownorUp.length; i++){
+                Button = GameEngine.GoToButtons.DialogDownorUp[i];
+                if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
+
+                    Button.pageToGo();
+                    return;
+                }
+            }
 
         }
     });
@@ -139,6 +156,32 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
 
                 }
             }
+
+            //kontrollerar om en dialogknapp hovras på
+            for(var i = 0; i < GameEngine.GoToButtons.DialogButtonsActive.length; i++){
+                Button = GameEngine.GoToButtons.DialogButtonsActive[i];
+                if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
+                    document.body.style.cursor = "pointer";
+                    return;
+
+                }else{
+                    document.body.style.cursor = "default";
+
+                }
+            }
+            //ko
+            // ntrollerar om en DialogDownorUp hovras på
+            for(var i = 0; i < GameEngine.GoToButtons.DialogDownorUp.length; i++){
+                Button = GameEngine.GoToButtons.DialogDownorUp[i];
+                if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
+                    document.body.style.cursor = "pointer";
+                    return;
+
+                }else{
+                    document.body.style.cursor = "default";
+
+                }
+            }
         }
     });
 
@@ -150,8 +193,10 @@ var GameEngine = {
         backButton : "",
         WayPoints : [],
         ContainerButton : [],
-        prevOrNextButton : []
-
+        prevOrNextButton : [],
+        DialogButtons : [],
+        DialogButtonsActive : [],
+        DialogDownorUp : []
     },
 	
 	init : function(){
@@ -1122,7 +1167,7 @@ var GameEngine = {
                         GameEngine.Machines.clearRoomData();
                         var nextButton = new GameEngine.Classes.NextOrPreviousButton(
                             x + maxWidth,
-                            topPos + maxHeight,
+                            topPos + maxHeight - (maxHeight/2),
                             GameEngine.Machines.getPosition(0.03,"x"),
                             GameEngine.Machines.getPosition(0.03,"x"),
                             GameData.GameDataImages.nextButton,
@@ -1139,7 +1184,7 @@ var GameEngine = {
                                     SizeWidth,
                                     SizeHeight
                                 );
-                                Ctx.fillStyle = "rgb(63, 0, 0)";
+                                                                Ctx.fillStyle = "rgb(63, 0, 0)";
                                 nBefore.push(n);
                                 GameEngine.Machines.wrapText(Ctx, words, x, topPos, maxWidth, lineHeight,textHeight, maxHeight, n, nBefore)
 
@@ -1151,7 +1196,7 @@ var GameEngine = {
                         if(true){
                             var backButton = new GameEngine.Classes.NextOrPreviousButton(
                                 x - 55,
-                                topPos + maxHeight,
+                                topPos + maxHeight - (maxHeight/2),
                                 GameEngine.Machines.getPosition(0.03,"x"),
                                 GameEngine.Machines.getPosition(0.03,"x"),
                                 GameData.GameDataImages.prevButton,
@@ -1253,6 +1298,101 @@ var GameEngine = {
                     " ultrices leo. Interdum et malesuada fames ac ante ipsum primis in faucibus.!"
              ,ActorBubblePosX+20, ActorBubblePosY +25,SizeWidth-15, 20, TextHeight +10, SizeHeight-10);
 
+            //Ritar upp svarsruta för spelare
+            Ctx.fillStyle = "rgb(112, 0, 255)";
+
+            var PlayerBubblePosX = GameEngine.Machines.getPosition(0.04594330400782014 , "x");
+            var PlayerBubblePosY = GameEngine.Machines.getPosition(0.6756369882622387 , "y");
+            Ctx.fillRect(
+                PlayerBubblePosX,
+                PlayerBubblePosY,
+                SizeWidth,
+                SizeHeight
+            );
+            //Byter till textfärg..
+            TextHeight = GameEngine.Machines.getPosition(0.016, "x");
+            Ctx.fillStyle = "rgb(63, 0, 0)";
+
+            GameEngine.Machines.ListQuestions(
+                "1blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim ",
+                PlayerBubblePosX+20,
+                PlayerBubblePosY+25,
+                SizeWidth-15,
+                SizeHeight,
+                TextHeight
+            );
+            GameEngine.Machines.ListQuestions(
+                "2blandit elit vestibulum quis.",
+                    PlayerBubblePosX+20,
+                    PlayerBubblePosY+25,
+                    SizeWidth-15,
+                SizeHeight,
+                TextHeight
+            );
+            GameEngine.Machines.ListQuestions(
+                "3blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim ",
+                    PlayerBubblePosX+20,
+                    PlayerBubblePosY+25,
+                    SizeWidth-15,
+                SizeHeight,
+                TextHeight
+            );
+            GameEngine.Machines.ListQuestions(
+                "4blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim ",
+                    PlayerBubblePosX+20,
+                    PlayerBubblePosY+25,
+                    SizeWidth-15,
+                SizeHeight,
+                TextHeight
+            );
+            GameEngine.Machines.ListQuestions(
+                "5blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim ",
+                    PlayerBubblePosX+20,
+                    PlayerBubblePosY+25,
+                    SizeWidth-15,
+                SizeHeight,
+                TextHeight
+            );
+            GameEngine.Machines.ListQuestions(
+                "55!!bllandit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce andit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim ",
+                    PlayerBubblePosX+20,
+                    PlayerBubblePosY+25,
+                    SizeWidth-15,
+                SizeHeight,
+                TextHeight
+            );
+            GameEngine.Machines.ListQuestions(
+                "6blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim ",
+                    PlayerBubblePosX+20,
+                    PlayerBubblePosY+25,
+                    SizeWidth-15,
+                SizeHeight,
+                TextHeight
+            );
+            GameEngine.Machines.ListQuestions(
+                "7blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim ",
+                    PlayerBubblePosX+20,
+                    PlayerBubblePosY+25,
+                    SizeWidth-15,
+                SizeHeight,
+                TextHeight
+            );
+            GameEngine.Machines.ListQuestions(
+                "8bllandit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce andit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim ",
+                    PlayerBubblePosX+20,
+                    PlayerBubblePosY+25,
+                    SizeWidth-15,
+                SizeHeight,
+                TextHeight
+            );
+
+            GameEngine.Machines.QuestionToBox(
+                PlayerBubblePosX+20,
+                PlayerBubblePosY+25,
+                SizeWidth-15,
+                SizeHeight-25, // tar bort 25 då jag lägger till 25 på PlayerBubblePosY
+                TextHeight
+            )
 
             //Skjuter tillbaka datan så att den kan användas utanför IntervjuFasen..
             //OBS denna + att spara datan i variabel (högst upp) fungerar EJ!!!! (än..)
@@ -1260,6 +1400,189 @@ var GameEngine = {
             GameEngine.GoToButtons = GoToButtons;
             GameEngine.GlobalActors = GlobalActors;
 
+        },
+        QuestionToBox : function(PosX, PosY ,maxWidth,maxHeight, heigtOfLetters, BeginningLetter){
+            var Counter;// = 0;
+            var StartOfY = PosY;
+            var PosYBegin = PosY;
+            var PosXBegin = PosX;
+            var isItDone = false;
+            var StartLetter = 0;
+            var i = 0;
+            if(BeginningLetter == undefined){
+                Counter = StartLetter;
+            }else{
+                Counter = BeginningLetter;
+                StartLetter = BeginningLetter;
+            }
+
+            for(i; i < maxHeight; i += GameEngine.GoToButtons.DialogButtons[Counter].Height+5+2 ){ // för varje AnswerButton obj som ska läggas ut..
+                StartOfY= PosY;
+                for(var j = 0; j <GameEngine.GoToButtons.DialogButtons[Counter].LinesArr.length; j++){ // för varje rad som ska läggas ut
+
+                    if(i + heigtOfLetters >= maxHeight){
+                        break;
+                    }
+
+                    Ctx.fillStyle = "rgb(200, 40, 255)";
+                    Ctx.fillRect(
+                            PosX - 5,
+                            PosY - heigtOfLetters + 2,
+                            maxWidth - 5,
+                        heigtOfLetters
+                    );
+                    Ctx.fillStyle = "rgb(63, 0, 0)";
+
+                    Ctx.fillText(GameEngine.GoToButtons.DialogButtons[Counter].LinesArr[j], PosX, PosY);
+                    GameEngine.GoToButtons.DialogButtons[Counter].PosX =PosX;
+                    GameEngine.GoToButtons.DialogButtons[Counter].PosY =StartOfY-heigtOfLetters;
+                    PosY += heigtOfLetters;
+                }
+                GameEngine.GoToButtons.DialogButtonsActive.push(GameEngine.GoToButtons.DialogButtons[Counter]);
+                PosY += 5; //ger 5 px mellanrum mellan varje alternativ..
+                Counter ++;
+                if(Counter == GameEngine.GoToButtons.DialogButtons.length){
+                    isItDone = true;
+                    break;
+                }
+            }
+
+            GameEngine.GoToButtons.DialogDownorUp = []; //Tömmer arrayen med up/ned knappar för att förbereda inladdning av ny data..
+
+            if(StartLetter < GameEngine.GoToButtons.DialogButtons.length-1){
+                //Placerar ut "mer" knapp för att man ska kunna hämta ytterligare data..
+                var downButton = new GameEngine.Classes.NextOrPreviousButton(
+                        PosX+ maxWidth+5,
+                        PosYBegin + maxHeight - GameEngine.Machines.getPosition(0.03,"x"),
+                    GameEngine.Machines.getPosition(0.03,"x"),
+                    GameEngine.Machines.getPosition(0.03,"x"),
+                    GameData.GameDataImages.downButton,
+                    function() {
+                        GameEngine.Machines.paintPlayerAnswerBox();
+                        GameEngine.GoToButtons.DialogButtonsActive = []; //tömmer arrayen för att byta ut aktiv data..
+                        GameEngine.Machines.QuestionToBox(PosXBegin,PosYBegin,maxWidth,maxHeight,heigtOfLetters,StartLetter+1)
+                    }
+                );
+                GameEngine.Machines.WindowSizing(downButton.image,"gameframe",downButton.PosX,downButton.PosY, downButton.Width, downButton.Height);
+                GameEngine.GoToButtons.DialogDownorUp.push(downButton);
+                //Ctx.fillStyle = "rgb(63, 0, 0)";
+            }else{
+                var downButton = new GameEngine.Classes.NextOrPreviousButton(
+                        PosX+ maxWidth+5,
+                        PosYBegin + maxHeight - GameEngine.Machines.getPosition(0.03,"x"),
+                    GameEngine.Machines.getPosition(0.03,"x"),
+                    GameEngine.Machines.getPosition(0.03,"x"),
+                    GameData.GameDataImages.downButtonDisabled,
+                    function() {
+                        GameEngine.Machines.paintPlayerAnswerBox();
+                        GameEngine.GoToButtons.DialogButtonsActive = []; //tömmer arrayen för att byta ut aktiv data..
+                        GameEngine.Machines.QuestionToBox(PosXBegin,PosYBegin,maxWidth,maxHeight,heigtOfLetters,StartLetter+1)
+                    }
+                );
+                GameEngine.Machines.WindowSizing(downButton.image,"gameframe",downButton.PosX,downButton.PosY, downButton.Width, downButton.Height);
+            }
+            if(StartLetter >= 1){
+                //Placerar ut "mer" knapp för att man ska kunna hämta ytterligare data..
+                var UpButton = new GameEngine.Classes.NextOrPreviousButton(
+                        PosX+ maxWidth+5,
+                        PosYBegin - GameEngine.Machines.getPosition(0.03,"x"),
+                    GameEngine.Machines.getPosition(0.03,"x"),
+                    GameEngine.Machines.getPosition(0.03,"x"),
+                    GameData.GameDataImages.upButton,
+                    function() {
+                        GameEngine.Machines.paintPlayerAnswerBox();
+                        GameEngine.GoToButtons.DialogButtonsActive = []; //tömmer arrayen för att byta ut aktiv data..
+                        GameEngine.Machines.QuestionToBox(PosXBegin,PosYBegin,maxWidth,maxHeight,heigtOfLetters,StartLetter-1)
+                    }
+                );
+                GameEngine.Machines.WindowSizing(UpButton.image,"gameframe",UpButton.PosX,UpButton.PosY, UpButton.Width, UpButton.Height);
+                GameEngine.GoToButtons.DialogDownorUp.push(UpButton);
+            }else{
+                var UpButton = new GameEngine.Classes.NextOrPreviousButton(
+                        PosX+ maxWidth+5,
+                        PosYBegin - GameEngine.Machines.getPosition(0.03,"x"),
+                    GameEngine.Machines.getPosition(0.03,"x"),
+                    GameEngine.Machines.getPosition(0.03,"x"),
+                    GameData.GameDataImages.upButtonDisabled,
+                    function() {
+                        GameEngine.Machines.paintPlayerAnswerBox();
+                        GameEngine.GoToButtons.DialogButtonsActive = []; //tömmer arrayen för att byta ut aktiv data..
+                        GameEngine.Machines.QuestionToBox(PosXBegin,PosYBegin,maxWidth,maxHeight,heigtOfLetters,StartLetter-1)
+                    }
+                );
+                GameEngine.Machines.WindowSizing(UpButton.image,"gameframe",UpButton.PosX,UpButton.PosY, UpButton.Width, UpButton.Height)
+
+            }
+
+            //TODO:! rutan är inte begränsad till att kunna innehålla ett maxvärde, dock kan man inte stoppa in för mycket i dem då det inte får plats..
+
+        },
+
+        paintPlayerAnswerBox : function(){
+            //Ritar upp PratRuta för Aktör
+            Ctx.fillStyle = "rgb(0, 102, 255)";
+
+            var SizeWidth = GameEngine.Machines.getPosition(0.90, "x");
+            var SizeHeight = GameEngine.Machines.getPosition(0.15, "y");
+            //Ritar upp svarsruta för spelare
+            Ctx.fillStyle = "rgb(112, 0, 255)";
+
+            var PlayerBubblePosX = GameEngine.Machines.getPosition(0.04594330400782014 , "x");
+            var PlayerBubblePosY = GameEngine.Machines.getPosition(0.6756369882622387 , "y");
+            Ctx.fillRect(
+                PlayerBubblePosX,
+                PlayerBubblePosY,
+                SizeWidth,
+                SizeHeight
+            );
+            //Byter till textfärg..
+            //var TextHeight = GameEngine.Machines.getPosition(0.016, "x");
+            Ctx.fillStyle = "rgb(63, 0, 0)";
+        },
+
+        ListQuestions : function(Question, PosX, PosY ,maxWidth,maxHeight, heigtOfLetters){
+            //Denna funktion tar en "Question", mäter upp hur stor den ska vara, lägger in informationen i en array..
+            var Words = Question.split(" "); //varje ord för ord i en array
+            var line = "";
+            var context = Ctx;
+            var Rows = 1;
+            var LineArr = [];
+
+            var OldPosY = PosY;
+            var i = 0;
+
+                for (i; i < Words.length; i++) {
+                    var testLine = line + Words[i] + ' ';
+                    var metrics = context.measureText(testLine);
+                    var testWidth = metrics.width;
+                    if (testWidth > maxWidth && i > 0) {
+                        LineArr.push(line);
+                        line = Words[i] + ' ';
+                        //PosY += heigtOfLetters;
+                        Rows++;
+
+                    } else {
+                        line = testLine;
+                    }
+                    if (i == Words.length - 1) { //Denna gör just denna text snutt till en fråga!
+
+                        LineArr.push(line);
+                        if(LineArr.length == LineArr.length-1){
+                            LineArr.pop(); // om det bara blir en rad totalt så läggs den till 2 ggr, då tar vi bort den här.
+                        }
+
+                        var QuestionObj = new GameEngine.Classes.AnswerButton(
+                            PosX-PosX, // sätter till 0 Då positionerna inte behöver sättas här..
+                            PosY-PosY,
+                            maxWidth,
+                            Rows * heigtOfLetters,
+                            LineArr
+                            //TODO: ange vad Detta objekt ska göra när det trycks på!
+                        )
+                        GameEngine.GoToButtons.DialogButtons.push(QuestionObj);
+                    }
+                }
+            //};
         },
 		
 		CreateActors : function(){
@@ -1310,6 +1633,16 @@ var GameEngine = {
             //this.image.src = _imgSrc;
 
         },
+
+        AnswerButton : function(_PosX, _PosY,_Width,_Height, _LinesArr, _answerToSend){
+            this.PosY = _PosY;
+            this.PosX = _PosX;
+            this.Width = _Width;
+            this.Height = _Height;
+            this.LinesArr = _LinesArr; //Array med rader som tillhör frågan..
+            this.AnswerToSend = _answerToSend;
+        },
+
         NextOrPreviousButton:function(_PosX, _PosY, _Width, _Height, _img, _pageToGo, _placeForImage){
             this.PosY = _PosY;
             this.PosX = _PosX;
@@ -1479,3 +1812,93 @@ var GameEngine = {
     GameEngine.init();  //Påbörjar session
 	
 //};
+
+
+
+//Backup:
+/*
+ListQuestions : function(Question, PosX, PosY ,maxWidth,maxHeight, heigtOfLetters, ArrOfContent){
+
+    var Words = Question.split(" "); //varje ord för ord i en array
+    var line = "";
+    var context = Ctx;
+    var Rows = 1;
+    var PosYFromStart = PosY;
+    var OldPosY = PosY;
+    var i = 0;
+    //var PlacingFunction;
+
+    //ta reda på var nästa fråga ska placeras.. basearat på höjden av föregående frågor..
+    for(var n =0; n <GameEngine.GoToButtons.DialogButtons.length; n ++ ){
+        PosYFromStart += GameEngine.GoToButtons.DialogButtons[n].Height;
+    }
+    var ContentSize = PosYFromStart-PosY;
+    PosY = PosYFromStart;
+
+    if(ContentSize > maxHeight){
+
+        //Placerar ut "mer" knapp för att man ska kunna hämta ytterligare data..
+        var downButton = new GameEngine.Classes.NextOrPreviousButton(
+                PosX+ maxWidth+5,
+                OldPosY + maxHeight - GameEngine.Machines.getPosition(0.03,"x"),
+            GameEngine.Machines.getPosition(0.03,"x"),
+            GameEngine.Machines.getPosition(0.03,"x"),
+            GameData.GameDataImages.downButton,
+            function() {
+                for(var i = 1; i<GameEngine.GoToButtons.DialogButtons.length; i++ ){
+                    GameEngine.Machines.ListQuestions(Question,PosX,PosY,maxWidth,maxHeight,heigtOfLetters)
+                }
+            }
+        );
+        GameEngine.Machines.WindowSizing(downButton.image,"gameframe",downButton.PosX,downButton.PosY, downButton.Width, downButton.Height)
+        GameEngine.GoToButtons.DialogDownorUp.push(downButton);
+        //Ctx.fillStyle = "rgb(63, 0, 0)";
+        //PlacingFunction();
+
+    }else {
+
+        PlacingFunction();
+    }
+    function PlacingFunction(){
+        for (i; i < Words.length; i++) {
+            var testLine = line + Words[i] + ' ';
+            var metrics = context.measureText(testLine);
+            var testWidth = metrics.width;
+            if (testWidth > maxWidth && i > 0) {
+                Ctx.fillStyle = "rgb(200, 40, 255)";
+                Ctx.fillRect(
+                        PosX - 5,
+                        PosY - heigtOfLetters + 2,
+                        maxWidth - 5,
+                    heigtOfLetters
+                );
+                Ctx.fillStyle = "rgb(63, 0, 0)";
+
+                context.fillText(line, PosX, PosY);
+                line = Words[i] + ' ';
+                PosY += heigtOfLetters;
+                Rows++;
+            } else {
+                line = testLine;
+            }
+            if (i == Words.length - 1) { //Denna gör just denna text snutt till en fråga!
+                Ctx.fillStyle = "rgb(200, 40, 255)";
+                Ctx.fillRect(
+                        PosX - 5,
+                        PosY - heigtOfLetters + 2,
+                        maxWidth - 5,
+                        heigtOfLetters - 2 // Sista raden tar bort 2 från heightofletters för att det ska bli mellanrum för varje alternativ..
+                );
+                Ctx.fillStyle = "rgb(63, 0, 0)";
+                context.fillText(line, PosX, PosY);
+                var QuestionObj = new GameEngine.Classes.AnswerButton(
+                    PosX,
+                        PosYFromStart - heigtOfLetters, //tar bort höjden av bokstäverna så första raden inkluderas..
+                    maxWidth,
+                        Rows * heigtOfLetters
+                )
+                GameEngine.GoToButtons.DialogButtons.push(QuestionObj);
+            }
+        }
+    };
+}*/
