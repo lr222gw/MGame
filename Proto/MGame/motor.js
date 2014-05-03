@@ -272,7 +272,7 @@ var GameEngine = {
             ]
 
             //nu ska vi tilldela motivedatans roller till aktörerna som vi skapat..
-            for(var i = 0; i < RandomMurderMotive.length ; i++){
+            for(var i = 0; i < RandomMurderMotive.length -1; i++){
                 GameEngine.Machines.GiveActorsRole(RandomMurderMotive[i]);
             }
             //GlobalActors
@@ -291,7 +291,7 @@ var GameEngine = {
 
             while(roleIsSet == false){
                 //Hämtar ner en slumpad roll att testa
-                roleToTest = GameEngine.GlobalActors[Math.floor(Math.random() * (GameEngine.GlobalActors.length - 1) + 0)];
+                roleToTest = GameEngine.GlobalActors[Math.floor(Math.random() * (GameEngine.GlobalActors.length) + 0)];
 
                 //Testar om rollen är ledig
                 if(GameEngine.Machines.TestIfRoleIsFree(roleToTest)){
@@ -304,15 +304,16 @@ var GameEngine = {
                     roleToTest.Relation = GameEngine.Machines.getGameCardFromMotiveData(GameEngine.Enums.GameCardType.Relationship,RandomMurderMotive,"person");
                     //TODO: This \/
                     //roleToTest.ClueList = GameEngine.Machines.getGameCardFromMotiveData(GameEngine.Enums.GameCardType.TableClue,RandomMurderMotive,"person");
-                    var ClueSpecial = GameEngine.Enums.ClueType.TableClue || GameEngine.Enums.ClueType.WallClue;
+                    //var ClueSpecial = GameEngine.Enums.ClueType.TableClue || GameEngine.Enums.ClueType.WallClue;
                     //TODO: kolla om ^ är oduglig..
                     for(var i = 0; i < LoopThisManyTimes; i++){//Denna forloop bestämmer hur många Ledtrådar en karaktär har, max och min enligt minValue och maxValue..
-                        roleToTest.ClueList.push(GameEngine.Machines.getGameCardFromMotiveData(ClueSpecial,RandomMurderMotive,"clue"));
+                        roleToTest.ClueList.push(GameEngine.Machines.getGameCardFromMotiveData("clue",RandomMurderMotive,"clue"));
                     }
 
 
                     roleIsSet = true;
                 }
+
             }
 
         },
@@ -375,52 +376,133 @@ var GameEngine = {
             var GameCardIDToTest;
             var ArrOfTypesThatIWant = [];
             var RandomFromArrOfTypesThatIWant;
+            var TypeThatIWantBETTER;
             //GameData.GameCardsCollectionData
+
+
+
 
             //Denna  plockar fram de kort som är av  typen "TypeIWant", alltså "Secret", "Other", "Intress", "Relation", "ClueList"..
             for(var i = 0; i < RandomMurderMotive.length; i++){
 
                 GameCardIDToTest = GameEngine.Machines.getGameCardFromID(RandomMurderMotive[i],PersonOrClue);
 
-                if(TypeIWant == GameCardIDToTest.type){
+                //Fix för Clue
+                if(TypeIWant == "clue"){
+                    TypeThatIWantBETTER = (GameEngine.Enums.ClueType.TableClue == GameCardIDToTest.type || GameEngine.Enums.ClueType.WallClue == GameCardIDToTest.type);
+                }else{
+                    TypeThatIWantBETTER = (TypeIWant == GameCardIDToTest.type);
+                }
+
+                if(TypeThatIWantBETTER){
                     //Arrayen vi bygger här kommer innehålla alla kort av den typen som efterfrågas
                     ArrOfTypesThatIWant.push(GameCardIDToTest);
                 }
             }
 
-            if(ArrOfTypesThatIWant.length == 0){
-                //om motivet inte innehåller någon av den efterfrågade typen så ska ett slumpat kort väljas istället!
-                var GameCardToSendBack;
-                var i = 0;
 
+            if(ArrOfTypesThatIWant.length == 0){
+                //om motivet inte innehåller någon av den efterfrågade så ska ett slumpat kort väljas istället!
+                return GameEngine.Machines.loggNewRandom(PersonOrClue,TypeIWant);
+
+            }else{
+                var Logging = [];
                 while(true){
-                    GameCardToSendBack = GameEngine.Machines.getGameCardFromID(i,PersonOrClue); //hämtar GameCardet att testa
-                    //TODO: är denna rätt? skriv om ^så att den hämtar ett slumpat istället för "Första bästa"..
+                    RandomFromArrOfTypesThatIWant = ArrOfTypesThatIWant[Math.floor(Math.random() * (ArrOfTypesThatIWant.length) + 0)];
+                    if(GameEngine.Machines.gameCardDoesNotBelongWithOtherActor(RandomFromArrOfTypesThatIWant)){
+                        return RandomFromArrOfTypesThatIWant;
+                    }
+
+                    //Vi ska "logga" alla försök som ej går.., så att om alla kort tillslut blivit tagna och
+                    //inga kort finns kvar så ska man ej fastna i denna loop..
+
+                    if(Logging.indexOf(RandomFromArrOfTypesThatIWant.ID) == -1){
+                        //Den loggar bara sånt som inte finns i Loggingen...
+                        // om något inte finns så kommer IndexOf bli -1 ..
+                        Logging.push(RandomFromArrOfTypesThatIWant.ID);
+                    }
+
+
+                    if(Logging.length == ArrOfTypesThatIWant.length ){
+                        //om den redan testat alla möjliga försök så ska ett "random" kort väljas istället...
+
+                        return GameEngine.Machines.loggNewRandom(PersonOrClue,TypeIWant);
+                    }
+
+                }
+
+            }
+                //GameCardIDToTest = RandomMurderMotive[Math.floor(Math.random() * (RandomMurderMotive.length - 1) + 0)];
+        },
+
+        loggNewRandom : function(PersonOrClue,TypeIWant){
+
+            var GameCardToSendBack;
+            var i = 0;
+
+            while(true){
+                GameCardToSendBack = GameEngine.Machines.getRandomCardByType(TypeIWant, PersonOrClue);//hämtar GameCardet att testa //GameEngine.Machines.getGameCardFromID(i,PersonOrClue);
+                //TODO: är denna rätt? skriv om ^så att den hämtar ett slumpat istället för "Första bästa"..
+
+                if(GameCardToSendBack.ID != -1 ){// om det inte är ett ogiltigt Kort så fortsätt..
                     if(GameEngine.Machines.gameCardDoesNotBelongWithOtherActor(GameCardToSendBack)){
                         // Om denna är true så är kortet ledigt och kan användas! och blir därför det kortet som skickas tillbaka..
                         return GameCardToSendBack;
                     }
-                    i++;
-                    if(i > GameData.GameCardsCollectionData.length-1){
-                        alert("WHOOPS! Det finns inga mer kort som är lediga, 'GetGameCardFromMotiveData' ");
-                        break;
-                    }
                 }
 
-            }else{
-                RandomFromArrOfTypesThatIWant = ArrOfTypesThatIWant[Math.floor(Math.random() * (ArrOfTypesThatIWant.length-1) + 0)];
-                return RandomFromArrOfTypesThatIWant;
+                i++;
+                if(i > GameData.GameCardsCollectionData.length-1){
+                    //alert("WHOOPS! Det finns inga mer kort som är lediga, 'GetGameCardFromMotiveData' ");
+                    console.log("WHOOPS! Det finns inga mer kort som är lediga, 'GetGameCardFromMotiveData' ");
+
+                    //Denna orskar att vissa kort blir Undefined.. Och har att göra med att det inte finns
+                    //tillräckligt mycket  data som jag testar med..
+
+                    break;
+                }
+            }
+        },
+
+        getRandomCardByType : function(TypeIWant, PersonOrClue){
+
+
+            GameData.GameCardsCollectionData
+            var randomNmbr = 0;
+            var CardToTry;
+            var toTry;
+
+            while(true){
+                //Tar fram ett slumpat tal för att få fram slumpat kort..
+                randomNmbr = Math.round(Math.random() * (GameData.GameCardsCollectionData.length -1) + 0);
+
+                //tar fram GameCardet beroende på var det finns..
+                if(GameData.GameCardsCollectionData[randomNmbr].ID == undefined){
+                    CardToTry = GameData.GameCardsCollectionData[randomNmbr].theGameCard;
+                }else{
+                    CardToTry = GameData.GameCardsCollectionData[randomNmbr];
+                }
+
+
+                if(TypeIWant == "clue"){
+                    toTry = CardToTry.type == GameEngine.Enums.ClueType.TableClue || CardToTry.type == GameEngine.Enums.ClueType.WallClue;
+                }else{
+                    toTry = TypeIWant == CardToTry.type;
+                }
+                if(toTry){
+                    return  CardToTry;
+                }
+
+
             }
 
-
-
-                //GameCardIDToTest = RandomMurderMotive[Math.floor(Math.random() * (RandomMurderMotive.length - 1) + 0)];
 
         },
 
         getGameCardFromID : function(GameCardID, PersonOrClue){
             //Denna funktion tar fram ett GameCard Beroende vilket kortID kortet har och om den är ett Person eller Clue-kort..
             var GameCardToCheck;
+            var TypeThatIWantBETTER;
 
             for(var i = 0; i < GameData.GameCardsCollectionData.length; i++){
                 GameCardToCheck = GameData.GameCardsCollectionData[i];
@@ -433,8 +515,9 @@ var GameEngine = {
                         }
                     }
                 }
+
                 if(PersonOrClue == "Clue" || PersonOrClue =="clue"){// Om kortets ID är undefined så är det ett personskort..
-                    try{
+                    if(GameCardToCheck.theGameCard != undefined){
                         if(GameCardToCheck.theGameCard.ID != undefined){
                             if(GameCardToCheck.theGameCard.ID == GameCardID){
                                 //returnerar tillbaka rätt kort
@@ -443,12 +526,11 @@ var GameEngine = {
                             }
 
                         }
-                    }catch(x){
-                        console.log("Ignorera detta .. "+x);
                     }
-
                 }
+
             }
+
             //om inte något hittas så måste vi returnera ett Tomt gamecard annars kvaddar getGameCardFromMotiveData-funktionen
 
             return new GameEngine.Classes.GameCard(-1,null,"null",[],"",[]);
