@@ -200,12 +200,12 @@ var GameEngine = {
     },
     Enums : {
         GameCardType : {
-            "Secret" : 0,
-            "Other" : 1,
-            "Intress" : 2,
-            "Relationship" : 3,
-            "WallClue" : 4,
-            "TableClue" : 5
+            "Secret" : "secret",
+            "Other" : "other",
+            "Intress" : "intress",
+            "Relationship" : "relationship",
+            "WallClue" : "wallclue",
+            "TableClue" : "tableclue"
         },
         Room : {
             hallway1 : 1,
@@ -276,6 +276,7 @@ var GameEngine = {
                 GameEngine.Machines.GiveActorsRole(RandomMurderMotive[i]);
             }
             //GlobalActors
+            //TODO: Fixa så att jag inte får in Undefined i ClueList på Actors..
 
 
         },
@@ -304,6 +305,7 @@ var GameEngine = {
                     //TODO: This \/
                     //roleToTest.ClueList = GameEngine.Machines.getGameCardFromMotiveData(GameEngine.Enums.GameCardType.TableClue,RandomMurderMotive,"person");
                     var ClueSpecial = GameEngine.Enums.ClueType.TableClue || GameEngine.Enums.ClueType.WallClue;
+                    //TODO: kolla om ^ är oduglig..
                     for(var i = 0; i < LoopThisManyTimes; i++){//Denna forloop bestämmer hur många Ledtrådar en karaktär har, max och min enligt minValue och maxValue..
                         roleToTest.ClueList.push(GameEngine.Machines.getGameCardFromMotiveData(ClueSpecial,RandomMurderMotive,"clue"));
                     }
@@ -320,23 +322,45 @@ var GameEngine = {
 
             for(var i = 0; i < GameEngine.GlobalActors.length-1; i++){
                 //Går igenom varje karaktär, en i taget.
-                if(GameEngine.GlobalActors[i].Secret.ID == GameCardToTest.ID){
-                    return false;
-                }
-                else if(GameEngine.GlobalActors[i].Other.ID == GameCardToTest.ID){
-                    return false;
-                }
-                else if(GameEngine.GlobalActors[i].Intress.ID == GameCardToTest.ID){
-                    return false;
-                }
-                else if(GameEngine.GlobalActors[i].Relation.ID == GameCardToTest.ID){
-                    return false;
-                }
-                for(var j = 0; j < GameEngine.GlobalActors[i].ClueList.length -1 ; j++){
-                    if(GameEngine.GlobalActors[i].ClueList[j].ID == GameCardToTest.ID){
+
+                //Testar så att Kortet ej är null, om kortet är null kan vi ej testa dens ID...
+                if(GameEngine.GlobalActors[i].Secret != null){
+                    //Kollar om kortet är samma kort som man testar
+                    if(GameEngine.GlobalActors[i].Secret.ID == GameCardToTest.ID){
                         return false;
                     }
                 }
+
+                if(GameEngine.GlobalActors[i].Other != null){
+                    if(GameEngine.GlobalActors[i].Other.ID == GameCardToTest.ID){
+                        return false;
+                    }
+                }
+
+                if(GameEngine.GlobalActors[i].Intress != null){
+                    if(GameEngine.GlobalActors[i].Intress.ID == GameCardToTest.ID){
+                        return false;
+                    }
+                }
+
+                if(GameEngine.GlobalActors[i].Intress != null){
+                    if(GameEngine.GlobalActors[i].Intress.ID == GameCardToTest.ID){
+                        return false;
+                    }
+                }
+                if(GameEngine.GlobalActors[i].Relation != null){
+                    if(GameEngine.GlobalActors[i].Relation.ID == GameCardToTest.ID){
+                        return false;
+                    }
+                }
+                if(GameEngine.GlobalActors[i].ClueList != 0){ //denna blir ej null om tom utan istället 0..
+                    for(var j = 0; j < GameEngine.GlobalActors[i].ClueList.length -1 ; j++){
+                        if(GameEngine.GlobalActors[i].ClueList[j].ID == GameCardToTest.ID){
+                            return false;
+                        }
+                    }
+                }
+
 
             }
 
@@ -364,18 +388,23 @@ var GameEngine = {
                 }
             }
 
-            if(ArrOfTypesThatIWant == 0){
+            if(ArrOfTypesThatIWant.length == 0){
                 //om motivet inte innehåller någon av den efterfrågade typen så ska ett slumpat kort väljas istället!
                 var GameCardToSendBack;
+                var i = 0;
 
-                for(var j = 0; j < GameData.GameCardsCollectionData.length-1; j++){
-                    GameCardToSendBack = GameEngine.Machines.getGameCardFromID(j,PersonOrClue); //hämtar GameCardet att testa
-
+                while(true){
+                    GameCardToSendBack = GameEngine.Machines.getGameCardFromID(i,PersonOrClue); //hämtar GameCardet att testa
+                    //TODO: är denna rätt? skriv om ^så att den hämtar ett slumpat istället för "Första bästa"..
                     if(GameEngine.Machines.gameCardDoesNotBelongWithOtherActor(GameCardToSendBack)){
                         // Om denna är true så är kortet ledigt och kan användas! och blir därför det kortet som skickas tillbaka..
                         return GameCardToSendBack;
                     }
-
+                    i++;
+                    if(i > GameData.GameCardsCollectionData.length-1){
+                        alert("WHOOPS! Det finns inga mer kort som är lediga, 'GetGameCardFromMotiveData' ");
+                        break;
+                    }
                 }
 
             }else{
@@ -396,7 +425,7 @@ var GameEngine = {
             for(var i = 0; i < GameData.GameCardsCollectionData.length; i++){
                 GameCardToCheck = GameData.GameCardsCollectionData[i];
 
-                if(PersonOrClue == ("Person" || "person") ){// Om kortets ID är undefined så är det ett ledtrådskort..
+                if(PersonOrClue == "Person" || PersonOrClue == "person" ){// Om kortets ID är undefined så är det ett ledtrådskort..
                     if(GameCardToCheck.ID != undefined){
                         if(GameCardToCheck.ID == GameCardID){
                             //returnerar tillbaka rätt kort
@@ -404,17 +433,27 @@ var GameEngine = {
                         }
                     }
                 }
-                if(PersonOrClue == ("Clue" || "clue")){// Om kortets ID är undefined så är det ett personskort..
-                    if(GameCardToCheck.theGameCard.ID != undefined){
-                        if(GameCardToCheck.theGameCard.ID == GameCardID){
-                            //returnerar tillbaka rätt kort
-                            return GameCardToCheck.theGameCard;
+                if(PersonOrClue == "Clue" || PersonOrClue =="clue"){// Om kortets ID är undefined så är det ett personskort..
+                    try{
+                        if(GameCardToCheck.theGameCard.ID != undefined){
+                            if(GameCardToCheck.theGameCard.ID == GameCardID){
+                                //returnerar tillbaka rätt kort
+                                return GameCardToCheck.theGameCard;
+
+                            }
 
                         }
-
+                    }catch(x){
+                        console.log("Ignorera detta .. "+x);
                     }
+
                 }
             }
+            //om inte något hittas så måste vi returnera ett Tomt gamecard annars kvaddar getGameCardFromMotiveData-funktionen
+
+            return new GameEngine.Classes.GameCard(-1,null,"null",[],"",[]);
+            //^denna kommer att returnera ett GameCard med ID't -1 vilket som inte accepteras någonstanns..
+            //Genom att göra detta så får vi inget felmeddelande, och ingen vill använda detta kort så det är ingen fara..
 
         },
 
