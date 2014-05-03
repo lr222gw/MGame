@@ -3,19 +3,22 @@
 var GameData = {
 	GameCardsCollectionData : [],
     GameDataImages : {},
+    MurderMotives : [], // består av en array med typen MotiveCardSpec so minnehar typen  MotiveData
 
 	initData : function(Other, Murderer, Victim, Actor1, Actor2, Actor3, Actor4, motive){
         //^Denna metod kontaktas när karaktärerna är klara och rollerna är valda,
         //då skickar man med rollerna så att rätt namn hamnar rätt! Skickar även med Vilket motiv som är valt!..
 
+
+
        // cardInMotive är en Funktion som används för att ta fram rätt namn..
        var cardInMotive = function(ID, actor){ // Denna function tar reda på om ID't (som man får ange själv)
-                                       //finns med i Motivet. Om det gör det så Ska "Murdurer" väljas, annars "Other"
+           var i = 0;                           //finns med i Motivet. Om det gör det så Ska "Murdurer" väljas, annars "Other"
             if(motive == undefined){
                 return "null"; //Säkerhetsspärr som ser till att funktionen ej används om motiv saknas..
             }
-            for(var i = 0; i < motive.LOC_other.length ; i++){
-                if(motive.LOC_other[i].ID = ID){
+            for(i = 0; i < motive.LOC_other.theGameCard.length ; i++){
+                if(motive.LOC_other[i].theGameCard.ID = ID){
                     // om KortID't finns i denna samling så är det "Murderer"-relaterat,
                     // och ska returnera mördarens namn..
 
@@ -23,38 +26,38 @@ var GameData = {
 
                 }
             }
-            for(var i = 0; i < motive.LOC_murderur.length ; i++){
-                if(motive.LOC_murderur[i].ID = ID){
+            for(i = 0; i < motive.LOC_murderur.theGameCard.length ; i++){
+                if(motive.LOC_murderur[i].theGameCard.ID = ID){
                     //
                     return actor;
                 }
             }
-            for(var i = 0; i < motive.LOC_victim.length ; i++){
-                if(motive.LOC_victim[i].ID = ID){
+            for(i = 0; i < motive.LOC_victim.theGameCard.length ; i++){
+                if(motive.LOC_victim[i].theGameCard.ID = ID){
                     //
                     return actor;
                 }
             }
-            for(var i = 0; i < motive.LOC_actor1.length ; i++){
-                if(motive.LOC_actor1[i].ID = ID){
+            for(i = 0; i < motive.LOC_actor1.theGameCard.length ; i++){
+                if(motive.LOC_actor1[i].theGameCard.ID = ID){
                     //
                     return actor;
                 }
             }
-            for(var i = 0; i < motive.LOC_actor2.length ; i++){
-                if(motive.LOC_actor2[i].ID = ID){
+            for(i = 0; i < motive.LOC_actor2.theGameCard.length ; i++){
+                if(motive.LOC_actor2[i].theGameCard.ID = ID){
                     //
                     return actor;
                 }
             }
-            for(var i = 0; i < motive.LOC_actor3.length ; i++){
-                if(motive.LOC_actor3[i].ID = ID){
+            for(i = 0; i < motive.LOC_actor3.theGameCard.length ; i++){
+                if(motive.LOC_actor3[i].theGameCard.ID = ID){
                     //
                     return actor;
                 }
             }
-            for(var i = 0; i < motive.LOC_actor4.length ; i++){
-                if(motive.LOC_actor4[i].ID = ID){
+            for(i = 0; i < motive.LOC_actor4.theGameCard.length ; i++){
+                if(motive.LOC_actor4[i].theGameCard.ID = ID){
                     //
                     return actor;
                 }
@@ -62,17 +65,78 @@ var GameData = {
             return Other;
        };
 
-        var ClueDataToInit = [ //I denna array ska all ClueData in
 
-            new GameEngine.Classes.GameCard(
-                1,              //ID
-                "TableClue",    //Type
-                "Beskrivning!", //Beskrivning
-                [1,2],          //NeededCards
-                "",             //BildURL
-                [1,2,3,4]       //FollowUpCards (AnswerCards...)
+        //I denna array ska alla MotiveCardSpec in, de innehåller ClueData
+        // och ID'n på de rumm som ledtrådarna kan finnas i!
+        //denna array innehåller data av typen MotiveCardSpec
+        var MotiveCardSpecToInit = [
+            new GameEngine.Classes.MotiveCardSpec(
+                new GameEngine.Classes.GameCard(
+                    1,              //ID
+                    GameEngine.Enums.GameCardType.Intress,    //Type
+                    "Beskrivning!", //Beskrivning
+                    [1,2],          //NeededCards
+                    "",             //BildURL
+                    [1,2,3,4]       //FollowUpCards (AnswerCards...)
+                ),
+                [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
+                //använd gärna Enum för detta..
+                    GameEngine.Enums.Room.BathRoom
+                ]
             )
 
+
+        ];
+
+        var Motives = [ //Array med MotivData
+            new GameEngine.Classes.MotiveData(
+                "Ett Test Mord",
+                [ // GameCards ID'n tillhörande "Other"
+                    1
+                ],
+                [ // GameCards ID'n tillhörande "murder"
+                    2
+                ],
+                [ // GameCards ID'n tillhörande "Victim"
+                    3
+                ],
+                [ // GameCards ID'n tillhörande "Actor 1"
+                ],
+                [// GameCards ID'n tillhörande "Actor 2"
+
+                ],
+                [// GameCards ID'n tillhörande "Actor 3"
+
+                ],
+                [// GameCards ID'n tillhörande "Actor 4"
+
+                ]
+            )
+            /*
+            new GameEngine.Classes.MotiveData(
+                "Motiv-Template",
+                [ // GameCards ID'n tillhörande "Other"
+
+                ],
+                [ // GameCards ID'n tillhörande "murder"
+
+                ],
+                [ // GameCards ID'n tillhörande "Victim"
+
+                ],
+                [ // GameCards ID'n tillhörande "Actor 1"
+                ],
+                [// GameCards ID'n tillhörande "Actor 2"
+
+                ],
+                [// GameCards ID'n tillhörande "Actor 3"
+
+                ],
+                [// GameCards ID'n tillhörande "Actor 4"
+
+                ]
+            )
+            */
 
         ];
 
@@ -80,7 +144,7 @@ var GameData = {
 
             new GameEngine.Classes.GameCard(
                 2,
-                "Secret",
+                GameEngine.Enums.GameCardType.Secret,
                 null,
                 [],
                 null,
@@ -138,7 +202,7 @@ var GameData = {
             ),
             new GameEngine.Classes.GameCard(
                 3,
-                "secret",
+                GameEngine.Enums.GameCardType.Secret,
                 null,
                 [],
                 null,
@@ -170,14 +234,24 @@ var GameData = {
 
         ];
 
-        //Arrayen PersonDataToInit och ClueDataToInit  skickas till
+        //Arrayen PersonDataToInit och MotiveCardSpecToInit  skickas till
         //GameCardsCollection för användning utanför denna funktion!
-        for(var i = 0; i < ClueDataToInit.length; i++){
-            GameData.GameCardsCollectionData.push(ClueDataToInit[i]);
+        var i = 0;
+
+        for(i = 0; i < MotiveCardSpecToInit.length; i++){
+            GameData.GameCardsCollectionData.push(MotiveCardSpecToInit[i]);
         };
-        for(var i = 0; i < PersonDataToInit.length; i++){
+        for(i = 0; i < PersonDataToInit.length; i++){
             GameData.GameCardsCollectionData.push(PersonDataToInit[i]);
         };
+        for(i = 0; i < Motives.length; i++){
+            GameData.MurderMotives.push(Motives[i]);
+        }
+
+
+
+
+
 
         //Detta sköter hand om att skjuta in data i form av bilder etc som behövs till
         //spelet och inte laddas in på annat vis.. (tex Rum/actor-bilder laddas in

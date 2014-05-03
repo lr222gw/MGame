@@ -198,12 +198,51 @@ var GameEngine = {
         DialogButtonsActive : [],
         DialogDownorUp : []
     },
+    Enums : {
+        GameCardType : {
+            "Secret" : 0,
+            "Other" : 1,
+            "Intress" : 2,
+            "Relationship" : 3,
+            "WallClue" : 4,
+            "TableClue" : 5
+        },
+        Room : {
+            hallway1 : 1,
+            hallway2 : 2,
+            hallway3 : 3,
+            prebedroom: 4,
+            bedroom1 : 5,
+            bedroom2 : 6,
+            bedroom3 : 7,
+            bedroom4 : 8,
+            bedroom5 : 9,
+            bedroom6 : 10,
+            kitchen : 11,
+            tvroom  : 12,
+            BathRoom : 13
+        },
+        EmotionState : {
+            Neutral     :"neutral",
+            Annoyed     :"annoyed",
+            Happy       :"happy",
+            Sad         :"sad",
+            FreakedOut  :"freakedout",
+            Nervous     :"nervous",
+            Angry       :"angry",
+            Concerned   :"concerned"
+        },
+        ClueType : {
+            WallClue    :"wallclue",
+            TableClue   :"tableclue"
+        }
+    },
 	
 	init : function(){
 
 		GameEngine.Machines.ReadInRooms();
 		GameEngine.Machines.BuildRoom(1);
-		
+		GameEngine.Machines.CreateActors();
 		
 		
 	},
@@ -213,6 +252,189 @@ var GameEngine = {
 		ReadInGameCards : function(){
 			//Init all Cards = Skapa och hämta ner korthögen basearat på datan i "GameCards"..
 		},
+
+        SelectRandomMotive : function(){
+
+            //Först slumpar jag fram ett Motiv genom att ta längden på Motivarrayen och 0
+            // då får jag alltså ett värde däremellan..GameData.MurderMotives
+            var RandomMurderMotive = GameData.MurderMotives[Math.floor(Math.random() * (GameData.MurderMotives.length - 1) + 0)];
+
+            //Eftersom resten av koden jag skrivit är basearat på att RandomMurderMotive är en array som innehåller arrayer så
+            //kommer jag göra om den till en array som går att skicka videre!
+            RandomMurderMotive = [
+                RandomMurderMotive.LOC_other,
+                RandomMurderMotive.LOC_murderur,
+                RandomMurderMotive.LOC_victim,
+                RandomMurderMotive.LOC_actor1,
+                RandomMurderMotive.LOC_actor2,
+                RandomMurderMotive.LOC_actor3,
+                RandomMurderMotive.LOC_actor4
+            ]
+
+            //nu ska vi tilldela motivedatans roller till aktörerna som vi skapat..
+            for(var i = 0; i < RandomMurderMotive.length ; i++){
+                GameEngine.Machines.GiveActorsRole(RandomMurderMotive[i]);
+            }
+            //GlobalActors
+
+
+        },
+
+        GiveActorsRole : function(RandomMurderMotive){
+            var roleIsSet=false;
+            var roleToTest;
+
+            var minValue = 3;
+            var maxValue = 8;
+            var LoopThisManyTimes = Math.floor(Math.random() * maxValue + minValue);
+
+            while(roleIsSet == false){
+                //Hämtar ner en slumpad roll att testa
+                roleToTest = GameEngine.GlobalActors[Math.floor(Math.random() * (GameEngine.GlobalActors.length - 1) + 0)];
+
+                //Testar om rollen är ledig
+                if(GameEngine.Machines.TestIfRoleIsFree(roleToTest)){
+
+                    //Rollen är ledig, nu ska vi ge rollens ens egenskaper
+
+                    roleToTest.Secret   = GameEngine.Machines.getGameCardFromMotiveData(GameEngine.Enums.GameCardType.Secret,RandomMurderMotive,"person");
+                    roleToTest.Other    = GameEngine.Machines.getGameCardFromMotiveData(GameEngine.Enums.GameCardType.Other,RandomMurderMotive,"person");
+                    roleToTest.Intress  = GameEngine.Machines.getGameCardFromMotiveData(GameEngine.Enums.GameCardType.Intress,RandomMurderMotive,"person");
+                    roleToTest.Relation = GameEngine.Machines.getGameCardFromMotiveData(GameEngine.Enums.GameCardType.Relationship,RandomMurderMotive,"person");
+                    //TODO: This \/
+                    //roleToTest.ClueList = GameEngine.Machines.getGameCardFromMotiveData(GameEngine.Enums.GameCardType.TableClue,RandomMurderMotive,"person");
+                    var ClueSpecial = GameEngine.Enums.ClueType.TableClue || GameEngine.Enums.ClueType.WallClue;
+                    for(var i = 0; i < LoopThisManyTimes; i++){//Denna forloop bestämmer hur många Ledtrådar en karaktär har, max och min enligt minValue och maxValue..
+                        roleToTest.ClueList.push(GameEngine.Machines.getGameCardFromMotiveData(ClueSpecial,RandomMurderMotive,"clue"));
+                    }
+
+
+                    roleIsSet = true;
+                }
+            }
+
+        },
+
+        gameCardDoesNotBelongWithOtherActor : function(GameCardToTest){
+            //Denna funktion returnerar True om kortet inte används av någon annan Karaktär.
+
+            for(var i = 0; i < GameEngine.GlobalActors.length-1; i++){
+                //Går igenom varje karaktär, en i taget.
+                if(GameEngine.GlobalActors[i].Secret.ID == GameCardToTest.ID){
+                    return false;
+                }
+                else if(GameEngine.GlobalActors[i].Other.ID == GameCardToTest.ID){
+                    return false;
+                }
+                else if(GameEngine.GlobalActors[i].Intress.ID == GameCardToTest.ID){
+                    return false;
+                }
+                else if(GameEngine.GlobalActors[i].Relation.ID == GameCardToTest.ID){
+                    return false;
+                }
+                for(var j = 0; j < GameEngine.GlobalActors[i].ClueList.length -1 ; j++){
+                    if(GameEngine.GlobalActors[i].ClueList[j].ID == GameCardToTest.ID){
+                        return false;
+                    }
+                }
+
+            }
+
+            //Om inte False har returnerats vid det här läget så har ingen kortet och kortet betraktas som ledigt och True kan returneras..!
+            return true;
+
+        },
+
+        getGameCardFromMotiveData : function(TypeIWant, RandomMurderMotive, PersonOrClue){
+            //Tar fram ett kort av en viss typ som finns inom "RandomMurderMotive" som skickas med..
+            var MotiveChoosen = false;
+            var GameCardIDToTest;
+            var ArrOfTypesThatIWant = [];
+            var RandomFromArrOfTypesThatIWant;
+            //GameData.GameCardsCollectionData
+
+            //Denna  plockar fram de kort som är av  typen "TypeIWant", alltså "Secret", "Other", "Intress", "Relation", "ClueList"..
+            for(var i = 0; i < RandomMurderMotive.length; i++){
+
+                GameCardIDToTest = GameEngine.Machines.getGameCardFromID(RandomMurderMotive[i],PersonOrClue);
+
+                if(TypeIWant == GameCardIDToTest.type){
+                    //Arrayen vi bygger här kommer innehålla alla kort av den typen som efterfrågas
+                    ArrOfTypesThatIWant.push(GameCardIDToTest);
+                }
+            }
+
+            if(ArrOfTypesThatIWant == 0){
+                //om motivet inte innehåller någon av den efterfrågade typen så ska ett slumpat kort väljas istället!
+                var GameCardToSendBack;
+
+                for(var j = 0; j < GameData.GameCardsCollectionData.length-1; j++){
+                    GameCardToSendBack = GameEngine.Machines.getGameCardFromID(j,PersonOrClue); //hämtar GameCardet att testa
+
+                    if(GameEngine.Machines.gameCardDoesNotBelongWithOtherActor(GameCardToSendBack)){
+                        // Om denna är true så är kortet ledigt och kan användas! och blir därför det kortet som skickas tillbaka..
+                        return GameCardToSendBack;
+                    }
+
+                }
+
+            }else{
+                RandomFromArrOfTypesThatIWant = ArrOfTypesThatIWant[Math.floor(Math.random() * (ArrOfTypesThatIWant.length-1) + 0)];
+                return RandomFromArrOfTypesThatIWant;
+            }
+
+
+
+                //GameCardIDToTest = RandomMurderMotive[Math.floor(Math.random() * (RandomMurderMotive.length - 1) + 0)];
+
+        },
+
+        getGameCardFromID : function(GameCardID, PersonOrClue){
+            //Denna funktion tar fram ett GameCard Beroende vilket kortID kortet har och om den är ett Person eller Clue-kort..
+            var GameCardToCheck;
+
+            for(var i = 0; i < GameData.GameCardsCollectionData.length; i++){
+                GameCardToCheck = GameData.GameCardsCollectionData[i];
+
+                if(PersonOrClue == ("Person" || "person") ){// Om kortets ID är undefined så är det ett ledtrådskort..
+                    if(GameCardToCheck.ID != undefined){
+                        if(GameCardToCheck.ID == GameCardID){
+                            //returnerar tillbaka rätt kort
+                            return GameCardToCheck;
+                        }
+                    }
+                }
+                if(PersonOrClue == ("Clue" || "clue")){// Om kortets ID är undefined så är det ett personskort..
+                    if(GameCardToCheck.theGameCard.ID != undefined){
+                        if(GameCardToCheck.theGameCard.ID == GameCardID){
+                            //returnerar tillbaka rätt kort
+                            return GameCardToCheck.theGameCard;
+
+                        }
+
+                    }
+                }
+            }
+
+        },
+
+        TestIfRoleIsFree : function(roleToTest){
+
+            if(roleToTest.Secret != null){
+                return false;
+            }
+            else if(roleToTest.Other != null){
+                return false;
+            }
+            else if(roleToTest.Intress != null){
+                return false;
+            }
+            else if(roleToTest.Relation != null){
+                return false;
+            }else{
+                return true;
+            }
+        },
 		
 		ReadInRooms : function(){ 		// Funktion som laddar in alla rum + rumdatan..
 			//Skapar alla rummen och sparar ner dem i GlobalRooms arrayen..
@@ -1739,7 +1961,7 @@ var GameEngine = {
 			this.Other = null;			//GameCard av typen "Other"
 			this.Intress = null;		//GameCard av typen "intress"
 			this.Relation = null;		//GameCard av typen "Relation"
-			this.emotionState = "neutral";	//Vilken sinnesställning karaktären har, olika sinneställningar:
+			this.emotionState = GameEngine.Enums.EmotionState.Neutral;	//Vilken sinnesställning karaktären har, olika sinneställningar:
 										//-Irriterad  |Annoyed,
 										//-Glad       |Happy
                                         //-Ledsen     |Sad
@@ -1783,22 +2005,13 @@ var GameEngine = {
 		      this.LOC_actor4     = _LOC_actor4;      //Array
 		},
 
+
         MotiveCardSpec : function(_theGameCard,_possibleRoom){
           this.theGameCard = _theGameCard;
           this.possibleRoom= _possibleRoom;     //Array med Room Id'n som Ledtrådaen kan finnas i. Om ej Ledtråd ska denna vara NULL..
-        },
-		
-		GameCardType : function(){		
-			
-			var CardEnum = {
-				"Secret" : 0,
-				"Other" : 1,
-				"Intress" : 2,
-				"Relationship" : 3,		
-				"WallClue" : 4,
-				"TableClue" : 5	
-			};
-		}
+        }
+
+
 	}
 
 };
