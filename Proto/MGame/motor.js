@@ -78,7 +78,8 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
             for(var i = 0; i < GameEngine.GoToButtons.DialogButtonsActive.length; i++){
                 Button = GameEngine.GoToButtons.DialogButtonsActive[i];
                 if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
-                    alert(i);
+
+                    Button.AnswerToSend();
                     return;
                 }
             }
@@ -237,6 +238,12 @@ var GameEngine = {
             TableClue   :"tableclue"
         }
     },
+
+    Actives : {
+        RoomThatIsActive : ""
+    },
+
+    DataPlaceHolder : [], //används för att lagra tillfällig data..
 	
 	init : function(){
 
@@ -269,14 +276,26 @@ var GameEngine = {
                 RandomMurderMotive.LOC_actor2,
                 RandomMurderMotive.LOC_actor3,
                 RandomMurderMotive.LOC_actor4
-            ]
+            ];
+            for(var j = 0; j < RandomMurderMotive.length;j++){ //Lägger in randomMurderMotive datan i det globala DataPlaceHolder arrayen för att kunna använda datan senare ..
+                GameEngine.DataPlaceHolder.push(RandomMurderMotive[j]);
+            };
 
-            //nu ska vi tilldela motivedatans roller till aktörerna som vi skapat..
-            for(var i = 0; i < RandomMurderMotive.length -1; i++){
-                GameEngine.Machines.GiveActorsRole(RandomMurderMotive[i]);
+            //Detta är en kontroll så att denna metod inte körs när karaktärer har roller som är satta..
+            //Dålig spärr då den bara testar en spelare, men det är allt som behövs..
+            if(GameEngine.GlobalActors[1].Secret == null){
+
+
+                //nu ska vi tilldela motivedatans roller till aktörerna som vi skapat..
+                for(var i = 0; i < RandomMurderMotive.length -1; i++){
+                    GameEngine.Machines.GiveActorsRole(RandomMurderMotive[i]);
+                }
+            }else{
+                alert("SelectRandomMotive funktionen har redan utförts.. ");
             }
-            //GlobalActors
-            //TODO: Fixa så att jag inte får in Undefined i ClueList på Actors..
+
+            //Tömmer DataPlaceHolder
+            GameEngine.DataPlaceHolder = [];
 
 
         },
@@ -321,7 +340,7 @@ var GameEngine = {
         gameCardDoesNotBelongWithOtherActor : function(GameCardToTest){
             //Denna funktion returnerar True om kortet inte används av någon annan Karaktär.
 
-            for(var i = 0; i < GameEngine.GlobalActors.length-1; i++){
+            for(var i = 0; i < GameEngine.GlobalActors.length; i++){ //TODO: Tog bort -1 här, gick det bra?
                 //Går igenom varje karaktär, en i taget.
 
                 //Testar så att Kortet ej är null, om kortet är null kan vi ej testa dens ID...
@@ -355,7 +374,7 @@ var GameEngine = {
                     }
                 }
                 if(GameEngine.GlobalActors[i].ClueList != 0){ //denna blir ej null om tom utan istället 0..
-                    for(var j = 0; j < GameEngine.GlobalActors[i].ClueList.length -1 ; j++){
+                    for(var j = 0; j < GameEngine.GlobalActors[i].ClueList.length ; j++){ //TODO: tog bort -1 här också, blev det bättre?
                         if(GameEngine.GlobalActors[i].ClueList[j].ID == GameCardToTest.ID){
                             return false;
                         }
@@ -383,9 +402,11 @@ var GameEngine = {
 
 
             //Denna  plockar fram de kort som är av  typen "TypeIWant", alltså "Secret", "Other", "Intress", "Relation", "ClueList"..
+            //och som finns i listan av Ledtrådåar/PersonlighetsSaker som hör till motivet..
             for(var i = 0; i < RandomMurderMotive.length; i++){
 
                 GameCardIDToTest = GameEngine.Machines.getGameCardFromID(RandomMurderMotive[i],PersonOrClue);
+                //TODO: göra så att ^ tar ett slumpat kort ist för bestämt..? ..
 
                 //Fix för Clue
                 if(TypeIWant == "clue"){
@@ -408,10 +429,14 @@ var GameEngine = {
             }else{
                 var Logging = [];
                 while(true){
+                    //Väljer slumpat kort från arrayen med kort som efterfrågas och finns i motivdatan..
                     RandomFromArrOfTypesThatIWant = ArrOfTypesThatIWant[Math.floor(Math.random() * (ArrOfTypesThatIWant.length) + 0)];
+
+                    //om kortet inte tillhör en annan spelare så kan vi använda kortet, kortet skickas tillbaka..
                     if(GameEngine.Machines.gameCardDoesNotBelongWithOtherActor(RandomFromArrOfTypesThatIWant)){
                         return RandomFromArrOfTypesThatIWant;
                     }
+
 
                     //Vi ska "logga" alla försök som ej går.., så att om alla kort tillslut blivit tagna och
                     //inga kort finns kvar så ska man ej fastna i denna loop..
@@ -439,29 +464,59 @@ var GameEngine = {
 
             var GameCardToSendBack;
             var i = 0;
+            var CardsToLog = [];
 
             while(true){
                 GameCardToSendBack = GameEngine.Machines.getRandomCardByType(TypeIWant, PersonOrClue);//hämtar GameCardet att testa //GameEngine.Machines.getGameCardFromID(i,PersonOrClue);
                 //TODO: är denna rätt? skriv om ^så att den hämtar ett slumpat istället för "Första bästa"..
 
-                if(GameCardToSendBack.ID != -1 ){// om det inte är ett ogiltigt Kort så fortsätt..
-                    if(GameEngine.Machines.gameCardDoesNotBelongWithOtherActor(GameCardToSendBack)){
-                        // Om denna är true så är kortet ledigt och kan användas! och blir därför det kortet som skickas tillbaka..
-                        return GameCardToSendBack;
+                //TODO: Se till att Kort som slumpas nya inte finns bland de arrayerna i RandomMurderMotive Arrayen..
+
+                //TODO: se till att spelare inte kan få samma kort som en annan spelare redan har fått..
+                if(GameEngine.Machines.CardIsNotInMotives(GameCardToSendBack)){ //Denna måste returnera true då vi inte vill välja kort som finns i MotivDatan om vi ska välja ett nytt kort..
+
+                    if(CardsToLog.indexOf(GameCardToSendBack.ID) == -1){//if satsen = om kortId't inte finns i arrayen som lagrar kortID'n som har testats..
+                        //: Här måste jag se till att logga de kortID'n som testas, på så sätt så behöver jag inte
+                        //: räkna de kort som redan har testats flera gånger...
+
+                        CardsToLog.push(GameCardToSendBack.ID);
+
+                        if(GameCardToSendBack.ID != -1 ){// om det inte är ett ogiltigt Kort så fortsätt..
+                            if(GameEngine.Machines.gameCardDoesNotBelongWithOtherActor(GameCardToSendBack)){
+                                // Om denna är true så är kortet ledigt och kan användas! och blir därför det kortet som skickas tillbaka..
+                                return GameCardToSendBack;
+                            }
+                        }
+
+                        i++;
+                        if(i > GameData.GameCardsCollectionData.length){ //Här "borde" det stå "-1", men eftersom jag kastar in ett kort som ej hör till längeden av GameCardsCollectionData så plussar jag på 1.. (kortet som har ID -1..
+                            //alert("WHOOPS! Det finns inga mer kort som är lediga, 'GetGameCardFromMotiveData' ");
+                            console.log("WHOOPS! Det finns inga mer kort som är lediga, 'GetGameCardFromMotiveData' ");
+
+                            //Denna orskar att vissa kort blir Undefined.. Och har att göra med att det inte finns
+                            //tillräckligt mycket  data som jag testar med..
+
+                            break;
+                        }
                     }
                 }
 
-                i++;
-                if(i > GameData.GameCardsCollectionData.length-1){
-                    //alert("WHOOPS! Det finns inga mer kort som är lediga, 'GetGameCardFromMotiveData' ");
-                    console.log("WHOOPS! Det finns inga mer kort som är lediga, 'GetGameCardFromMotiveData' ");
 
-                    //Denna orskar att vissa kort blir Undefined.. Och har att göra med att det inte finns
-                    //tillräckligt mycket  data som jag testar med..
+            }
+        },
 
-                    break;
+        CardIsNotInMotives : function(GameCardToTest){
+
+            for(var i =0; i < GameEngine.DataPlaceHolder.length ;i++){
+
+                for(var j = 0; j < GameEngine.DataPlaceHolder[i].length; j++){
+                    if(GameEngine.DataPlaceHolder[i][j] == GameCardToTest.ID){
+                        return false; //Retrunerar false om kortet finns i motivdatan..
+                    }
                 }
             }
+            return true; //returnerar true om kortet inte hittades i motivdatan.
+
         },
 
         getRandomCardByType : function(TypeIWant, PersonOrClue){
@@ -555,10 +610,12 @@ var GameEngine = {
             }else{
                 return true;
             }
+            return true;
         },
 		
-		ReadInRooms : function(){ 		// Funktion som laddar in alla rum + rumdatan..
-			//Skapar alla rummen och sparar ner dem i GlobalRooms arrayen..
+		ReadInRooms : function(){
+            // Funktion som laddar in alla rum + rumdatan..
+            //Skapar alla rummen och sparar ner dem i GlobalRooms arrayen..
 
 			var bathroom = new GameEngine.Classes.Room(
                 13,
@@ -1336,6 +1393,7 @@ var GameEngine = {
                     GameEngine.Machines.placeContainers(RoomToLoad.Containers[i]);
                 }
             }
+            GameEngine.Actives.RoomThatIsActive = RoomToLoad;
 
 		},
 
@@ -1431,7 +1489,6 @@ var GameEngine = {
 //            }
         },
 
-
         getPosition : function(Pos_Percent, yORx){
             var pushToPixel
             if(yORx == "x"){
@@ -1468,9 +1525,12 @@ var GameEngine = {
             }
 
         },
-        //Functionen wrapText är tagen från : http://www.html5canvastutorials.com/tutorials/html5-canvas-wrap-text-tutorial/
-        //Och innehåller ingen egen skriven kod.. EDIT: lägger till MaxHeight, för att kunna skrolla om det blir mycket text.
+
+
+
         wrapText : function(context, text, x, y, maxWidth, lineHeight, textHeight, maxHeight, counter, nBeforeX, nBeforeValue){
+            //Functionen wrapText är tagen från : http://www.html5canvastutorials.com/tutorials/html5-canvas-wrap-text-tutorial/
+            //Och innehåller ingen egen skriven kod.. EDIT: lägger till MaxHeight, för att kunna skrolla om det blir mycket text., EDIT2: denna kod är rätt omarbetad..
             var words, line, whenToStopNewLines, n, topPos;
             topPos = y;
             var nBefore;
@@ -1581,6 +1641,7 @@ var GameEngine = {
             context.fillText(line, x, y);
         },
 
+
         InterviewActor : function(actor){
             //Hämtar ner data så att datan kan tas bort (så att inga knappar kan tryckas på..)
             //Medans InterviewFasen pågår.
@@ -1611,41 +1672,14 @@ var GameEngine = {
             TextHeight = GameEngine.Machines.getPosition(0.016, "x");
             Ctx.fillStyle = "rgb(63, 0, 0)";
             Ctx.font= TextHeight+"px arial, sans-serif";
-            GameEngine.Machines.wrapText(Ctx,"Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                    " Donec eu tortor ut ligula condimentum vehicula. Aliquam iaculis non est posuere convallis. Nulla erat mi, vehicula" +
-                    " ac odio non, auctor interdum nulla. Pellentesque sed semper quam, a bibendum felis. Sed sollicitudin dictum convallis." +
-                    " Donec sodales, massa vitae mollis porttitor, eros lectus congue nunc, sit amet vehicula metus eros vitae nisl. Etiam risus " +
-                    "enim, aliquam vel posuere quis, euismod in elit. Sed lacinia ante nec diam tristique, ac interdum turpis sagittis." +
-                    " Aliquam id volutpat quam. Donec sit amet accumsan justo, volutpat sodales velit. Quisque sit amet erat nibh. Morbi " +
-                    "interdum mi leo, nec molestie ipsum tempus id. Donec ullamcorper risus orci, quis fermentum dolor accumsan vitae." +
-                    " Praesent lobortis leo magna, vel luctus augue tempus nec. In id ligula mauris.         Pellentesque est felis, " +
-                    "suscipit et ultrices at, placerat eget mi. Integer eget tempus neque, et mattis ipsum. Cras nec molestie arcu. " +
-                    "Vivamus sed leo ut nibh accumsan blandit sed bibendum tellus. Suspendisse feugiat erat tellus, quis ornare augue eleifend ac." +
-                    " Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec eu mauris pulvinar, accumsan urna sit amet, imperdiet urna." +
-                    " Praesent gravida, orci a ultricies laoreet, dui dolor cursus orci, id mattis risus turpis in eros.               Sed sodales nisi " +
-                    "eget lectus aliquam posuere. Proin eleifend lobortis enim ut viverra. Fusce vestibulum mauris non molestie convallis. Aenean id risus " +
-                    "aliquam, ornare turpis sit amet, aliquam massa. Nullam condimentum sit amet velit quis tempus. Maecenas faucibus, nulla eu aliquam molestie," +
-                    " ipsum orci congue enim, vitae ultrices ante neque quis lacus. Donec eget imperdiet dolor. Cras faucibus lacus purus." +
-                    " Etiam a velit ut purus sodales semper at ut diam. Proin sed accumsan turpis. Cum sociis natoque penatibus et magnis " +
-                    "dis parturient montes, nascetur ridiculus mus.               Aliquam vitae sem id neque sodales vulputate. Suspendisse eu magna" +
-                    " vitae ante eleifend aliquet. Praesent eu egestas ante. Maecenas sapien augue, commodo eget orci a, pellentesque congue libero." +
-                    " Pellentesque bibendum mollis tortor. Aenean a dictum odio. Etiam dictum quis nisl a volutpat. Donec blandit ultrices ante eu egestas. " +
-                    "Sed eros leo, mattis in mi id, lacinia vehicula enim. Praesent condimentum mi sed ante aliquam, ac semper nulla viverra. Donec ornare " +
-                    "sed risus id egestas.               Sed lacus libero, imperdiet at facilisis ut, tempor nec massa. Aenean imperdiet, nunc eget commodo" +
-                    " eleifend, sem erat placerat nunc, at convallis neque odio a nunc. Fusce tempor sem vitae vehicula ultricies. Vestibulum tempor laoreet" +
-                    " feugiat. In varius adipiscing leo, vel porttitor mi elementum a. Nulla dignissim mi nulla, a " +
-                    "blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim rutrum tincidunt." +
-                    " Mauris pellentesque lorem dapibus posuere tincidunt. Donec id lectus felis. Maecenas a odio quis" +
-                    " tortor condimentum gravida. Aenean ut diam nec sapien commodo venenatis. Cras eget erat turpis." +
-                    " Morbi volutpat, velit auctor auctor aliquam, purus enim tristique sem, nec vulputate metus purus" +
-                    " ultrices leo. Interdum et malesuada fames ac ante ipsum primis in faucibus.!"
+            GameEngine.Machines.wrapText(Ctx,"Yes, well hello.."
              ,ActorBubblePosX+20, ActorBubblePosY +25,SizeWidth-15, 20, TextHeight +10, SizeHeight-10);
 
             //Ritar upp svarsruta för spelare
             Ctx.fillStyle = "rgb(112, 0, 255)";
 
-            var PlayerBubblePosX = GameEngine.Machines.getPosition(0.04594330400782014 , "x");
-            var PlayerBubblePosY = GameEngine.Machines.getPosition(0.6756369882622387 , "y");
+            var PlayerBubblePosX = GameEngine.Machines.getPosition(0.04594330400782014, "x");
+            var PlayerBubblePosY = GameEngine.Machines.getPosition(0.6756369882622387, "y");
             Ctx.fillRect(
                 PlayerBubblePosX,
                 PlayerBubblePosY,
@@ -1656,84 +1690,15 @@ var GameEngine = {
             TextHeight = GameEngine.Machines.getPosition(0.016, "x");
             Ctx.fillStyle = "rgb(63, 0, 0)";
 
-            GameEngine.Machines.ListQuestions(
-                "1blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim ",
-                PlayerBubblePosX+20,
-                PlayerBubblePosY+25,
-                SizeWidth-15,
-                SizeHeight,
-                TextHeight
-            );
-            GameEngine.Machines.ListQuestions(
-                "2blandit elit vestibulum quis.",
-                    PlayerBubblePosX+20,
-                    PlayerBubblePosY+25,
-                    SizeWidth-15,
-                SizeHeight,
-                TextHeight
-            );
-            GameEngine.Machines.ListQuestions(
-                "3blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim ",
-                    PlayerBubblePosX+20,
-                    PlayerBubblePosY+25,
-                    SizeWidth-15,
-                SizeHeight,
-                TextHeight
-            );
-            GameEngine.Machines.ListQuestions(
-                "4blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim ",
-                    PlayerBubblePosX+20,
-                    PlayerBubblePosY+25,
-                    SizeWidth-15,
-                SizeHeight,
-                TextHeight
-            );
-            GameEngine.Machines.ListQuestions(
-                "5blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim ",
-                    PlayerBubblePosX+20,
-                    PlayerBubblePosY+25,
-                    SizeWidth-15,
-                SizeHeight,
-                TextHeight
-            );
-            GameEngine.Machines.ListQuestions(
-                "55!!bllandit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce andit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim ",
-                    PlayerBubblePosX+20,
-                    PlayerBubblePosY+25,
-                    SizeWidth-15,
-                SizeHeight,
-                TextHeight
-            );
-            GameEngine.Machines.ListQuestions(
-                "6blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim ",
-                    PlayerBubblePosX+20,
-                    PlayerBubblePosY+25,
-                    SizeWidth-15,
-                SizeHeight,
-                TextHeight
-            );
-            GameEngine.Machines.ListQuestions(
-                "7blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim ",
-                    PlayerBubblePosX+20,
-                    PlayerBubblePosY+25,
-                    SizeWidth-15,
-                SizeHeight,
-                TextHeight
-            );
-            GameEngine.Machines.ListQuestions(
-                "8bllandit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce landit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce andit elit vestibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et vivetibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim blandit elit vestibulum quis. Fusce et viverra orci. Cras pretium dolor quis enim ",
-                    PlayerBubblePosX+20,
-                    PlayerBubblePosY+25,
-                    SizeWidth-15,
-                SizeHeight,
-                TextHeight
-            );
+            //Ladda in startfrågorna (leave, secret, other, etc! )
+
+            GameEngine.Machines.StartQuestions(PlayerBubblePosX,PlayerBubblePosY,SizeWidth,SizeHeight,TextHeight, actor);
 
             GameEngine.Machines.QuestionToBox(
                 PlayerBubblePosX+20,
                 PlayerBubblePosY+25,
                 SizeWidth-15,
-                SizeHeight-25, // tar bort 25 då jag lägger till 25 på PlayerBubblePosY
+                SizeHeight-10, // tar bort 25 då jag lägger till 25 på PlayerBubblePosY
                 TextHeight
             )
 
@@ -1744,6 +1709,268 @@ var GameEngine = {
             GameEngine.GlobalActors = GlobalActors;
 
         },
+
+        FindEmotionInCardData : function(CardsAnswerArray, EmotionToLookFor){
+            //tar fram kortet som är neutralt.. alltid första startkortet..
+            for(var i = 0; i < CardsAnswerArray.length; i ++){
+                if(CardsAnswerArray[i].emotionState == EmotionToLookFor){
+                    return i;
+                }
+            }
+        },
+        cleanActorOrPlayerBox : function(playerOrActor){
+
+            switch (playerOrActor){
+                case "player":
+                    Ctx.fillStyle = "rgb(112, 0, 255)";
+                    Ctx.fillRect(
+                        GameBubbleData.PlayerBubblePosX,
+                        GameBubbleData.PlayerBubblePosY,
+                        GameBubbleData.SizeWidth,
+                        GameBubbleData.SizeHeight
+                    );
+                    Ctx.fillStyle = "rgb(63, 0, 0)";
+                    break;
+                case "actor":
+                    Ctx.fillStyle = "rgb(0, 102, 255)";
+                    Ctx.fillRect(
+                        GameBubbleData.ActorBubblePosX,
+                        GameBubbleData.ActorBubblePosY,
+                        GameBubbleData.SizeWidth,
+                        GameBubbleData.SizeHeight
+                    );
+                    Ctx.fillStyle = "rgb(63, 0, 0)";
+                    break;
+            }
+
+
+        },
+
+        cleanQuestionData : function(){
+            GameEngine.GoToButtons.DialogButtons = [];
+            GameEngine.GoToButtons.DialogButtonsActive = [];
+        },
+
+        CardDataToQuestions : function(card, actor){
+
+            GameEngine.Machines.cleanActorOrPlayerBox("actor");
+
+            GameEngine.Machines.wrapText(
+                Ctx,
+                card.answer,
+                GameBubbleData.ActorBubblePosX+20,
+                GameBubbleData.ActorBubblePosY+25,
+                GameBubbleData.SizeWidth-15,
+                20,
+                GameBubbleData.TextHeight+10,
+                GameBubbleData.SizeHeight-10
+
+            );
+
+            //rensa gammal frågedata
+            GameEngine.Machines.cleanQuestionData();
+            GameEngine.Machines.cleanActorOrPlayerBox("player");
+
+            //Lägg in ny fråge data
+            for(var i = 0;i<card.followUp.length;i++){
+                GameEngine.Machines.ListQuestions(
+                    card.followUp[i].question,
+                    GameBubbleData.PlayerBubblePosX+20,
+                    GameBubbleData.PlayerBubblePosY+25,
+                    GameBubbleData.SizeWidth-15,
+                    GameBubbleData.SizeHeight-10,
+                    GameBubbleData.TextHeight,
+                    function(){
+                        //Todo: anropa en funktion som Spinner vidare på CardData korten..
+
+                    }
+                );
+            }
+
+            GameEngine.Machines.LoadStandardQuestions();
+
+            GameEngine.Machines.QuestionToBox(
+                    GameBubbleData.PlayerBubblePosX+20,
+                    GameBubbleData.PlayerBubblePosY+25,
+                    GameBubbleData.SizeWidth-15,
+                    GameBubbleData.SizeHeight-10,
+                    GameBubbleData.TextHeight
+            );
+        },
+
+        CardToQuestions : function(card, actor){
+            //Denna funktion ska ta ett kort: Presentera Svaret från karaktär, Ta fram alternativ åt spelare = Placera ut allt på spelplanen..
+
+            var emotionstate = actor.emotionState;
+
+            var CardIDBasedOfEmotion = GameEngine.Machines.FindEmotionInCardData(card.AnswerCards, emotionstate);
+
+            GameEngine.Machines.cleanActorOrPlayerBox("actor");
+
+            GameEngine.Machines.wrapText(
+                Ctx,
+                card.AnswerCards[CardIDBasedOfEmotion].answer,
+                GameBubbleData.ActorBubblePosX+20,
+                GameBubbleData.ActorBubblePosY+25,
+                GameBubbleData.SizeWidth-15,
+                20,
+                GameBubbleData.TextHeight+10,
+                GameBubbleData.SizeHeight-10
+
+            );
+
+            //rensa gammal frågedata
+            GameEngine.Machines.cleanQuestionData();
+            GameEngine.Machines.cleanActorOrPlayerBox("player");
+
+            //Lägg in ny frågedata
+            var Data;
+            for(var i = 0;i<card.AnswerCards[CardIDBasedOfEmotion].followUp.length;i++){
+                Data = card.AnswerCards[CardIDBasedOfEmotion].followUp[i];
+
+                GameEngine.Machines.ListQuestions(
+                    card.AnswerCards[CardIDBasedOfEmotion].followUp[i].question,
+                    GameBubbleData.PlayerBubblePosX+20,
+                    GameBubbleData.PlayerBubblePosY+25,
+                    GameBubbleData.SizeWidth-15,
+                    GameBubbleData.SizeHeight-10,
+                    GameBubbleData.TextHeight,
+                    function(){
+                        GameEngine.Machines.CardDataToQuestions(this.GameCard);
+                    },
+                    Data
+
+                );
+
+            }
+
+            GameEngine.Machines.QuestionToBox(
+                GameBubbleData.PlayerBubblePosX+20,
+                GameBubbleData.PlayerBubblePosY+25,
+                GameBubbleData.SizeWidth-15,
+                GameBubbleData.SizeHeight-10,
+                GameBubbleData.TextHeight
+            );
+
+
+
+        },
+
+        LoadStandardQuestions : function(){
+            GameEngine.Machines.ListQuestions(
+                "I have to go",
+                    GameBubbleData.PlayerBubblePosX+20,
+                    GameBubbleData.PlayerBubblePosY+25,
+                    GameBubbleData.SizeWidth-15,
+                GameBubbleData.SizeHeight,
+                GameBubbleData.TextHeight,
+                function(){
+                    GameEngine.Machines.BuildRoom(GameEngine.Actives.RoomThatIsActive.ID);
+                }
+            );
+            GameEngine.Machines.ListQuestions(
+                "Flirt*!  ",
+                    GameBubbleData.PlayerBubblePosX+20,
+                    GameBubbleData.PlayerBubblePosY+25,
+                    GameBubbleData.SizeWidth-15,
+                GameBubbleData.SizeHeight,
+                GameBubbleData.TextHeight,
+                function(){
+                    var card = GameEngine.Machines.getContentFromQuestion("secret", actor);
+                    GameEngine.Machines.CardToQuestions(card, actor);
+                }
+            );
+            GameEngine.Machines.ListQuestions(
+                "Threathen*! ",
+                    GameBubbleData.PlayerBubblePosX+20,
+                    GameBubbleData.PlayerBubblePosY+25,
+                    GameBubbleData.SizeWidth-15,
+                GameBubbleData.SizeHeight,
+                GameBubbleData.TextHeight,
+                function(){
+                    var card = GameEngine.Machines.getContentFromQuestion("secret", actor);
+                    GameEngine.Machines.CardToQuestions(card, actor);
+                }
+            );
+
+        },
+
+        StartQuestions : function(PlayerBubblePosX,PlayerBubblePosY,SizeWidth,SizeHeight,TextHeight, actor ){
+            GameEngine.Machines.ListQuestions(
+                "Ask about secret! ",
+                PlayerBubblePosX+20,
+                PlayerBubblePosY+25,
+                SizeWidth-15,
+                SizeHeight,
+                TextHeight,
+                function(){
+                    var card = GameEngine.Machines.getContentFromQuestion("secret", actor);
+                    GameEngine.Machines.CardToQuestions(card, actor);
+                }
+            );
+            GameEngine.Machines.ListQuestions(
+                "Ask about Other! ",
+                    PlayerBubblePosX+20,
+                    PlayerBubblePosY+25,
+                    SizeWidth-15,
+                SizeHeight,
+                TextHeight,
+                function(){
+                    var card = GameEngine.Machines.getContentFromQuestion("other", actor);
+                    GameEngine.Machines.CardToQuestions(card, actor);
+                }
+
+            );
+            GameEngine.Machines.ListQuestions(
+                "Ask about Relation! ",
+                    PlayerBubblePosX+20,
+                    PlayerBubblePosY+25,
+                    SizeWidth-15,
+                SizeHeight,
+                TextHeight,
+                function(){
+                    var card = GameEngine.Machines.getContentFromQuestion("relation", actor);
+                    GameEngine.Machines.CardToQuestions(card, actor);
+                }
+            );
+            GameEngine.Machines.ListQuestions(
+                "Ask about intress! ",
+                    PlayerBubblePosX+20,
+                    PlayerBubblePosY+25,
+                    SizeWidth-15,
+                SizeHeight,
+                TextHeight,
+                function(){
+                    var card = GameEngine.Machines.getContentFromQuestion("intress", actor);
+                    GameEngine.Machines.CardToQuestions(card, actor);
+                }
+            );
+
+        },
+
+        getContentFromQuestion : function(CardType, Actor){
+
+            var cardToUse;
+
+            switch(CardType){
+                case "secret":
+                    cardToUse = Actor.Secret;
+                    break;
+                case "other":
+                    cardToUse = Actor.Other;
+                    break;
+                case "relation":
+                    cardToUse = Actor.Relation;
+                    break;
+                case "intress":
+                    cardToUse = Actor.Intress;
+                    break;
+
+            }
+            return cardToUse;
+
+        },
+
         QuestionToBox : function(PosX, PosY ,maxWidth,maxHeight, heigtOfLetters, BeginningLetter){
             var Counter;// = 0;
             var StartOfY = PosY;
@@ -1758,38 +1985,44 @@ var GameEngine = {
                 Counter = BeginningLetter;
                 StartLetter = BeginningLetter;
             }
+            if(GameEngine.GoToButtons.DialogButtons[0] != undefined) { //Säkerhetsspärr, som hjälper till att inte utföra denna sats om det ej finns knappar..
+                for (i; i < maxHeight; i += GameEngine.GoToButtons.DialogButtons[Counter].Height + 5 + 2) { // för varje AnswerButton obj som ska läggas ut..
+                    StartOfY = PosY;
 
-            for(i; i < maxHeight; i += GameEngine.GoToButtons.DialogButtons[Counter].Height+5+2 ){ // för varje AnswerButton obj som ska läggas ut..
-                StartOfY= PosY;
-                for(var j = 0; j <GameEngine.GoToButtons.DialogButtons[Counter].LinesArr.length; j++){ // för varje rad som ska läggas ut
+                    for (var j = 0; j < GameEngine.GoToButtons.DialogButtons[Counter].LinesArr.length; j++) { // för varje rad som ska läggas ut
 
-                    if(i + heigtOfLetters >= maxHeight){
+                        if (i + heigtOfLetters >= maxHeight) {
+                            break;
+                        }
+
+                        Ctx.fillStyle = "rgb(200, 40, 255)";
+                        Ctx.fillRect(
+                                PosX - 5,
+                                PosY - heigtOfLetters + 2,
+                                maxWidth - 5,
+                            heigtOfLetters
+                        );
+                        Ctx.fillStyle = "rgb(63, 0, 0)";
+
+                        Ctx.fillText(GameEngine.GoToButtons.DialogButtons[Counter].LinesArr[j], PosX, PosY);
+                        GameEngine.GoToButtons.DialogButtons[Counter].PosX = PosX;
+                        GameEngine.GoToButtons.DialogButtons[Counter].PosY = StartOfY - heigtOfLetters;
+                        PosY += heigtOfLetters;
+                    }
+                    GameEngine.GoToButtons.DialogButtonsActive.push(GameEngine.GoToButtons.DialogButtons[Counter]);
+                    PosY += 5; //ger 5 px mellanrum mellan varje alternativ..
+                    Counter++;
+                    if (Counter == GameEngine.GoToButtons.DialogButtons.length) {
+                        isItDone = true;
                         break;
                     }
 
-                    Ctx.fillStyle = "rgb(200, 40, 255)";
-                    Ctx.fillRect(
-                            PosX - 5,
-                            PosY - heigtOfLetters + 2,
-                            maxWidth - 5,
-                        heigtOfLetters
-                    );
-                    Ctx.fillStyle = "rgb(63, 0, 0)";
 
-                    Ctx.fillText(GameEngine.GoToButtons.DialogButtons[Counter].LinesArr[j], PosX, PosY);
-                    GameEngine.GoToButtons.DialogButtons[Counter].PosX =PosX;
-                    GameEngine.GoToButtons.DialogButtons[Counter].PosY =StartOfY-heigtOfLetters;
-                    PosY += heigtOfLetters;
-                }
-                GameEngine.GoToButtons.DialogButtonsActive.push(GameEngine.GoToButtons.DialogButtons[Counter]);
-                PosY += 5; //ger 5 px mellanrum mellan varje alternativ..
-                Counter ++;
-                if(Counter == GameEngine.GoToButtons.DialogButtons.length){
-                    isItDone = true;
-                    break;
                 }
             }
 
+
+            //Logik för knapparna..
             GameEngine.GoToButtons.DialogDownorUp = []; //Tömmer arrayen med up/ned knappar för att förbereda inladdning av ny data..
 
             if(StartLetter < GameEngine.GoToButtons.DialogButtons.length-1){
@@ -1883,7 +2116,7 @@ var GameEngine = {
             Ctx.fillStyle = "rgb(63, 0, 0)";
         },
 
-        ListQuestions : function(Question, PosX, PosY ,maxWidth,maxHeight, heigtOfLetters){
+        ListQuestions : function(Question, PosX, PosY ,maxWidth,maxHeight, heigtOfLetters, functionToAdd, GameCard){
             //Denna funktion tar en "Question", mäter upp hur stor den ska vara, lägger in informationen i en array..
             var Words = Question.split(" "); //varje ord för ord i en array
             var line = "";
@@ -1919,8 +2152,10 @@ var GameEngine = {
                             PosY-PosY,
                             maxWidth,
                             Rows * heigtOfLetters,
-                            LineArr
-                            //TODO: ange vad Detta objekt ska göra när det trycks på!
+                            LineArr,
+                            functionToAdd,
+                            GameCard
+                            //TODO: ange vad Detta objekt ska göra när det trycks på! EDIT: Borde vara gjort nu
                         )
                         GameEngine.GoToButtons.DialogButtons.push(QuestionObj);
                     }
@@ -1977,13 +2212,14 @@ var GameEngine = {
 
         },
 
-        AnswerButton : function(_PosX, _PosY,_Width,_Height, _LinesArr, _answerToSend){
+        AnswerButton : function(_PosX, _PosY,_Width,_Height, _LinesArr, _answerToSend,_gamecard){
             this.PosY = _PosY;
             this.PosX = _PosX;
             this.Width = _Width;
             this.Height = _Height;
             this.LinesArr = _LinesArr; //Array med rader som tillhör frågan..
             this.AnswerToSend = _answerToSend;
+            this.GameCard = _gamecard;
         },
 
         NextOrPreviousButton:function(_PosX, _PosY, _Width, _Height, _img, _pageToGo, _placeForImage){
@@ -2135,6 +2371,15 @@ var GameEngine = {
 
 	}
 
+};
+var GameBubbleData = {
+    PlayerBubblePosX: GameEngine.Machines.getPosition(0.04594330400782014, "x"),
+    PlayerBubblePosY: GameEngine.Machines.getPosition(0.6756369882622387, "y"),
+    ActorBubblePosX : GameEngine.Machines.getPosition(0.0469208211143695, "x"),
+    ActorBubblePosY : GameEngine.Machines.getPosition(0.4981391354136845, "y"),
+    SizeWidth       : GameEngine.Machines.getPosition(0.90, "x"),
+    SizeHeight      : GameEngine.Machines.getPosition(0.15, "y"),
+    TextHeight      : GameEngine.Machines.getPosition(0.016, "x")
 };
 
 
