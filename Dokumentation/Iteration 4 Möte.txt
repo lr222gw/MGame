@@ -1,0 +1,50 @@
+
+Gästföreläsning i eftermiddag : 13.15
+	-Spinner vidare på idéer och idée skapande
+	-https://connect.sunet.se/r2xmrteab0d/
+	
+
+Kolla:SCHEMA
+	-https://se.timeedit.net/web/lnu/db1/schema2/ri1YXXY2QXwZ59Qv11089135y1Y11ZY818Q5611Q069Y19809Y7X7.html
+	^Schema för kursen
+	-https://se.timeedit.net/web/lnu/db1/schema2/ri1YXXY2QXwZ59Qv11089135y1Y11ZY818Q5611Q069Y19809Y7X7ZrwoxQo.html#mergelinks
+	^SChema för kursen utan helgdagar
+	-https://coursepress.lnu.se/kurs/individuellt-mjukvaruutvecklingsprojekt/gastforelasningar/
+
+Enligt Planering:
+	-Gått in i vecka 18
+	-Sista Elaboration iterationen
+	-Viktigt att : 
+		-implementation av arkitektur ska vara klar
+		-inga stora risker ska vara kvar! 
+		-Bör vara rätt klart angående vad man ska göra.
+
+Veckorna som gått:
+	-4 veckor har gått
+	-4 veckor kvar (om man ej räknar avslutsningsveckan)
+	-Ha koll på sin budget, hur mycket finns kvar, hur mycket ska jag jobba för att nå upp till min budget?
+
+Teknisk handlening/genomgång:
+	-Förslagsvis kan man kontakta Emil, han kan JavaScript. = Boka tid..
+
+Gremling
+	-"Monkey Testning Grej"  för kod testning
+
+Testning:
+	-http://docs.seleniumhq.org/ <- För att testa
+	-EnhetsTester : "Kamera", Jasmine, grunt, (selenium = intergrationstester)
+
+när man testar:
+	-Se till att inDatan ger rätt utdata
+		-ex, dåligt: 1. Tryck på en pil/dörr. 2. kom fram till rum
+		-ex, bra   : 1. tryck på köksdörren.  2. kom fram till köket
+		^skillnaden är att vi anger VILKEN data vi använder och Vilken data vi förväntar att få ut! 
+
+
+
+
+OBS: 
+	-Lägg till 
+	-Dela upp Bättre
+	-Vettigt: "Inte grotta för mycket i detaljer", Försök få så många pusselbitar på plats.
+	-Till nästa iteration bör vi ha fokus rätt mycket fokus på testning
