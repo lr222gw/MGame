@@ -991,11 +991,11 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "No, I have not seen anything.",
                         [
                             new GameEngine.Classes.CardData(
-                             "Happy",
+                             GameEngine.Enums.EmotionState.Happy,
                              "Thanks, come back and talk to me later. There's a chance i might remember something",
                              [],
                              "Hm, too bad. I thought you might be able to"+
@@ -1008,18 +1008,18 @@ var GameData = {
                         null
                     ),
                     new GameEngine.Classes.CardData(
-                        "annoyed",
+                        GameEngine.Enums.EmotionState.Annoyed,
                         "I have already told you, I don't know anything.",
                         [],
                         "Do you have any secrets to share?",
                         null
                     ),
                     new GameEngine.Classes.CardData(
-                        "happy",
+                        GameEngine.Enums.EmotionState.Happy,
                         "Well, You seem trustworthy. I do know some stuff..",
                         [
                            new GameEngine.Classes.CardData(
-                               "happy",
+                               GameEngine.Enums.EmotionState.Happy,
                                "Sure, just promise to not tell my lover "+ cardInMotive(2, Murderer)
                                +"! He would be quite mad... I had an affair with "+cardInMotive(2, Victim)
                                +" behind my lovers back...",
@@ -1028,7 +1028,7 @@ var GameData = {
                                null
                            ),
                            new GameEngine.Classes.CardData(
-                               "annoyed",
+                               GameEngine.Enums.EmotionState.Annoyed,
                                "Hm, well no it was really nothing...",
                                [],
                                "Well, spit it out then!",
@@ -1049,18 +1049,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "No, not really! I got nothing to hide!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! Not at all! I've had some tough time lately, that's all..",
                                 [],
                                 "Hmm, you act a little shady...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                 "Well I can try! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer?",
@@ -1080,18 +1080,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -1111,18 +1111,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "1No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -1141,18 +1141,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "2No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -1171,18 +1171,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "3No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -1201,18 +1201,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "4No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -1231,18 +1231,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "5No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -1261,18 +1261,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "7No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -1291,18 +1291,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "8No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -1321,18 +1321,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "6No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -1351,18 +1351,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "6No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -1381,18 +1381,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "6No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -1411,18 +1411,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "6No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -1441,18 +1441,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "6No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -1471,18 +1471,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "6No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -1501,18 +1501,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "6No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -1531,18 +1531,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "6No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -1561,18 +1561,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "6No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -1591,18 +1591,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "6No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -1621,18 +1621,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "6No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -1651,18 +1651,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "6No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -1681,18 +1681,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "6No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -1711,18 +1711,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "6No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -1741,18 +1741,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "6No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -1771,18 +1771,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "6No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -1801,18 +1801,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "6No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -1831,18 +1831,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "6No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -1861,18 +1861,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "6No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -1891,18 +1891,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "6No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -1921,18 +1921,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "6No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -1951,18 +1951,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "6No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -1981,18 +1981,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "6No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -2011,18 +2011,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "6No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -2041,18 +2041,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "6No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -2071,18 +2071,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "6No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -2101,18 +2101,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "6No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -2131,18 +2131,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "6No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",
@@ -2161,18 +2161,18 @@ var GameData = {
                 null,
                 [
                     new GameEngine.Classes.CardData(
-                        "neutral",
+                        GameEngine.Enums.EmotionState.Neutral,
                         "6No this is a test!",
                         [
                             new GameEngine.Classes.CardData(
-                                "concerned",
+                                GameEngine.Enums.EmotionState.Concerned,
                                 "What?.. no! No! this is a test.",
                                 [],
                                 "Hmm, you act a little shady, but this is a test...",
                                 null
                             ),
                             new GameEngine.Classes.CardData(
-                                "Happy",
+                                GameEngine.Enums.EmotionState.Happy,
                                     "Well I can try to test! I would suggest that you check in on "+cardInMotive(3,Other)+", HeShe has been acting strange since "+cardInMotive(3,Victim) +" died...",
                                 [],
                                 "Good, maybe you can help me find the murderer. testing testning?",

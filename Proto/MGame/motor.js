@@ -1641,6 +1641,48 @@ var GameEngine = {
             context.fillText(line, x, y);
         },
 
+        loadActorImage : function(Actor, emotionState){
+            var ImageToUse;
+
+            switch (emotionState){
+                case GameEngine.Enums.EmotionState.Angry :
+                    ImageToUse = Actor.EmotionObj.Angry;
+                    break;
+                case GameEngine.Enums.EmotionState.Annoyed :
+                    ImageToUse = Actor.EmotionObj.Annoyed;
+                    break;
+                case GameEngine.Enums.EmotionState.Concerned :
+                    ImageToUse = Actor.EmotionObj.Concerned;
+                    break;
+                case GameEngine.Enums.EmotionState.FreakedOut :
+                    ImageToUse = Actor.EmotionObj.FreakedOut;
+                    break;
+                case GameEngine.Enums.EmotionState.Happy :
+                    ImageToUse = Actor.EmotionObj.Happy;
+                    break;
+                case GameEngine.Enums.EmotionState.Nervous :
+                    ImageToUse = Actor.EmotionObj.Nervous;
+                    break;
+                case GameEngine.Enums.EmotionState.Neutral :
+                    ImageToUse = Actor.EmotionObj.Neutral;
+                    break;
+                case GameEngine.Enums.EmotionState.Sad :
+                    ImageToUse = Actor.EmotionObj.Sad;
+                    break;
+            }
+            Actor.emotionState = emotionState;
+
+            var PosX =GameEngine.Machines.getPosition(0.718475073313783 ,"x" );
+            var PosY =GameEngine.Machines.getPosition(0.1145147437732608,"y");
+            var width =GameEngine.Machines.getPosition(0.20,"x");
+            var height =GameEngine.Machines.getPosition(0.40,"y");
+
+
+            GameEngine.Machines.WindowSizing(ImageToUse, "gameframe",PosX,PosY,width,height);
+
+
+        },
+
 
         InterviewActor : function(actor){
             //Hämtar ner data så att datan kan tas bort (så att inga knappar kan tryckas på..)
@@ -1655,13 +1697,15 @@ var GameEngine = {
             Ctx.fillStyle = "rgba(119, 119, 119, 0.65)";
             Ctx.fillRect(0,0,ScreenSpec.SizeX, ScreenSpec.gameFrameY);
 
+            //Laddar Karaktärbild
+            GameEngine.Machines.loadActorImage(actor, actor.emotionState);
             //Ritar upp PratRuta för Aktör
             Ctx.fillStyle = "rgb(0, 102, 255)";
 
             ActorBubblePosX = GameEngine.Machines.getPosition(0.0469208211143695, "x");
             ActorBubblePosY = GameEngine.Machines.getPosition(0.4981391354136845, "y");
-            SizeWidth = GameEngine.Machines.getPosition(0.90, "x");
-            SizeHeight = GameEngine.Machines.getPosition(0.15, "y");
+            SizeWidth   =     GameEngine.Machines.getPosition(0.90, "x");
+            SizeHeight  =    GameEngine.Machines.getPosition(0.15, "y");
             Ctx.fillRect(
                 ActorBubblePosX,
                 ActorBubblePosY,
@@ -1717,6 +1761,12 @@ var GameEngine = {
                     return i;
                 }
             }
+            // Om kortet inte hittas eller inte finns så måste ersättningsdata finnas...
+            // då tar man det svar som finns, Det första bästa.
+            for(var i = 0; i < CardsAnswerArray.length; i ++){
+                    return i;
+            }//TODO: krånglar detta? Får karaktärerna vettiga svar?
+
         },
         cleanActorOrPlayerBox : function(playerOrActor){
 
@@ -1752,6 +1802,8 @@ var GameEngine = {
         },
 
         CardDataToQuestions : function(card, actor){
+
+            GameEngine.Machines.loadActorImage(actor, card.emotionState)
 
             GameEngine.Machines.cleanActorOrPlayerBox("actor");
 
@@ -1836,13 +1888,17 @@ var GameEngine = {
                     GameBubbleData.SizeHeight-10,
                     GameBubbleData.TextHeight,
                     function(){
-                        GameEngine.Machines.CardDataToQuestions(this.GameCard);
+                        GameEngine.Machines.CardDataToQuestions(this.GameCard, this.actor);
                     },
-                    Data
+                    Data,
+                    actor
 
                 );
 
             }
+
+            //Laddar in standardfrågor så att man ALLTID kan lämna/flörta/hota..
+            GameEngine.Machines.LoadStandardQuestions();
 
             GameEngine.Machines.QuestionToBox(
                 GameBubbleData.PlayerBubblePosX+20,
@@ -1866,6 +1922,7 @@ var GameEngine = {
                 GameBubbleData.TextHeight,
                 function(){
                     GameEngine.Machines.BuildRoom(GameEngine.Actives.RoomThatIsActive.ID);
+                    GameEngine.Machines.cleanQuestionData();
                 }
             );
             GameEngine.Machines.ListQuestions(
@@ -1946,6 +2003,9 @@ var GameEngine = {
                 }
             );
 
+            //Laddar in standardfrågor så att man ALLTID kan lämna/flörta/hota..
+            GameEngine.Machines.LoadStandardQuestions();
+
         },
 
         getContentFromQuestion : function(CardType, Actor){
@@ -1985,6 +2045,8 @@ var GameEngine = {
                 Counter = BeginningLetter;
                 StartLetter = BeginningLetter;
             }
+
+
             if(GameEngine.GoToButtons.DialogButtons[0] != undefined) { //Säkerhetsspärr, som hjälper till att inte utföra denna sats om det ej finns knappar..
                 for (i; i < maxHeight; i += GameEngine.GoToButtons.DialogButtons[Counter].Height + 5 + 2) { // för varje AnswerButton obj som ska läggas ut..
                     StartOfY = PosY;
@@ -2116,7 +2178,7 @@ var GameEngine = {
             Ctx.fillStyle = "rgb(63, 0, 0)";
         },
 
-        ListQuestions : function(Question, PosX, PosY ,maxWidth,maxHeight, heigtOfLetters, functionToAdd, GameCard){
+        ListQuestions : function(Question, PosX, PosY ,maxWidth,maxHeight, heigtOfLetters, functionToAdd, GameCard, actor){
             //Denna funktion tar en "Question", mäter upp hur stor den ska vara, lägger in informationen i en array..
             var Words = Question.split(" "); //varje ord för ord i en array
             var line = "";
@@ -2154,7 +2216,8 @@ var GameEngine = {
                             Rows * heigtOfLetters,
                             LineArr,
                             functionToAdd,
-                            GameCard
+                            GameCard,
+                            actor
                             //TODO: ange vad Detta objekt ska göra när det trycks på! EDIT: Borde vara gjort nu
                         )
                         GameEngine.GoToButtons.DialogButtons.push(QuestionObj);
@@ -2164,15 +2227,212 @@ var GameEngine = {
         },
 		
 		CreateActors : function(){
-			
+
+
+
 			//Init all Actor
 			var actor1 = new GameEngine.Classes.Actor("Lulle", 1, "Data/Characters/char_1/lulle.jpg");
+            var img = new Image();
+            (img.src = "Data/Characters/char_1/emotions/Angry.png");
+            actor1.EmotionObj.Angry =       img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_1/emotions/Annoyed.png");
+            actor1.EmotionObj.Annoyed =     img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_1/emotions/Concerned.png");
+            actor1.EmotionObj.Concerned =   img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_1/emotions/Freakedout.png");
+            actor1.EmotionObj.FreakedOut =  img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_1/emotions/Happy.png");
+            actor1.EmotionObj.Happy =       img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_1/emotions/Nervous.png");
+            actor1.EmotionObj.Nervous =     img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_1/emotions/Sad.png");
+            actor1.EmotionObj.Sad =         img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_1/lulle.jpg");
+            actor1.EmotionObj.Neutral =     img;
+
+
 			var actor2 = new GameEngine.Classes.Actor("Billy", 2, "Data/Characters/char_2/billy.jpg");
+            var img = new Image();
+            (img.src = "Data/Characters/char_2/emotions/Angry.png");
+            actor2.EmotionObj.Angry =       img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_2/emotions/Annoyed.png");
+            actor2.EmotionObj.Annoyed =     img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_2/emotions/Concerned.png");
+            actor2.EmotionObj.Concerned =   img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_2/emotions/Freakedout.png");
+            actor2.EmotionObj.FreakedOut =  img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_2/emotions/Happy.png");
+            actor2.EmotionObj.Happy =       img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_2/emotions/Nervous.png");
+            actor2.EmotionObj.Nervous =     img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_2/emotions/Sad.png");
+            actor2.EmotionObj.Sad =         img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_2/billy.jpg");
+            actor2.EmotionObj.Neutral =     img;
+
+
 			var actor3 = new GameEngine.Classes.Actor("Bobb", 3, "Data/Characters/char_3/bobb.jpg");
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_3/emotions/Angry.png");
+            actor3.EmotionObj.Angry =       img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_3/emotions/Annoyed.png");
+            actor3.EmotionObj.Annoyed =     img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_3/emotions/Concerned.png");
+            actor3.EmotionObj.Concerned =   img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_3/emotions/Freakedout.png");
+            actor3.EmotionObj.FreakedOut =  img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_3/emotions/Happy.png");
+            actor3.EmotionObj.Happy =       img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_3/emotions/Nervous.png");
+            actor3.EmotionObj.Nervous =     img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_3/emotions/Sad.png");
+            actor3.EmotionObj.Sad =         img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_3/bobb.jpg");
+            actor3.EmotionObj.Neutral =     img;
+
 			var actor4 = new GameEngine.Classes.Actor("Ben", 4, "Data/Characters/char_4/Ben.jpg");
+            var img = new Image();
+            (img.src = "Data/Characters/char_4/emotions/Angry.png");
+            actor4.EmotionObj.Angry =       img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_4/emotions/Annoyed.png");
+            actor4.EmotionObj.Annoyed =     img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_4/emotions/Concerned.png");
+            actor4.EmotionObj.Concerned =   img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_4/emotions/Freakedout.png");
+            actor4.EmotionObj.FreakedOut =  img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_4/emotions/Happy.png");
+            actor4.EmotionObj.Happy =       img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_4/emotions/Nervous.png");
+            actor4.EmotionObj.Nervous =     img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_4/emotions/Sad.png");
+            actor4.EmotionObj.Sad =         img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_4/Ben.jpg");
+            actor4.EmotionObj.Neutral =     img;
+
+
 			var actor5 = new GameEngine.Classes.Actor("Loue", 5, "Data/Characters/char_5/Loue.jpg");
+            var img = new Image();
+            (img.src = "Data/Characters/char_5/emotions/Angry.png");
+            actor5.EmotionObj.Angry =       img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_5/emotions/Annoyed.png");
+            actor5.EmotionObj.Annoyed =     img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_5/emotions/Concerned.png");
+            actor5.EmotionObj.Concerned =   img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_5/emotions/Freakedout.png");
+            actor5.EmotionObj.FreakedOut =  img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_5/emotions/Happy.png");
+            actor5.EmotionObj.Happy =       img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_5/emotions/Nervous.png");
+            actor5.EmotionObj.Nervous =     img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_5/emotions/Sad.png");
+            actor5.EmotionObj.Sad =         img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_5/Loue.jpg");
+            actor5.EmotionObj.Neutral =     img;
+
 			var actor6 = new GameEngine.Classes.Actor("Tom", 6, "Data/Characters/char_6/Tom.jpg");
-			
+            var img = new Image();
+            (img.src = "Data/Characters/char_6/emotions/Angry.png");
+            actor6.EmotionObj.Angry =       img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_6/emotions/Annoyed.png");
+            actor6.EmotionObj.Annoyed =     img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_6/emotions/Concerned.png");
+            actor6.EmotionObj.Concerned =   img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_6/emotions/Freakedout.png");
+            actor6.EmotionObj.FreakedOut =  img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_6/emotions/Happy.png");
+            actor6.EmotionObj.Happy =       img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_6/emotions/Nervous.png");
+            actor6.EmotionObj.Nervous =     img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_6/emotions/Sad.png");
+            actor6.EmotionObj.Sad =         img;
+
+            var img = new Image();
+            (img.src = "Data/Characters/char_6/Tom.jpg");
+            actor6.EmotionObj.Neutral =     img;
+
 			GameEngine.GlobalActors.push(actor1, actor2, actor3, actor4, actor5, actor6);
 			
 			//Pick random murderur
@@ -2212,7 +2472,7 @@ var GameEngine = {
 
         },
 
-        AnswerButton : function(_PosX, _PosY,_Width,_Height, _LinesArr, _answerToSend,_gamecard){
+        AnswerButton : function(_PosX, _PosY,_Width,_Height, _LinesArr, _answerToSend,_gamecard, _actor){
             this.PosY = _PosY;
             this.PosX = _PosX;
             this.Width = _Width;
@@ -2220,6 +2480,7 @@ var GameEngine = {
             this.LinesArr = _LinesArr; //Array med rader som tillhör frågan..
             this.AnswerToSend = _answerToSend;
             this.GameCard = _gamecard;
+            this.actor = _actor; //Vem som svarar på frågan är avgörande angående hur man ska hämta bild..
         },
 
         NextOrPreviousButton:function(_PosX, _PosY, _Width, _Height, _img, _pageToGo, _placeForImage){
@@ -2329,7 +2590,18 @@ var GameEngine = {
 										//-Bekymrad   |Concerned						
 			this.ClueList = []; 		//En array med ledtrådar relaterade till Aktören
             this.image = new Image();
-			this.image.src = _image;        //Url till Bild..
+			this.image.src = _image;        //Url till Bild.
+            this.EmotionObj = {
+                Annoyed : null,
+                Happy :null,
+                Sad : null,
+                FreakedOut :null,
+                Neutral : null,
+                Nervous : null,
+                Angry : null,
+                Concerned : null
+
+            }
 		},
 		
 		Player : function(){

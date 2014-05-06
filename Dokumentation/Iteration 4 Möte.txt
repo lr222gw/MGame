@@ -1,50 +1,69 @@
+Vi är förbi ElaborationFasen  > tre veckor Construction!
+Totalt 5 veckor kvar: (egentligen 4 som vi kan jobba på) 
 
-Gästföreläsning i eftermiddag : 13.15
-	-Spinner vidare på idéer och idée skapande
-	-https://connect.sunet.se/r2xmrteab0d/
+TODO:
+	-Få koll på min budget
+	-Kolla hur mycket man behöver jobba
+	-JOBBA EXTRA nu de sista veckor
+
+Situation: hur det bör vara
+	-Det mesta/största bör vara klart
+
+Construction :
+	-Man kan börja jobba med gränssnitt när som ! 
+	-Den stora implementationen av saker ska ske 
+	-Finslipa 
+	-Se till så att allt hamnar på plats.
+
+
+Hur sitter ni? 
+	-Sitter ni flera timmar i streck eller flera dagar i mindre intervaller?
+	-själv = Sitter gärna 7h i streck inkl paus
+
+TIPS:
+	-Planera vad som ska göras "Idag"
+	-Följ schema
+	-Begränsning är inte av ondska : Ta den tiden du behöver, det är den tid det kommer ta ändå!
+	-När man sitter för länge = kan sakerna "gå ner" i kvalite, när man ser det dagen efter så känns det kanske inte så bra som dagen igår.
+		^Gå upp tidigare och lägg dig tidigare.
+	-Fråga dig själv : När är jag som mest Effektiv = När jag sätter mig och är på humör.
+		^Ge dig själv de bästa förutsättningar, kanske behöver du längre tid och ingen press, kanske behöver du ett schema för att bli produktiv?
+	-Om du jobbar i grupp kan man ha olika synsätt : Förutsätt ingenting, föruttsätt inte att det kommer bli på ett visst sätt. 
+
+
+Min situation:
+	-Consolen krävs fortfarande
+	-Lägg mer tid nu, få saker på plats, trappa ner på slutet när man känner att mycket är på plats.
+	-Jobba runt 25h i veckan
+
+Sista veckan:
+	-Inlämningen är Måndag veckan efter sista veckan (?) 
+		^Läraren hämtar ner allt från våra Githubs, gör examinationen på det materialet som fanns på github just den här tiden! 
+		^ALLT Ska in i Github! <- allt ska finnas tillgängligt därifrån!
+	-Gör presentation, genomföra presentation, lyssna på andras presentation
+	-Färdigställa dokumentation: 
+		-Fixa stavfel
+		-Snygga till dokumentationen <- uppskattas
+		-Organisera dokumentationen
+	-Testning BÖR SKE VECKAN INNAN!! 
 	
 
-Kolla:SCHEMA
-	-https://se.timeedit.net/web/lnu/db1/schema2/ri1YXXY2QXwZ59Qv11089135y1Y11ZY818Q5611Q069Y19809Y7X7.html
-	^Schema för kursen
-	-https://se.timeedit.net/web/lnu/db1/schema2/ri1YXXY2QXwZ59Qv11089135y1Y11ZY818Q5611Q069Y19809Y7X7ZrwoxQo.html#mergelinks
-	^SChema för kursen utan helgdagar
-	-https://coursepress.lnu.se/kurs/individuellt-mjukvaruutvecklingsprojekt/gastforelasningar/
 
-Enligt Planering:
-	-Gått in i vecka 18
-	-Sista Elaboration iterationen
-	-Viktigt att : 
-		-implementation av arkitektur ska vara klar
-		-inga stora risker ska vara kvar! 
-		-Bör vara rätt klart angående vad man ska göra.
+Frågor:
+	-Min design, hur kan man lägga tid på design gällande göra allt i canvas ? etc? Alltså det som man ska lägga andra kursens tid på?
+		^Hur lägga tid på det i mitt projekt? vad kan man tänka på?
+	-Andra kursen i allmänhet. Är det bara uppgifterna eller är det andra saker? Labb och Flabb?
+	= Man kan prata med *** på Workshopen om feedback på utseeende etc! 
 
-Veckorna som gått:
-	-4 veckor har gått
-	-4 veckor kvar (om man ej räknar avslutsningsveckan)
-	-Ha koll på sin budget, hur mycket finns kvar, hur mycket ska jag jobba för att nå upp till min budget?
-
-Teknisk handlening/genomgång:
-	-Förslagsvis kan man kontakta Emil, han kan JavaScript. = Boka tid..
-
-Gremling
-	-"Monkey Testning Grej"  för kod testning
-
-Testning:
-	-http://docs.seleniumhq.org/ <- För att testa
-	-EnhetsTester : "Kamera", Jasmine, grunt, (selenium = intergrationstester)
-
-när man testar:
-	-Se till att inDatan ger rätt utdata
-		-ex, dåligt: 1. Tryck på en pil/dörr. 2. kom fram till rum
-		-ex, bra   : 1. tryck på köksdörren.  2. kom fram till köket
-		^skillnaden är att vi anger VILKEN data vi använder och Vilken data vi förväntar att få ut! 
+	-När vet man när man kan bocka av en sak, den kan ju vara "klar","halvkalr" eller "något som är typ klart men vill förbättra"
+	= tänk på att kraven måste vara designade så att detta inte blir ett problem! 
+	= Bättre att säga att funktionen är färdig tills man ser vad man kan lägga till, om det är mycket! 
+	= 80% färdigt fällan : bättre att begränsa ner kravet så att man blir 100% färdigt istället för 80%. Alltså att 80% är egentligen det 100%iga! istället för att ha flera delar som rä 80% klara..
+	= IN MED ALLT i produkt backlog, prioritera efter det! 
 
 
 
 
-OBS: 
-	-Lägg till 
-	-Dela upp Bättre
-	-Vettigt: "Inte grotta för mycket i detaljer", Försök få så många pusselbitar på plats.
-	-Till nästa iteration bör vi ha fokus rätt mycket fokus på testning
+
+Utveckla saker snabbt:
+	-Lär dig Node! 
