@@ -284,12 +284,14 @@ var GameEngine = {
             //Detta är en kontroll så att denna metod inte körs när karaktärer har roller som är satta..
             //Dålig spärr då den bara testar en spelare, men det är allt som behövs..
             if(GameEngine.GlobalActors[1].Secret == null){
-
-
                 //nu ska vi tilldela motivedatans roller till aktörerna som vi skapat..
                 for(var i = 0; i < RandomMurderMotive.length -1; i++){
-                    GameEngine.Machines.GiveActorsRole(RandomMurderMotive[i]);
+                    GameEngine.Machines.GiveActorsRole(RandomMurderMotive[i], GameEngine.Machines.roleGetter(i));
                 }
+
+                //Nu ska datan som vi lagt in placeras i Placeholders över alla rum..
+
+
             }else{
                 alert("SelectRandomMotive funktionen har redan utförts.. ");
             }
@@ -300,7 +302,206 @@ var GameEngine = {
 
         },
 
-        GiveActorsRole : function(RandomMurderMotive){
+        newRandomListOfClues : function(){
+            //funktionen genererar och retuernrar en array med ledtrådar som inte finns på några Actors..
+            var min = 3;
+            var max = 10;
+            var cardsInArr = Math.floor(Math.random() * max + min);
+
+            var GameCard = null;
+            var GameCardIsSet = false;
+            var ArrOfcards = [];
+
+            for(var i = 0; i < cardsInArr; i++ ){
+                while(GameCardIsSet == false){
+
+                    GameCard = GameEngine.Machines.getGameCardFromID(Math.floor(Math.random() * GameData.GameCardsCollectionData.length -1 + 0), "clue"); //TODO: minus 1 här, krångalr newRandomListOFClues ?
+                    if(GameEngine.Machines.gameCardDoesNotBelongWithOtherActor(GameCard)){
+                        GameCardIsSet = true;
+                    }
+                }
+
+                ArrOfcards.push(GameCard);
+
+                GameCardIsSet = false
+            }
+            return ArrOfcards;
+        },
+
+        findClueCardRooms : function(ClueCardID){
+            //Hämtar en Array med IDn som symboliserar vilka rum kortet kan finnas i..
+            for(var i = 0; i < GameData.GameCardsCollectionData.length; i++){
+                if(GameData.GameCardsCollectionData[i].theGameCard != undefined){
+                    if(GameData.GameCardsCollectionData[i].theGameCard.ID == ClueCardID){
+                        return GameData.GameCardsCollectionData[i].possibleRoom;
+                    }
+                }
+            }
+
+        },
+
+        getCluesFromAllActorsClueListsForSpecificRoom : function(RoomID){
+            var AllCluesForThisRoomArr = [];
+            var ClueCardRooms;
+            for(var i = 0; i < GameEngine.GlobalActors.length; i++){
+
+                for(var j = 0; j < GameEngine.GlobalActors[i].ClueList.length; j++){
+                    ClueCardRooms = GameEngine.Machines.findClueCardRooms(GameEngine.GlobalActors[i].ClueList[j].ID);
+
+                    if(ClueCardRooms.indexOf(RoomID) != -1){// om RumID't finns i Arrayen så ska kortet kunna läggas i rummet.
+                        AllCluesForThisRoomArr.push(GameEngine.GlobalActors[i].ClueList[j]);
+                    }
+
+
+
+                }
+
+
+            }
+            return AllCluesForThisRoomArr;
+        },
+
+        mixUpClueCards : function(RealCardsArr){
+            //Först så måste vi slumpa fram en uppdelning; alltså hur många kort ska vara motivkort och hur många kort ska vara icke relaterade.
+
+            //TODO: Fungerar det med att alla rum har 10 ledtrådar? tänker på Hallarna som inte riktigt har rum för det... ?
+            //Totalt vill vi välja ut 10 ledtrådar, så varje rum kommer ha tio ledtrådar
+            var MaxNumberOfCards = 10;
+            //nu tar vi fram hur många som ska vara riktiga ClueCards, resten blir fake..
+            var NumberOfRealCards = Math.floor(Math.random() * MaxNumberOfCards + 3); // minst 3 riktiga kort måste skapas..
+            var NumberOfRealCards_UseThisToSubtract = NumberOfRealCards;
+
+            //Vi behöver en Array1, som lagrar arrayer2, där arreyn2 innehållar 2 saker: 0=ID't på kortet. 1=IDn på kort som krävs..
+            var ArrayOfGameCards = [];
+            var GameCardPLUSSPossibleCards = []; // 0 = alltid själva "huvud" kortet, 1-> = korten som behövs..
+            var CardToUse = []; // en array som innehåller de kort som kommer att returneras tillbaka..
+
+            //innan vi väljer kort måste vi se till att inte splittra på några kort som hör samman, dett agäller bara korten från RealCardsArr..
+            var CardToTest;
+            for(var i = 0;i<RealCardsArr.length; i++){
+                CardToTest = RealCardsArr[i];
+
+                if(CardToTest.needTheseCards != undefined){ // om CardToTest.needTheseCards inte är undefined så innehåller arrayen något och bör ta till häänsyn
+                    GameCardPLUSSPossibleCards.push(CardToTest);
+                    for(var j = 0; j < CardToTest.needTheseCards.length;j++){
+                        GameCardPLUSSPossibleCards.push(GameEngine.Machines.getGameCardFromID(CardToTest.needTheseCards.ID,"clue"));
+                    }
+                    ArrayOfGameCards.push(GameCardPLUSSPossibleCards);
+                    GameCardPLUSSPossibleCards=[];
+                }else{//om det inte innehåller några "NeedTheseCards"Idn så lägger vi bara in kortet i vår nya array som kommer innehålla alla "riktiga" kort.
+                    GameCardPLUSSPossibleCards.push(CardToTest);
+                    ArrayOfGameCards.push(GameCardPLUSSPossibleCards);
+                    GameCardPLUSSPossibleCards=[];
+                }
+
+            }
+            // nu är ArrayOfGameCards fylld med kort + deras "beroende kort" och nu ska vi välja ut *NumberOfRealCards* kort där vi ska räkna med "beroende korten"...
+            var CardToPutInCardToUse;
+            var Logger = [];
+            var untilFalse = true;
+            while(untilFalse){
+                //Slumpa fram ett av de framtagna korten
+                CardToPutInCardToUse = ArrayOfGameCards[Math.round(Math.random() * ArrayOfGameCards.length + 0)];
+
+                //kolla om kortet har använts förut
+                if(Logger.indexOf(CardToPutInCardToUse[0].ID) == -1){
+                    //Kolla om korten som behöver läggas in är tillräckligt FÅ för att de ska få plats, om det är de så stoppas de in.
+                    // om de inte får plats så loggas kortet fortfarande (så att de ej väljs igen), när alla kort är testade så ger While-satsen med sig och
+                    // kort som är riktiga har blivit valda!
+                    if(CardToPutInCardToUse.length <= NumberOfRealCards_UseThisToSubtract){
+                        for(var i = 0; i < CardToPutInCardToUse.length; i++){
+                            CardToUse.push(CardToPutInCardToUse[i]);
+                            NumberOfRealCards_UseThisToSubtract -1;
+                            Logger.push(CardToPutInCardToUse[i].ID);
+                        }
+                    }else{
+                        Logger.push(CardToPutInCardToUse[0].ID);
+                    }
+
+                }
+
+                if(Logger.length == ArrayOfGameCards.length){
+                    untilFalse = true;
+                }
+
+            }
+
+            //Måste se till att Korten som är satta på karaktärernas personligheter inte har "needTheseCards" bland korten, om det är fallet så
+            //måste de korten vara med. Detta måste också göras när korten delas ut, så att en karaktär inte får ett kort som kräver att
+            //en annan karaktär har ett kort som den karaktären inte har.
+
+
+        },
+
+        //TODO: Skapa funktion som hämtar ut de kortID till de kort som finns på Karaktärernas Personlighetskorts "NeedTheeseCards"
+        //TODO; när det är avklarat så ska korten gemföras med de kort som vi tagit fram till rummen, om det är en matchning så läggs kortet in i en array som
+        //TODO: skickas tillbaka. Arrayen innehåller alltså ALLA kort som krävs för att Karaktärernas MotivKort ska "Make sense". Alltså fär att en viktig dialog ska leda till en Riktig Ledtråd..
+
+        placeClues : function(){
+            //Först väljer vi rum
+            for(var i = 0; i < GameEngine.GlobalRooms.length ; i++){
+
+                //nu måste vi välja ut källan för datan, den kan antingen komma från en person eller direkt från  GameData.GameCardsCollectionData
+                var DataSource = [];
+                var DataSourceMixedUp = [];
+                var ArrOfPossibleRoomsIDn;
+
+                for(var d = 0; d < GameEngine.GlobalActors.length; d++){
+                    //Först tar vi reda på om det finns data som ska in i rummet från Motivet, den datan ligger direkt på personerna..
+
+                    for(var k = 0; k < GameEngine.GlobalActors[d].ClueList.length; k++){
+                        //Vi hämtar ner en array med de RumIDn som kortet kan läggas in i
+                        ArrOfPossibleRoomsIDn = (GameEngine.Machines.findClueCardRooms(GameEngine.GlobalActors[d].ClueList[k].ID));
+                        for(var l = 0; l<ArrOfPossibleRoomsIDn.length;l++ ){
+                            if(ArrOfPossibleRoomsIDn[l] == i){ // Om True : Kortet kan ligga i rummet och pushas in i DataSource
+                                DataSource.push(GameEngine.GlobalActors[d].ClueList[k]);
+                            }
+                        }
+                    }
+                }
+                //Blanda upp korten som hör till motivdata med Icke relaterade kort för att få blandning på spelet..
+                DataSourceMixedUp = GameEngine.Machines.mixUpClueCards(DataSource);
+
+
+
+                //Sen börjar vi lägga in datan i de olika placeholders som finns i rummen
+                for(var j = 0; j < GameEngine.GlobalRooms[i].Containers.length ; j++){
+
+                }
+
+
+            }
+        },
+
+        roleGetter : function(RoleID){
+            //roleGetter hämtar ut rätt roll beroende vilket ID som skickas hit, denna funktion är designad
+            // efter Arrayen "RandomMurderMotive" i SelectRandomMotive funktionen.
+            switch (RoleID){
+                case 0:
+                    return "other";
+                    break;
+                case 1:
+                    return "murder";
+                    break;
+                case 2:
+                    return "victim";
+                    break;
+                case 3:
+                    return "actor1";
+                    break;
+                case 4:
+                    return "actor2";
+                    break;
+                case 5:
+                    return "actor3";
+                    break;
+                case 6:
+                    return "actor4";
+                    break;
+            }
+        },
+
+        GiveActorsRole : function(RandomMurderMotive, role){
             var roleIsSet=false;
             var roleToTest;
 
@@ -315,8 +516,15 @@ var GameEngine = {
                 //Testar om rollen är ledig
                 if(GameEngine.Machines.TestIfRoleIsFree(roleToTest)){
 
-                    //Rollen är ledig, nu ska vi ge rollens ens egenskaper
+                    //Om rollen är ledig och detta är Mördarens kort så ska rollen sättas som mördare, Samma sak för Victim..
+                    if(role == "murder"){
+                        roleToTest.isMurder = true;
+                    }
+                    if(role == "victim"){
+                        roleToTest.isVictim = true;
+                    }
 
+                    //Rollen är ledig, nu ska vi ge rollens ens egenskaper
                     roleToTest.Secret   = GameEngine.Machines.getGameCardFromMotiveData(GameEngine.Enums.GameCardType.Secret,RandomMurderMotive,"person");
                     roleToTest.Other    = GameEngine.Machines.getGameCardFromMotiveData(GameEngine.Enums.GameCardType.Other,RandomMurderMotive,"person");
                     roleToTest.Intress  = GameEngine.Machines.getGameCardFromMotiveData(GameEngine.Enums.GameCardType.Intress,RandomMurderMotive,"person");
@@ -577,7 +785,6 @@ var GameEngine = {
                             if(GameCardToCheck.theGameCard.ID == GameCardID){
                                 //returnerar tillbaka rätt kort
                                 return GameCardToCheck.theGameCard;
-
                             }
 
                         }
@@ -2264,6 +2471,8 @@ var GameEngine = {
             (img.src = "Data/Characters/char_1/lulle.jpg");
             actor1.EmotionObj.Neutral =     img;
 
+            actor1.room = GameEngine.Enums.Room.bedroom1;
+
 
 			var actor2 = new GameEngine.Classes.Actor("Billy", 2, "Data/Characters/char_2/billy.jpg");
             var img = new Image();
@@ -2297,6 +2506,8 @@ var GameEngine = {
             var img = new Image();
             (img.src = "Data/Characters/char_2/billy.jpg");
             actor2.EmotionObj.Neutral =     img;
+
+            actor2.room = GameEngine.Enums.Room.bedroom2;
 
 
 			var actor3 = new GameEngine.Classes.Actor("Bobb", 3, "Data/Characters/char_3/bobb.jpg");
@@ -2333,6 +2544,8 @@ var GameEngine = {
             (img.src = "Data/Characters/char_3/bobb.jpg");
             actor3.EmotionObj.Neutral =     img;
 
+            actor3.room = GameEngine.Enums.Room.bedroom3;
+
 			var actor4 = new GameEngine.Classes.Actor("Ben", 4, "Data/Characters/char_4/Ben.jpg");
             var img = new Image();
             (img.src = "Data/Characters/char_4/emotions/Angry.png");
@@ -2366,6 +2579,7 @@ var GameEngine = {
             (img.src = "Data/Characters/char_4/Ben.jpg");
             actor4.EmotionObj.Neutral =     img;
 
+            actor4.room = GameEngine.Enums.Room.bedroom4;
 
 			var actor5 = new GameEngine.Classes.Actor("Loue", 5, "Data/Characters/char_5/Loue.jpg");
             var img = new Image();
@@ -2400,6 +2614,8 @@ var GameEngine = {
             (img.src = "Data/Characters/char_5/Loue.jpg");
             actor5.EmotionObj.Neutral =     img;
 
+            actor5.room = GameEngine.Enums.Room.bedroom5;
+
 			var actor6 = new GameEngine.Classes.Actor("Tom", 6, "Data/Characters/char_6/Tom.jpg");
             var img = new Image();
             (img.src = "Data/Characters/char_6/emotions/Angry.png");
@@ -2432,6 +2648,8 @@ var GameEngine = {
             var img = new Image();
             (img.src = "Data/Characters/char_6/Tom.jpg");
             actor6.EmotionObj.Neutral =     img;
+
+            actor6.room = GameEngine.Enums.Room.bedroom6;
 
 			GameEngine.GlobalActors.push(actor1, actor2, actor3, actor4, actor5, actor6);
 			
@@ -2573,7 +2791,8 @@ var GameEngine = {
 		
 		Actor : function(_name, _ID, _image){
 			this.name = _name;				//Namnet på aktören..
-			//this.isMurder = false;		
+			this.isMurder = false;
+            this.isVictim = false;
 			this.ID = _ID;				//Alla Actors har ett ID som representerar vem dem är
 			this.Secret = null; 		//GameCard av typen "Secret"
 			this.Other = null;			//GameCard av typen "Other"
@@ -2601,7 +2820,8 @@ var GameEngine = {
                 Angry : null,
                 Concerned : null
 
-            }
+            };
+            this.room = null;           //här sätter vi ID't på det rum som tillhör Actorn..
 		},
 		
 		Player : function(){
