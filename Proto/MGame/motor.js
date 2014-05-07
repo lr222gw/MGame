@@ -238,6 +238,9 @@ var GameEngine = {
             TableClue   :"tableclue"
         }
     },
+    BusyCards : {
+        ClueCards : []
+    },
 
     Actives : {
         RoomThatIsActive : ""
@@ -302,23 +305,58 @@ var GameEngine = {
 
         },
 
-        newRandomListOfClues : function(){
+        getAllPossibleCards : function(Type){
+            var PossibleCardsArr = [];
+
+            for(var i = 0; i < GameData.GameCardsCollectionData.length; i++){
+                if(GameData.GameCardsCollectionData[i].theGameCard != undefined){
+                    PossibleCardsArr.push(GameEngine.Machines.getGameCardFromID(GameData.GameCardsCollectionData[i].theGameCard.ID, Type));
+                }
+
+            }
+            return PossibleCardsArr;
+
+        },
+
+        newRandomListOfClues : function(_min, _max){
             //funktionen genererar och retuernrar en array med ledtrådar som inte finns på några Actors..
-            var min = 3;
-            var max = 10;
+            if(_min == undefined && _max == undefined ){
+                var min = 3;
+                var max = 10;
+            }else{
+                var min = _min;
+                var max = _max;
+            }
+
             var cardsInArr = Math.floor(Math.random() * max + min);
 
             var GameCard = null;
             var GameCardIsSet = false;
             var ArrOfcards = [];
+            var TotalOfPossibleCards = GameEngine.Machines.getAllPossibleCards("clue");
 
             for(var i = 0; i < cardsInArr; i++ ){
                 while(GameCardIsSet == false){
 
-                    GameCard = GameEngine.Machines.getGameCardFromID(Math.floor(Math.random() * GameData.GameCardsCollectionData.length -1 + 0), "clue"); //TODO: minus 1 här, krångalr newRandomListOFClues ?
-                    if(GameEngine.Machines.gameCardDoesNotBelongWithOtherActor(GameCard)){
-                        GameCardIsSet = true;
+                    GameCard = GameEngine.Machines.getGameCardFromID(Math.floor(Math.random() * GameData.GameCardsCollectionData.length + 0), "clue"); //TODO: minus 1 här, krångalr newRandomListOFClues ?
+
+                    //vi ska också logga försöket så att vi inte testar samma kort flera gånger, Samt spara ner dem i ien globalArray för att undvika att Samma kort blir valt igen..
+                    if(GameEngine.BusyCards.ClueCards.indexOf(GameCard.ID) == -1){
+                        if(GameCard.ID != -1 ){ //Säkerhetsspärr så att kortet man får inte är ogiltigt..
+                            if(GameEngine.Machines.gameCardDoesNotBelongWithOtherActor(GameCard)){
+                                GameCardIsSet = true;
+                            }
+                        }
+
+                        GameEngine.BusyCards.ClueCards.push(GameCard.ID)
                     }
+
+                    if(TotalOfPossibleCards.length == GameEngine.BusyCards.ClueCards.length){
+                        //Om alla kort är testade och det inte finns några kort kvar att testa så ska loopen avbrytas..
+                        return ArrOfcards; //vi måste returnera annars kommer det skickas med Clues som redan har använts en gång..
+                    }
+
+
                 }
 
                 ArrOfcards.push(GameCard);
@@ -468,13 +506,21 @@ var GameEngine = {
                     untilFalse = false;
                 }
             }
+
+
             // innan vi returnerar så måste vi se till att antal ledtrådar kommer gå upp i MaxNumberOfCards, så vi fyller på resten med "fejk"-kort..
-
-            var FakeCards = GameEngine.Machines.newRandomListOfClues();
-
-            for(var i= 0 ; i < MaxNumberOfCards - NumberOfRealCards; i++){
-                FakeCards.splice(i,1);
+            var min = undefined;
+            var max = undefined;
+            if(NumberOfRealCards < 3){
+                min = MaxNumberOfCards - CardToUse.length;
+                max = 10;
             }
+            var FakeCards = GameEngine.Machines.newRandomListOfClues(min, max);
+
+            // Kan verkligen inte förstå vad det är för något jag har försökt att göra (det avmarkerade..)
+//            for(var i= 0 ; i < MaxNumberOfCards - NumberOfRealCards; i++){
+//                FakeCards.splice(i,1);
+//            }
             for(var i = 0; i < FakeCards.length; i++){
                 CardToUse.push(FakeCards[i]);
             }
@@ -597,11 +643,29 @@ var GameEngine = {
                     }
                 }
 
+                //När vi har kommit såhär långt finns det risk att vissa kort som vi hämtat inte har använts, dessa kort blir då upptagna då de ligger i
+                //"GameEngine.BusyCards.ClueCards", vi måste anropa en funktion som tar bort alla kort som är lediga från den arrayen!
 
 
 
 
             }
+        },
+
+        ClearFreeRoomData : function(){
+            for(var j = 0; j < GameEngine.BusyCards.ClueCards.length; j++){
+
+                for(var i = 0; i < GameEngine.GlobalRooms.length; i++){
+
+                
+
+
+                }
+
+            }
+
+
+
         },
 
         roleGetter : function(RoleID){
