@@ -359,16 +359,21 @@ var GameEngine = {
 
             }
             return AllCluesForThisRoomArr;
-        },
+        }, //TODO: Skriva en funktion som gör att man kan ta emot ord som "murder" och "victim" samt "actor1", "actor2" osv. Istället för rum, så blir det deras rum, (vid initiationen av korten..)
 
         mixUpClueCards : function(RealCardsArr){
             //Först så måste vi slumpa fram en uppdelning; alltså hur många kort ska vara motivkort och hur många kort ska vara icke relaterade.
 
-            //TODO: Fungerar det med att alla rum har 10 ledtrådar? tänker på Hallarna som inte riktigt har rum för det... ?
+            //TODO: Fungerar det med att alla rum har 10 ledtrådar? tänker på Hallarna som inte riktigt har rum för det... ? <-- svar : nepp.. Måste fixa så att rum som inte har kort klaras av i denna funktion..
             //Totalt vill vi välja ut 10 ledtrådar, så varje rum kommer ha tio ledtrådar
             var MaxNumberOfCards = 10;
             //nu tar vi fram hur många som ska vara riktiga ClueCards, resten blir fake..
             var NumberOfRealCards = Math.floor(Math.random() * MaxNumberOfCards + 3); // minst 3 riktiga kort måste skapas..
+
+            if(RealCardsArr.length < NumberOfRealCards){ // om antalet kort som ska användas är högre än antalet kort som finns så kör vi med antalet kort som finns istället..
+                NumberOfRealCards = RealCardsArr.length;
+            }
+
             var NumberOfRealCards_UseThisToSubtract = NumberOfRealCards;
 
             //Vi behöver en Array1, som lagrar arrayer2, där arreyn2 innehållar 2 saker: 0=ID't på kortet. 1=IDn på kort som krävs..
@@ -396,43 +401,141 @@ var GameEngine = {
 
             }
             // nu är ArrayOfGameCards fylld med kort + deras "beroende kort" och nu ska vi välja ut *NumberOfRealCards* kort där vi ska räkna med "beroende korten"...
+            var CardToPutInCardToUsePRIORITY = GameEngine.Machines.getActorsCardPRIORITY(ArrayOfGameCards);
+            // nu ska den viktiga datan in i "ArrayOfGameCards", fast de ska in så de ligger först.
+            var Holder;
+            Holder = ArrayOfGameCards;
+            ArrayOfGameCards = [];
+            for(var p = 0; p < CardToPutInCardToUsePRIORITY.length; p++){
+                ArrayOfGameCards.push(CardToPutInCardToUsePRIORITY[p]);
+            }
+            // nu när den prioriterade datan ligger först ska vi se till att ta bort den prioriterade datan från de de gamla korten (de som nu ligger i Holder)
+            // detta för att undvika dubblikationer..
+            for(var p = 0; p < Holder.length; p++){
+
+                for(var o = 0; o < ArrayOfGameCards.length; o++){
+
+                    for(var y = 0; y < Holder[p].length; p++){
+
+                        if(Holder[p][y].ID == ArrayOfGameCards[o].ID){
+                            Holder[p].splice(y,1);
+                        }
+                    }
+                }
+            }
+            //När rensningen av dubletter är klara så kan vi lägga in de återstående GameCardsen från "Holder" in i "ArrayOFGameCards"
+            for(var i= 0; i < Holder.length; i++){
+                ArrayOfGameCards.push(Holder[i]);
+            }
+
             var CardToPutInCardToUse;
+            var TakeCardsFrom;
+            var counter = 0;;
             var Logger = [];
             var untilFalse = true;
             while(untilFalse){
-                //Slumpa fram ett av de framtagna korten
-                CardToPutInCardToUse = ArrayOfGameCards[Math.round(Math.random() * ArrayOfGameCards.length + 0)];
 
-                //kolla om kortet har använts förut
-                if(Logger.indexOf(CardToPutInCardToUse[0].ID) == -1){
-                    //Kolla om korten som behöver läggas in är tillräckligt FÅ för att de ska få plats, om det är de så stoppas de in.
-                    // om de inte får plats så loggas kortet fortfarande (så att de ej väljs igen), när alla kort är testade så ger While-satsen med sig och
-                    // kort som är riktiga har blivit valda!
-                    if(CardToPutInCardToUse.length <= NumberOfRealCards_UseThisToSubtract){
-                        for(var i = 0; i < CardToPutInCardToUse.length; i++){
-                            CardToUse.push(CardToPutInCardToUse[i]);
-                            NumberOfRealCards_UseThisToSubtract -1;
-                            Logger.push(CardToPutInCardToUse[i].ID);
-                        }
-                    }else{
-                        Logger.push(CardToPutInCardToUse[0].ID);
-                    }
-
+                //Slumpa fram ett av de framtagna korten Om de prioriterade korten är tagna!
+                if(counter <= CardToPutInCardToUsePRIORITY.length){
+                    // om counter är mindre än antal prioriterade kort så ska de prioriterade korten betas av FÖRE vi tar slumpade kort..
+                    CardToPutInCardToUse = ArrayOfGameCards[counter];
+                    counter++;
+                }else{
+                    CardToPutInCardToUse = ArrayOfGameCards[Math.round(Math.random() * ArrayOfGameCards.length + 0)];
                 }
+
+                if(CardToPutInCardToUse != undefined){ //säkerhetspärr som ser till att innehållat bara körs om ArrayOfGameCards inte tilldelat CardToPutInCardToUse
+                    //kolla om kortet har använts förut
+                    if(Logger.indexOf(CardToPutInCardToUse[0].ID) == -1){
+                        //Kolla om korten som behöver läggas in är tillräckligt FÅ för att de ska få plats, om det är de så stoppas de in.
+                        // om de inte får plats så loggas kortet fortfarande (så att de ej väljs igen), när alla kort är testade så ger While-satsen med sig och
+                        // kort som är riktiga har blivit valda!
+                        if(CardToPutInCardToUse.length <= NumberOfRealCards_UseThisToSubtract){
+                            for(var i = 0; i < CardToPutInCardToUse.length; i++){
+                                CardToUse.push(CardToPutInCardToUse[i]);
+                                NumberOfRealCards_UseThisToSubtract -1;
+                                Logger.push(CardToPutInCardToUse[i].ID);
+                            }
+                        }else{
+                            Logger.push(CardToPutInCardToUse[0].ID);
+                        }
+
+                    }
+                }
+
 
                 if(Logger.length == ArrayOfGameCards.length){
-                    untilFalse = true;
+                    untilFalse = false;
                 }
+            }
+            // innan vi returnerar så måste vi se till att antal ledtrådar kommer gå upp i MaxNumberOfCards, så vi fyller på resten med "fejk"-kort..
 
+            var FakeCards = GameEngine.Machines.newRandomListOfClues();
+
+            for(var i= 0 ; i < MaxNumberOfCards - NumberOfRealCards; i++){
+                FakeCards.splice(i,1);
+            }
+            for(var i = 0; i < FakeCards.length; i++){
+                CardToUse.push(FakeCards[i]);
             }
 
+            return CardToUse;
+        },
+
+        getActorsCardPRIORITY : function(ArrayOfGameCards){
             //Måste se till att Korten som är satta på karaktärernas personligheter inte har "needTheseCards" bland korten, om det är fallet så
             //måste de korten vara med. Detta måste också göras när korten delas ut, så att en karaktär inte får ett kort som kräver att
             //en annan karaktär har ett kort som den karaktären inte har.
+            var ArrWithPriorities = [];
+            for(var i= 0; i <= GameEngine.GlobalActors.length-1; i++){ //TODO: lade till -1, krånglar det eller fungerar det?...
 
+                for(var j = 0; j <= ArrayOfGameCards.length; j++){
+
+                    for(var k = 0; k < GameEngine.GlobalActors[i].Intress.needTheseCards.length; k++){
+
+                        for(var u = 0; u < ArrayOfGameCards[j].length; u++){
+
+                            if(ArrayOfGameCards[j][u].ID == GameEngine.GlobalActors[i].Intress.needTheseCards[k].ID){
+                                ArrWithPriorities.push(ArrayOfGameCards[j][u]);
+                            }
+                        }
+
+                    }
+                    for(var k = 0; k < GameEngine.GlobalActors[i].Other.needTheseCards.length; k++){
+
+                        for(var u = 0; u < ArrayOfGameCards[j].length; u++){
+
+                            if(ArrayOfGameCards[j][u].ID == GameEngine.GlobalActors[i].Other.needTheseCards[k].ID){
+                                ArrWithPriorities.push(ArrayOfGameCards[j][u]);
+                            }
+                        }
+
+                    }
+                    for(var k = 0; k < GameEngine.GlobalActors[i].Relation.needTheseCards.length; k++){
+
+                        for(var u = 0; u < ArrayOfGameCards[j].length; u++){
+
+                            if(ArrayOfGameCards[j][u].ID == GameEngine.GlobalActors[i].Relation.needTheseCards[k].ID){
+                                ArrWithPriorities.push(ArrayOfGameCards[j][u]);
+                            }
+                        }
+
+                    }
+                    for(var k = 0; k < GameEngine.GlobalActors[i].Secret.needTheseCards.length; k++){
+
+                        for(var u = 0; u < ArrayOfGameCards[j].length; u++){
+
+                            if(ArrayOfGameCards[j][u].ID == GameEngine.GlobalActors[i].Secret.needTheseCards[k].ID){
+                                ArrWithPriorities.push(ArrayOfGameCards[j][u]);
+                            }
+                        }
+
+                    }
+                }
+            }
+            return ArrWithPriorities;
 
         },
-
         //TODO: Skapa funktion som hämtar ut de kortID till de kort som finns på Karaktärernas Personlighetskorts "NeedTheeseCards"
         //TODO; när det är avklarat så ska korten gemföras med de kort som vi tagit fram till rummen, om det är en matchning så läggs kortet in i en array som
         //TODO: skickas tillbaka. Arrayen innehåller alltså ALLA kort som krävs för att Karaktärernas MotivKort ska "Make sense". Alltså fär att en viktig dialog ska leda till en Riktig Ledtråd..
@@ -462,12 +565,40 @@ var GameEngine = {
                 //Blanda upp korten som hör till motivdata med Icke relaterade kort för att få blandning på spelet..
                 DataSourceMixedUp = GameEngine.Machines.mixUpClueCards(DataSource);
 
+                // nu ska vi fylla alla andra placeholders.. Men först måste vi dela upp ledtrådarna i Vägg och Bord-ledtrådar..
+                var TableClues= [];
+                var WallClues = [];
+                for(var j = 0; j < DataSourceMixedUp.length; j++){
+                    if(DataSourceMixedUp[j].type == "wallclue"){
+                        WallClues.push(DataSourceMixedUp[j]);
 
+                    }else{// om det ej är WallClue så är det En TableClue..
+                        TableClues.push(DataSourceMixedUp[j]);
 
-                //Sen börjar vi lägga in datan i de olika placeholders som finns i rummen
-                for(var j = 0; j < GameEngine.GlobalRooms[i].Containers.length ; j++){
-
+                    }
                 }
+                DataSourceMixedUp = []; // tömmer arrayen för senare bruk..
+                for(var j = 0; j < GameEngine.GlobalRooms[i].TableClue_GameCards.length; j++){
+                    GameEngine.GlobalRooms[i].TableClue_GameCards[j].GameCardOrContent = TableClues[0];
+                    TableClues.splice(0,1);
+                }
+                for(var j = 0; j < GameEngine.GlobalRooms[i].WallClue_GameCards.length; j++){
+                    GameEngine.GlobalRooms[i].WallClue_GameCards[j].GameCardOrContent = WallClues[0];
+                    WallClues.splice(0,1);
+                }
+
+                DataSourceMixedUp = WallClues.concat(TableClues); // lägger tillbaka resterna i DataSourceMixedUpArrayen för att Lägga in rester i Containrarna..
+
+                //Sen börjar vi lägga in datan i de olika Containers som finns i rummen
+                for(var j = 0; j < GameEngine.GlobalRooms[i].Containers.length ; j++){
+                    for(var k = 0; k <= (DataSourceMixedUp.length -3) - DataSourceMixedUp.length; k++ ){ //TODO: fungerar denna ?
+                        GameEngine.GlobalRooms[i].Containers[j].GameCardOrContent.cardsOfContainer[k] = DataSourceMixedUp[0];
+                        DataSourceMixedUp.splice(0,1);
+                    }
+                }
+
+
+
 
 
             }
