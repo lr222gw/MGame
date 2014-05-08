@@ -474,7 +474,7 @@ var GameEngine = {
             while(untilFalse){
 
                 //Slumpa fram ett av de framtagna korten Om de prioriterade korten är tagna!
-                if(counter <= CardToPutInCardToUsePRIORITY.length){
+                if(counter < CardToPutInCardToUsePRIORITY.length){
                     // om counter är mindre än antal prioriterade kort så ska de prioriterade korten betas av FÖRE vi tar slumpade kort..
                     CardToPutInCardToUse = ArrayOfGameCards[counter];
                     counter++;
@@ -483,6 +483,7 @@ var GameEngine = {
                 }
 
                 if(CardToPutInCardToUse != undefined){ //säkerhetspärr som ser till att innehållat bara körs om ArrayOfGameCards inte tilldelat CardToPutInCardToUse
+
                     //kolla om kortet har använts förut
                     if(Logger.indexOf(CardToPutInCardToUse[0].ID) == -1){
                         //Kolla om korten som behöver läggas in är tillräckligt FÅ för att de ska få plats, om det är de så stoppas de in.
@@ -490,16 +491,26 @@ var GameEngine = {
                         // kort som är riktiga har blivit valda!
                         if(CardToPutInCardToUse.length <= NumberOfRealCards_UseThisToSubtract){
                             for(var i = 0; i < CardToPutInCardToUse.length; i++){
-                                CardToUse.push(CardToPutInCardToUse[i]);
-                                NumberOfRealCards_UseThisToSubtract -1;
-                                Logger.push(CardToPutInCardToUse[i].ID);
+                                if(CardToPutInCardToUse[i].ID != -1) {
+                                    if(GameEngine.Machines.gameCardDoesNotBelongWithOtherActor(CardToPutInCardToUse[i])){
+                                        if (GameEngine.BusyCards.ClueCards.indexOf(CardToPutInCardToUse[i].ID) == -1) {
+                                            CardToUse.push(CardToPutInCardToUse[i]);
+                                            NumberOfRealCards_UseThisToSubtract - 1;
+                                            Logger.push(CardToPutInCardToUse[i].ID);
+                                        }
+                                    }
+
+                                }
                             }
                         }else{
                             Logger.push(CardToPutInCardToUse[0].ID);
                         }
-
+                        //TODO: Varning på denna under... ..
+                        Logger.push(CardToPutInCardToUse[0].ID);
                     }
+
                 }
+
 
 
                 if(Logger.length == ArrayOfGameCards.length){
@@ -522,7 +533,9 @@ var GameEngine = {
 //                FakeCards.splice(i,1);
 //            }
             for(var i = 0; i < FakeCards.length; i++){
-                CardToUse.push(FakeCards[i]);
+                if(GameEngine.Machines.gameCardDoesNotBelongWithOtherActor(FakeCards[i])){
+                    CardToUse.push(FakeCards[i]);
+                }
             }
 
             return CardToUse;
@@ -645,25 +658,58 @@ var GameEngine = {
 
                 //När vi har kommit såhär långt finns det risk att vissa kort som vi hämtat inte har använts, dessa kort blir då upptagna då de ligger i
                 //"GameEngine.BusyCards.ClueCards", vi måste anropa en funktion som tar bort alla kort som är lediga från den arrayen!
+                GameEngine.Machines.ClearFreeRoomData();
 
 
 
-
-            }
+            } // TODO: Istället för att försöka hitta korten på Actors, försök att se till att inga dubletter får ligga på Själva Rummen, Ny funktion som gör detta, likt Den funktionen som används på något annat sätlle...
         },
 
         ClearFreeRoomData : function(){
+
+            var CardIDToCheck;
+            var ArrOfNewCardIDDataToPush = [];
+
             for(var j = 0; j < GameEngine.BusyCards.ClueCards.length; j++){
+                CardIDToCheck = GameEngine.BusyCards.ClueCards[j];
 
                 for(var i = 0; i < GameEngine.GlobalRooms.length; i++){
 
-                
+                    for(var b = 0; b < GameEngine.GlobalRooms[i].Containers.length; b++){
+
+                        for(var c = 0; c < GameEngine.GlobalRooms[i].Containers[b].GameCardOrContent.cardsOfContainer.length; c++){
+                            if(GameEngine.GlobalActors.Containers[b].GameCardOrContent.cardsOfContainer[c].ID == CardIDToCheck){
+                                ArrOfNewCardIDDataToPush.push(GameEngine.GlobalActors.Containers[b].GameCardOrContent.cardsOfContainer[c].ID);
+                            }
+                        }
+                    }
+
+                    for(var b = 0; b < GameEngine.GlobalRooms[i].TableClue_GameCards.length; b++){
+                        if(GameEngine.GlobalRooms[i].TableClue_GameCards[b].ID == CardIDToCheck){
+                            ArrOfNewCardIDDataToPush.push(GameEngine.GlobalRooms[i].TableClue_GameCards[b].ID);
+                        }
+
+                    }
+
+                    for(var b = 0; b < GameEngine.GlobalRooms[i].WallClue_GameCards.length; b++){
+                        if(GameEngine.GlobalRooms[i].WallClue_GameCards[b].ID == CardIDToCheck){
+                            ArrOfNewCardIDDataToPush.push(GameEngine.GlobalRooms[i].WallClue_GameCards[b].ID);
+                        }
+
+                    }
 
 
                 }
 
             }
+            // När all data som används skjutits in i arrayen så kan vi tömma arrayen "GameEngine.BusyCards.ClueCards",
+            // och sedan skjuta in datan vi samlat upp här där istället!
 
+            GameEngine.BusyCards.ClueCards = [];
+
+            for(var i = 0; i < ArrOfNewCardIDDataToPush.length; i++){
+                GameEngine.BusyCards.ClueCards.push(ArrOfNewCardIDDataToPush[i]);
+            }
 
 
         },
