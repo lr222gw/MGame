@@ -137,7 +137,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -151,7 +151,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -165,7 +165,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -179,7 +179,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -193,7 +193,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -207,7 +207,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -221,7 +221,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -235,7 +235,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -249,7 +249,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -263,7 +263,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -277,7 +277,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -291,7 +291,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -305,7 +305,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -319,7 +319,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -333,7 +333,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -347,7 +347,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -361,7 +361,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -375,7 +375,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    ////GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -389,7 +389,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    ////GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -403,7 +403,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    ////GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -417,7 +417,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -431,7 +431,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -445,7 +445,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -459,7 +459,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -473,7 +473,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -487,7 +487,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -501,7 +501,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -515,7 +515,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -529,7 +529,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -543,7 +543,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -557,7 +557,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -571,7 +571,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -585,7 +585,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -599,7 +599,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -613,7 +613,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -627,7 +627,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -641,7 +641,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -655,7 +655,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -669,7 +669,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -683,7 +683,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -697,7 +697,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -711,7 +711,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -725,7 +725,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -739,7 +739,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -753,7 +753,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -767,7 +767,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -781,7 +781,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -795,7 +795,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -809,7 +809,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -823,7 +823,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -837,7 +837,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -851,7 +851,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -865,7 +865,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -879,7 +879,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -893,7 +893,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -907,7 +907,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             ),
             new GameEngine.Classes.MotiveCardSpec(
@@ -921,7 +921,7 @@ var GameData = {
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
                     //använd gärna Enum för detta..
-                    GameEngine.Enums.Room.BathRoom
+                    //GameEngine.Enums.Room.BathRoom
                 ]
             )
 

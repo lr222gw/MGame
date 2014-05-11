@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/motor.js" line="1939" mnemonic="7" />
+    <bookmark url="file://$PROJECT_DIR$/motor.js" line="2156" mnemonic="7" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f70785b6-6824-4a1c-b4c0-df82f291d3e7" name="Default" comment="" />
@@ -25,7 +25,7 @@
     <favorites_list name="MGame" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.117492095">
+    <splitter split-orientation="horizontal" split-proportion="0.1">
       <split-first>
         <leaf>
           <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
@@ -41,8 +41,8 @@
           <file leaf-file-name="GameCards.js" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/GameCards.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="11.343284" vertical-offset="18335" max-vertical-offset="38930">
-                  <caret line="1615" column="46" selection-start-line="1615" selection-start-column="46" selection-end-line="1615" selection-end-column="46" />
+                <state vertical-scroll-proportion="0.34213686" vertical-offset="13587" max-vertical-offset="38930">
+                  <caret line="816" column="22" selection-start-line="816" selection-start-column="20" selection-end-line="816" selection-end-column="22" />
                   <folding />
                 </state>
               </provider>
@@ -55,9 +55,11 @@
           <file leaf-file-name="motor.js" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/motor.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.40384614" vertical-offset="10931" max-vertical-offset="54774">
-                  <caret line="664" column="221" selection-start-line="664" selection-start-column="221" selection-end-line="664" selection-end-column="221" />
-                  <folding />
+                <state vertical-scroll-proportion="0.4135514" vertical-offset="12991" max-vertical-offset="45781">
+                  <caret line="785" column="64" selection-start-line="785" selection-start-column="64" selection-end-line="785" selection-end-column="64" />
+                  <folding>
+                    <element signature="e#59924#97518#0" expanded="false" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -283,7 +285,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="8" />
+      <option name="time" value="13" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -307,7 +309,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="31734" max-vertical-offset="42313">
           <caret line="1872" column="55" selection-start-line="1872" selection-start-column="55" selection-end-line="1872" selection-end-column="55" />
-          <folding />
+          <folding>
+            <element signature="e#59924#97518#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -347,7 +351,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="19289" max-vertical-offset="25245">
           <caret line="1465" column="32" selection-start-line="1465" selection-start-column="32" selection-end-line="1465" selection-end-column="32" />
-          <folding />
+          <folding>
+            <element signature="e#59924#97518#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -369,17 +375,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/GameCards.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="11.343284" vertical-offset="18335" max-vertical-offset="38930">
-          <caret line="1615" column="46" selection-start-line="1615" selection-start-column="46" selection-end-line="1615" selection-end-column="46" />
+        <state vertical-scroll-proportion="0.34213686" vertical-offset="13587" max-vertical-offset="38930">
+          <caret line="816" column="22" selection-start-line="816" selection-start-column="20" selection-end-line="816" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/motor.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.40384614" vertical-offset="10931" max-vertical-offset="54774">
-          <caret line="664" column="221" selection-start-line="664" selection-start-column="221" selection-end-line="664" selection-end-column="221" />
-          <folding />
+        <state vertical-scroll-proportion="0.4135514" vertical-offset="12991" max-vertical-offset="45781">
+          <caret line="785" column="64" selection-start-line="785" selection-start-column="64" selection-end-line="785" selection-end-column="64" />
+          <folding>
+            <element signature="e#59924#97518#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

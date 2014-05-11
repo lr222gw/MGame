@@ -243,7 +243,8 @@ var GameEngine = {
     },
 
     Actives : {
-        RoomThatIsActive : ""
+        RoomThatIsActive : "",
+        MotiveThatIsActive : ""
     },
 
     DataPlaceHolder : [], //används för att lagra tillfällig data..
@@ -268,6 +269,9 @@ var GameEngine = {
             //Först slumpar jag fram ett Motiv genom att ta längden på Motivarrayen och 0
             // då får jag alltså ett värde däremellan..GameData.MurderMotives
             var RandomMurderMotive = GameData.MurderMotives[Math.floor(Math.random() * (GameData.MurderMotives.length - 1) + 0)];
+
+            //Anger vilket motiv som är aktivt..
+            GameEngine.Actives.MotiveThatIsActive = RandomMurderMotive;
 
             //Eftersom resten av koden jag skrivit är basearat på att RandomMurderMotive är en array som innehåller arrayer så
             //kommer jag göra om den till en array som går att skicka videre!
@@ -328,7 +332,7 @@ var GameEngine = {
                 var max = _max;
             }
 
-            var cardsInArr = Math.floor(Math.random() * max + min);
+            var cardsInArr = Math.floor((Math.random() * (max - min) )+ min);
 
             var GameCard = null;
             var GameCardIsSet = false;
@@ -338,17 +342,27 @@ var GameEngine = {
             for(var i = 0; i < cardsInArr; i++ ){
                 while(GameCardIsSet == false){
 
-                    GameCard = GameEngine.Machines.getGameCardFromID(Math.floor(Math.random() * GameData.GameCardsCollectionData.length + 0), "clue"); //TODO: minus 1 här, krångalr newRandomListOFClues ?
+                    GameCard = TotalOfPossibleCards[Math.floor((Math.random() * TotalOfPossibleCards.length)+0)];
+
+                    //GameCard = GameEngine.Machines.getGameCardFromID(Math.floor(Math.random() * GameData.GameCardsCollectionData.length + 0), "clue"); //TODO: minus 1 här, krångalr newRandomListOFClues ?
 
                     //vi ska också logga försöket så att vi inte testar samma kort flera gånger, Samt spara ner dem i ien globalArray för att undvika att Samma kort blir valt igen..
                     if(GameEngine.BusyCards.ClueCards.indexOf(GameCard.ID) == -1){
-                        if(GameCard.ID != -1 ){ //Säkerhetsspärr så att kortet man får inte är ogiltigt..
-                            if(GameEngine.Machines.gameCardDoesNotBelongWithOtherActor(GameCard)){
-                                GameCardIsSet = true;
-                            }
-                        }
+                        if(GameCard.ID != -1 ){ //Säkerhetsspärr så att kortet man får inte är ogiltigt.. EJ NÖDVÄNDIG LÄNGRE:..
+                            if(!(GameEngine.Machines.gameCardDoesNotBelongWithOtherActor(GameCard))){
+                            // OBS denna = ej nödvänig, den förstör. Det finns kort på Actors som inte används, dessa ska kunna användas här..
+                            //EDIT: Vi använder funktionen, fast "baklänges"! Vi vill trots allt bara välja bland kort som ägs av en karaktär. Detta betyder att vi vill att den ska välja "False"..
 
-                        GameEngine.BusyCards.ClueCards.push(GameCard.ID)
+                               //if(GameEngine.Machines.gameCardDoesNotBelongInOtherRoom(GameCard)){
+                                if((GameEngine.Machines.GetAllActiveIDs()).indexOf(GameCard.ID) == -1){
+                                    GameCardIsSet = true;
+                                }
+                               //}  //OBS! Testa att ta bort denna kontroll på den aandra, efter att ha testat om att ha tagit bort dennna hära gjorde susen! :)
+                            }
+
+                        }
+                        GameEngine.BusyCards.ClueCards.push(GameCard.ID);
+
                     }
 
                     if(TotalOfPossibleCards.length == GameEngine.BusyCards.ClueCards.length){
@@ -399,14 +413,14 @@ var GameEngine = {
             return AllCluesForThisRoomArr;
         }, //TODO: Skriva en funktion som gör att man kan ta emot ord som "murder" och "victim" samt "actor1", "actor2" osv. Istället för rum, så blir det deras rum, (vid initiationen av korten..)
 
-        mixUpClueCards : function(RealCardsArr){
+        mixUpClueCards : function(RealCardsArr, FakeCardsArr){
             //Först så måste vi slumpa fram en uppdelning; alltså hur många kort ska vara motivkort och hur många kort ska vara icke relaterade.
 
             //TODO: Fungerar det med att alla rum har 10 ledtrådar? tänker på Hallarna som inte riktigt har rum för det... ? <-- svar : nepp.. Måste fixa så att rum som inte har kort klaras av i denna funktion..
             //Totalt vill vi välja ut 10 ledtrådar, så varje rum kommer ha tio ledtrådar
             var MaxNumberOfCards = 10;
             //nu tar vi fram hur många som ska vara riktiga ClueCards, resten blir fake..
-            var NumberOfRealCards = Math.floor(Math.random() * MaxNumberOfCards + 3); // minst 3 riktiga kort måste skapas..
+            var NumberOfRealCards = Math.floor(Math.random() * (MaxNumberOfCards - 3) + 3); // minst 3 riktiga kort måste skapas..
 
             if(RealCardsArr.length < NumberOfRealCards){ // om antalet kort som ska användas är högre än antalet kort som finns så kör vi med antalet kort som finns istället..
                 NumberOfRealCards = RealCardsArr.length;
@@ -427,7 +441,7 @@ var GameEngine = {
                 if(CardToTest.needTheseCards != undefined){ // om CardToTest.needTheseCards inte är undefined så innehåller arrayen något och bör ta till häänsyn
                     GameCardPLUSSPossibleCards.push(CardToTest);
                     for(var j = 0; j < CardToTest.needTheseCards.length;j++){
-                        GameCardPLUSSPossibleCards.push(GameEngine.Machines.getGameCardFromID(CardToTest.needTheseCards.ID,"clue"));
+                        GameCardPLUSSPossibleCards.push(GameEngine.Machines.getGameCardFromID(CardToTest.ID,"clue")); //TODO: ändrade denna från "CardToTest.needTheseCards.ID" till "CardToTest.ID"
                     }
                     ArrayOfGameCards.push(GameCardPLUSSPossibleCards);
                     GameCardPLUSSPossibleCards=[];
@@ -492,13 +506,19 @@ var GameEngine = {
                         if(CardToPutInCardToUse.length <= NumberOfRealCards_UseThisToSubtract){
                             for(var i = 0; i < CardToPutInCardToUse.length; i++){
                                 if(CardToPutInCardToUse[i].ID != -1) {
-                                    if(GameEngine.Machines.gameCardDoesNotBelongWithOtherActor(CardToPutInCardToUse[i])){
-                                        if (GameEngine.BusyCards.ClueCards.indexOf(CardToPutInCardToUse[i].ID) == -1) {
-                                            CardToUse.push(CardToPutInCardToUse[i]);
-                                            NumberOfRealCards_UseThisToSubtract - 1;
-                                            Logger.push(CardToPutInCardToUse[i].ID);
-                                        }
+                                    //if(GameEngine.Machines.gameCardDoesNotBelongWithOtherActor(CardToPutInCardToUse[i])){
+                                        //if(GameEngine.Machines.gameCardDoesNotBelongInOtherRoom(CardToPutInCardToUse[i])){
+                                            //if (GameEngine.BusyCards.ClueCards.indexOf(CardToPutInCardToUse[i].ID) == -1) {
+                                    if((GameEngine.Machines.GetAllActiveIDs()).indexOf(CardToPutInCardToUse[i].ID) == -1){
+                                        CardToUse.push(CardToPutInCardToUse[i]);
+                                        NumberOfRealCards_UseThisToSubtract - 1;
+                                        Logger.push(CardToPutInCardToUse[i].ID);
                                     }
+
+                                                //GameEngine.BusyCards.ClueCards.push(CardToPutInCardToUse[i].ID); //TODO: kolla om denna fungerar eller har förstört..
+                                            //}
+                                       // } //
+                                    //}
 
                                 }
                             }
@@ -513,7 +533,7 @@ var GameEngine = {
 
 
 
-                if(Logger.length == ArrayOfGameCards.length){
+                if(Logger.length >= ArrayOfGameCards.length){
                     untilFalse = false;
                 }
             }
@@ -522,20 +542,58 @@ var GameEngine = {
             // innan vi returnerar så måste vi se till att antal ledtrådar kommer gå upp i MaxNumberOfCards, så vi fyller på resten med "fejk"-kort..
             var min = undefined;
             var max = undefined;
+            var minToUseWithCards = MaxNumberOfCards - CardToUse.length;
             if(NumberOfRealCards < 3){
                 min = MaxNumberOfCards - CardToUse.length;
+                minToUseWithCards = MaxNumberOfCards - CardToUse.length;
                 max = 10;
             }
-            var FakeCards = GameEngine.Machines.newRandomListOfClues(min, max);
+            //var FakeCards = GameEngine.Machines.newRandomListOfClues(min, max);
+
+            var FakeCards = [];
+            var TableMeter = 0;
+            var WallMeter = 0;
+
+            //Denna forLoop ska också se till att korten delas ut "rättvist", dvs lika många Table som Clue-cards...
+            for(var i = 0; i < min; i++){
+
+                if(i == FakeCardsArr.length){
+                    alert("Varning, finns ej tillräckligt många kort för att spelet ska kunna fungera.. ");
+                    break;
+                }
+
+                if((GameEngine.Machines.GetAllActiveIDs()).indexOf(FakeCardsArr[i].ID) == -1){
+                    if(FakeCardsArr[i].type == GameEngine.Enums.ClueType.WallClue && WallMeter != (minToUseWithCards/2) ){
+                        FakeCards.push(FakeCardsArr[i]);
+                        WallMeter ++;
+                    }
+
+                    if(FakeCardsArr[i].type == GameEngine.Enums.ClueType.TableClue && TableMeter != (minToUseWithCards/2) ){
+                        FakeCards.push(FakeCardsArr[i]);
+                        TableMeter++;
+                    }
+
+                    if(i == min -1 && (WallMeter != (minToUseWithCards/2))){
+                        // om det är ett kort som saknas i antingen TableMeter eller WallMeter så
+                        // ökar vi min så att satsen fortsätter tills detta är fixat..
+                        min++;
+                    }
+                    if(i == min -1 && (TableMeter != (minToUseWithCards/2))){
+                        min++;
+                    }
+
+
+                }
+            }
 
             // Kan verkligen inte förstå vad det är för något jag har försökt att göra (det avmarkerade..)
 //            for(var i= 0 ; i < MaxNumberOfCards - NumberOfRealCards; i++){
 //                FakeCards.splice(i,1);
 //            }
             for(var i = 0; i < FakeCards.length; i++){
-                if(GameEngine.Machines.gameCardDoesNotBelongWithOtherActor(FakeCards[i])){
-                    CardToUse.push(FakeCards[i]);
-                }
+                //if(GameEngine.Machines.gameCardDoesNotBelongWithOtherActor(FakeCards[i])){
+                        CardToUse.push(FakeCards[i]);
+                //}//Disablar denna då man inte får in alla FakeCards..
             }
 
             return CardToUse;
@@ -599,12 +657,56 @@ var GameEngine = {
         //TODO; när det är avklarat så ska korten gemföras med de kort som vi tagit fram till rummen, om det är en matchning så läggs kortet in i en array som
         //TODO: skickas tillbaka. Arrayen innehåller alltså ALLA kort som krävs för att Karaktärernas MotivKort ska "Make sense". Alltså fär att en viktig dialog ska leda till en Riktig Ledtråd..
 
+        CardNotPartInMotive : function(GameCardID){
+            var Motive = GameEngine.Actives.MotiveThatIsActive;
+
+            for(var i = 0; i < Motive.LOC_actor1.length; i++){
+                if(Motive.LOC_actor1[i] == GameCardID){
+                    return false;
+                }
+            }
+            for(var i = 0; i < Motive.LOC_actor2.length; i++){
+                if(Motive.LOC_actor2[i] == GameCardID){
+                    return false;
+                }
+            }
+            for(var i = 0; i < Motive.LOC_actor3.length; i++){
+                if(Motive.LOC_actor3[i] == GameCardID){
+                    return false;
+                }
+            }
+            for(var i = 0; i < Motive.LOC_actor4.length; i++){
+                if(Motive.LOC_actor4[i] == GameCardID){
+                    return false;
+                }
+            }
+            for(var i = 0; i < Motive.LOC_murderur.length; i++){
+                if(Motive.LOC_murderur[i] == GameCardID){
+                    return false;
+                }
+            }
+            for(var i = 0; i < Motive.LOC_other.length; i++){
+                if(Motive.LOC_other[i] == GameCardID){
+                    return false;
+                }
+            }
+            for(var i = 0; i < Motive.LOC_victim.length; i++){
+                if(Motive.LOC_victim[i] == GameCardID){
+                    return false;
+                }
+            }
+
+            return true;
+
+        }, //TODO: Använd denna metod i PlaceClues..
+
         placeClues : function(){
             //Först väljer vi rum
             for(var i = 0; i < GameEngine.GlobalRooms.length ; i++){
 
                 //nu måste vi välja ut källan för datan, den kan antingen komma från en person eller direkt från  GameData.GameCardsCollectionData
-                var DataSource = [];
+                var RealDataSource = [];
+                var FakeDataSource = [];
                 var DataSourceMixedUp = [];
                 var ArrOfPossibleRoomsIDn;
 
@@ -615,14 +717,30 @@ var GameEngine = {
                         //Vi hämtar ner en array med de RumIDn som kortet kan läggas in i
                         ArrOfPossibleRoomsIDn = (GameEngine.Machines.findClueCardRooms(GameEngine.GlobalActors[d].ClueList[k].ID));
                         for(var l = 0; l<ArrOfPossibleRoomsIDn.length;l++ ){
-                            if(ArrOfPossibleRoomsIDn[l] == i){ // Om True : Kortet kan ligga i rummet och pushas in i DataSource
-                                DataSource.push(GameEngine.GlobalActors[d].ClueList[k]);
+                            if(ArrOfPossibleRoomsIDn[l] == GameEngine.GlobalRooms[i].ID){ // Om True : Kortet kan ligga i rummet och pushas in i DataSource
+                                RealDataSource.push(GameEngine.GlobalActors[d].ClueList[k]);
+                            }else{
+                                if(GameEngine.Machines.CardNotPartInMotive(GameEngine.GlobalActors[d].ClueList[k].ID)){
+                                    if((GameEngine.Machines.GetAllActiveIDs()).indexOf(GameEngine.GlobalActors[d].ClueList[k].ID) == -1){
+                                        FakeDataSource.push(GameEngine.GlobalActors[d].ClueList[k]);
+                                    }
+
+                                }
+
+                            }
+                        }
+                        if(ArrOfPossibleRoomsIDn.length == 0){ // om kortet inte hör till något rum alls så kan det användas..
+                            if(GameEngine.Machines.CardNotPartInMotive(GameEngine.GlobalActors[d].ClueList[k].ID)){
+                                if((GameEngine.Machines.GetAllActiveIDs()).indexOf(GameEngine.GlobalActors[d].ClueList[k].ID) == -1){
+                                    FakeDataSource.push(GameEngine.GlobalActors[d].ClueList[k]);
+                                }
                             }
                         }
                     }
+
                 }
                 //Blanda upp korten som hör till motivdata med Icke relaterade kort för att få blandning på spelet..
-                DataSourceMixedUp = GameEngine.Machines.mixUpClueCards(DataSource);
+                DataSourceMixedUp = GameEngine.Machines.mixUpClueCards(RealDataSource, FakeDataSource);
 
                 // nu ska vi fylla alla andra placeholders.. Men först måste vi dela upp ledtrådarna i Vägg och Bord-ledtrådar..
                 var TableClues= [];
@@ -650,7 +768,7 @@ var GameEngine = {
 
                 //Sen börjar vi lägga in datan i de olika Containers som finns i rummen
                 for(var j = 0; j < GameEngine.GlobalRooms[i].Containers.length ; j++){
-                    for(var k = 0; k <= (DataSourceMixedUp.length -3) - DataSourceMixedUp.length; k++ ){ //TODO: fungerar denna ?
+                    for(var k = 0; k <= (DataSourceMixedUp.length -3) - DataSourceMixedUp.length; k++ ){ //TODO: fungerar denna ? Nope.. ? RAD 654
                         GameEngine.GlobalRooms[i].Containers[j].GameCardOrContent.cardsOfContainer[k] = DataSourceMixedUp[0];
                         DataSourceMixedUp.splice(0,1);
                     }
@@ -659,10 +777,60 @@ var GameEngine = {
                 //När vi har kommit såhär långt finns det risk att vissa kort som vi hämtat inte har använts, dessa kort blir då upptagna då de ligger i
                 //"GameEngine.BusyCards.ClueCards", vi måste anropa en funktion som tar bort alla kort som är lediga från den arrayen!
                 GameEngine.Machines.ClearFreeRoomData();
+                TableClues = [];
+                WallClues = [];
 
 
 
-            } // TODO: Istället för att försöka hitta korten på Actors, försök att se till att inga dubletter får ligga på Själva Rummen, Ny funktion som gör detta, likt Den funktionen som används på något annat sätlle...
+            }
+            //TODO: Nu ska vi faktiskt placera ut ledtrådarna.. 
+        },
+
+        getAllIDsOfArray : function(Array){
+            var arrOfIDs = [];
+            for(var i = 0; i < Array.length; i++){
+                arrOfIDs.push(Array[i].ID);
+            }
+            return arrOfIDs.sort();
+        },
+
+        GetAllActiveIDs : function(){
+            var arrOfIdInUse = [];
+
+            for(var i = 0; i < GameEngine.GlobalRooms.length; i++){
+                var RoomToCheck = GameEngine.GlobalRooms[i];
+
+                //Kollar korten i Containrarna
+                for(var j =0; j < RoomToCheck.Containers.length; j++){
+                    var ContainerTOCheck= RoomToCheck.Containers[j];
+
+                    for(var k =0; k < RoomToCheck.Containers.length; k++){
+                        if(ContainerTOCheck.GameCardOrContent.cardsOfContainer[k] != null){
+                            arrOfIdInUse.push(ContainerTOCheck.GameCardOrContent.cardsOfContainer[k].ID);
+                        }
+                    }
+                }
+
+                for(var j = 0; j < RoomToCheck.TableClue_GameCards.length; j++){
+                    var TableClueCardToCheck = RoomToCheck.TableClue_GameCards[j].GameCardOrContent;
+                    if(TableClueCardToCheck != null){
+                        arrOfIdInUse.push(TableClueCardToCheck.ID);
+                    }
+
+
+                }
+
+                for(var j = 0; j < RoomToCheck.WallClue_GameCards.length; j++){
+                    var WallClueCardToCheck = RoomToCheck.WallClue_GameCards[j].GameCardOrContent;
+                    if(WallClueCardToCheck != null){
+                        arrOfIdInUse.push(WallClueCardToCheck.ID);
+                    }
+                }
+
+
+            }
+            return arrOfIdInUse.sort();
+
         },
 
         ClearFreeRoomData : function(){
@@ -748,8 +916,11 @@ var GameEngine = {
 
             var minValue = 3;
             var maxValue = 8;
-            var LoopThisManyTimes = Math.floor(Math.random() * maxValue + minValue);
 
+            //var LoopThisManyTimes = Math.floor(Math.random() *( maxValue - minValue) + minValue);//TODO: Problem med Actor? ta bort "( maxValue - minValue)" och ersätt med "maxValue"
+            //OLD ^, denna ändrar jag på för att nu vill jag istället att ALLA kort ska läggas in på Actors, eftersom jag sköter uppdelningen på ett annat ställe..
+            var LoopThisManyTimes = Math.floor( (GameEngine.Machines.getAllPossibleCards("clue")).length/GameEngine.GlobalActors.length);
+            //TODO: Är Karaktärens ClueCard problematiska ? denna kan behövas schysteras..
             while(roleIsSet == false){
                 //Hämtar ner en slumpad roll att testa
                 roleToTest = GameEngine.GlobalActors[Math.floor(Math.random() * (GameEngine.GlobalActors.length) + 0)];
@@ -783,6 +954,52 @@ var GameEngine = {
                 }
 
             }
+
+        },
+
+        gameCardDoesNotBelongInOtherRoom : function(GameCardToTest){
+            //denna funktion ser till att kortet man skickar in inte redan finns i ett annat rum!
+
+            for(var i = 0; i < GameEngine.GlobalRooms.length; i++){
+                var RoomToCheck = GameEngine.GlobalRooms[i];
+
+                //Kollar korten i Containrarna
+                for(var j =0; j < RoomToCheck.Containers.length; j++){
+                    var ContainerTOCheck= RoomToCheck.Containers[j];
+
+                    for(var k =0; k < RoomToCheck.Containers.length; k++){
+                        if(ContainerTOCheck.GameCardOrContent.cardsOfContainer[k] != null){
+                            if(ContainerTOCheck.GameCardOrContent.cardsOfContainer[k].ID == GameCardToTest.ID){
+                                return false;
+                            }
+                        }
+                    }
+                }
+
+                for(var j = 0; j < RoomToCheck.TableClue_GameCards.length; j++){
+                    var TableClueCardToCheck = RoomToCheck.TableClue_GameCards[j].GameCardOrContent;
+                    if(TableClueCardToCheck != null){
+                        if(TableClueCardToCheck.ID == GameCardToTest.ID){
+                            return false;
+                        }
+                    }
+
+
+                }
+
+                for(var j = 0; j < RoomToCheck.WallClue_GameCards.length; j++){
+                    var WallClueCardToCheck = RoomToCheck.WallClue_GameCards[j].GameCardOrContent;
+                    if(WallClueCardToCheck != null){
+                        if(WallClueCardToCheck.ID == GameCardToTest.ID){
+                            return false;
+                        }
+                    }
+                }
+
+
+            }
+            return true;
+
 
         },
 
@@ -822,7 +1039,7 @@ var GameEngine = {
                         return false;
                     }
                 }
-                if(GameEngine.GlobalActors[i].ClueList != 0){ //denna blir ej null om tom utan istället 0..
+                if(GameEngine.GlobalActors[i].ClueList != 0){ //denna blir ej null om tom utan istället 0, PGA array...
                     for(var j = 0; j < GameEngine.GlobalActors[i].ClueList.length ; j++){ //TODO: tog bort -1 här också, blev det bättre?
                         if(GameEngine.GlobalActors[i].ClueList[j].ID == GameCardToTest.ID){
                             return false;
@@ -1805,7 +2022,7 @@ var GameEngine = {
                     )
                 ]
             );
-			GameEngine.GlobalRooms.push(hallway1,hallway2,hallway3,prebedroom,bedroom1,bedroom2,bedroom3,bedroom4,bedroom5,bedroom6,tvroom,kitchen,tvroom,bathroom);
+			GameEngine.GlobalRooms.push(hallway1,hallway2,hallway3,prebedroom,bedroom1,bedroom2,bedroom3,bedroom4,bedroom5,bedroom6,kitchen,tvroom,bathroom);
 						
 		},
 		
