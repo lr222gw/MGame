@@ -783,7 +783,68 @@ var GameEngine = {
 
 
             }
-            //TODO: Nu ska vi faktiskt placera ut ledtrådarna.. 
+            //TODO: Nu ska vi faktiskt placera ut ledtrådarna.. Detta görs i en annan funktion..
+
+
+
+        },
+
+        renderClues : function(RoomID){
+
+            var RoomToFillWithClues = GameEngine.GlobalRooms[RoomID];
+            for(var i = 0; i < GameEngine.GlobalRooms.length; i++){
+
+                if(GameEngine.GlobalRooms[i].ID == RoomID){
+                    RoomToFillWithClues = GameEngine.GlobalRooms[i];
+                    break;
+                }
+
+
+            }
+
+            for(var j =0; j < RoomToFillWithClues.Containers.length; j++){
+                var ContainerToPlace = RoomToFillWithClues.Containers[j];
+
+                for(var k =0; k < RoomToFillWithClues.Containers.length; k++){
+                    if(ContainerToPlace.GameCardOrContent.cardsOfContainer[k] != null){
+
+                    }
+                }
+            }
+
+            for(var j = 0; j < RoomToFillWithClues.TableClue_GameCards.length; j++){
+                var TableClueToPlace = RoomToFillWithClues.TableClue_GameCards[j].GameCardOrContent;
+                if(TableClueToPlace != null){
+                    GameEngine.Machines.WindowSizing(TableClueToPlace.image,
+                        "gameframe",
+                        RoomToFillWithClues.TableClue_GameCards[j].PosX,
+                        RoomToFillWithClues.TableClue_GameCards[j].PosY,
+                        GameEngine.Machines.getPosition(0.02, "x"),
+                        GameEngine.Machines.getPosition(0.02, "y")
+
+                    );
+                }
+
+
+            }
+
+            for(var j = 0; j < RoomToFillWithClues.WallClue_GameCards.length; j++){
+                var WallClueToPlace = RoomToFillWithClues.WallClue_GameCards[j].GameCardOrContent;
+                if(WallClueToPlace != null){
+                    GameEngine.Machines.WindowSizing(WallClueToPlace.image,
+                        "gameframe",
+                        RoomToFillWithClues.WallClue_GameCards[j].PosX,
+                        RoomToFillWithClues.WallClue_GameCards[j].PosY,
+                        GameEngine.Machines.getPosition(0.02, "x"),
+                        GameEngine.Machines.getPosition(0.02, "y")
+
+                    );
+                }
+            }
+
+
+
+
         },
 
         getAllIDsOfArray : function(Array){
@@ -2059,6 +2120,7 @@ var GameEngine = {
                 }
             }
             GameEngine.Actives.RoomThatIsActive = RoomToLoad;
+            GameEngine.Machines.renderClues(RoomToLoad.ID);
 
 		},
 
