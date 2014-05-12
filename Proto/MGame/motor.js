@@ -97,24 +97,29 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
             for(var i = 0; i < GameEngine.GoToButtons.ClueButtons.length; i++){
                 Button = GameEngine.GoToButtons.ClueButtons[i];
 
-                if(Button != undefined){
+                if(GameEngine.Actives.ClueButtonsOn == true){
+                    if(Button != undefined){
 
-                    var ButtonDataObj = GameEngine.Machines.getPlaceHolderInfoFromCardIDForCurrentRoom(Button.ID);
+                        var ButtonDataObj = GameEngine.Machines.getPlaceHolderInfoFromCardIDForCurrentRoom(Button.ID);
 
-                    if(mX >= ButtonDataObj.PosX && mX < ButtonDataObj.PosX + ButtonDataObj.Width && mY >= ButtonDataObj.PosY && mY < ButtonDataObj.PosY + ButtonDataObj.Height){
-                        alert("Funktion ska anropas när denna trycks på! Id't På detta kort är " +Button.ID );
-                        return;
+                        if(mX >= ButtonDataObj.PosX && mX < ButtonDataObj.PosX + ButtonDataObj.Width && mY >= ButtonDataObj.PosY && mY < ButtonDataObj.PosY + ButtonDataObj.Height){
+                            //alert("Funktion ska anropas när denna trycks på! Id't På detta kort är " +Button.ID );
+                            GameEngine.Machines.createBlippBox(Button);
+                            return;
 
+                        }
                     }
                 }
 
+
             }
 
-            //kontrollerar om en BlippBox Hovras över..
+            //kontrollerar om en BlippBox Trycks på..
             for(var i = 0; i < GameEngine.GoToButtons.BlippButtons.length; i++){
                 Button = GameEngine.GoToButtons.BlippButtons[i];
                 if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
-                    alert("Funktion ska nropas när denna knapp trycks på! ");
+
+                    GameEngine.Machines.SelectAnswerForActor(Button.ActorOfBox, Button.GameCard);
                     return;
 
                 }
@@ -215,17 +220,19 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
             for(var i = 0; i < GameEngine.GoToButtons.ClueButtons.length; i++){
                 Button = GameEngine.GoToButtons.ClueButtons[i];
 
-                if(Button != undefined){
+                if(GameEngine.Actives.ClueButtonsOn == true) {
+                    if (Button != undefined) {
 
-                    var ButtonDataObj = GameEngine.Machines.getPlaceHolderInfoFromCardIDForCurrentRoom(Button.ID);
+                        var ButtonDataObj = GameEngine.Machines.getPlaceHolderInfoFromCardIDForCurrentRoom(Button.ID);
 
-                    if(mX >= ButtonDataObj.PosX && mX < ButtonDataObj.PosX + ButtonDataObj.Width && mY >= ButtonDataObj.PosY && mY < ButtonDataObj.PosY + ButtonDataObj.Height){
-                        document.body.style.cursor = "pointer";
-                        return;
+                        if (mX >= ButtonDataObj.PosX && mX < ButtonDataObj.PosX + ButtonDataObj.Width && mY >= ButtonDataObj.PosY && mY < ButtonDataObj.PosY + ButtonDataObj.Height) {
+                            document.body.style.cursor = "pointer";
+                            return;
 
-                    }else{
-                        document.body.style.cursor = "default";
+                        } else {
+                            document.body.style.cursor = "default";
 
+                        }
                     }
                 }
 
@@ -262,6 +269,16 @@ var GameEngine = {
         BlippButtons : []
     },
     Enums : {
+        Roles : {
+            "other"  : "other",
+            "murder" : "murder",
+            "victim" : "victim",
+            "actor1" : "actor1",
+            "actor2" : "actor2",
+            "actor3" : "actor3",
+            "actor4" : "actor4"
+
+        },
         GameCardType : {
             "Secret" : "secret",
             "Other" : "other",
@@ -306,7 +323,8 @@ var GameEngine = {
 
     Actives : {
         RoomThatIsActive : "",
-        MotiveThatIsActive : ""
+        MotiveThatIsActive : "",
+        ClueButtonsOn : true
     },
 
     DataPlaceHolder : [], //används för att lagra tillfällig data..
@@ -327,7 +345,72 @@ var GameEngine = {
 
 	Machines : {
 
-        createBlippBox : function(){
+        SelectAnswerForActor : function(Actor, GameCard){
+            var ArrOfPossibleCards = [];
+            var GameCardDataToUseWithActor;
+            var AnswerCardToCheck;
+
+            //Vi kollar igenom alla AnswerCards tills vi hittar en
+            // som passar för den roll vi har frågatt..
+            for(var i = 0; i < GameCard.AnswerCards.length; i++){
+                AnswerCardToCheck = GameCard.AnswerCards[i];
+
+                //Först av allt vill vi kolla om kortet istället har "Owner"
+                //som ett ID, om fallet är
+                // att Owner ID är samma som karaktärens ID så ska vi direkt använda
+                // detta kort istället!
+                if(AnswerCardToCheck.owner == Actor.ID){
+                    //Denna sats ska anropa funktionen som påbörjar dialogen!
+                    GameEngine.Machines.CardDataToQuestions(AnswerCardToCheck, Actor);
+                    return;
+                }
+
+                if(AnswerCardToCheck.owner == Actor.role){
+                    //de roller som passar ska skjutas in här!
+                    ArrOfPossibleCards.push(AnswerCardToCheck);
+                }
+
+                if(AnswerCardToCheck.owner == Actor.role && AnswerCardToCheck.emotionState == Actor.emotionState){
+                    //Om både role och Emotionstate stämmer överens med Actor så SKA detta kort
+                    //användas på direkten !
+
+                    //Denna sats ska anropa funktionen som påbörjar dialogen!
+                    GameEngine.Machines.CardDataToQuestions(AnswerCardToCheck, Actor);
+                    AnswerCardToCheck.owner = Actor.ID;
+                    return;
+
+                }
+
+            }
+            //Väljer  ett slumpat kort av de korten som är tillgänliga!
+            if(ArrOfPossibleCards > 0){
+                GameCardDataToUseWithActor = ArrOfPossibleCards[Math.floor(Math.random()*(ArrOfPossibleCards.length)+0)];
+                //Sätter ID på kortet till Actors ID, för att markera att svaret är upptaget..
+                GameCardDataToUseWithActor.owner = Actor.ID;
+            }else{
+                //Om det inte finns några kort att använda alls så ska vi skicka in ett standardkort,
+                //detta kort ska förhoppningsvis inte användas, men detä r upp till den som designar motiven..
+
+                GameCardDataToUseWithActor = new GameEngine.Classes.CardData(
+                    GameEngine.Enums.EmotionState.Neutral,
+                    "I have never seen that thing, sorry.",
+                    [],
+                    "Can you tell me something about this objekt?"
+                );
+            }
+
+            GameEngine.Machines.CardDataToQuestions(GameCardDataToUseWithActor, Actor);
+            return;
+
+        },
+
+
+
+        createBlippBox : function(GameCard){
+            //Vi måste tömma WayPoints i GoToButtons så att det inte finns osynliga knappar att trycka på..
+            //För ClueButtons ska vi disabla, detta pga annan teknik..
+            GameEngine.GoToButtons.WayPoints = [];
+            GameEngine.Actives.ClueButtonsOn = false;
 
             //Första vi gör är att spara färgen som var aktiv när vi kom in här, så att vi kan sätta den som standard när funktionen är klar
             // sen så gör vi själva rutan som allt händer i..
@@ -350,7 +433,7 @@ var GameEngine = {
                 GameBubbleData.BlippBoxHeight-10
             );
              //rutan är klar och vi ska skjuta in de små klickbara rutorna i den större rutan som vi nyss ritat..
-            ArrOfActorBoxes = GameEngine.Machines.createBlippBoxActorBoxes();
+            ArrOfActorBoxes = GameEngine.Machines.createBlippBoxActorBoxes(GameCard);
             var addToPosX = 10;
             var addToPosY = 10;
             Ctx.fillStyle = "rgb(0, 0, 0)";
@@ -399,7 +482,7 @@ var GameEngine = {
             Ctx.fillStyle = OldFillStyle;
         },
 
-        createBlippBoxActorBoxes : function(){
+        createBlippBoxActorBoxes : function(GameCard){
             var ArrOfBoxes = [];
 
             for(var i = 0; i < GameEngine.GlobalActors.length; i++){
@@ -409,7 +492,8 @@ var GameEngine = {
                     null,
                     GameEngine.GlobalActors[i],
                     GameEngine.Machines.getPosition(0.15, "x"),
-                    GameEngine.Machines.getPosition(0.15, "y")
+                    GameEngine.Machines.getPosition(0.15, "y"),
+                    GameCard
                 )
                 );
 
@@ -483,16 +567,94 @@ var GameEngine = {
                 RandomMurderMotive.LOC_actor3,
                 RandomMurderMotive.LOC_actor4
             ];
+
+            var RandomMurderMotiveToSend = [];
+            //var ArrayWithinMurderMotiveToSend = [];
+
             for(var j = 0; j < RandomMurderMotive.length;j++){ //Lägger in randomMurderMotive datan i det globala DataPlaceHolder arrayen för att kunna använda datan senare ..
                 GameEngine.DataPlaceHolder.push(RandomMurderMotive[j]);
+
+                if(RandomMurderMotive[j].length != 0){
+                    //Vi vill bara skicka ut data som är nödvändig, om (tex) RandomMurderMotive.LOC_actor3 inte innehåller
+                    //mer än 0 kort är det inte nödvändigt att skicka med den, utan bara dumt.
+                    // Vi kommer skapa en array som hanterar ett typ av Objekt. Objektet har två värden,
+                    // ledtrådsArrayyen från "RandomMurderMotive" och sen vilken roll ledtrådsarrayen hör till!
+
+                    //först måste vi ta reda på vilken roll Arrayen som testas hör till.
+                    var role;
+                    switch(j){
+                        case 0:
+                            role = GameEngine.Enums.Roles.other;
+                            break;
+                        case 1:
+                            role = GameEngine.Enums.Roles.murder;
+                            break;
+                        case 2:
+                            role = GameEngine.Enums.Roles.victim;
+                            break;
+                        case 3:
+                            role = GameEngine.Enums.Roles.actor1;
+                            break;
+                        case 4:
+                            role = GameEngine.Enums.Roles.actor2;
+                            break;
+                        case 5:
+                            role = GameEngine.Enums.Roles.actor3;
+                            break;
+                        case 6:
+                            role = GameEngine.Enums.Roles.actor4;
+                            break;
+
+                    }
+
+                    RandomMurderMotiveToSend.push( new GameEngine.Classes.holdsArrAndString(
+                            RandomMurderMotive[j],
+                            role
+                        )
+                    );
+
+
+                }
             };
 
             //Detta är en kontroll så att denna metod inte körs när karaktärer har roller som är satta..
             //Dålig spärr då den bara testar en spelare, men det är allt som behövs..
             if(GameEngine.GlobalActors[1].Secret == null){
                 //nu ska vi tilldela motivedatans roller till aktörerna som vi skapat..
-                for(var i = 0; i < RandomMurderMotive.length -1; i++){
-                    GameEngine.Machines.GiveActorsRole(RandomMurderMotive[i], GameEngine.Machines.roleGetter(i));
+                var i = 0;
+                for(i = 0; i < RandomMurderMotiveToSend.length ; i++){
+                    GameEngine.Machines.GiveActorsRole(RandomMurderMotiveToSend[i].Arr, RandomMurderMotiveToSend[i].String);
+                }
+
+                //Om alla roller har delats ut och "i" är lägre än antalet actors så har alla roller inte fått kort än,
+                //de roller som återstår ska få kort och kommer tilldelas rollen "Other"
+                if( i < GameEngine.GlobalActors.length){
+                    for(i ; i < GameEngine.GlobalActors.length; i++){
+                        var ArrToSend;
+                        //här vill vi ta reda på om det finns kort i "Others", om så är fallet så är de korten som ska skickas med.
+                        //Först måste vi ta fram OthersKorten..
+                        for(var j = 0; j < RandomMurderMotiveToSend.length; j++){
+                            if(RandomMurderMotiveToSend[j].String == GameEngine.Enums.Roles.other){
+                                ArrToSend = RandomMurderMotiveToSend[j].Arr;
+                            }
+                        }
+                        if(ArrToSend != undefined){
+                            //Om OthersArrayen finns så vill vi ta ut de kort från den som inte är upptagna,
+                            //om den inte finns så ska en tom-array skickas med istället!
+
+                            for(var k = 0; k < ArrToSend.length; k++){
+                                if(GameEngine.Machines.gameCardDoesNotBelongWithOtherActor(ArrToSend[k]) == false){
+                                    //Om kortet hör till en annan karaktär, så ska vi splice'a det från arrayen!
+                                    ArrToSend.splice(k,1)
+                                }
+                            }
+
+                        }else{
+                            ArrToSend = [];
+                        }
+
+                        GameEngine.Machines.GiveActorsRole(ArrToSend, GameEngine.Enums.Roles.other);
+                    }
                 }
 
                 //Nu ska datan som vi lagt in placeras i Placeholders över alla rum..
@@ -1201,11 +1363,29 @@ var GameEngine = {
                 if(GameEngine.Machines.TestIfRoleIsFree(roleToTest)){
 
                     //Om rollen är ledig och detta är Mördarens kort så ska rollen sättas som mördare, Samma sak för Victim..
+                    //De andrar rollerna sätts också..
                     if(role == "murder"){
                         roleToTest.isMurder = true;
+                        roleToTest.role = GameEngine.Enums.Roles.murder;
                     }
                     if(role == "victim"){
                         roleToTest.isVictim = true;
+                        roleToTest.role = GameEngine.Enums.Roles.victim;
+                    }
+                    if(role == "other"){
+                        roleToTest.role = GameEngine.Enums.Roles.other;
+                    }
+                    if(role == "actor1"){
+                        roleToTest.role = GameEngine.Enums.Roles.actor1;
+                    }
+                    if(role == "actor2"){
+                        roleToTest.role = GameEngine.Enums.Roles.actor2;
+                    }
+                    if(role == "actor3"){
+                        roleToTest.role = GameEngine.Enums.Roles.actor3;
+                    }
+                    if(role == "actor4"){
+                        roleToTest.role = GameEngine.Enums.Roles.actor4;
                     }
 
                     //Rollen är ledig, nu ska vi ge rollens ens egenskaper
@@ -2300,6 +2480,8 @@ var GameEngine = {
 		
 		BuildRoom : function(RoomID){
             var RoomToLoad;
+            GameEngine.GoToButtons.BlippButtons = []; //rensar BlippButtons..
+            GameEngine.Actives.ClueButtonsOn = true; //aktiverar ledtrådar..
 
             for(var i = 0; i < GameEngine.GlobalRooms.length; i++){//hittar rummet med det ID man söker efter
                 if(GameEngine.GlobalRooms[i].ID == RoomID){
@@ -2693,7 +2875,7 @@ var GameEngine = {
         },
 
         FindEmotionInCardData : function(CardsAnswerArray, EmotionToLookFor){
-            //tar fram kortet som är neutralt.. alltid första startkortet..
+            //tar fram kortet som är neutralt.. alltid första startkortet.. <-Stryk det..
             for(var i = 0; i < CardsAnswerArray.length; i ++){
                 if(CardsAnswerArray[i].emotionState == EmotionToLookFor){
                     return i;
@@ -2741,7 +2923,7 @@ var GameEngine = {
 
         CardDataToQuestions : function(card, actor){
 
-            GameEngine.Machines.loadActorImage(actor, card.emotionState)
+            GameEngine.Machines.loadActorImage(actor, card.emotionState);
 
             GameEngine.Machines.cleanActorOrPlayerBox("actor");
 
@@ -3510,6 +3692,11 @@ var GameEngine = {
                     //      upptagen) och tvingas därefter att välja ett annat CardData av ownerTypen "Other",
                     //      om det inte finns några mer alternativ så används ett förbestämt svar (?)..
 		},
+
+        holdsArrAndString : function(_arr, _string){
+            this.Arr = _arr;
+            this.String = _string;
+        },
 		
 		Container : function(_image){
 			this.cardsOfContainer = []; 	// Varje Container kan innehålla max 3 GameCards
@@ -3548,6 +3735,7 @@ var GameEngine = {
 			this.name = _name;				//Namnet på aktören..
 			this.isMurder = false;
             this.isVictim = false;
+            this.role = null;           //Roll används till Actor 1-4 samt Other..
 			this.ID = _ID;				//Alla Actors har ett ID som representerar vem dem är
 			this.Secret = null; 		//GameCard av typen "Secret"
 			this.Other = null;			//GameCard av typen "Other"
@@ -3616,12 +3804,13 @@ var GameEngine = {
           this.possibleRoom= _possibleRoom;     //Array med Room Id'n som Ledtrådaen kan finnas i. Om ej Ledtråd ska denna vara NULL..
         },
 
-        BlippBoxCard : function(_posX, _posY, _actor, _width, _Height){
+        BlippBoxCard : function(_posX, _posY, _actor, _width, _Height, _gameCard){
             this.ActorOfBox = _actor;
             this.PosX = _posX;
             this.PosY = _posY;
             this.Width = _width;
             this.Height = _Height;
+            this.GameCard = _gameCard;
         }
 
 
