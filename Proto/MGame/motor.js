@@ -93,6 +93,23 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
                 }
             }
 
+            //kontrollerar om en Clue Trycks på..
+            for(var i = 0; i < GameEngine.GoToButtons.ClueButtons.length; i++){
+                Button = GameEngine.GoToButtons.ClueButtons[i];
+
+                if(Button != undefined){
+
+                    var ButtonDataObj = GameEngine.Machines.getPlaceHolderInfoFromCardIDForCurrentRoom(Button.ID);
+
+                    if(mX >= ButtonDataObj.PosX && mX < ButtonDataObj.PosX + ButtonDataObj.Width && mY >= ButtonDataObj.PosY && mY < ButtonDataObj.PosY + ButtonDataObj.Height){
+                        alert("Funktion ska anropas när denna trycks på!");
+                        return;
+
+                    }
+                }
+
+            }
+
         }
     });
 
@@ -183,6 +200,26 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
 
                 }
             }
+
+            //kontrollerar om en Clue Hovras över..
+            for(var i = 0; i < GameEngine.GoToButtons.ClueButtons.length; i++){
+                Button = GameEngine.GoToButtons.ClueButtons[i];
+
+                if(Button != undefined){
+
+                    var ButtonDataObj = GameEngine.Machines.getPlaceHolderInfoFromCardIDForCurrentRoom(Button.ID);
+
+                    if(mX >= ButtonDataObj.PosX && mX < ButtonDataObj.PosX + ButtonDataObj.Width && mY >= ButtonDataObj.PosY && mY < ButtonDataObj.PosY + ButtonDataObj.Height){
+                        document.body.style.cursor = "pointer";
+                        return;
+
+                    }else{
+                        document.body.style.cursor = "default";
+
+                    }
+                }
+
+            }
         }
     });
 
@@ -197,7 +234,8 @@ var GameEngine = {
         prevOrNextButton : [],
         DialogButtons : [],
         DialogButtonsActive : [],
-        DialogDownorUp : []
+        DialogDownorUp : [],
+        ClueButtons : []
     },
     Enums : {
         GameCardType : {
@@ -252,14 +290,60 @@ var GameEngine = {
 	init : function(){
 
 		GameEngine.Machines.ReadInRooms();
-		GameEngine.Machines.BuildRoom(1);
+
 		GameEngine.Machines.CreateActors();
-		
+
+        GameEngine.Machines.BuildRoom(1);
+
+        GameEngine.Machines.SelectRandomMotive();
+
+        GameEngine.Machines.placeClues();
 		
 	},
 
 	Machines : {
-		
+
+        getPlaceHolderInfoFromCardIDForCurrentRoom : function(GameCardID){
+            //Först hämtar vi data för aktivt rum
+            var thisRoom = GameEngine.Actives.RoomThatIsActive;
+            if(thisRoom == undefined || thisRoom == null){
+                return;
+            }
+            var ObjWithPlaceHolderData = {
+                PosX : null,
+                PosY : null,
+                Width : null,
+                Height : null
+            }
+
+            for(var i = 0; i < thisRoom.WallClue_GameCards.length ; i++){
+                if(thisRoom.WallClue_GameCards[i].GameCardOrContent != undefined){
+                    if(GameCardID == thisRoom.WallClue_GameCards[i].GameCardOrContent.ID){
+                        ObjWithPlaceHolderData.PosX     = thisRoom.WallClue_GameCards[i].PosX;
+                        ObjWithPlaceHolderData.PosY     = thisRoom.WallClue_GameCards[i].PosY;
+                        ObjWithPlaceHolderData.Width    = thisRoom.WallClue_GameCards[i].SizeWidth;
+                        ObjWithPlaceHolderData.Height   = thisRoom.WallClue_GameCards[i].SizeHeight;
+                        return ObjWithPlaceHolderData;
+                    }
+                }
+            }
+
+            for(var i = 0; i < thisRoom.TableClue_GameCards.length ; i++){
+                if(thisRoom.TableClue_GameCards[i].GameCardOrContent != undefined){
+                    if(GameCardID == thisRoom.TableClue_GameCards[i].GameCardOrContent.ID){
+                        ObjWithPlaceHolderData.PosX     = thisRoom.TableClue_GameCards[i].PosX;
+                        ObjWithPlaceHolderData.PosY     = thisRoom.TableClue_GameCards[i].PosY;
+                        ObjWithPlaceHolderData.Width    = thisRoom.TableClue_GameCards[i].SizeWidth;
+                        ObjWithPlaceHolderData.Height   = thisRoom.TableClue_GameCards[i].SizeHeight;
+                        return ObjWithPlaceHolderData;
+                    }
+                }
+            }
+
+            return ObjWithPlaceHolderData;
+
+        },
+
 		ReadInGameCards : function(){
 			//Init all Cards = Skapa och hämta ner korthögen basearat på datan i "GameCards"..
 		},
@@ -701,6 +785,10 @@ var GameEngine = {
         }, //TODO: Använd denna metod i PlaceClues..
 
         placeClues : function(){
+            GameEngine.GoToButtons.ClueButtons = [];
+            //det första vi gör är att vi tömmer KnappArrayen för ledtrådar, på så sätt finns inga äldre/ofunktionella
+            //ledtrådsknappar kvar, sen skjuts knapparna in vartefter denna metod genomförs!
+
             //Först väljer vi rum
             for(var i = 0; i < GameEngine.GlobalRooms.length ; i++){
 
@@ -757,10 +845,12 @@ var GameEngine = {
                 DataSourceMixedUp = []; // tömmer arrayen för senare bruk..
                 for(var j = 0; j < GameEngine.GlobalRooms[i].TableClue_GameCards.length; j++){
                     GameEngine.GlobalRooms[i].TableClue_GameCards[j].GameCardOrContent = TableClues[0];
+                    GameEngine.GoToButtons.ClueButtons.push(TableClues[0]);
                     TableClues.splice(0,1);
                 }
                 for(var j = 0; j < GameEngine.GlobalRooms[i].WallClue_GameCards.length; j++){
                     GameEngine.GlobalRooms[i].WallClue_GameCards[j].GameCardOrContent = WallClues[0];
+                    GameEngine.GoToButtons.ClueButtons.push(WallClues[0]);
                     WallClues.splice(0,1);
                 }
 
@@ -768,8 +858,9 @@ var GameEngine = {
 
                 //Sen börjar vi lägga in datan i de olika Containers som finns i rummen
                 for(var j = 0; j < GameEngine.GlobalRooms[i].Containers.length ; j++){
-                    for(var k = 0; k <= (DataSourceMixedUp.length -3) - DataSourceMixedUp.length; k++ ){ //TODO: fungerar denna ? Nope.. ? RAD 654
+                    for(var k = 0; k <= DataSourceMixedUp.length - (DataSourceMixedUp.length -1); k++ ){ //TODO: fungerar denna ? Nope.. ? RAD 654
                         GameEngine.GlobalRooms[i].Containers[j].GameCardOrContent.cardsOfContainer[k] = DataSourceMixedUp[0];
+                        GameEngine.GoToButtons.ClueButtons.push(DataSourceMixedUp[0]);
                         DataSourceMixedUp.splice(0,1);
                     }
                 }
@@ -783,7 +874,7 @@ var GameEngine = {
 
 
             }
-            //TODO: Nu ska vi faktiskt placera ut ledtrådarna.. Detta görs i en annan funktion..
+            //TODO: Nu ska vi faktiskt placera ut ledtrådarna.. Detta görs i en annan funktion = renderClues..
 
 
 
@@ -796,12 +887,15 @@ var GameEngine = {
 
                 if(GameEngine.GlobalRooms[i].ID == RoomID){
                     RoomToFillWithClues = GameEngine.GlobalRooms[i];
+
                     break;
                 }
 
 
             }
 
+            //Containrarna fylls in på ALLS, detta görs istället när man rotar i en Container, endast då vill vi se
+            //containerns innehåll..
             for(var j =0; j < RoomToFillWithClues.Containers.length; j++){
                 var ContainerToPlace = RoomToFillWithClues.Containers[j];
 
@@ -821,8 +915,9 @@ var GameEngine = {
                         RoomToFillWithClues.TableClue_GameCards[j].PosY,
                         GameEngine.Machines.getPosition(0.02, "x"),
                         GameEngine.Machines.getPosition(0.02, "y")
-
                     );
+                    RoomToFillWithClues.TableClue_GameCards[j].SizeHeight =GameEngine.Machines.getPosition(0.02, "x");
+                    RoomToFillWithClues.TableClue_GameCards[j].SizeWidth =GameEngine.Machines.getPosition(0.02, "y");
                 }
 
 
@@ -837,8 +932,9 @@ var GameEngine = {
                         RoomToFillWithClues.WallClue_GameCards[j].PosY,
                         GameEngine.Machines.getPosition(0.02, "x"),
                         GameEngine.Machines.getPosition(0.02, "y")
-
                     );
+                    RoomToFillWithClues.WallClue_GameCards[j].SizeHeight =GameEngine.Machines.getPosition(0.02, "x");
+                    RoomToFillWithClues.WallClue_GameCards[j].SizeWidth =GameEngine.Machines.getPosition(0.02, "y");
                 }
             }
 
