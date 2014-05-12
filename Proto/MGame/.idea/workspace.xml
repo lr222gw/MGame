@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/motor.js" line="2314" mnemonic="7" />
+    <bookmark url="file://$PROJECT_DIR$/motor.js" line="2429" mnemonic="7" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f70785b6-6824-4a1c-b4c0-df82f291d3e7" name="Default" comment="" />
@@ -55,11 +55,9 @@
           <file leaf-file-name="motor.js" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/motor.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.71028036" vertical-offset="1160" max-vertical-offset="48467">
-                  <caret line="104" column="72" selection-start-line="104" selection-start-column="72" selection-end-line="104" selection-end-column="72" />
-                  <folding>
-                    <element signature="e#66841#104435#0" expanded="false" />
-                  </folding>
+                <state vertical-scroll-proportion="0.63461536" vertical-offset="6120" max-vertical-offset="63750">
+                  <caret line="393" column="13" selection-start-line="393" selection-start-column="13" selection-end-line="393" selection-end-column="13" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -309,9 +307,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="31734" max-vertical-offset="42313">
           <caret line="1872" column="55" selection-start-line="1872" selection-start-column="55" selection-end-line="1872" selection-end-column="55" />
-          <folding>
-            <element signature="e#66841#104435#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -351,9 +347,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="19289" max-vertical-offset="25245">
           <caret line="1465" column="32" selection-start-line="1465" selection-start-column="32" selection-end-line="1465" selection-end-column="32" />
-          <folding>
-            <element signature="e#66841#104435#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -383,11 +377,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/motor.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.71028036" vertical-offset="1160" max-vertical-offset="48467">
-          <caret line="104" column="72" selection-start-line="104" selection-start-column="72" selection-end-line="104" selection-end-column="72" />
-          <folding>
-            <element signature="e#66841#104435#0" expanded="false" />
-          </folding>
+        <state vertical-scroll-proportion="0.63461536" vertical-offset="6120" max-vertical-offset="63750">
+          <caret line="393" column="13" selection-start-line="393" selection-start-column="13" selection-end-line="393" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -102,12 +102,22 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
                     var ButtonDataObj = GameEngine.Machines.getPlaceHolderInfoFromCardIDForCurrentRoom(Button.ID);
 
                     if(mX >= ButtonDataObj.PosX && mX < ButtonDataObj.PosX + ButtonDataObj.Width && mY >= ButtonDataObj.PosY && mY < ButtonDataObj.PosY + ButtonDataObj.Height){
-                        alert("Funktion ska anropas när denna trycks på!");
+                        alert("Funktion ska anropas när denna trycks på! Id't På detta kort är " +Button.ID );
                         return;
 
                     }
                 }
 
+            }
+
+            //kontrollerar om en BlippBox Hovras över..
+            for(var i = 0; i < GameEngine.GoToButtons.BlippButtons.length; i++){
+                Button = GameEngine.GoToButtons.BlippButtons[i];
+                if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
+                    alert("Funktion ska nropas när denna knapp trycks på! ");
+                    return;
+
+                }
             }
 
         }
@@ -220,6 +230,19 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
                 }
 
             }
+
+            //kontrollerar om en BlippBox Hovras över..
+            for(var i = 0; i < GameEngine.GoToButtons.BlippButtons.length; i++){
+                Button = GameEngine.GoToButtons.BlippButtons[i];
+                if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
+                    document.body.style.cursor = "pointer";
+                    return;
+
+                }else{
+                    document.body.style.cursor = "default";
+
+                }
+            }
         }
     });
 
@@ -235,7 +258,8 @@ var GameEngine = {
         DialogButtons : [],
         DialogButtonsActive : [],
         DialogDownorUp : [],
-        ClueButtons : []
+        ClueButtons : [],
+        BlippButtons : []
     },
     Enums : {
         GameCardType : {
@@ -293,15 +317,106 @@ var GameEngine = {
 
 		GameEngine.Machines.CreateActors();
 
-        GameEngine.Machines.BuildRoom(1);
-
         GameEngine.Machines.SelectRandomMotive();
 
         GameEngine.Machines.placeClues();
+
+        GameEngine.Machines.BuildRoom(1);
 		
 	},
 
 	Machines : {
+
+        createBlippBox : function(){
+
+            //Första vi gör är att spara färgen som var aktiv när vi kom in här, så att vi kan sätta den som standard när funktionen är klar
+            // sen så gör vi själva rutan som allt händer i..
+            var OldFillStyle, ArrOfActorBoxes;
+            OldFillStyle = Ctx.fillStyle;
+            Ctx.fillStyle = "rgb(0, 203, 231)";
+            Ctx.fillRect(
+                GameBubbleData.BlippBoxPosX,
+                GameBubbleData.BlippBoxPosY,
+                GameBubbleData.BlippBoxWidth,
+                GameBubbleData.BlippBoxHeight
+            );
+
+            Ctx.fillStyle = "rgb(0, 172, 196)";
+
+            Ctx.fillRect(
+                GameBubbleData.BlippBoxPosX+5,
+                GameBubbleData.BlippBoxPosY+5,
+                GameBubbleData.BlippBoxWidth-10,
+                GameBubbleData.BlippBoxHeight-10
+            );
+             //rutan är klar och vi ska skjuta in de små klickbara rutorna i den större rutan som vi nyss ritat..
+            ArrOfActorBoxes = GameEngine.Machines.createBlippBoxActorBoxes();
+            var addToPosX = 10;
+            var addToPosY = 10;
+            Ctx.fillStyle = "rgb(0, 0, 0)";
+            for(var i = 0; i < ArrOfActorBoxes.length; i++){
+
+                if(i == (ArrOfActorBoxes.length /2)){
+                    addToPosY += GameBubbleData.BlippBoxHeight - ArrOfActorBoxes[i].Height - 20 -GameEngine.Machines.getPosition(0.10,"y");
+
+                    addToPosX = GameBubbleData.BlippBoxWidth -ArrOfActorBoxes[i].Width - 10 ;
+                }
+
+                //ritar upp rutan
+                Ctx.fillRect(
+                    GameBubbleData.BlippBoxPosX + addToPosX,
+                    GameBubbleData.BlippBoxPosY + GameEngine.Machines.getPosition(0.10,"y") + addToPosY,
+                    ArrOfActorBoxes[i].Width,
+                    ArrOfActorBoxes[i].Height
+                );
+                //Fyller rutan med bilden
+                Ctx.drawImage(
+                    ArrOfActorBoxes[i].ActorOfBox.icon,
+                    (GameBubbleData.BlippBoxPosX + addToPosX) + 5,
+                    (GameBubbleData.BlippBoxPosY + GameEngine.Machines.getPosition(0.10,"y") + addToPosY) + 5,
+                    (ArrOfActorBoxes[i].Width) -10 ,
+                    (ArrOfActorBoxes[i].Height) - 10
+                );
+
+                ArrOfActorBoxes[i].PosX = (GameBubbleData.BlippBoxPosX + addToPosX) + 5;
+                ArrOfActorBoxes[i].PosY = (GameBubbleData.BlippBoxPosY + GameEngine.Machines.getPosition(0.10,"y") + addToPosY) + 5;
+
+
+                if(i < (ArrOfActorBoxes.length /2)){
+                    addToPosX += ArrOfActorBoxes[i].Width + 10; //10 är padding..
+
+                }else{
+                    addToPosX -= ArrOfActorBoxes[i].Width + 10; //10 är padding..
+                }
+
+                GameEngine.GoToButtons.BlippButtons.push(ArrOfActorBoxes[i]);
+
+            }
+
+
+
+
+            Ctx.fillStyle = OldFillStyle;
+        },
+
+        createBlippBoxActorBoxes : function(){
+            var ArrOfBoxes = [];
+
+            for(var i = 0; i < GameEngine.GlobalActors.length; i++){
+
+                ArrOfBoxes.push(new GameEngine.Classes.BlippBoxCard(
+                    null,
+                    null,
+                    GameEngine.GlobalActors[i],
+                    GameEngine.Machines.getPosition(0.15, "x"),
+                    GameEngine.Machines.getPosition(0.15, "y")
+                )
+                );
+
+            }
+            return ArrOfBoxes;
+
+        },
 
         getPlaceHolderInfoFromCardIDForCurrentRoom : function(GameCardID){
             //Först hämtar vi data för aktivt rum
@@ -3087,6 +3202,10 @@ var GameEngine = {
             (img.src = "Data/Characters/char_1/lulle.jpg");
             actor1.EmotionObj.Neutral =     img;
 
+            var icon = new Image();
+            icon.src = "Data/Characters/char_1/icon/icon.jpg";
+            actor1.icon = icon;
+
             actor1.room = GameEngine.Enums.Room.bedroom1;
 
 
@@ -3122,6 +3241,10 @@ var GameEngine = {
             var img = new Image();
             (img.src = "Data/Characters/char_2/billy.jpg");
             actor2.EmotionObj.Neutral =     img;
+
+            var icon = new Image();
+            icon.src = "Data/Characters/char_2/icon/icon.jpg";
+            actor2.icon = icon;
 
             actor2.room = GameEngine.Enums.Room.bedroom2;
 
@@ -3160,6 +3283,10 @@ var GameEngine = {
             (img.src = "Data/Characters/char_3/bobb.jpg");
             actor3.EmotionObj.Neutral =     img;
 
+            var icon = new Image();
+            icon.src = "Data/Characters/char_3/icon/icon.jpg";
+            actor3.icon = icon;
+
             actor3.room = GameEngine.Enums.Room.bedroom3;
 
 			var actor4 = new GameEngine.Classes.Actor("Ben", 4, "Data/Characters/char_4/Ben.jpg");
@@ -3194,6 +3321,10 @@ var GameEngine = {
             var img = new Image();
             (img.src = "Data/Characters/char_4/Ben.jpg");
             actor4.EmotionObj.Neutral =     img;
+
+            var icon = new Image();
+            icon.src = "Data/Characters/char_4/icon/icon.jpg";
+            actor4.icon = icon;
 
             actor4.room = GameEngine.Enums.Room.bedroom4;
 
@@ -3230,6 +3361,10 @@ var GameEngine = {
             (img.src = "Data/Characters/char_5/Loue.jpg");
             actor5.EmotionObj.Neutral =     img;
 
+            var icon = new Image();
+            icon.src = "Data/Characters/char_5/icon/icon.jpg";
+            actor5.icon = icon;
+
             actor5.room = GameEngine.Enums.Room.bedroom5;
 
 			var actor6 = new GameEngine.Classes.Actor("Tom", 6, "Data/Characters/char_6/Tom.jpg");
@@ -3264,6 +3399,10 @@ var GameEngine = {
             var img = new Image();
             (img.src = "Data/Characters/char_6/Tom.jpg");
             actor6.EmotionObj.Neutral =     img;
+
+            var icon = new Image();
+            icon.src = "Data/Characters/char_6/icon/icon.jpg";
+            actor6.icon = icon;
 
             actor6.room = GameEngine.Enums.Room.bedroom6;
 
@@ -3438,6 +3577,7 @@ var GameEngine = {
 
             };
             this.room = null;           //här sätter vi ID't på det rum som tillhör Actorn..
+            this.icon = null;
 		},
 		
 		Player : function(){
@@ -3474,6 +3614,14 @@ var GameEngine = {
         MotiveCardSpec : function(_theGameCard,_possibleRoom){
           this.theGameCard = _theGameCard;
           this.possibleRoom= _possibleRoom;     //Array med Room Id'n som Ledtrådaen kan finnas i. Om ej Ledtråd ska denna vara NULL..
+        },
+
+        BlippBoxCard : function(_posX, _posY, _actor, _width, _Height){
+            this.ActorOfBox = _actor;
+            this.PosX = _posX;
+            this.PosY = _posY;
+            this.Width = _width;
+            this.Height = _Height;
         }
 
 
@@ -3487,7 +3635,12 @@ var GameBubbleData = {
     ActorBubblePosY : GameEngine.Machines.getPosition(0.4981391354136845, "y"),
     SizeWidth       : GameEngine.Machines.getPosition(0.90, "x"),
     SizeHeight      : GameEngine.Machines.getPosition(0.15, "y"),
-    TextHeight      : GameEngine.Machines.getPosition(0.016, "x")
+    TextHeight      : GameEngine.Machines.getPosition(0.016, "x"),
+
+    BlippBoxWidth   : GameEngine.Machines.getPosition(0.80, "x"),
+    BlippBoxHeight  : GameEngine.Machines.getPosition(0.50, "y"),
+    BlippBoxPosX    : GameEngine.Machines.getPosition(0.0801564027370479, "x"),
+    BlippBoxPosY    : GameEngine.Machines.getPosition(0.0709991411394217, "x")
 };
 
 
