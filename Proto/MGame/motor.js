@@ -42,6 +42,9 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
             if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height ){
                 //alert(mX +" || " + mY);
                 GameEngine.Machines.clearRoomData();
+
+                //GameEngine.Actives.Player.TimePoints -= 2;
+                GameEngine.Machines.PlayersHuddUpdate(); //Uppdaterar Hudden..
                 GameEngine.Machines.BuildRoom(Button.RoomToGo);
             }
 
@@ -54,6 +57,9 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
                     if(mX >= Button.PosX && mX < Button.PosX + (Button.SizeWidth ) &&
                         mY >= Button.PosY && mY < Button.PosY + (Button.SizeHeight )) {
                         GameEngine.Machines.clearRoomData();
+
+                        GameEngine.Actives.Player.TimePoints -= 2;
+                        GameEngine.Machines.PlayersHuddUpdate(); //Uppdaterar Hudden..
                         GameEngine.Machines.BuildRoom(Button.GameCardOrContent.GoToRoom);
                     }
 
@@ -62,6 +68,9 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
                         mY >= Button.PosY && mY < Button.PosY + (Button.GameCardOrContent.image.height / heighOfObj)) {
                         GameEngine.Machines.clearRoomData();
                         GameEngine.Machines.BuildRoom(Button.GameCardOrContent.GoToRoom);
+
+                        GameEngine.Actives.Player.TimePoints -= 2;
+                        GameEngine.Machines.PlayersHuddUpdate(); //Uppdaterar Hudden..
                         return;
                     }
                 }
@@ -105,6 +114,9 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
 
                         if(mX >= ButtonDataObj.PosX && mX < ButtonDataObj.PosX + ButtonDataObj.Width && mY >= ButtonDataObj.PosY && mY < ButtonDataObj.PosY + ButtonDataObj.Height){
                             //alert("Funktion ska anropas när denna trycks på! Id't På detta kort är " +Button.ID );
+
+                            GameEngine.Actives.Player.TimePoints -= 5;
+                            GameEngine.Machines.PlayersHuddUpdate(); //Uppdaterar Hudden..
                             GameEngine.Machines.createBlippBox(Button);
                             return;
 
@@ -120,6 +132,8 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
                 Button = GameEngine.GoToButtons.BlippButtons[i];
                 if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
 
+                    GameEngine.Actives.Player.TimePoints -= 5;
+                    GameEngine.Machines.PlayersHuddUpdate(); //Uppdaterar Hudden..
                     GameEngine.Machines.SelectAnswerForActor(Button.ActorOfBox, Button.GameCard);
                     return;
 
@@ -133,6 +147,8 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
                 if(mX >= Button.PosX && mX < Button.PosX + Button.SizeWidth && mY >= Button.PosY && mY < Button.PosY + Button.SizeHeight){
                     SizeObj = GameEngine.Machines.buildContainerBoxForClue(Button.PosX, Button.PosY);
 
+                    GameEngine.Actives.Player.TimePoints -= 10;
+                    GameEngine.Machines.PlayersHuddUpdate(); //Uppdaterar Hudden..
                     GameEngine.Machines.FillBoxWithClues(SizeObj.PosX, SizeObj.PosY, SizeObj.Width, SizeObj.Height, Button.GameCardOrContent.cardsOfContainer);
 
                     return;
@@ -147,6 +163,8 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
 
                 if (mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height) {
 
+                    GameEngine.Actives.Player.TimePoints -= 5;
+                    GameEngine.Machines.PlayersHuddUpdate(); //Uppdaterar Hudden..
                     GameEngine.Machines.createBlippBox(Button.GameCard);
                     return;
 
@@ -667,6 +685,63 @@ var GameEngine = {
 
             }
 
+            //nu är alla knappar utsatta, vi ska lägga till en bild på Ledtråden samt beskrivning..
+            var WidthOfClueBox = GameEngine.Machines.getPosition(0.20,"x");
+            var HeightOfClueBox = GameEngine.Machines.getPosition(0.20,"y");
+            Ctx.fillStyle = "rgb(0, 0, 0)";
+            Ctx.fillRect(
+                GameBubbleData.BlippBoxPosX + GameBubbleData.BlippBoxWidth - WidthOfClueBox - 25,
+                GameBubbleData.BlippBoxPosY + 5,
+                WidthOfClueBox + 10,
+                HeightOfClueBox + GameEngine.Machines.getPosition(0.11, "x")
+            );
+            Ctx.fillStyle = "rgb(146, 160, 160)";
+
+            Ctx.fillRect(
+                GameBubbleData.BlippBoxPosX + GameBubbleData.BlippBoxWidth - WidthOfClueBox - 20,
+                GameBubbleData.BlippBoxPosY + 10,
+                WidthOfClueBox,
+                HeightOfClueBox
+            );
+            //nu är ramarna uppritade,. nu ska vi lägga in själva bilden i den innersta ramen..
+            Ctx.drawImage(
+                GameCard.image,
+               (GameBubbleData.BlippBoxPosX + GameBubbleData.BlippBoxWidth - WidthOfClueBox - 20) + WidthOfClueBox/4,
+               (GameBubbleData.BlippBoxPosY + 10) + (HeightOfClueBox / 5),
+                WidthOfClueBox / 2,
+                HeightOfClueBox / 2
+            );
+            //nu ska vi lägga till texten under bilden..
+            Ctx.fillStyle = "rgb(0, 0, 0)";
+            Ctx.fillText(
+                GameCard.Name,
+                (GameBubbleData.BlippBoxPosX + GameBubbleData.BlippBoxWidth - WidthOfClueBox - 20) + WidthOfClueBox/4,
+                ((GameBubbleData.BlippBoxPosY + 10) + (HeightOfClueBox / 5)) + HeightOfClueBox / 2 + GameBubbleData.TextHeight
+            );
+
+
+            // Nu ska vi göra själva texten till boxen..
+            Ctx.fillStyle = "rgb(0, 0, 0)";
+            Ctx.fillRect(
+                GameEngine.Machines.getPosition(0.5738025415444771 ,"x"),
+                GameEngine.Machines.getPosition(0.2965931863727455 ,"y"),
+                WidthOfClueBox,
+                GameEngine.Machines.getPosition(0.1035, "x")
+            );
+
+
+            Ctx.fillStyle = "rgb(244, 246, 255)";
+            GameEngine.Machines.wrapText(
+                Ctx,
+                //GameCard.Description,
+                "Very long text yes, Very long text yes, Very long text yes Very long text yes, Very long text yes, Very long text yes Very long text yes, Very long text yes, Very long text yes Very long text yes, Very long text yes, Very long text yes Very long text yes, Very long text yes, Very long text yes Very long text yes, Very long text yes, Very long text yes Very long text yes, Very long text yes, Very long text yes s",
+                GameEngine.Machines.getPosition(0.5738025415444771 ,"x"),
+                GameEngine.Machines.getPosition(0.2965931863727455 ,"y"),
+                GameEngine.Machines.getPosition(0.2903225806451612 ,"x"),
+                GameBubbleData.TextHeight,
+                GameBubbleData.TextHeight,
+                GameEngine.Machines.getPosition(0.1035, "x")
+            )
 
 
 
@@ -2843,7 +2918,16 @@ var GameEngine = {
         wrapText : function(context, text, x, y, maxWidth, lineHeight, textHeight, maxHeight, counter, nBeforeX, nBeforeValue){
             //Functionen wrapText är tagen från : http://www.html5canvastutorials.com/tutorials/html5-canvas-wrap-text-tutorial/
             //Och innehåller ingen egen skriven kod.. EDIT: lägger till MaxHeight, för att kunna skrolla om det blir mycket text., EDIT2: denna kod är rätt omarbetad..
-            var words, line, whenToStopNewLines, n, topPos;
+            var words, line, whenToStopNewLines, n, topPos, OLDx, OLDy,OLDMaxWidth, OLDMaxHeight;
+            var OldFilLStyle = Ctx.fillStyle;
+
+
+            OLDx = x;
+            OLDy = y;
+            OLDMaxWidth = maxWidth;
+            OLDMaxHeight = maxHeight;
+
+
             topPos = y;
             var nBefore;
             if(!(text instanceof Array)){
@@ -2868,17 +2952,20 @@ var GameEngine = {
                 n = 0;
             }
 
+            y += textHeight;
+            x += 5;
 
             for(n ; n < words.length; n++) {
                 var testLine = line + words[n] + ' ';
                 var metrics = context.measureText(testLine);
                 var testWidth = metrics.width;
                 if (testWidth > maxWidth && n > 0) {
+                    Ctx.fillStyle = "rgb(253, 253, 253)";
                     context.fillText(line, x, y);
                     line = words[n] + ' ';
                     y += lineHeight;
                     whenToStopNewLines += textHeight;
-                    if(whenToStopNewLines >= maxHeight){
+                    if(whenToStopNewLines >= maxHeight - textHeight){
                         GameEngine.Machines.clearRoomData();
                         var nextButton = new GameEngine.Classes.NextOrPreviousButton(
                             x + maxWidth,
@@ -2888,7 +2975,8 @@ var GameEngine = {
                             GameData.GameDataImages.nextButton,
                             function(){
 
-                                Ctx.fillStyle = "rgb(0, 102, 255)";
+                                //Inaktiverar denna pga att det är bättre om rutorna ritas upp efter datan som skickas in..
+                                /*Ctx.fillStyle = "rgb(0, 102, 255)";
                                 var ActorBubblePosX = GameEngine.Machines.getPosition(0.0469208211143695, "x");
                                 var ActorBubblePosY = GameEngine.Machines.getPosition(0.4981391354136845, "y");
                                 var SizeWidth = GameEngine.Machines.getPosition(0.90, "x");
@@ -2899,9 +2987,18 @@ var GameEngine = {
                                     SizeWidth,
                                     SizeHeight
                                 );
-                                                                Ctx.fillStyle = "rgb(63, 0, 0)";
+                                Ctx.fillStyle = "rgb(63, 0, 0)";*/
+                                Ctx.fillStyle = "rgb(0, 0, 0)";
+
+                                Ctx.fillRect(
+                                    OLDx,
+                                    OLDy,
+                                    OLDMaxWidth,
+                                    OLDMaxHeight
+                                );
+
                                 nBefore.push(n);
-                                GameEngine.Machines.wrapText(Ctx, words, x, topPos, maxWidth, lineHeight,textHeight, maxHeight, n, nBefore)
+                                GameEngine.Machines.wrapText(Ctx, words, OLDx, topPos, OLDMaxWidth, lineHeight,textHeight , maxHeight, n, nBefore)
 
                             }
 
@@ -2916,7 +3013,9 @@ var GameEngine = {
                                 GameEngine.Machines.getPosition(0.03,"x"),
                                 GameData.GameDataImages.prevButton,
                                 function(){
-                                    Ctx.fillStyle = "rgb(0, 102, 255)";
+
+                                    //Inaktiverar denna pga att det är bättre om rutorna ritas upp efter datan som skickas in..
+                                    /*Ctx.fillStyle = "rgb(0, 102, 255)";
                                     var ActorBubblePosX = GameEngine.Machines.getPosition(0.0469208211143695, "x");
                                     var ActorBubblePosY = GameEngine.Machines.getPosition(0.4981391354136845, "y");
                                     var SizeWidth = GameEngine.Machines.getPosition(0.90, "x");
@@ -2927,10 +3026,18 @@ var GameEngine = {
                                         SizeWidth,
                                         SizeHeight
                                     );
-                                    Ctx.fillStyle = "rgb(63, 0, 0)";
+                                    Ctx.fillStyle = "rgb(63, 0, 0)";*/
+
+                                    Ctx.fillStyle = "rgb(0, 0, 0)";
+                                    Ctx.fillRect(
+                                        OLDx,
+                                        OLDy,
+                                        OLDMaxWidth,
+                                        OLDMaxHeight
+                                    );
 
                                     nBefore.pop();
-                                    GameEngine.Machines.wrapText(Ctx, words, x, topPos, maxWidth, lineHeight,textHeight, maxHeight, nBefore[nBefore.length-1], nBefore)
+                                    GameEngine.Machines.wrapText(Ctx, words, OLDx, topPos, OLDMaxWidth, lineHeight,textHeight, maxHeight, nBefore[nBefore.length-1], nBefore)
 
                                 }
                             );
@@ -2950,7 +3057,9 @@ var GameEngine = {
                     line = testLine;
                 }
             }
+            Ctx.fillStyle = "rgb(253, 253, 253)";
             context.fillText(line, x, y);
+            Ctx.fillStyle = OldFilLStyle;
         },
 
         loadActorImage : function(Actor, emotionState){
@@ -3245,8 +3354,12 @@ var GameEngine = {
                 GameBubbleData.SizeHeight,
                 GameBubbleData.TextHeight,
                 function(){
-                    var card = GameEngine.Machines.getContentFromQuestion("secret", actor);
-                    GameEngine.Machines.CardToQuestions(card, actor);
+                    //var card = GameEngine.Machines.getContentFromQuestion("secret", actor);
+
+                    GameEngine.Actives.Player.TimePoints -= 10;
+                    GameEngine.Machines.PlayersHuddUpdate(); //Uppdaterar Hudden..
+
+                    //GameEngine.Machines.CardToQuestions(card, actor);
                 }
             );
             GameEngine.Machines.ListQuestions(
@@ -3257,8 +3370,12 @@ var GameEngine = {
                 GameBubbleData.SizeHeight,
                 GameBubbleData.TextHeight,
                 function(){
-                    var card = GameEngine.Machines.getContentFromQuestion("secret", actor);
-                    GameEngine.Machines.CardToQuestions(card, actor);
+                    //var card = GameEngine.Machines.getContentFromQuestion("secret", actor);
+
+                    GameEngine.Actives.Player.TimePoints -= 10;
+                    GameEngine.Machines.PlayersHuddUpdate(); //Uppdaterar Hudden..
+
+                    //GameEngine.Machines.CardToQuestions(card, actor);
                 }
             );
 
