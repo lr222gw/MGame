@@ -1736,7 +1736,7 @@ var GameEngine = {
 
 			var bathroom = new GameEngine.Classes.Room(
                 13,
-                "Data/Map/BathRoom/bathroom.jpg",
+                "Data/Map/BathRoom/bathroom.png",
                 "Bathroom",
                 [//WaypointsArr
                     new GameEngine.Classes.PlaceHolder(
@@ -2360,7 +2360,7 @@ var GameEngine = {
             );
 			var kitchen  = new GameEngine.Classes.Room(
                 11,
-                "Data/Map/Kitchen/kitchen.JPG",
+                "Data/Map/Kitchen/kitchen.png",
                 "Kitchen",
                 [
                     new GameEngine.Classes.PlaceHolder(
@@ -2418,7 +2418,7 @@ var GameEngine = {
             );
 			var tvroom = new GameEngine.Classes.Room(
                 12,
-                "Data/Map/TvRoom/tvroom.jpg",
+                "Data/Map/TvRoom/tvroom.png",
                 "Tv-Room",
                 [
                     new GameEngine.Classes.PlaceHolder(
@@ -3351,7 +3351,7 @@ var GameEngine = {
 
 
 			//Init all Actor
-			var actor1 = new GameEngine.Classes.Actor("Lulle", 1, "Data/Characters/char_1/lulle.jpg");
+			var actor1 = new GameEngine.Classes.Actor("Lulle", 1, "Data/Characters/char_1/char1.png");
             var img = new Image();
             (img.src = "Data/Characters/char_1/emotions/Angry.png");
             actor1.EmotionObj.Angry =       img;
@@ -3381,17 +3381,17 @@ var GameEngine = {
             actor1.EmotionObj.Sad =         img;
 
             var img = new Image();
-            (img.src = "Data/Characters/char_1/lulle.jpg");
+            (img.src = "Data/Characters/char_1/char1.png");
             actor1.EmotionObj.Neutral =     img;
 
             var icon = new Image();
-            icon.src = "Data/Characters/char_1/icon/icon.jpg";
+            icon.src = "Data/Characters/char_1/icon/icon.png";
             actor1.icon = icon;
 
             actor1.room = GameEngine.Enums.Room.bedroom1;
 
 
-			var actor2 = new GameEngine.Classes.Actor("Billy", 2, "Data/Characters/char_2/billy.jpg");
+			var actor2 = new GameEngine.Classes.Actor("Billy", 2, "Data/Characters/char_2/char2.png");
             var img = new Image();
             (img.src = "Data/Characters/char_2/emotions/Angry.png");
             actor2.EmotionObj.Angry =       img;
@@ -3421,17 +3421,17 @@ var GameEngine = {
             actor2.EmotionObj.Sad =         img;
 
             var img = new Image();
-            (img.src = "Data/Characters/char_2/billy.jpg");
+            (img.src = "Data/Characters/char_2/char2.png");
             actor2.EmotionObj.Neutral =     img;
 
             var icon = new Image();
-            icon.src = "Data/Characters/char_2/icon/icon.jpg";
+            icon.src = "Data/Characters/char_2/icon/icon.png";
             actor2.icon = icon;
 
             actor2.room = GameEngine.Enums.Room.bedroom2;
 
 
-			var actor3 = new GameEngine.Classes.Actor("Bobb", 3, "Data/Characters/char_3/bobb.jpg");
+			var actor3 = new GameEngine.Classes.Actor("Bobb", 3, "Data/Characters/char_3/char3.png");
 
             var img = new Image();
             (img.src = "Data/Characters/char_3/emotions/Angry.png");
@@ -3462,16 +3462,16 @@ var GameEngine = {
             actor3.EmotionObj.Sad =         img;
 
             var img = new Image();
-            (img.src = "Data/Characters/char_3/bobb.jpg");
+            (img.src = "Data/Characters/char_3/char3.png");
             actor3.EmotionObj.Neutral =     img;
 
             var icon = new Image();
-            icon.src = "Data/Characters/char_3/icon/icon.jpg";
+            icon.src = "Data/Characters/char_3/icon/icon.png";
             actor3.icon = icon;
 
             actor3.room = GameEngine.Enums.Room.bedroom3;
 
-			var actor4 = new GameEngine.Classes.Actor("Ben", 4, "Data/Characters/char_4/Ben.jpg");
+			var actor4 = new GameEngine.Classes.Actor("Ben", 4, "Data/Characters/char_4/char4.png");
             var img = new Image();
             (img.src = "Data/Characters/char_4/emotions/Angry.png");
             actor4.EmotionObj.Angry =       img;
@@ -3501,16 +3501,16 @@ var GameEngine = {
             actor4.EmotionObj.Sad =         img;
 
             var img = new Image();
-            (img.src = "Data/Characters/char_4/Ben.jpg");
+            (img.src = "Data/Characters/char_4/char4.png");
             actor4.EmotionObj.Neutral =     img;
 
             var icon = new Image();
-            icon.src = "Data/Characters/char_4/icon/icon.jpg";
+            icon.src = "Data/Characters/char_4/icon/icon.png";
             actor4.icon = icon;
 
             actor4.room = GameEngine.Enums.Room.bedroom4;
 
-			var actor5 = new GameEngine.Classes.Actor("Loue", 5, "Data/Characters/char_5/Loue.jpg");
+			var actor5 = new GameEngine.Classes.Actor("Loue", 5, "Data/Characters/char_5/char5.png");
             var img = new Image();
             (img.src = "Data/Characters/char_5/emotions/Angry.png");
             actor5.EmotionObj.Angry =       img;
@@ -3540,16 +3540,16 @@ var GameEngine = {
             actor5.EmotionObj.Sad =         img;
 
             var img = new Image();
-            (img.src = "Data/Characters/char_5/Loue.jpg");
+            (img.src = "Data/Characters/char_5/char5.png");
             actor5.EmotionObj.Neutral =     img;
 
             var icon = new Image();
-            icon.src = "Data/Characters/char_5/icon/icon.jpg";
+            icon.src = "Data/Characters/char_5/icon/icon.png";
             actor5.icon = icon;
 
             actor5.room = GameEngine.Enums.Room.bedroom5;
 
-			var actor6 = new GameEngine.Classes.Actor("Tom", 6, "Data/Characters/char_6/Tom.jpg");
+			var actor6 = new GameEngine.Classes.Actor("Tom", 6, "Data/Characters/char_6/char6.png");
             var img = new Image();
             (img.src = "Data/Characters/char_6/emotions/Angry.png");
             actor6.EmotionObj.Angry =       img;
@@ -3579,11 +3579,11 @@ var GameEngine = {
             actor6.EmotionObj.Sad =         img;
 
             var img = new Image();
-            (img.src = "Data/Characters/char_6/Tom.jpg");
+            (img.src = "Data/Characters/char_6/char6.png");
             actor6.EmotionObj.Neutral =     img;
 
             var icon = new Image();
-            icon.src = "Data/Characters/char_6/icon/icon.jpg";
+            icon.src = "Data/Characters/char_6/icon/icon.png";
             actor6.icon = icon;
 
             actor6.room = GameEngine.Enums.Room.bedroom6;
