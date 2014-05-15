@@ -36,6 +36,7 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
             console.log("X= "+ mX /ScreenSpec.SizeX +" || Y= " + mY/ScreenSpec.SizeY);
             console.log("X= "+ mX +" || Y= " + mY);
 
+
             var Button = GameEngine.GoToButtons.backButton;
             //Kontrollerar om bakåt knappen trycktes på..
             if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height ){
@@ -123,6 +124,35 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
                     return;
 
                 }
+            }
+
+            //Kontrollerar om en container trycks på ..
+            var SizeObj;
+            for(var i = 0; i  < GameEngine.GoToButtons.ContainerButton.length; i++){
+                Button = GameEngine.GoToButtons.ContainerButton[i];
+                if(mX >= Button.PosX && mX < Button.PosX + Button.SizeWidth && mY >= Button.PosY && mY < Button.PosY + Button.SizeHeight){
+                    SizeObj = GameEngine.Machines.buildContainerBoxForClue(Button.PosX, Button.PosY);
+
+                    GameEngine.Machines.FillBoxWithClues(SizeObj.PosX, SizeObj.PosY, SizeObj.Width, SizeObj.Height, Button.GameCardOrContent.cardsOfContainer);
+
+                    return;
+
+                }
+
+            }
+
+            //Denna funktion är för Clues i Contanrar > klickas på...
+            for(var i = 0; i < GameEngine.GoToButtons.ContainerClueButtons.length; i++){
+                Button = GameEngine.GoToButtons.ContainerClueButtons[i];
+
+                if (mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height) {
+
+                    GameEngine.Machines.createBlippBox(Button.GameCard);
+                    return;
+
+                }
+
+
             }
 
         }
@@ -238,6 +268,22 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
 
             }
 
+            //Denna funktion är för Clues i Contanrar > hover...
+            for(var i = 0; i < GameEngine.GoToButtons.ContainerClueButtons.length; i++){
+                Button = GameEngine.GoToButtons.ContainerClueButtons[i];
+
+                if (mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height) {
+                    document.body.style.cursor = "pointer";
+                    return;
+
+                } else {
+                    document.body.style.cursor = "default";
+
+                }
+
+
+            }
+
             //kontrollerar om en BlippBox Hovras över..
             for(var i = 0; i < GameEngine.GoToButtons.BlippButtons.length; i++){
                 Button = GameEngine.GoToButtons.BlippButtons[i];
@@ -249,6 +295,20 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
                     document.body.style.cursor = "default";
 
                 }
+            }
+
+            //Kontrollerar om en container hovras över ..
+            for(var i = 0; i  < GameEngine.GoToButtons.ContainerButton.length; i++){
+                Button = GameEngine.GoToButtons.ContainerButton[i];
+                if(mX >= Button.PosX && mX < Button.PosX + Button.SizeWidth && mY >= Button.PosY && mY < Button.PosY + Button.SizeHeight){
+                    document.body.style.cursor = "pointer";
+                    return;
+
+                }else{
+                    document.body.style.cursor = "default";
+
+                }
+
             }
         }
     });
@@ -266,6 +326,7 @@ var GameEngine = {
         DialogButtonsActive : [],
         DialogDownorUp : [],
         ClueButtons : [],
+        ContainerClueButtons : [],
         BlippButtons : []
     },
     Enums : {
@@ -324,26 +385,156 @@ var GameEngine = {
     Actives : {
         RoomThatIsActive : "",
         MotiveThatIsActive : "",
-        ClueButtonsOn : true
+        ClueButtonsOn : true,
+        Player : null
     },
 
     DataPlaceHolder : [], //används för att lagra tillfällig data..
 	
-	init : function(){
+	init : function() {
 
-		GameEngine.Machines.ReadInRooms();
+        GameEngine.Machines.createPlayer();
 
-		GameEngine.Machines.CreateActors();
+        GameEngine.Machines.ReadInRooms();
+
+        GameEngine.Machines.CreateActors();
 
         GameEngine.Machines.SelectRandomMotive();
 
         GameEngine.Machines.placeClues();
 
         GameEngine.Machines.BuildRoom(1);
+
+        //AnimationsFunktion, till tex Hudden..
+        setInterval(GameEngine.Machines.PlayersHuddUpdate(),1000);
+
 		
 	},
 
 	Machines : {
+
+        PlayersHuddUpdate : function(){
+            var oldFillStyle = Ctx.fillStyle;
+
+            Ctx.fillStyle = "rgb(0, 235, 255)";
+
+            Ctx.fillRect(
+                ScreenSpec.SizeX - (ScreenSpec.SizeX / 5),
+                ScreenSpec.gameFrameY,
+                ScreenSpec.SizeX / 5,
+                (ScreenSpec.SizeY - ScreenSpec.gameFrameY)
+
+            );
+
+            Ctx.fillStyle = "rgb(255, 60, 60)";
+
+            Ctx.font= GameBubbleData.TextHeight +"px arial, bold sans-serif";
+
+            //Skriver ut timepoints
+            Ctx.fillText(
+                "TimePoints Left: "+ GameEngine.Actives.Player.TimePoints,
+                ScreenSpec.SizeX - (ScreenSpec.SizeX / 5),
+                ScreenSpec.gameFrameY + GameBubbleData.TextHeight + 10,
+                ScreenSpec.SizeX / 5
+            );
+
+            //Skriver ut rummet
+            Ctx.fillText(
+                "Current Room: "+ GameEngine.Actives.RoomThatIsActive.roomname,
+                ScreenSpec.SizeX - (ScreenSpec.SizeX / 5),
+                ScreenSpec.gameFrameY + GameBubbleData.TextHeight * 3 + 10,
+                    ScreenSpec.SizeX / 5
+            );
+
+
+            Ctx.fillStyle = oldFillStyle;
+
+
+        },
+
+        createPlayer : function(){
+            var Player = new GameEngine.Classes.Player();
+            GameEngine.Actives.Player = Player;
+        },
+
+        buildContainerBoxForClue : function(PosX, PosY){
+            //denna funktion ska bygga själva boxen som ledtrådarna kommer
+            //att befinna sig i.
+
+            var oldFillStyle  = Ctx.fillStyle;
+            //först gör vi bordern, med en vald färg
+            Ctx.fillStyle = "rgb(144, 0, 201)";
+            //nu ska vi rita ut triangeln, men för att försäkra oss att den inte hamnar utanför
+            //måste vi göra lite matte..
+            var Width = GameEngine.Machines.getPosition(0.175,"x");
+            var Height = GameEngine.Machines.getPosition(0.20,"y");
+            if(PosX + Width > ScreenSpec.SizeX ){
+                PosX = PosX - ((PosX + Width) - ScreenSpec.SizeX);
+            }
+            if(PosY + Height > ScreenSpec.gameFrameY){
+                PosY = PosY - ((PosY + Height) - ScreenSpec.gameFrameY);
+            }
+
+            Ctx.fillRect(
+                PosX - 10,
+                PosY - 15,
+                Width+5,
+                Height+10
+            );
+
+            //Sedan gör vi boxen som ska göra själva innehållet
+            Ctx.fillStyle = "rgb(183, 101, 216)";
+            Ctx.fillRect(
+                PosX ,
+                PosY ,
+                Width -=15,
+                Height -= 10
+            );
+
+            Ctx.fillStyle = oldFillStyle;
+            var ObjToReturn = {
+                Width : Width,
+                Height: Height,
+                PosX  : PosX,
+                PosY  : PosY
+
+            };
+            return ObjToReturn;
+        },
+
+        FillBoxWithClues : function(PosX, PosY, Width, Height, ArrOfClues){
+            var FillStyleOld = Ctx.fillStyle;
+            //Först måste vi göra en knapp, sen ska vi fylla knappen med innehåll..
+            var height  = GameEngine.Machines.getPosition(0.05, "y");
+            for(var i = 0; i < ArrOfClues.length; i++){
+                //Denna loop bygger ledtrådsknappar och placerar ut dem.
+
+                var Button = new GameEngine.Classes.ContainerBoxButton(
+                    PosX+2,
+                    PosY + 2,
+                    Width-4,
+                    height-3,
+                    ArrOfClues[i]
+                );
+                Ctx.fillStyle = "rgb(106, 121, 233)";
+                Ctx.fillRect(
+                    Button.PosX,
+                    Button.PosY,
+                    Button.Width,
+                    Button.Height
+                )
+
+                Ctx.fillStyle = "rgb(241, 241, 241)";
+                Ctx.fillText(ArrOfClues[i].Name,PosX+4,PosY + 15,Width);
+                GameEngine.GoToButtons.ContainerClueButtons.push(Button);
+
+                PosY +=height;
+
+            }
+
+
+            Ctx.fillStyle = FillStyleOld;
+        },
 
         SelectAnswerForActor : function(Actor, GameCard){
             var ArrOfPossibleCards = [];
@@ -2483,6 +2674,7 @@ var GameEngine = {
             GameEngine.GoToButtons.BlippButtons = []; //rensar BlippButtons..
             GameEngine.Actives.ClueButtonsOn = true; //aktiverar ledtrådar..
 
+
             for(var i = 0; i < GameEngine.GlobalRooms.length; i++){//hittar rummet med det ID man söker efter
                 if(GameEngine.GlobalRooms[i].ID == RoomID){
                     RoomToLoad = GameEngine.GlobalRooms[i];
@@ -2514,7 +2706,7 @@ var GameEngine = {
             }
             GameEngine.Actives.RoomThatIsActive = RoomToLoad;
             GameEngine.Machines.renderClues(RoomToLoad.ID);
-
+            GameEngine.Machines.PlayersHuddUpdate(); //Uppdaterar Hudden..
 		},
 
         placeContainers : function(PlaceholderWithContent){
@@ -3648,18 +3840,28 @@ var GameEngine = {
             this.placeForImage = _placeForImage;
         },
 
+        ContainerBoxButton : function(_PosX, _PosY,_Width,_Height,_gamecard){
+            this.PosY = _PosY;
+            this.PosX = _PosX;
+            this.Width = _Width;
+            this.Height = _Height;
+            this.GameCard = _gamecard;
+        },
+
 		GameHud : function(){
 			this.ActiveRoom = GameEngine.Classes.Room; // Ska innehålla det aktiva rummet..
 			//Hud och Tools ska ligga här också...
 		},
 		
-		GameCard : function(_ID, _type, _Description, _needTheseCards, _image, _AnswerCards){
+		GameCard : function(_ID, _type, _name ,_Description, _needTheseCards, _image, _AnswerCards){
 			this.ID = _ID;
 			
 			this.type = _type; // Kan vara antingen personlighetsakerna (secret, other, intress, relation) eller:
 							//-WallClue  	=Om ledtråden endast går att ha på väggen
 							//-TableClue	=Om ledtråden endast går att ha på en platt yta (golv, bord, etc)
-							
+
+            this.Name = _name
+
 			this.Description = _Description; // innehåller en beskrivning av ledtråden, om ej är ledtråd så blir denna null..
 								
 			this.needTheseCards = _needTheseCards;// ID'n till GameCards som behövs för att denna Ledtråd ska visas
@@ -3811,6 +4013,11 @@ var GameEngine = {
             this.Width = _width;
             this.Height = _Height;
             this.GameCard = _gameCard;
+        },
+
+        SessionObs : function(_Expires, _data){
+            this.Expires = _Expires;
+            this.Data = _data;
         }
 
 
@@ -3839,6 +4046,34 @@ var GameBubbleData = {
 
 	GameData.initData(); //Läser in Kort/Bild-data
     GameEngine.init();  //Påbörjar session
+
+
+//koden nedanför var till för att spara data, men det gick ej bra pga "Circular Refrencess.."
+/*window.onbeforeunload = function(){
+    //vad som ska hända när man stänger av webbläsaren..
+    localStorage.removeItem("oldData"); // <--här tar vi bort den gamla gamla datan.. den blir ersatt
+    //Först vill vi spara allt, detta vill vi göra i 2h, efter det ska datan ignoreras.
+    var ObjWithData = {
+        Date        : Date.now(),
+        Actors      : GameEngine.GlobalActors,
+        Rooms       : GameEngine.GlobalRooms,
+        AllButtons  : GameEngine.GoToButtons,
+        BusyCards   : GameEngine.BusyCards,
+        Actives     : GameEngine.Actives,
+        DataPHolder : GameEngine.DataPlaceHolder
+    };
+    var SaveObj = new GameEngine.Classes.SessionObs(Date.now(), ObjWithData);
+
+    localStorage.setItem("oldData", JSON.stringify(ObjWithData));
+
+    //När anvädnaren nästa gång går in på sidan så ska det kollas efters parad data, om
+    //det finns data sparad (den som spars i 2h) så ska man få en fråga om man vill använda den eller ej
+    //Detta görs i init funktionen..
+
+
+
+     return "Are you sure you want to quit? Your game will be saved for the next 2 hours.";
+};*/
 	
 //};
 

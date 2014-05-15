@@ -74,6 +74,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     1,              //ID
                     GameEngine.Enums.GameCardType.TableClue,    //Type
+                    "Namn",
                     "Beskrivning!", //Beskrivning
                     [1,2],          //NeededCards
                     "",             //BildURL
@@ -88,6 +89,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     4,              //ID
                     GameEngine.Enums.GameCardType.TableClue,    //Type
+                    "Condom",
                     "Looks like a condom..", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -102,6 +104,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     5,              //ID
                     GameEngine.Enums.GameCardType.TableClue,    //Type
+                    "Condom Wrapper",
                     "Looks like a condom wrapper..",            //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -116,6 +119,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     6,              //ID
                     GameEngine.Enums.GameCardType.TableClue,    //Type
+                    "Condom Wrapper",
                     "Looks like another* condom wrapper..", //Beskrivning
                     [4,5],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -130,6 +134,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     7,              //ID
                     GameEngine.Enums.GameCardType.TableClue,    //Type
+                    "NamePlaceHolder",
                     "Looks like this dirty laundry have marks from a red lipstick....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -144,6 +149,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     8,              //ID
                     GameEngine.Enums.GameCardType.TableClue,    //Type
+                    "NamePlaceHolder",
                     "Looks like a red lipstick ....", //Beskrivning
                     [7],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -158,6 +164,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     9,              //ID
                     GameEngine.Enums.GameCardType.TableClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 1 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -172,6 +179,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     10,              //ID
                     GameEngine.Enums.GameCardType.WallClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 2 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -186,6 +194,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     11,              //ID
                     GameEngine.Enums.GameCardType.WallClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 3 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -200,6 +209,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     12,              //ID
                     GameEngine.Enums.GameCardType.WallClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 4 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -214,6 +224,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     13,              //ID
                     GameEngine.Enums.GameCardType.WallClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 5 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -228,6 +239,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     14,              //ID
                     GameEngine.Enums.GameCardType.WallClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 6 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -242,6 +254,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     15,              //ID
                     GameEngine.Enums.GameCardType.WallClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 7 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -256,6 +269,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     16,              //ID
                     GameEngine.Enums.GameCardType.WallClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 8 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -270,6 +284,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     17,              //ID
                     GameEngine.Enums.GameCardType.WallClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 9 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -284,6 +299,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     18,              //ID
                     GameEngine.Enums.GameCardType.WallClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 10 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -298,6 +314,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     19,              //ID
                     GameEngine.Enums.GameCardType.WallClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 11 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -312,6 +329,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     20,              //ID
                     GameEngine.Enums.GameCardType.WallClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 12 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -326,6 +344,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     21,              //ID
                     GameEngine.Enums.GameCardType.WallClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 13 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -340,6 +359,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     22,              //ID
                     GameEngine.Enums.GameCardType.WallClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 14 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -354,6 +374,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     23,              //ID
                     GameEngine.Enums.GameCardType.WallClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -368,6 +389,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     60,              //ID
                     GameEngine.Enums.GameCardType.WallClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -382,6 +404,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     61,              //ID
                     GameEngine.Enums.GameCardType.WallClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -396,6 +419,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     62,              //ID
                     GameEngine.Enums.GameCardType.WallClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -410,6 +434,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     63,              //ID
                     GameEngine.Enums.GameCardType.WallClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -424,6 +449,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     64,              //ID
                     GameEngine.Enums.GameCardType.WallClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -438,6 +464,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     65,              //ID
                     GameEngine.Enums.GameCardType.WallClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -452,6 +479,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     66,              //ID
                     GameEngine.Enums.GameCardType.WallClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -466,6 +494,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     67,              //ID
                     GameEngine.Enums.GameCardType.WallClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -480,6 +509,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     68,              //ID
                     GameEngine.Enums.GameCardType.WallClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -494,6 +524,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     69,              //ID
                     GameEngine.Enums.GameCardType.WallClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -508,6 +539,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     70,              //ID
                     GameEngine.Enums.GameCardType.WallClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -522,6 +554,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     72,              //ID
                     GameEngine.Enums.GameCardType.WallClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -536,6 +569,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     73,              //ID
                     GameEngine.Enums.GameCardType.WallClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -550,6 +584,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     74,              //ID
                     GameEngine.Enums.GameCardType.WallClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -564,6 +599,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     75,              //ID
                     GameEngine.Enums.GameCardType.WallClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -578,6 +614,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     76,              //ID
                     GameEngine.Enums.GameCardType.WallClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -592,6 +629,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     77,              //ID
                     GameEngine.Enums.GameCardType.WallClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -606,6 +644,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     78,              //ID
                     GameEngine.Enums.GameCardType.TableClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -620,6 +659,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     79,              //ID
                     GameEngine.Enums.GameCardType.TableClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -634,6 +674,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     80,              //ID
                     GameEngine.Enums.GameCardType.TableClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -648,6 +689,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     81,              //ID
                     GameEngine.Enums.GameCardType.TableClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -662,6 +704,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     82,              //ID
                     GameEngine.Enums.GameCardType.TableClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -676,6 +719,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     83,              //ID
                     GameEngine.Enums.GameCardType.TableClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -690,6 +734,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     84,              //ID
                     GameEngine.Enums.GameCardType.TableClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -704,6 +749,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     85,              //ID
                     GameEngine.Enums.GameCardType.TableClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -718,6 +764,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     86,              //ID
                     GameEngine.Enums.GameCardType.TableClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -732,6 +779,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     87,              //ID
                     GameEngine.Enums.GameCardType.TableClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -746,6 +794,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     88,              //ID
                     GameEngine.Enums.GameCardType.TableClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -760,6 +809,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     89,              //ID
                     GameEngine.Enums.GameCardType.TableClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -774,6 +824,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     90,              //ID
                     GameEngine.Enums.GameCardType.TableClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -788,6 +839,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     91,              //ID
                     GameEngine.Enums.GameCardType.TableClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -802,6 +854,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     92,              //ID
                     GameEngine.Enums.GameCardType.TableClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -816,6 +869,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     93,              //ID
                     GameEngine.Enums.GameCardType.TableClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -830,6 +884,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     94,              //ID
                     GameEngine.Enums.GameCardType.TableClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -844,6 +899,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     95,              //ID
                     GameEngine.Enums.GameCardType.TableClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -858,6 +914,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     96,              //ID
                     GameEngine.Enums.GameCardType.TableClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -872,6 +929,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     97,              //ID
                     GameEngine.Enums.GameCardType.TableClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -886,6 +944,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     98,              //ID
                     GameEngine.Enums.GameCardType.TableClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -900,6 +959,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     99,              //ID
                     GameEngine.Enums.GameCardType.TableClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -914,6 +974,7 @@ var GameData = {
                 new GameEngine.Classes.GameCard(
                     100,              //ID
                     GameEngine.Enums.GameCardType.TableClue,    //Type
+                    "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
                     "Data/Map/Extras/placeholder.jpg",             //BildURL
@@ -986,6 +1047,7 @@ var GameData = {
             new GameEngine.Classes.GameCard(
                 2,
                 GameEngine.Enums.GameCardType.Secret,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -1044,6 +1106,7 @@ var GameData = {
             new GameEngine.Classes.GameCard(
                 3,
                 GameEngine.Enums.GameCardType.Secret,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -1075,6 +1138,7 @@ var GameData = {
             new GameEngine.Classes.GameCard(
                 24,
                 GameEngine.Enums.GameCardType.Intress,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -1106,6 +1170,7 @@ var GameData = {
             new GameEngine.Classes.GameCard(
                 25,
                 GameEngine.Enums.GameCardType.Intress,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -1136,6 +1201,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 26,
                 GameEngine.Enums.GameCardType.Intress,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -1166,6 +1232,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 27,
                 GameEngine.Enums.GameCardType.Intress,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -1196,6 +1263,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 28,
                 GameEngine.Enums.GameCardType.Intress,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -1226,6 +1294,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 29,
                 GameEngine.Enums.GameCardType.Intress,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -1256,6 +1325,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 30,
                 GameEngine.Enums.GameCardType.Intress,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -1286,6 +1356,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 31,
                 GameEngine.Enums.GameCardType.Intress,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -1316,6 +1387,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 31,
                 GameEngine.Enums.GameCardType.Intress,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -1346,6 +1418,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 32,
                 GameEngine.Enums.GameCardType.Other,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -1376,6 +1449,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 33,
                 GameEngine.Enums.GameCardType.Other,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -1406,6 +1480,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 34,
                 GameEngine.Enums.GameCardType.Other,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -1436,6 +1511,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 35,
                 GameEngine.Enums.GameCardType.Other,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -1466,6 +1542,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 36,
                 GameEngine.Enums.GameCardType.Other,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -1496,6 +1573,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 37,
                 GameEngine.Enums.GameCardType.Other,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -1526,6 +1604,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 38,
                 GameEngine.Enums.GameCardType.Other,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -1556,6 +1635,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 39,
                 GameEngine.Enums.GameCardType.Other,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -1586,6 +1666,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 40,
                 GameEngine.Enums.GameCardType.Other,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -1616,6 +1697,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 41,
                 GameEngine.Enums.GameCardType.Other,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -1646,6 +1728,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 42,
                 GameEngine.Enums.GameCardType.Relationship,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -1676,6 +1759,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 43,
                 GameEngine.Enums.GameCardType.Relationship,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -1706,6 +1790,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 44,
                 GameEngine.Enums.GameCardType.Relationship,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -1736,6 +1821,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 45,
                 GameEngine.Enums.GameCardType.Relationship,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -1766,6 +1852,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 46,
                 GameEngine.Enums.GameCardType.Relationship,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -1796,6 +1883,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 47,
                 GameEngine.Enums.GameCardType.Relationship,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -1826,6 +1914,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 48,
                 GameEngine.Enums.GameCardType.Relationship,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -1856,6 +1945,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 49,
                 GameEngine.Enums.GameCardType.Relationship,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -1886,6 +1976,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 50,
                 GameEngine.Enums.GameCardType.Relationship,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -1916,6 +2007,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 51,
                 GameEngine.Enums.GameCardType.Secret,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -1946,6 +2038,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 52,
                 GameEngine.Enums.GameCardType.Secret,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -1976,6 +2069,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 53,
                 GameEngine.Enums.GameCardType.Secret,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -2006,6 +2100,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 54,
                 GameEngine.Enums.GameCardType.Secret,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -2036,6 +2131,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 55,
                 GameEngine.Enums.GameCardType.Secret,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -2066,6 +2162,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 56,
                 GameEngine.Enums.GameCardType.Secret,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -2096,6 +2193,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 57,
                 GameEngine.Enums.GameCardType.Secret,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -2126,6 +2224,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 58,
                 GameEngine.Enums.GameCardType.Secret,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
@@ -2156,6 +2255,7 @@ var GameData = {
             ),new GameEngine.Classes.GameCard(
                 59,
                 GameEngine.Enums.GameCardType.Secret,
+                "NamePlaceHolder",
                 null,
                 [],
                 null,
