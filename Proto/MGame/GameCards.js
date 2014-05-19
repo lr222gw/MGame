@@ -2354,6 +2354,10 @@ var GameData = {
         var downButtonDisabled = new Image();
         downButtonDisabled.src = "Data/Hudd/downDisabled.jpg";
 
+        //HuddButtons
+        var GuessMurderButton = new Image();
+        GuessMurderButton.src = "Data/Hudd/GuessMurderButton.png";
+
         GameData.GameDataImages = {
             HuddBackground : huddBackground,
             backButton : backButton,
@@ -2364,7 +2368,8 @@ var GameData = {
             nextButtonDisabled: nextButtonDisabled,
             prevButtonDisabled : prevButtonDisabled,
             upButtonDisabled : upButtonDisabled,
-            downButtonDisabled : downButtonDisabled
+            downButtonDisabled : downButtonDisabled,
+            GuessMurderButton  :GuessMurderButton
 
         }
 

@@ -134,6 +134,8 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
 
                     GameEngine.Actives.Player.TimePoints -= 5;
                     GameEngine.Machines.PlayersHuddUpdate(); //Uppdaterar Hudden..
+                    GameEngine.Machines.fillBackgroundGray(); // gör bakgrunden grå.
+                    GameEngine.GoToButtons.BlippButtons = [];//innaktiverar BlippBoxKnappar..
                     GameEngine.Machines.SelectAnswerForActor(Button.ActorOfBox, Button.GameCard);
                     return;
 
@@ -170,6 +172,17 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
 
                 }
 
+
+            }
+
+            //Kontrollerar om en HuddButton trycks på  ..
+            Button = GameEngine.GoToButtons.HuddButtons.GuessMurderButton;
+            if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
+
+                //funktionen i knappen går till att starta Boxen där man kan gissa mördare..
+                Button.pageToGo();
+
+                return;
 
             }
 
@@ -328,6 +341,19 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
                 }
 
             }
+
+            //Kontrollerar om en HuddButton hovras över ..
+            Button = GameEngine.GoToButtons.HuddButtons.GuessMurderButton;
+            if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
+                document.body.style.cursor = "pointer";
+                return;
+
+            }else{
+                document.body.style.cursor = "default";
+
+            }
+
+
         }
     });
 
@@ -345,7 +371,10 @@ var GameEngine = {
         DialogDownorUp : [],
         ClueButtons : [],
         ContainerClueButtons : [],
-        BlippButtons : []
+        BlippButtons : [],
+        HuddButtons : {
+            GuessMurderButton : null
+        }
     },
     Enums : {
         Roles : {
@@ -437,9 +466,9 @@ var GameEngine = {
             Ctx.fillStyle = "rgb(0, 235, 255)";
 
             Ctx.fillRect(
-                ScreenSpec.SizeX - (ScreenSpec.SizeX / 5),
+                ScreenSpec.SizeX - (ScreenSpec.SizeX / 4),
                 ScreenSpec.gameFrameY,
-                ScreenSpec.SizeX / 5,
+                ScreenSpec.SizeX / 4,
                 (ScreenSpec.SizeY - ScreenSpec.gameFrameY)
 
             );
@@ -451,23 +480,60 @@ var GameEngine = {
             //Skriver ut timepoints
             Ctx.fillText(
                 "TimePoints Left: "+ GameEngine.Actives.Player.TimePoints,
-                ScreenSpec.SizeX - (ScreenSpec.SizeX / 5),
+                ScreenSpec.SizeX - (ScreenSpec.SizeX / 4),
                 ScreenSpec.gameFrameY + GameBubbleData.TextHeight + 10,
-                ScreenSpec.SizeX / 5
+                ScreenSpec.SizeX / 4
             );
 
             //Skriver ut rummet
             Ctx.fillText(
                 "Current Room: "+ GameEngine.Actives.RoomThatIsActive.roomname,
-                ScreenSpec.SizeX - (ScreenSpec.SizeX / 5),
+                ScreenSpec.SizeX - (ScreenSpec.SizeX / 4),
                 ScreenSpec.gameFrameY + GameBubbleData.TextHeight * 3 + 10,
-                    ScreenSpec.SizeX / 5
+                    ScreenSpec.SizeX / 4
             );
+
+            //Skriver ut knapp för GuessMurderButton
+            var GuessMurderButton = new GameEngine.Classes.NextOrPreviousButton(
+                (ScreenSpec.SizeX - (ScreenSpec.SizeX / 4)) -(ScreenSpec.SizeX / 8),
+                ScreenSpec.gameFrameY + 20,
+                GameEngine.Machines.getPosition(0.05, "x"),
+                GameEngine.Machines.getPosition(0.05, "y"),
+                GameData.GameDataImages.GuessMurderButton,
+                function(){
+                    //Denna anropar funktionen som tar fram GuessMurderBoxen...
+                    GameEngine.Machines.BuildMurderBox();
+                }
+            );
+            GameEngine.Machines.WindowSizing(
+                GuessMurderButton.image,
+                "hudd",
+                GuessMurderButton.PosX,
+                GuessMurderButton.PosY,
+                GuessMurderButton.Width,
+                GuessMurderButton.Height
+            );
+            GameEngine.GoToButtons.HuddButtons.GuessMurderButton = GuessMurderButton;
 
 
             Ctx.fillStyle = oldFillStyle;
 
 
+        },
+
+        BuildMurderBox : function(){
+            var oldFill = Ctx.fillStyle;
+            Ctx.fillStyle = "rgb(255, 144, 144)";
+            Ctx.fillRect(
+                ScreenSpec.SizeX /6,
+                ScreenSpec.gameFrameY / 8,
+                ScreenSpec.SizeX-(ScreenSpec.SizeX /6)*2,
+                ScreenSpec.gameFrameY -(ScreenSpec.gameFrameY / 8)*2
+            );
+
+
+
+            Ctx.fillStyle = oldFill;
         },
 
         createPlayer : function(){
@@ -620,6 +686,7 @@ var GameEngine = {
             //För ClueButtons ska vi disabla, detta pga annan teknik..
             GameEngine.GoToButtons.WayPoints = [];
             GameEngine.Actives.ClueButtonsOn = false;
+            GameEngine.Machines.fillBackgroundGray();
 
             //Första vi gör är att spara färgen som var aktiv när vi kom in här, så att vi kan sätta den som standard när funktionen är klar
             // sen så gör vi själva rutan som allt händer i..
@@ -690,16 +757,16 @@ var GameEngine = {
             var HeightOfClueBox = GameEngine.Machines.getPosition(0.20,"y");
             Ctx.fillStyle = "rgb(0, 0, 0)";
             Ctx.fillRect(
-                GameBubbleData.BlippBoxPosX + GameBubbleData.BlippBoxWidth - WidthOfClueBox - 25,
-                GameBubbleData.BlippBoxPosY + 5,
+                GameBubbleData.BlippBoxPosX + GameBubbleData.BlippBoxWidth - WidthOfClueBox - 20,
+                GameBubbleData.BlippBoxPosY + GameEngine.Machines.getPosition(0.10,"y") + 10,
                 WidthOfClueBox + 10,
                 HeightOfClueBox + GameEngine.Machines.getPosition(0.11, "x")
             );
             Ctx.fillStyle = "rgb(146, 160, 160)";
 
             Ctx.fillRect(
-                GameBubbleData.BlippBoxPosX + GameBubbleData.BlippBoxWidth - WidthOfClueBox - 20,
-                GameBubbleData.BlippBoxPosY + 10,
+                GameBubbleData.BlippBoxPosX + GameBubbleData.BlippBoxWidth - WidthOfClueBox - 15,
+                GameBubbleData.BlippBoxPosY + GameEngine.Machines.getPosition(0.10,"y") + 15,
                 WidthOfClueBox,
                 HeightOfClueBox
             );
@@ -707,7 +774,7 @@ var GameEngine = {
             Ctx.drawImage(
                 GameCard.image,
                (GameBubbleData.BlippBoxPosX + GameBubbleData.BlippBoxWidth - WidthOfClueBox - 20) + WidthOfClueBox/4,
-               (GameBubbleData.BlippBoxPosY + 10) + (HeightOfClueBox / 5),
+               (GameBubbleData.BlippBoxPosY + 10) + (HeightOfClueBox / 5) + GameEngine.Machines.getPosition(0.10,"y"),
                 WidthOfClueBox / 2,
                 HeightOfClueBox / 2
             );
@@ -716,7 +783,7 @@ var GameEngine = {
             Ctx.fillText(
                 GameCard.Name,
                 (GameBubbleData.BlippBoxPosX + GameBubbleData.BlippBoxWidth - WidthOfClueBox - 20) + WidthOfClueBox/4,
-                ((GameBubbleData.BlippBoxPosY + 10) + (HeightOfClueBox / 5)) + HeightOfClueBox / 2 + GameBubbleData.TextHeight
+                ((GameBubbleData.BlippBoxPosY + 10) + (HeightOfClueBox / 5)) + HeightOfClueBox / 2 + GameBubbleData.TextHeight + GameEngine.Machines.getPosition(0.10,"y")
             );
 
 
@@ -724,7 +791,7 @@ var GameEngine = {
             Ctx.fillStyle = "rgb(0, 0, 0)";
             Ctx.fillRect(
                 GameEngine.Machines.getPosition(0.5738025415444771 ,"x"),
-                GameEngine.Machines.getPosition(0.2965931863727455 ,"y"),
+                GameEngine.Machines.getPosition(0.2965931863727455 ,"y")+ GameEngine.Machines.getPosition(0.10,"y") + GameBubbleData.TextHeight + 6,
                 WidthOfClueBox,
                 GameEngine.Machines.getPosition(0.1035, "x")
             );
@@ -733,10 +800,10 @@ var GameEngine = {
             Ctx.fillStyle = "rgb(244, 246, 255)";
             GameEngine.Machines.wrapText(
                 Ctx,
-                //GameCard.Description,
-                "Very long text yes, Very long text yes, Very long text yes Very long text yes, Very long text yes, Very long text yes Very long text yes, Very long text yes, Very long text yes Very long text yes, Very long text yes, Very long text yes Very long text yes, Very long text yes, Very long text yes Very long text yes, Very long text yes, Very long text yes Very long text yes, Very long text yes, Very long text yes s",
+                GameCard.Description,
+                //"Very long text yes, Very long text yes, Very long text yes Very long text yes, Very long text yes, Very long text yes Very long text yes, Very long text yes, Very long text yes Very long text yes, Very long text yes, Very long text yes Very long text yes, Very long text yes, Very long text yes Very long text yes, Very long text yes, Very long text yes Very long text yes, Very long text yes, Very long text yes s",
                 GameEngine.Machines.getPosition(0.5738025415444771 ,"x"),
-                GameEngine.Machines.getPosition(0.2965931863727455 ,"y"),
+                    GameEngine.Machines.getPosition(0.2965931863727455 ,"y")+ GameEngine.Machines.getPosition(0.10,"y") + GameBubbleData.TextHeight + 6,
                 GameEngine.Machines.getPosition(0.2903225806451612 ,"x"),
                 GameBubbleData.TextHeight,
                 GameBubbleData.TextHeight,
@@ -3104,6 +3171,16 @@ var GameEngine = {
 
         },
 
+        fillBackgroundGray : function(){
+
+            var oldFill = Ctx.fillStyle;
+
+            Ctx.fillStyle = "rgba(119, 119, 119, 0.65)";
+            Ctx.fillRect(0,0,ScreenSpec.SizeX, ScreenSpec.gameFrameY);
+
+            Ctx.fillStyle = oldFill;
+        },
+
 
         InterviewActor : function(actor){
             //Hämtar ner data så att datan kan tas bort (så att inga knappar kan tryckas på..)
@@ -3115,8 +3192,7 @@ var GameEngine = {
             GameEngine.Machines.clearRoomData();
 
             //Fyller i bakgrunden för att demonstrera att inget är klickbart
-            Ctx.fillStyle = "rgba(119, 119, 119, 0.65)";
-            Ctx.fillRect(0,0,ScreenSpec.SizeX, ScreenSpec.gameFrameY);
+            GameEngine.Machines.fillBackgroundGray();
 
             //Laddar Karaktärbild
             GameEngine.Machines.loadActorImage(actor, actor.emotionState);
@@ -4150,10 +4226,10 @@ var GameBubbleData = {
     SizeHeight      : GameEngine.Machines.getPosition(0.15, "y"),
     TextHeight      : GameEngine.Machines.getPosition(0.016, "x"),
 
-    BlippBoxWidth   : GameEngine.Machines.getPosition(0.80, "x"),
-    BlippBoxHeight  : GameEngine.Machines.getPosition(0.50, "y"),
-    BlippBoxPosX    : GameEngine.Machines.getPosition(0.0801564027370479, "x"),
-    BlippBoxPosY    : GameEngine.Machines.getPosition(0.0709991411394217, "x")
+    BlippBoxWidth   :ScreenSpec.SizeX-(ScreenSpec.SizeX/8)*2,
+    BlippBoxHeight  :ScreenSpec.gameFrameY-(ScreenSpec.gameFrameY/8)*2,
+    BlippBoxPosX    : ScreenSpec.SizeX/8,
+    BlippBoxPosY    : ScreenSpec.gameFrameY/8
 };
 
 
