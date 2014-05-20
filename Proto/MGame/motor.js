@@ -186,6 +186,26 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
 
             }
 
+            //Kontrollerar om en ActorBox trycks på ..
+            for(var i = 0; i  < GameEngine.GoToButtons.GuessMurderButtons.length; i++){
+                Button = GameEngine.GoToButtons.GuessMurderButtons[i];
+                if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
+
+                    GameEngine.Machines.SelectActor(Button.actor);
+                    return;
+
+                }
+
+            }
+
+            // Kontrollerar om ConfirmMurder trycks på
+            Button = GameEngine.Actives.MurderToGuessOn;
+            if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
+                GameEngine.Machines.isActorMurder(Button.actor)
+                return;
+
+            }
+
         }
     });
 
@@ -353,6 +373,30 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
 
             }
 
+            //Kontrollerar om en ActorBox hovras över ..
+            for(var i = 0; i  < GameEngine.GoToButtons.GuessMurderButtons.length; i++){
+                Button = GameEngine.GoToButtons.GuessMurderButtons[i];
+                if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
+                    document.body.style.cursor = "pointer";
+                    return;
+
+                }else{
+                    document.body.style.cursor = "default";
+
+                }
+
+            }
+
+            //Kontrollerar om en ConfimMurderButton hovras över ..
+            Button = GameEngine.Actives.MurderToGuessOn;
+            if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
+                document.body.style.cursor = "pointer";
+                return;
+
+            }else{
+                document.body.style.cursor = "default";
+
+            }
 
         }
     });
@@ -374,7 +418,8 @@ var GameEngine = {
         BlippButtons : [],
         HuddButtons : {
             GuessMurderButton : null
-        }
+        },
+        GuessMurderButtons : []
     },
     Enums : {
         Roles : {
@@ -433,7 +478,8 @@ var GameEngine = {
         RoomThatIsActive : "",
         MotiveThatIsActive : "",
         ClueButtonsOn : true,
-        Player : null
+        Player : null,
+        MurderToGuessOn : null
     },
 
     DataPlaceHolder : [], //används för att lagra tillfällig data..
@@ -523,14 +569,151 @@ var GameEngine = {
 
         BuildMurderBox : function(){
             var oldFill = Ctx.fillStyle;
+            Ctx.fillStyle = "rgb(233, 72, 72)";
+            var WidthOfMurderBox =ScreenSpec.SizeX-(ScreenSpec.SizeX /6)*2;
+            var HeightOfMurderBox =ScreenSpec.gameFrameY -(ScreenSpec.gameFrameY / 8)*2;
+            var PosXOfMurderBox =ScreenSpec.SizeX /6;
+            var PosYOfMurderBox =ScreenSpec.gameFrameY / 8;
+            Ctx.fillRect(
+                PosXOfMurderBox-5,
+                PosYOfMurderBox-5,
+                WidthOfMurderBox+10,
+                HeightOfMurderBox+10
+            );
             Ctx.fillStyle = "rgb(255, 144, 144)";
             Ctx.fillRect(
-                ScreenSpec.SizeX /6,
-                ScreenSpec.gameFrameY / 8,
-                ScreenSpec.SizeX-(ScreenSpec.SizeX /6)*2,
-                ScreenSpec.gameFrameY -(ScreenSpec.gameFrameY / 8)*2
+                PosXOfMurderBox,
+                PosYOfMurderBox,
+                WidthOfMurderBox,
+                HeightOfMurderBox
             );
 
+            //Nu ska vi läga ut karaktärsboxarna, men först ska de skapas.
+            var ArrOfBoxes = [];
+
+            for(var i = 0; i < GameEngine.GlobalActors.length; i++){
+
+                ArrOfBoxes.push(new GameEngine.Classes.BlippBoxCard(
+                        null,
+                        null,
+                        GameEngine.GlobalActors[i],
+                        GameEngine.Machines.getPosition(0.15, "x"),
+                        GameEngine.Machines.getPosition(0.15, "y"),
+                        GameEngine.GlobalActors[i]
+                    )
+                );
+            }
+
+            //nu ska vi lägga ut boxarna..
+            var PixelsToPushX = 0;
+            var PixelsToPushY = 0;
+            for(var i= 0; i < ArrOfBoxes.length; i++){
+
+                Ctx.fillStyle = "rgb(0, 0, 0)";
+                Ctx.fillRect(
+                    PosXOfMurderBox + (ArrOfBoxes[i].Width/2) + PixelsToPushX -10,
+                    (HeightOfMurderBox / 2 ) +(ArrOfBoxes[i].Height/2) + PixelsToPushY -5,
+                    ArrOfBoxes[i].Width + 20,
+                    ArrOfBoxes[i].Height + 10
+                );
+
+                GameEngine.Machines.WindowSizing(
+                    ArrOfBoxes[i].ActorOfBox.icon,
+                    "gameframe",
+                    PosXOfMurderBox + (ArrOfBoxes[i].Width/2) + PixelsToPushX,
+                    (HeightOfMurderBox / 2 ) +(ArrOfBoxes[i].Height/2) + PixelsToPushY,
+                    ArrOfBoxes[i].Width,
+                    ArrOfBoxes[i].Height
+                );
+                //Nu har karaktärerna skrivits ut på skärmen, nu ska de in i en array som knappar
+                GameEngine.GoToButtons.GuessMurderButtons.push(
+                    new GameEngine.Classes.ActorBoxButton(
+                        PosXOfMurderBox + (ArrOfBoxes[i].Width/2) + PixelsToPushX -10,
+                        (HeightOfMurderBox / 2 ) +(ArrOfBoxes[i].Height/2) + PixelsToPushY -5,
+                        ArrOfBoxes[i].Width + 20,
+                        ArrOfBoxes[i].Height + 10,
+                        ArrOfBoxes[i].ActorOfBox
+                    )
+                );
+
+                PixelsToPushX += ArrOfBoxes[i].Width + 40;
+                if(i == (ArrOfBoxes.length/2 - 1)){
+                    PixelsToPushY = ArrOfBoxes[i].Height + 20;
+                    PixelsToPushX = 0;
+                }
+
+            }
+            //När karaktärerna är skapade så ska vi skapa en ruta
+            //som symboliserar vilken karaktär man valt.
+            GameBubbleData.PosXOfCrimBox   = PosXOfMurderBox + (ArrOfBoxes[0].Width/2) + ArrOfBoxes[0].Width +10;
+            GameBubbleData.PosYOfCrimBox   = PosYOfMurderBox +5;
+            GameBubbleData.WidthOfCrimBox  = ArrOfBoxes[0].Width + (40*2) -20;
+            GameBubbleData.HeightOfCrimBox = HeightOfMurderBox /2 -40;
+            Ctx.fillRect(
+                GameBubbleData.PosXOfCrimBox,
+                GameBubbleData.PosYOfCrimBox,
+                GameBubbleData.WidthOfCrimBox,
+                GameBubbleData.HeightOfCrimBox
+            );
+
+            // nu finns det en box att lägga bilden på den valde i, boxens storlek
+            // är tillgänglig för andra funktioner genom GameBubbleData..
+
+            //Vi kommer använda en annan afunktion för att skriva ut knappen,
+            // detta för att vi vill bara att den ska vara tryckbar när man har valt
+            // karaktär..
+
+            Ctx.fillStyle = oldFill;
+        },
+
+        isActorMurder : function(actor){
+            //Denna funktion anropas när man trycker på knappen som bekräftar att du valt ut vem du tror
+            // är mördaren.
+
+            alert("Bipp* Bopp* Bupp* Actor is Murder ? " + actor.isMurder);
+        },
+
+        SelectActor : function(actor){
+            //när man trycker på en karaktär i "Guess murder" Läget så ska karaktärens
+            // ansikte bli valt  och data till karaktären hamnar i en globalvariabel som
+            // används av en annan funktion (som kontaktas när man trycker på bekräfta knappen)
+            // knappen ska skrivas ut med denna funktion..
+            var oldFill = Ctx.fillStyle;
+            Ctx.fillStyle = "rgb(0, 0, 0)";
+
+            Ctx.fillRect(
+                GameBubbleData.PosXOfCrimBox,
+                GameBubbleData.PosYOfCrimBox,
+                GameBubbleData.WidthOfCrimBox,
+                GameBubbleData.HeightOfCrimBox
+            );
+
+            GameEngine.Machines.WindowSizing(
+                actor.image,
+                "gameframe",
+                GameBubbleData.PosXOfCrimBox + 20,
+                GameBubbleData.PosYOfCrimBox +5,
+                GameBubbleData.WidthOfCrimBox - 40,
+                GameBubbleData.HeightOfCrimBox-10
+            );
+
+            GameEngine.Machines.WindowSizing(
+                GameData.GameDataImages.ConfirmButton,
+                "gameframe",
+                GameBubbleData.PosXOfCrimBox + GameBubbleData.WidthOfCrimBox + 10,
+                GameBubbleData.PosYOfCrimBox + (GameBubbleData.HeightOfCrimBox / 2),
+                200,
+                50
+            );
+
+            GameEngine.Actives.MurderToGuessOn = new GameEngine.Classes.ActorBoxButton(
+                GameBubbleData.PosXOfCrimBox + GameBubbleData.WidthOfCrimBox + 10,
+                GameBubbleData.PosYOfCrimBox + (GameBubbleData.HeightOfCrimBox / 2),
+                200,
+                50,
+                actor
+
+            );
 
 
             Ctx.fillStyle = oldFill;
@@ -4041,6 +4224,14 @@ var GameEngine = {
             this.GameCard = _gamecard;
         },
 
+        ActorBoxButton : function(_PosX, _PosY,_Width,_Height,_actor){
+            this.PosY = _PosY;
+            this.PosX = _PosX;
+            this.Width = _Width;
+            this.Height = _Height;
+            this.actor = _actor;
+        },
+
 		GameHud : function(){
 			this.ActiveRoom = GameEngine.Classes.Room; // Ska innehålla det aktiva rummet..
 			//Hud och Tools ska ligga här också...
@@ -4229,7 +4420,12 @@ var GameBubbleData = {
     BlippBoxWidth   :ScreenSpec.SizeX-(ScreenSpec.SizeX/8)*2,
     BlippBoxHeight  :ScreenSpec.gameFrameY-(ScreenSpec.gameFrameY/8)*2,
     BlippBoxPosX    : ScreenSpec.SizeX/8,
-    BlippBoxPosY    : ScreenSpec.gameFrameY/8
+    BlippBoxPosY    : ScreenSpec.gameFrameY/8,
+
+    PosXOfCrimBox   :null,
+    PosYOfCrimBox   :null,
+    WidthOfCrimBox  :null,
+    HeightOfCrimBox :null
 };
 
 

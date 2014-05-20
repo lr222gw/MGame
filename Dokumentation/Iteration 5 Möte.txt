@@ -1,0 +1,80 @@
+
+vad har jag gjort:
+-Implementerat tidspoäng i spelet, inte fullt men det är där
+-gjort "Containrar" klickbara, och helt funktionella (kan hämta ut 1 eller 2 eller 3 ledtrådar ur dem)
+-Lagt in lite ny grafik
+-Fixat lite buggar, samt ändrat marginalr 
+-Tittade på "Save funktion" men lyckades inte, pga "Circular " någonting med JSON.parse
+
+Review:
+-Kanske inte hinner "Antecknings kravet" <- kändes viktigt..
+-Känns inte som målet blivit uppfyllt då jag ville hinna med rätt mycket.
+-Jag har fortfarande inte hunnit tester
+-Jag behöver både utbygga mer viktig funktionalitet SAMT göra tester
+-Återstående Tid: 86h
+
+Feedback:
+	-Begränsa omfattningen = Inte så många kraktärer/ dialog 
+	-Hitta en minimal variant av spelet
+
+Tobias:
+	-de projekt som låg på gränsen till ett högre betyg:
+		-Fick en chans att jobba vidare över sommaren och visa efter sommaren = få en chans till högre betyg:
+			^Kanske inte sker iår! <- men troligtvis! 
+		-Vill uppmuntra att jobba vidare med projektet. 
+		-Behöver inte dokumentera! (!?! eller !?!)
+
+TODO:
+-Högriskkrav:
+	-Lägga in data (GameCards som kan väljas i spelet, mordfall etc)
+	-Skriva sista funktionerna (snabbt, sedan förbättra när "grunden är lagd")
+		-Stänga av spelet när tidspoäng är slut
+		-Gissa mördaren
+		-Intervjua karaktärer i ett rum
+-LågriskKrav:
+	-Styla till
+	-Ändra storlek på karaktärernas bilder
+	-Lägga  till nya bilder som ersätter de gamla
+
+Information från Tobias:
+-Frivillig gästföreläsning = länk finns på kurshemsidan! 
+-Information kring projektredovisning är uppdaterad (ny länk med info)
+	-Ny sida kring slutleverans, 
+		-vad som ska finnas med 
+		-hur det går till
+		-!! Allt ska finnas i github! Allt ska se versionshantering!
+	-Fråga: Ifall man kan ha 2 mappar, en orörd mapp för versionhantering och en för installation. Svar: Ja!
+-vad ingår:
+	-vision
+	-kravspecifikation
+	-Sprintbackloggs
+	-testspecifikation
+	-testfall
+	-testrapport
+	-källkod
+	-PostMortem
+	-Referat för missade föreläsningar (om du har)
+	-En demonstrationsfilm för appen
+		-Skärminspelning som demonstrerar samtliga instruktioner hur appen fungerar
+		-Ingen värdering utan manual
+		-Max 5 minuter
+		-Visa upp mitt system så som ni ser det.
+	-All övning information
+	-enkel installbar dokumentation kring systemet (tex URL)
+
+Läget enligt tobias:
+	-Sista constructionvecka,
+	-Fokus på stabilitet och få in sista funktoinalitetetn
+	-Transistionsfasen = lägger mycket tid på test
+		^Bör ej lägga till funktionalitet här, ska vara (rätt) färdigt i alla fall. (detta har att göra med Buggar..)
+
+Frågor:
+-Hur gör man om man vill lämna efter sommaren?
+	-Man måste lämna in, oavsätt. Att lämna in efter deadline görs som kompletering efter projektet dömts en gång.
+	-När man kompleterar så fixar man något som är IG, men det kan ändå bli så pass som "mvg" om man inte fuskar.. eller har särskilda skäl.
+		^Förutsättning = att man är nära en godkändgräns! <- Rätt schyst gräns, lärarna vill ge en ny chans, inga "höga krav" på att kompletera..
+		^Detta är anledningen till varför man får kompletering.
+	-Man måste kompletera om man saknar något, tex buggar är en sådan sak man kan få kompletera på.
+
+Frågor:
+X-Såg att jag hade missade gruppsamtal från igår? = Det var Anton som hade råkat ringa.

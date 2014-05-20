@@ -2358,6 +2358,10 @@ var GameData = {
         var GuessMurderButton = new Image();
         GuessMurderButton.src = "Data/Hudd/GuessMurderButton.png";
 
+        //ConfirmButton
+        var ConfirmButton = new Image();
+        ConfirmButton.src = "Data/Hudd/ConfirmButton.png";
+
         GameData.GameDataImages = {
             HuddBackground : huddBackground,
             backButton : backButton,
@@ -2369,7 +2373,8 @@ var GameData = {
             prevButtonDisabled : prevButtonDisabled,
             upButtonDisabled : upButtonDisabled,
             downButtonDisabled : downButtonDisabled,
-            GuessMurderButton  :GuessMurderButton
+            GuessMurderButton  :GuessMurderButton,
+            ConfirmButton   : ConfirmButton
 
         }
 
