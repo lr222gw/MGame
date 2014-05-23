@@ -201,7 +201,7 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
             // Kontrollerar om ConfirmMurder trycks på
             Button = GameEngine.Actives.MurderToGuessOn;
             if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
-                GameEngine.Machines.isActorMurder(Button.actor)
+                GameEngine.Machines.isActorMurder(Button.actor);
                 return;
 
             }
@@ -568,6 +568,15 @@ var GameEngine = {
         },
 
         BuildMurderBox : function(){
+            //TODO: this (downpil)
+            //Förssta vi gör är att avaktiverar knappar som ej ska vara klickbara
+            GameEngine.Machines.clearRoomData();
+            GameEngine.Machines.ClearFreeRoomData();
+            //Det andrda vi gör är att vi ändrar bakåtknappens beteende, härifrån
+            // vill vi bara använda den som att gå bakåt ur denna box..
+            GameEngine.GoToButtons.backButton.RoomToGo =GameEngine.Actives.RoomThatIsActive.ID;
+
+            //sen bygger vi själva boxen..
             var oldFill = Ctx.fillStyle;
             Ctx.fillStyle = "rgb(233, 72, 72)";
             var WidthOfMurderBox =ScreenSpec.SizeX-(ScreenSpec.SizeX /6)*2;
@@ -679,6 +688,7 @@ var GameEngine = {
             // används av en annan funktion (som kontaktas när man trycker på bekräfta knappen)
             // knappen ska skrivas ut med denna funktion..
             var oldFill = Ctx.fillStyle;
+
             Ctx.fillStyle = "rgb(0, 0, 0)";
 
             Ctx.fillRect(
