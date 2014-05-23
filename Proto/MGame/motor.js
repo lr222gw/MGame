@@ -45,6 +45,7 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
 
                 //GameEngine.Actives.Player.TimePoints -= 2;
                 GameEngine.Machines.PlayersHuddUpdate(); //Uppdaterar Hudden..
+                GameEngine.GoToButtons.GuessMurderButtons = [];
                 GameEngine.Machines.BuildRoom(Button.RoomToGo);
             }
 
@@ -200,58 +201,71 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
 
             // Kontrollerar om ConfirmMurder trycks på
             Button = GameEngine.Actives.MurderToGuessOn;
-            if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
-                GameEngine.Machines.isActorMurder(Button.actor);
-                return;
+            if(Button != null){
+                if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
+                    GameEngine.Machines.isActorMurder(Button.actor);
+                    return;
 
+                }
             }
+
+            //Kontrollerar om en ActorInterviewButtons trycks på..
+            for (var i = 0; i < GameEngine.GoToButtons.ActorInterviewButtons.length; i++) {
+                Button = GameEngine.GoToButtons.ActorInterviewButtons[i];
+                if (mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height) {
+                    GameEngine.GoToButtons.ActorInterviewButtons = [];
+                    GameEngine.Machines.InterviewActor(Button.actor);
+                    return;
+                }
+            }
+
 
         }
     });
 
     //Denna Eventlistner kollar vad som Hovras över och ser till att markera klickbara objekt med Cursor: Pointern!
     Ctx.canvas.addEventListener('mousemove', function(event) {
-        if(event.button == 0){
+        if(event.button == 0) {
             var mX = event.clientX - Ctx.canvas.offsetLeft + scrollX;
             var mY = event.clientY - Ctx.canvas.offsetTop + scrollY;
             //alert(mX +" || " + mY);
 
             var Button = GameEngine.GoToButtons.backButton;
-            if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height ){
+            if (mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height) {
                 //alert(mX +" || " + mY);
                 document.body.style.cursor = "pointer";
                 return;
 
-            }else{
+            } else {
                 document.body.style.cursor = "default";
             }
 
             var widthOfObj = ScreenSpec.BackgroundStandardSizeX / ScreenSpec.SizeX;
             var heighOfObj = ScreenSpec.BackgroundStandardSizeY / ScreenSpec.gameFrameY;
-            for(var i =0; i < GameEngine.GoToButtons.WayPoints.length; i++){
+            for (var i = 0; i < GameEngine.GoToButtons.WayPoints.length; i++) {
                 Button = GameEngine.GoToButtons.WayPoints[i];
 //                console.log(mX >= Button.PosX );
 //                console.log(mX < Button.PosX + (Button.GameCardOrContent.image.width ));
 //                console.log(mY >= Button.PosY);
 //                console.log(mY < Button.PosY + (Button.GameCardOrContent.image.height ));
-                if(Button.SizeWidth != undefined || Button.SizeHeight != undefined){ //Om Placeholdern har en storlek, använd den
-                    if(mX >= Button.PosX && mX < Button.PosX + (Button.SizeWidth ) &&
-                        mY >= Button.PosY && mY < Button.PosY + (Button.SizeHeight )){
+                if (Button.SizeWidth != undefined || Button.SizeHeight != undefined) { //Om Placeholdern har en storlek, använd den
+                    if (mX >= Button.PosX && mX < Button.PosX + (Button.SizeWidth ) &&
+                        mY >= Button.PosY && mY < Button.PosY + (Button.SizeHeight )) {
                         document.body.style.cursor = "pointer";
                         return;
 
-                    }else{
+                    } else {
                         document.body.style.cursor = "default";
 
                     }
 
-                }else{ // Om placeholdern inte har en storlek, använd bilden storlek..
-                    if(mX >= Button.PosX && mX < Button.PosX + (Button.GameCardOrContent.image.width / widthOfObj) &&
-                        mY >= Button.PosY && mY < Button.PosY + (Button.GameCardOrContent.image.height / heighOfObj)){
+                } else { // Om placeholdern inte har en storlek, använd bilden storlek..
+                    if (mX >= Button.PosX && mX < Button.PosX + (Button.GameCardOrContent.image.width / widthOfObj) &&
+                        mY >= Button.PosY && mY < Button.PosY + (Button.GameCardOrContent.image.height / heighOfObj)) {
                         document.body.style.cursor = "pointer";
                         return;
 
-                    }else{
+                    } else {
                         document.body.style.cursor = "default";
 
                     }
@@ -259,49 +273,49 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
 
             }
             //hover om någon Fram/bak-knapp hovras på..
-            for(var i = 0; i < GameEngine.GoToButtons.prevOrNextButton.length; i++){
+            for (var i = 0; i < GameEngine.GoToButtons.prevOrNextButton.length; i++) {
                 Button = GameEngine.GoToButtons.prevOrNextButton[i];
-                if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
+                if (mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height) {
                     document.body.style.cursor = "pointer";
                     return;
 
-                }else{
+                } else {
                     document.body.style.cursor = "default";
 
                 }
             }
 
             //kontrollerar om en dialogknapp hovras på
-            for(var i = 0; i < GameEngine.GoToButtons.DialogButtonsActive.length; i++){
+            for (var i = 0; i < GameEngine.GoToButtons.DialogButtonsActive.length; i++) {
                 Button = GameEngine.GoToButtons.DialogButtonsActive[i];
-                if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
+                if (mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height) {
                     document.body.style.cursor = "pointer";
                     return;
 
-                }else{
+                } else {
                     document.body.style.cursor = "default";
 
                 }
             }
             //ko
             // ntrollerar om en DialogDownorUp hovras på
-            for(var i = 0; i < GameEngine.GoToButtons.DialogDownorUp.length; i++){
+            for (var i = 0; i < GameEngine.GoToButtons.DialogDownorUp.length; i++) {
                 Button = GameEngine.GoToButtons.DialogDownorUp[i];
-                if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
+                if (mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height) {
                     document.body.style.cursor = "pointer";
                     return;
 
-                }else{
+                } else {
                     document.body.style.cursor = "default";
 
                 }
             }
 
             //kontrollerar om en Clue Hovras över..
-            for(var i = 0; i < GameEngine.GoToButtons.ClueButtons.length; i++){
+            for (var i = 0; i < GameEngine.GoToButtons.ClueButtons.length; i++) {
                 Button = GameEngine.GoToButtons.ClueButtons[i];
 
-                if(GameEngine.Actives.ClueButtonsOn == true) {
+                if (GameEngine.Actives.ClueButtonsOn == true) {
                     if (Button != undefined) {
 
                         var ButtonDataObj = GameEngine.Machines.getPlaceHolderInfoFromCardIDForCurrentRoom(Button.ID);
@@ -320,7 +334,7 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
             }
 
             //Denna funktion är för Clues i Contanrar > hover...
-            for(var i = 0; i < GameEngine.GoToButtons.ContainerClueButtons.length; i++){
+            for (var i = 0; i < GameEngine.GoToButtons.ContainerClueButtons.length; i++) {
                 Button = GameEngine.GoToButtons.ContainerClueButtons[i];
 
                 if (mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height) {
@@ -336,26 +350,26 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
             }
 
             //kontrollerar om en BlippBox Hovras över..
-            for(var i = 0; i < GameEngine.GoToButtons.BlippButtons.length; i++){
+            for (var i = 0; i < GameEngine.GoToButtons.BlippButtons.length; i++) {
                 Button = GameEngine.GoToButtons.BlippButtons[i];
-                if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
+                if (mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height) {
                     document.body.style.cursor = "pointer";
                     return;
 
-                }else{
+                } else {
                     document.body.style.cursor = "default";
 
                 }
             }
 
             //Kontrollerar om en container hovras över ..
-            for(var i = 0; i  < GameEngine.GoToButtons.ContainerButton.length; i++){
+            for (var i = 0; i < GameEngine.GoToButtons.ContainerButton.length; i++) {
                 Button = GameEngine.GoToButtons.ContainerButton[i];
-                if(mX >= Button.PosX && mX < Button.PosX + Button.SizeWidth && mY >= Button.PosY && mY < Button.PosY + Button.SizeHeight){
+                if (mX >= Button.PosX && mX < Button.PosX + Button.SizeWidth && mY >= Button.PosY && mY < Button.PosY + Button.SizeHeight) {
                     document.body.style.cursor = "pointer";
                     return;
 
-                }else{
+                } else {
                     document.body.style.cursor = "default";
 
                 }
@@ -364,23 +378,23 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
 
             //Kontrollerar om en HuddButton hovras över ..
             Button = GameEngine.GoToButtons.HuddButtons.GuessMurderButton;
-            if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
+            if (mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height) {
                 document.body.style.cursor = "pointer";
                 return;
 
-            }else{
+            } else {
                 document.body.style.cursor = "default";
 
             }
 
             //Kontrollerar om en ActorBox hovras över ..
-            for(var i = 0; i  < GameEngine.GoToButtons.GuessMurderButtons.length; i++){
+            for (var i = 0; i < GameEngine.GoToButtons.GuessMurderButtons.length; i++) {
                 Button = GameEngine.GoToButtons.GuessMurderButtons[i];
-                if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
+                if (mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height) {
                     document.body.style.cursor = "pointer";
                     return;
 
-                }else{
+                } else {
                     document.body.style.cursor = "default";
 
                 }
@@ -389,17 +403,36 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
 
             //Kontrollerar om en ConfimMurderButton hovras över ..
             Button = GameEngine.Actives.MurderToGuessOn;
-            if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
-                document.body.style.cursor = "pointer";
-                return;
+            if (Button != null) {
+                if (mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height) {
+                    document.body.style.cursor = "pointer";
+                    return;
 
-            }else{
-                document.body.style.cursor = "default";
+                } else {
+                    document.body.style.cursor = "default";
+
+                }
 
             }
 
+            //Kontrollerar om en ActorInterviewButtons hovras över ..
+            for (var i = 0; i < GameEngine.GoToButtons.ActorInterviewButtons.length; i++) {
+                Button = GameEngine.GoToButtons.ActorInterviewButtons[i];
+                if (mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height) {
+                    document.body.style.cursor = "pointer";
+                    return;
+
+                } else {
+                    document.body.style.cursor = "default";
+                }
+            }
         }
     });
+
+setInterval(function(){
+    GameEngine.Machines.PlaceActorsInRoom();
+},(1000*60)*5); // var 5e minut så ska acotrs byta rum..
+
 
 
 var GameEngine = {
@@ -419,7 +452,8 @@ var GameEngine = {
         HuddButtons : {
             GuessMurderButton : null
         },
-        GuessMurderButtons : []
+        GuessMurderButtons : [],
+        ActorInterviewButtons : []
     },
     Enums : {
         Roles : {
@@ -496,15 +530,100 @@ var GameEngine = {
 
         GameEngine.Machines.placeClues();
 
+        GameEngine.Machines.PlaceActorsInRoom();
+
         GameEngine.Machines.BuildRoom(1);
 
+
+
         //AnimationsFunktion, till tex Hudden..
-        setInterval(GameEngine.Machines.PlayersHuddUpdate(),1000);
+        //setInterval(GameEngine.Machines.PlayersHuddUpdate(),1000);
 
 		
 	},
 
 	Machines : {
+
+        PlaceActorsInRoom : function(){
+            for(var i =0; i < GameEngine.GlobalActors.length; i++){
+                GameEngine.GlobalActors[i].room = GameEngine.GlobalRooms[Math.floor(Math.random() * GameEngine.GlobalRooms.length + 0)].ID;
+            }
+        },
+
+        whoWasMurder : function(){
+            for(var i = 0; i < GameEngine.GlobalActors.length; i++){
+                if(GameEngine.GlobalActors[i].isMurder == true){
+                    return GameEngine.GlobalActors[i].name;
+                }
+            }
+        },
+
+        CreateActorInRoomComponent : function(){
+            //Vi tömmer den gamla datan först
+            GameEngine.GoToButtons.ActorInterviewButtons = [];
+
+            // Det första vi gör är att rita upp själva rutan som berättar om/vilka actor som
+            // finns i rummet... Rutan måste rymma minst 6 karaktärer..
+            var oldFillStyle = Ctx.fillStyle;
+            var WidthOfBox = ScreenSpec.SizeX / 4;
+            var PosXOfBox = ScreenSpec.SizeX - WidthOfBox;
+            var HeightOfBox = (ScreenSpec.SizeY - ScreenSpec.gameFrameY)/2;
+            var PosYOfBox = ScreenSpec.gameFrameY + HeightOfBox;
+
+            Ctx.fillStyle = "rgb(0, 102, 255)";
+            Ctx.fillRect(
+                PosXOfBox,
+                PosYOfBox,
+                WidthOfBox,
+                HeightOfBox
+            );
+
+            //Nu behöver vi ta reda på hur många Actors som finns i just detta rum
+            var ActorsInThisRoom = [];
+            for(var i= 0; i < GameEngine.GlobalActors.length; i++){
+                if(GameEngine.GlobalActors[i].room == GameEngine.Actives.RoomThatIsActive.ID){
+                    ActorsInThisRoom.push(GameEngine.GlobalActors[i]);
+                }
+            };
+
+            //Nu ska vi placera knappar för Actors som finns i rummet så att när man trycker
+            //på dem så startas en dialog med den karaktären..
+            var PosXToAdd = 2;
+            for(var i = 0; i < ActorsInThisRoom.length; i++){
+
+                GameEngine.Machines.WindowSizing(
+                    ActorsInThisRoom[i].icon,
+                    "hudd",
+                    PosXOfBox + PosXToAdd,
+                    PosYOfBox+25,
+                    WidthOfBox /  6.5,
+                    WidthOfBox /  6.5
+                );
+
+                var Button = new GameEngine.Classes.ActorBoxButton(
+                        PosXOfBox + PosXToAdd,
+                        PosYOfBox+25,
+                        WidthOfBox / 7,
+                        WidthOfBox /  6.5,
+                        ActorsInThisRoom[i]
+                );
+
+                PosXToAdd += (WidthOfBox / 6.5) + 2
+
+                GameEngine.GoToButtons.ActorInterviewButtons.push(Button);
+
+            }
+
+            //vi ska sätta dit en text också så att man berättar för användaren att detta är karaktärerna i rummet
+            Ctx.fillStyle = "rgb(0, 0, 0)"; //"rgb(255, 60, 60)"
+            Ctx.fillText(
+                "Actors In Room",
+                PosXOfBox + 2,
+                PosYOfBox + GameBubbleData.TextHeight + 2
+            );
+
+            Ctx.fillStyle = oldFillStyle;
+        },
 
         PlayersHuddUpdate : function(){
             var oldFillStyle = Ctx.fillStyle;
@@ -523,6 +642,13 @@ var GameEngine = {
 
             Ctx.font= GameBubbleData.TextHeight +"px arial, bold sans-serif";
 
+            if(GameEngine.Actives.Player.TimePoints <= 0){
+                //Denna sats är till för att kontrollera om Timepoints är 0 eller mindre
+                //om det är fallet så har spelaren förlorat och en funktion som presenterar
+                //gameover skärmen (med övrig data, som mördaren) ska anropas..
+                alert("Game over man! Game over.. Murdurer was " + GameEngine.Machines.whoWasMurder());
+
+            }
             //Skriver ut timepoints
             Ctx.fillText(
                 "TimePoints Left: "+ GameEngine.Actives.Player.TimePoints,
@@ -561,7 +687,7 @@ var GameEngine = {
             );
             GameEngine.GoToButtons.HuddButtons.GuessMurderButton = GuessMurderButton;
 
-
+            GameEngine.Machines.CreateActorInRoomComponent(); //laddar actors i rummet..
             Ctx.fillStyle = oldFillStyle;
 
 
@@ -570,10 +696,12 @@ var GameEngine = {
         BuildMurderBox : function(){
             //TODO: this (downpil)
             //Förssta vi gör är att avaktiverar knappar som ej ska vara klickbara
+            var OldBackButton = GameEngine.GoToButtons.backButton;
             GameEngine.Machines.clearRoomData();
             GameEngine.Machines.ClearFreeRoomData();
             //Det andrda vi gör är att vi ändrar bakåtknappens beteende, härifrån
             // vill vi bara använda den som att gå bakåt ur denna box..
+            GameEngine.GoToButtons.backButton = OldBackButton;
             GameEngine.GoToButtons.backButton.RoomToGo =GameEngine.Actives.RoomThatIsActive.ID;
 
             //sen bygger vi själva boxen..
@@ -880,6 +1008,16 @@ var GameEngine = {
             GameEngine.GoToButtons.WayPoints = [];
             GameEngine.Actives.ClueButtonsOn = false;
             GameEngine.Machines.fillBackgroundGray();
+
+            //Sedan ändrar vi BackButtons bettende så att man bara backar ur BlippBoxen..
+            var OldBackButton = GameEngine.GoToButtons.backButton;
+            GameEngine.Machines.clearRoomData();
+            //Det andrda vi gör är att vi ändrar bakåtknappens beteende, härifrån
+            // vill vi bara använda den som att gå bakåt ur denna box..
+            GameEngine.GoToButtons.backButton = OldBackButton;
+            GameEngine.GoToButtons.backButton.RoomToGo =GameEngine.Actives.RoomThatIsActive.ID;
+
+
 
             //Första vi gör är att spara färgen som var aktiv när vi kom in här, så att vi kan sätta den som standard när funktionen är klar
             // sen så gör vi själva rutan som allt händer i..
@@ -3009,7 +3147,6 @@ var GameEngine = {
             GameEngine.GoToButtons.BlippButtons = []; //rensar BlippButtons..
             GameEngine.Actives.ClueButtonsOn = true; //aktiverar ledtrådar..
 
-
             for(var i = 0; i < GameEngine.GlobalRooms.length; i++){//hittar rummet med det ID man söker efter
                 if(GameEngine.GlobalRooms[i].ID == RoomID){
                     RoomToLoad = GameEngine.GlobalRooms[i];
@@ -3042,6 +3179,8 @@ var GameEngine = {
             GameEngine.Actives.RoomThatIsActive = RoomToLoad;
             GameEngine.Machines.renderClues(RoomToLoad.ID);
             GameEngine.Machines.PlayersHuddUpdate(); //Uppdaterar Hudden..
+            GameEngine.Machines.CreateActorInRoomComponent(); //laddar actors i rummet..
+
 		},
 
         placeContainers : function(PlaceholderWithContent){
@@ -3929,7 +4068,7 @@ var GameEngine = {
 
 
 			//Init all Actor
-			var actor1 = new GameEngine.Classes.Actor("Lulle", 1, "Data/Characters/char_1/char1.png");
+			var actor1 = new GameEngine.Classes.Actor("Noah", 1, "Data/Characters/char_1/char1.png");
             var img = new Image();
             (img.src = "Data/Characters/char_1/emotions/Angry.png");
             actor1.EmotionObj.Angry =       img;
@@ -3969,7 +4108,7 @@ var GameEngine = {
             actor1.room = GameEngine.Enums.Room.bedroom1;
 
 
-			var actor2 = new GameEngine.Classes.Actor("Billy", 2, "Data/Characters/char_2/char2.png");
+			var actor2 = new GameEngine.Classes.Actor("Ethan", 2, "Data/Characters/char_2/char2.png");
             var img = new Image();
             (img.src = "Data/Characters/char_2/emotions/Angry.png");
             actor2.EmotionObj.Angry =       img;
@@ -4009,7 +4148,7 @@ var GameEngine = {
             actor2.room = GameEngine.Enums.Room.bedroom2;
 
 
-			var actor3 = new GameEngine.Classes.Actor("Bobb", 3, "Data/Characters/char_3/char3.png");
+			var actor3 = new GameEngine.Classes.Actor("Haley", 3, "Data/Characters/char_3/char3.png");
 
             var img = new Image();
             (img.src = "Data/Characters/char_3/emotions/Angry.png");
@@ -4049,7 +4188,7 @@ var GameEngine = {
 
             actor3.room = GameEngine.Enums.Room.bedroom3;
 
-			var actor4 = new GameEngine.Classes.Actor("Ben", 4, "Data/Characters/char_4/char4.png");
+			var actor4 = new GameEngine.Classes.Actor("Lucy", 4, "Data/Characters/char_4/char4.png");
             var img = new Image();
             (img.src = "Data/Characters/char_4/emotions/Angry.png");
             actor4.EmotionObj.Angry =       img;
@@ -4088,7 +4227,7 @@ var GameEngine = {
 
             actor4.room = GameEngine.Enums.Room.bedroom4;
 
-			var actor5 = new GameEngine.Classes.Actor("Loue", 5, "Data/Characters/char_5/char5.png");
+			var actor5 = new GameEngine.Classes.Actor("Corey", 5, "Data/Characters/char_5/char5.png");
             var img = new Image();
             (img.src = "Data/Characters/char_5/emotions/Angry.png");
             actor5.EmotionObj.Angry =       img;
@@ -4127,7 +4266,7 @@ var GameEngine = {
 
             actor5.room = GameEngine.Enums.Room.bedroom5;
 
-			var actor6 = new GameEngine.Classes.Actor("Tom", 6, "Data/Characters/char_6/char6.png");
+			var actor6 = new GameEngine.Classes.Actor("Kayla", 6, "Data/Characters/char_6/char6.png");
             var img = new Image();
             (img.src = "Data/Characters/char_6/emotions/Angry.png");
             actor6.EmotionObj.Angry =       img;
