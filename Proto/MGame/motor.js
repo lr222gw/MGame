@@ -97,6 +97,7 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
                                                               //"I have to go" = 0
                                                               //"Flirt"         = 15
                                                               //"Threathen"    = 15  <-- detta adderas senare.. (i LoadstandardQuestions..)
+                    GameEngine.Machines.PlayersHuddUpdate();
                     Button.AnswerToSend();
                     return;
                 }
@@ -192,6 +193,8 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
             if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
                 if(GameEngine.Actives.IsDialogActive == false){
                     //funktionen i knappen går till att starta Boxen där man kan gissa mördare..
+
+                    GameEngine.Actives.ClueButtonsOn = false;
                     Button.pageToGo();
                 }
                 return;
@@ -3854,6 +3857,8 @@ var GameEngine = {
                     GameBubbleData.SizeHeight-10,
                     GameBubbleData.TextHeight,
                     function(){
+                        //GameEngine.Actives.Player.TimePoints -= 5;
+                        GameEngine.Machines.PlayersHuddUpdate();
                         GameEngine.Machines.CardDataToQuestions(this.GameCard, this.actor);
                     },
                     Data,
@@ -3888,9 +3893,10 @@ var GameEngine = {
                 GameBubbleData.TextHeight,
                 function(){
                     GameEngine.Actives.IsDialogActive = false;
+                    GameEngine.Actives.Player.TimePoints += 5;
                     GameEngine.Machines.BuildRoom(GameEngine.Actives.RoomThatIsActive.ID);
                     GameEngine.Machines.cleanQuestionData();
-                    GameEngine.Actives.Player.TimePoints += 5;
+
                 }
             );
             GameEngine.Machines.ListQuestions(
@@ -3938,6 +3944,8 @@ var GameEngine = {
                 TextHeight,
                 function(){
                     var card = GameEngine.Machines.getContentFromQuestion("secret", actor);
+                    GameEngine.Actives.Player.TimePoints -= 0;
+                    GameEngine.Machines.PlayersHuddUpdate();
                     GameEngine.Machines.CardToQuestions(card, actor);
                 }
             );
@@ -3950,6 +3958,8 @@ var GameEngine = {
                 TextHeight,
                 function(){
                     var card = GameEngine.Machines.getContentFromQuestion("other", actor);
+                    GameEngine.Actives.Player.TimePoints -= 0;
+                    GameEngine.Machines.PlayersHuddUpdate();
                     GameEngine.Machines.CardToQuestions(card, actor);
                 }
 
@@ -3963,6 +3973,8 @@ var GameEngine = {
                 TextHeight,
                 function(){
                     var card = GameEngine.Machines.getContentFromQuestion("relation", actor);
+                    GameEngine.Actives.Player.TimePoints -= 0;
+                    GameEngine.Machines.PlayersHuddUpdate();
                     GameEngine.Machines.CardToQuestions(card, actor);
                 }
             );
@@ -3975,6 +3987,8 @@ var GameEngine = {
                 TextHeight,
                 function(){
                     var card = GameEngine.Machines.getContentFromQuestion("intress", actor);
+                    GameEngine.Actives.Player.TimePoints -= 0;
+                    GameEngine.Machines.PlayersHuddUpdate();
                     GameEngine.Machines.CardToQuestions(card, actor);
                 }
             );
