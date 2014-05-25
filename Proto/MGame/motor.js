@@ -46,6 +46,7 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
                 //GameEngine.Actives.Player.TimePoints -= 2;
                 GameEngine.Machines.PlayersHuddUpdate(); //Uppdaterar Hudden..
                 GameEngine.GoToButtons.GuessMurderButtons = [];
+                GameEngine.Actives.IsDialogActive = false;
                 GameEngine.Machines.BuildRoom(Button.RoomToGo);
             }
 
@@ -128,7 +129,7 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
 
             }
 
-            //kontrollerar om en BlippBox Trycks på..
+            //kontrollerar om en karktärBlippBox Trycks på..
             for(var i = 0; i < GameEngine.GoToButtons.BlippButtons.length; i++){
                 Button = GameEngine.GoToButtons.BlippButtons[i];
                 if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
@@ -137,6 +138,7 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
                     GameEngine.Machines.PlayersHuddUpdate(); //Uppdaterar Hudden..
                     GameEngine.Machines.fillBackgroundGray(); // gör bakgrunden grå.
                     GameEngine.GoToButtons.BlippButtons = [];//innaktiverar BlippBoxKnappar..
+                    GameEngine.GoToButtons.backButton = "";
                     GameEngine.Machines.SelectAnswerForActor(Button.ActorOfBox, Button.GameCard);
                     return;
 
@@ -1050,7 +1052,7 @@ var GameEngine = {
 
         createBlippBox : function(GameCard){
             GameEngine.Actives.IsDialogActive = true;
-            GameEngine.GoToButtons.backButton = "";
+            //GameEngine.GoToButtons.backButton = "";
             //Vi måste tömma WayPoints i GoToButtons så att det inte finns osynliga knappar att trycka på..
             //För ClueButtons ska vi disabla, detta pga annan teknik..
             GameEngine.GoToButtons.WayPoints = [];
@@ -2460,17 +2462,17 @@ var GameEngine = {
                 [//Containers_Arr
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.Container("Data/Map/Extras/recyclebin.png"),
-                        GameEngine.Machines.getPosition(0.895405669599218, "x"),
-                        GameEngine.Machines.getPosition(0.6618952190094475, "y"),
+                        GameEngine.Machines.getPosition(0.35777126099706746, "x"),
+                        GameEngine.Machines.getPosition(0.6298310907529344 , "y"),
                         GameEngine.Machines.getPosition(0.08, "x"),
                         GameEngine.Machines.getPosition(0.10, "y")
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.Container("Data/Map/Extras/cabinet.jpg"),
-                        GameEngine.Machines.getPosition(0.2883675464320626, "x"),
-                        GameEngine.Machines.getPosition(0.16490123103349555, "y"),
-                        GameEngine.Machines.getPosition(0.20, "x"),
-                        GameEngine.Machines.getPosition(0.20, "y")
+                        new GameEngine.Classes.Container("Data/Map/Extras/cabinet.png"),
+                        GameEngine.Machines.getPosition(0.7438905180840665, "x"),
+                        GameEngine.Machines.getPosition(0.1419982822788434, "y"),
+                        GameEngine.Machines.getPosition(0.09579667644183776, "x"),
+                        GameEngine.Machines.getPosition(0.22330375035785857, "y")
                     )
                 ],
                 [//TableClueArr
@@ -2525,36 +2527,36 @@ var GameEngine = {
                         0  //YPosition
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.WayPoint(5,"Data/Map/Bedrom_1/doors_1.png", "Bedroom 1"),
+                        new GameEngine.Classes.WayPoint(5,"Data/Map/Bedrom_1/doors_1-left.png", "Bedroom 1"),
                         GameEngine.Machines.getPosition(0.0075  , "x"), //XPosition
                         0  //YPosition
                     ),
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.WayPoint(6,"Data/Map/Bedrom_2/doors_2-left.png", "Bedroom 2"),
-                        GameEngine.Machines.getPosition(0.24125, "x"), //XPosition
-                        GameEngine.Machines.getPosition(0.18  , "y")  //YPosition
+                        GameEngine.Machines.getPosition(0.23558162267839688, "x"), //XPosition
+                        GameEngine.Machines.getPosition(0.17406241053535643  , "y")  //YPosition
                     ),
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.WayPoint(7,"Data/Map/Bedrom_3/doors_3-left.png", "Bedroom 3"),
-                        GameEngine.Machines.getPosition(0.32375  , "x"), //XPosition
-                        GameEngine.Machines.getPosition(0.25466666666666665  , "y")  //YPosition
+                        GameEngine.Machines.getPosition(0.3313782991202346  , "x"), //XPosition
+                        GameEngine.Machines.getPosition(0.2565130260521042, "y")  //YPosition
                     ),
 
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.WayPoint(8,"Data/Map/Bedrom_4/doors_1-right.png", "Bedroom 4"),
-                        GameEngine.Machines.getPosition(0.8425   , "x"), //XPosition
+                        GameEngine.Machines.getPosition(0.8367546432062561   , "x"), //XPosition
                         0  //YPosition
 
                     ),
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.WayPoint(9,"Data/Map/Bedrom_5/doors_2-right.png", "Bedroom 5"),
-                        GameEngine.Machines.getPosition(0.70625, "x"), //XPosition
-                        GameEngine.Machines.getPosition(0.18   , "y")  //YPosition
+                        GameEngine.Machines.getPosition(0.7047898338220919, "x"), //XPosition
+                        GameEngine.Machines.getPosition(0.17406241053535643 , "y")  //YPosition
                     ),
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.WayPoint(10,"Data/Map/Bedrom_6/doors_3-right.png", "Bedroom 6"),
-                        GameEngine.Machines.getPosition(0.6425, "x"), //XPosition
-                        GameEngine.Machines.getPosition(0.26, "y")  //YPosition
+                        GameEngine.Machines.getPosition(0.6412512218963832, "x"), //XPosition
+                        GameEngine.Machines.getPosition(0.2565130260521042 , "y")  //YPosition
 
                     )
                 ],
@@ -2565,14 +2567,15 @@ var GameEngine = {
                         GameEngine.Machines.getPosition(0.4683653020326367, "y"),
                         GameEngine.Machines.getPosition(0.05, "x"),
                         GameEngine.Machines.getPosition(0.07, "y")
-                    ),
+                    )
+                    /*,
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.Container("Data/Map/Extras/placeholder.jpg"),
                         GameEngine.Machines.getPosition(0.5865102639296188 , "x"),
                         GameEngine.Machines.getPosition(0.3103349556255368, "y"),
-                        GameEngine.Machines.getPosition(0.05, "x"),
-                        GameEngine.Machines.getPosition(0.20, "y")
-                    )
+                        GameEngine.Machines.getPosition(0.03, "x"),
+                        GameEngine.Machines.getPosition(0.15, "y")
+                    )*/
                 ],
                 [//TableClueArr
                     new GameEngine.Classes.PlaceHolder(
@@ -2958,8 +2961,8 @@ var GameEngine = {
                     ),
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.WayPoint(11,"Data/Map/Kitchen/door.png", "Kitchen"),
-                        GameEngine.Machines.getPosition(0.5025, "x"),//XPosition
-                        GameEngine.Machines.getPosition(0.304, "y")
+                        GameEngine.Machines.getPosition(0.4995112414467253, "x"),//XPosition
+                        GameEngine.Machines.getPosition(0.3080446607500716, "y")
                             //YPosition
                     )
 
@@ -2996,7 +2999,7 @@ var GameEngine = {
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.WayPoint(4,"Data/Map/PreBedroom/doors_2-left.png", "Bedroom Corridor"),
                         GameEngine.Machines.getPosition(0.24125, "x"), //XPosition
-                        GameEngine.Machines.getPosition(0.18, "y")//YPosition
+                        GameEngine.Machines.getPosition(0.17406241053535643, "y")//YPosition
 
 
                     ),
@@ -3041,13 +3044,13 @@ var GameEngine = {
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.WayPoint(13,"Data/Map/BathRoom/doors_3-right.png", "Bathroom"),
                         GameEngine.Machines.getPosition(0.64125, "x"), //XPosition
-                        GameEngine.Machines.getPosition(0.256, "y")  //YPosition
+                        GameEngine.Machines.getPosition(0.25765817348983683, "y")  //YPosition
 
                     ),
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.WayPoint(12,"Data/Map/TvRoom/door.png", "Tv-Room"),
-                        GameEngine.Machines.getPosition(0.4675, "x"), //XPosition
-                        GameEngine.Machines.getPosition(0.304, "y")  //YPosition
+                        GameEngine.Machines.getPosition(0.4633431085043988, "x"), //XPosition
+                        GameEngine.Machines.getPosition(0.30689951331233895, "y")  //YPosition
                     )
 
                 ],
