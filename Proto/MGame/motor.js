@@ -3681,10 +3681,26 @@ var GameEngine = {
                 SizeWidth,
                 SizeHeight
             );
+            //ritar upp en liten ruta över för att fylla med Actors namn
+            var NameBoxWidth = SizeWidth / 16;
+            var NameBoxHeight = SizeHeight / 5;
+            var NameBoxPosY = ActorBubblePosY - (NameBoxHeight);
+            Ctx.fillRect(
+                ActorBubblePosX,
+                NameBoxPosY,
+                NameBoxWidth,
+                NameBoxHeight
+            );
+
             //Byter till textfärg..
             TextHeight = GameEngine.Machines.getPosition(0.016, "x");
             Ctx.fillStyle = "rgb(63, 0, 0)";
             Ctx.font= TextHeight+"px arial, sans-serif";
+            Ctx.fillText(//namn till karaktären..
+                actor.name,
+                ActorBubblePosX + 10,
+                NameBoxPosY + TextHeight + 5
+            );
             GameEngine.Machines.wrapText(Ctx,"Yes, well hello.."
              ,ActorBubblePosX+20, ActorBubblePosY +25,SizeWidth-15, 20, TextHeight +10, SizeHeight-10);
 
@@ -3771,6 +3787,27 @@ var GameEngine = {
         },
 
         CardDataToQuestions : function(card, actor){
+
+            var NameBoxWidth = GameBubbleData.SizeWidth/ 16;
+            var NameBoxHeight = GameBubbleData.SizeHeight / 5;
+            var NameBoxPosY = GameBubbleData.ActorBubblePosY - (NameBoxHeight);
+            Ctx.fillStyle = "rgb(0, 102, 255)";
+            Ctx.fillRect(
+                GameBubbleData.ActorBubblePosX,
+                NameBoxPosY,
+                NameBoxWidth,
+                NameBoxHeight
+            );
+
+            //Byter till textfärg..
+            var TextHeight = GameEngine.Machines.getPosition(0.016, "x");
+            Ctx.fillStyle = "rgb(63, 0, 0)";
+            Ctx.font= TextHeight+"px arial, sans-serif";
+            Ctx.fillText(//namn till karaktären..
+                actor.name,
+                    GameBubbleData.ActorBubblePosX + 10,
+                    NameBoxPosY + TextHeight + 5
+            );
 
             GameEngine.Machines.loadActorImage(actor, card.emotionState);
 
