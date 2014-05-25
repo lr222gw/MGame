@@ -2380,6 +2380,10 @@ var GameData = {
         var UnknownClue = new Image();
         UnknownClue.src = "Data/Map/Extras/UnknownClue.png";
 
+        //MarkedDead
+        var MarkedDead = new Image();
+        MarkedDead.src = "Data/Hudd/MarkedDead.png";
+
         GameData.GameDataImages = {
             HuddBackground : huddBackground,
             backButton : backButton,
@@ -2393,7 +2397,8 @@ var GameData = {
             downButtonDisabled : downButtonDisabled,
             GuessMurderButton  :GuessMurderButton,
             ConfirmButton   : ConfirmButton,
-            UnknownClue     : UnknownClue
+            UnknownClue     : UnknownClue,
+            MarkedDead      : MarkedDead
 
         }
     }

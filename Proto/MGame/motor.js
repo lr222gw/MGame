@@ -142,13 +142,18 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
                 Button = GameEngine.GoToButtons.BlippButtons[i];
                 if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
 
-                    GameEngine.Actives.Player.TimePoints -= 5;
-                    GameEngine.Machines.PlayersHuddUpdate(); //Uppdaterar Hudden..
-                    GameEngine.Machines.fillBackgroundGray(); // gör bakgrunden grå.
-                    GameEngine.GoToButtons.BlippButtons = [];//innaktiverar BlippBoxKnappar..
-                    GameEngine.GoToButtons.backButton = "";
-                    GameEngine.Machines.SelectAnswerForActor(Button.ActorOfBox, Button.GameCard);
-                    return;
+                    if(Button.ActorOfBox.role != GameEngine.Enums.Roles.victim){
+                        GameEngine.Actives.Player.TimePoints -= 5;
+                        GameEngine.Machines.PlayersHuddUpdate(); //Uppdaterar Hudden..
+                        GameEngine.Machines.fillBackgroundGray(); // gör bakgrunden grå.
+                        GameEngine.GoToButtons.BlippButtons = [];//innaktiverar BlippBoxKnappar..
+                        GameEngine.GoToButtons.backButton = "";
+                        GameEngine.Machines.SelectAnswerForActor(Button.ActorOfBox, Button.GameCard);
+                        return;
+                    }else{
+                        console.log("You can't talk to the dead, silly..");
+                    }
+
 
                 }
             }
@@ -195,18 +200,21 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
                     //funktionen i knappen går till att starta Boxen där man kan gissa mördare..
 
                     GameEngine.Actives.ClueButtonsOn = false;
-                    Button.pageToGo();
+                    Button.pageToGo();// Öppnar funktionen (pageToGo är lite vilseledande..)
                 }
                 return;
             }
 
-            //Kontrollerar om en ActorBox trycks på ..
+            //Kontrollerar om en ActorBox iGuessMurder Boxen trycks på ..
             for(var i = 0; i  < GameEngine.GoToButtons.GuessMurderButtons.length; i++){
                 Button = GameEngine.GoToButtons.GuessMurderButtons[i];
                 if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
-
-                    GameEngine.Machines.SelectActor(Button.actor);
-                    return;
+                    if(Button.actor.role != GameEngine.Enums.Roles.victim){
+                        GameEngine.Machines.SelectActor(Button.actor);
+                        return;
+                    }else{
+                        console.log("You can't accuse the victim, silly...");
+                    }
 
                 }
 
@@ -374,9 +382,12 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
             for (var i = 0; i < GameEngine.GoToButtons.BlippButtons.length; i++) {
                 Button = GameEngine.GoToButtons.BlippButtons[i];
                 if (mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height) {
-                    document.body.style.cursor = "pointer";
-                    GameEngine.Machines.showCurrentValueOfTimePoints(5);
-                    return;
+                    if(Button.ActorOfBox.role != GameEngine.Enums.Roles.victim){
+                        document.body.style.cursor = "pointer";
+                        GameEngine.Machines.showCurrentValueOfTimePoints(5);
+                        return;
+                    }
+
 
                 } else {
                     document.body.style.cursor = "default";
@@ -403,6 +414,7 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
             Button = GameEngine.GoToButtons.HuddButtons.GuessMurderButton;
             if (mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height) {
                 if(GameEngine.Actives.IsDialogActive == false){
+
                     document.body.style.cursor = "pointer";
                 }
                 return;
@@ -416,7 +428,9 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
             for (var i = 0; i < GameEngine.GoToButtons.GuessMurderButtons.length; i++) {
                 Button = GameEngine.GoToButtons.GuessMurderButtons[i];
                 if (mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height) {
-                    document.body.style.cursor = "pointer";
+                    if(Button.actor.role != GameEngine.Enums.Roles.victim){
+                        document.body.style.cursor = "pointer";
+                    }
                     return;
 
                 } else {
@@ -643,7 +657,11 @@ var GameEngine = {
 
         PlaceActorsInRoom : function(){
             for(var i =0; i < GameEngine.GlobalActors.length; i++){
-                GameEngine.GlobalActors[i].room = GameEngine.GlobalRooms[Math.floor(Math.random() * GameEngine.GlobalRooms.length + 0)].ID;
+                if(GameEngine.GlobalActors[i].role != GameEngine.Enums.Roles.victim){
+                    //Placerar ut alla karaktärer i rummen förutom den som är död.
+                    GameEngine.GlobalActors[i].room = GameEngine.GlobalRooms[Math.floor(Math.random() * GameEngine.GlobalRooms.length + 0)].ID;
+                }
+
             }
         },
 
@@ -893,6 +911,21 @@ var GameEngine = {
                     ArrOfBoxes[i].Width,
                     ArrOfBoxes[i].Height
                 );
+
+                if(ArrOfBoxes[i].ActorOfBox.role == GameEngine.Enums.Roles.victim){
+                 //Om actorn är "Victim" så ska den få ett kryss över sig
+                 // (den kommer ej vara klickbar heller, me ndet sköts annan stanns..(hover/click..)
+                    GameEngine.Machines.WindowSizing(
+                        GameData.GameDataImages.MarkedDead,
+                        "gameframe",
+                        PosXOfMurderBox + (ArrOfBoxes[i].Width/2) + PixelsToPushX,
+                        (HeightOfMurderBox / 2 ) +(ArrOfBoxes[i].Height/2) + PixelsToPushY,
+                        ArrOfBoxes[i].Width,
+                        ArrOfBoxes[i].Height
+                    );
+
+                }
+
                 //Nu har karaktärerna skrivits ut på skärmen, nu ska de in i en array som knappar
                 GameEngine.GoToButtons.GuessMurderButtons.push(
                     new GameEngine.Classes.ActorBoxButton(
@@ -1200,6 +1233,19 @@ var GameEngine = {
                     (ArrOfActorBoxes[i].Width) -10 ,
                     (ArrOfActorBoxes[i].Height) - 10
                 );
+                if(ArrOfActorBoxes[i].ActorOfBox.role == GameEngine.Enums.Roles.victim){
+                    //Om actorn är "Victim" så ska den få ett kryss över sig
+                    // (den kommer ej vara klickbar heller, me ndet sköts annan stanns..(hover/click..)
+                    GameEngine.Machines.WindowSizing(
+                        GameData.GameDataImages.MarkedDead,
+                        "gameframe",
+                        (GameBubbleData.BlippBoxPosX + addToPosX) + 5,
+                        (GameBubbleData.BlippBoxPosY + GameEngine.Machines.getPosition(0.10,"y") + addToPosY) + 5,
+                        (ArrOfActorBoxes[i].Width) -10 ,
+                        (ArrOfActorBoxes[i].Height) - 10
+                    );
+
+                }
 
                 ArrOfActorBoxes[i].PosX = (GameBubbleData.BlippBoxPosX + addToPosX) + 5;
                 ArrOfActorBoxes[i].PosY = (GameBubbleData.BlippBoxPosY + GameEngine.Machines.getPosition(0.10,"y") + addToPosY) + 5;
