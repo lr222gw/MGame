@@ -9,16 +9,32 @@ var GameData = {
         //^Denna metod kontaktas när karaktärerna är klara och rollerna är valda,
         //då skickar man med rollerna så att rätt namn hamnar rätt! Skickar även med Vilket motiv som är valt!..
 
+        //OBs, i Parameterlistan så är "Other" en array som innehåller alla karaktärer som har rollen "other"
+        //detta för att detkan finnas flera personer i spelet som INTE har något att göra med mordet, dessa har alltså Other..
 
+        GameData.readInImgObj();//laddar in bilderna så de kan användas av initData funktionen..
 
        // cardInMotive är en Funktion som används för att ta fram rätt namn..
        var cardInMotive = function(ID, actor){ // Denna function tar reda på om ID't (som man får ange själv)
+
+           if(Other == undefined){
+               //Om det inte finns någon "other" i spelet
+               //Så måste det lösas på något sätt.. hur? Tillfällig lösning
+               ThisOther = "SOMONE OUTSIDE THIS GAME(Tip To Programmer, this happend BC No solution for " +
+                   "Game motive without 'Other'-actor but Card for Actor needed 'other'. please ignore";
+           }else{
+               var ThisOther = Other[Math.floor(Math.random() * Other.length + 0)];
+           }
+           if(Other == actor && Other != undefined){
+               actor = Other[Math.floor(Math.random() * Other.length + 0)];
+           }
+
            var i = 0;                           //finns med i Motivet. Om det gör det så Ska "Murdurer" väljas, annars "Other"
             if(motive == undefined){
                 return "null"; //Säkerhetsspärr som ser till att funktionen ej används om motiv saknas..
             }
-            for(i = 0; i < motive.LOC_other.theGameCard.length ; i++){
-                if(motive.LOC_other[i].theGameCard.ID = ID){
+            for(i = 0; i < motive.LOC_other.length ; i++){
+                if(motive.LOC_other[i].ID = ID){
                     // om KortID't finns i denna samling så är det "Murderer"-relaterat,
                     // och ska returnera mördarens namn..
 
@@ -26,43 +42,43 @@ var GameData = {
 
                 }
             }
-            for(i = 0; i < motive.LOC_murderur.theGameCard.length ; i++){
-                if(motive.LOC_murderur[i].theGameCard.ID = ID){
+            for(i = 0; i < motive.LOC_murderur.length ; i++){
+                if(motive.LOC_murderur[i].ID = ID){
                     //
                     return actor;
                 }
             }
-            for(i = 0; i < motive.LOC_victim.theGameCard.length ; i++){
-                if(motive.LOC_victim[i].theGameCard.ID = ID){
+            for(i = 0; i < motive.LOC_victim.length ; i++){
+                if(motive.LOC_victim[i].ID = ID){
                     //
                     return actor;
                 }
             }
-            for(i = 0; i < motive.LOC_actor1.theGameCard.length ; i++){
-                if(motive.LOC_actor1[i].theGameCard.ID = ID){
+            for(i = 0; i < motive.LOC_actor1.length ; i++){
+                if(motive.LOC_actor1[i].ID = ID){
                     //
                     return actor;
                 }
             }
-            for(i = 0; i < motive.LOC_actor2.theGameCard.length ; i++){
-                if(motive.LOC_actor2[i].theGameCard.ID = ID){
+            for(i = 0; i < motive.LOC_actor2.length ; i++){
+                if(motive.LOC_actor2[i].ID = ID){
                     //
                     return actor;
                 }
             }
-            for(i = 0; i < motive.LOC_actor3.theGameCard.length ; i++){
-                if(motive.LOC_actor3[i].theGameCard.ID = ID){
+            for(i = 0; i < motive.LOC_actor3.length ; i++){
+                if(motive.LOC_actor3[i].ID = ID){
                     //
                     return actor;
                 }
             }
-            for(i = 0; i < motive.LOC_actor4.theGameCard.length ; i++){
-                if(motive.LOC_actor4[i].theGameCard.ID = ID){
+            for(i = 0; i < motive.LOC_actor4.length ; i++){
+                if(motive.LOC_actor4[i].ID = ID){
                     //
                     return actor;
                 }
             }
-            return Other;
+            return ThisOther;
        };
 
 
@@ -92,7 +108,7 @@ var GameData = {
                     "Condom",
                     "Looks like a condom..", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -107,7 +123,7 @@ var GameData = {
                     "Condom Wrapper",
                     "Looks like a condom wrapper..",            //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -122,7 +138,7 @@ var GameData = {
                     "Condom Wrapper",
                     "Looks like another* condom wrapper..", //Beskrivning
                     [4,5],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -137,7 +153,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "Looks like this dirty laundry have marks from a red lipstick....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -152,7 +168,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "Looks like a red lipstick ....", //Beskrivning
                     [7],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -167,7 +183,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 1 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -182,7 +198,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 2 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -197,7 +213,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 3 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -212,7 +228,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 4 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -227,7 +243,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 5 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -242,7 +258,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 6 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -257,7 +273,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 7 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -272,7 +288,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 8 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -287,7 +303,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 9 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -302,7 +318,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 10 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -317,7 +333,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 11 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -332,7 +348,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 12 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -347,7 +363,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 13 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -362,7 +378,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 14 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -377,7 +393,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -392,7 +408,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -407,7 +423,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -422,7 +438,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -437,7 +453,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -452,7 +468,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -467,7 +483,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -482,7 +498,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -497,7 +513,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -512,7 +528,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -527,7 +543,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -542,7 +558,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -557,7 +573,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -572,7 +588,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -587,7 +603,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -602,7 +618,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -617,7 +633,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -632,7 +648,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -647,7 +663,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -662,7 +678,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -677,7 +693,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -692,7 +708,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -707,7 +723,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -722,7 +738,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -737,7 +753,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -752,7 +768,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -767,7 +783,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -782,7 +798,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -797,7 +813,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -812,7 +828,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -827,7 +843,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -842,7 +858,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -857,7 +873,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -872,7 +888,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -887,7 +903,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -902,7 +918,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -917,7 +933,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -932,7 +948,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -947,7 +963,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -962,7 +978,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -977,7 +993,7 @@ var GameData = {
                     "NamePlaceHolder",
                     "TestData 15 ....", //Beskrivning
                     [],          //NeededCards
-                    "Data/Map/Extras/placeholder.jpg",             //BildURL
+                    GameData.GameDataImages.UnknownClue.src,             //BildURL
                     []       //FollowUpCards (AnswerCards...)
                 ),
                 [//Array med ID'n på möjliga rum ledtråden kan finnas i OM den är med i mordfallet..
@@ -2301,11 +2317,9 @@ var GameData = {
             GameData.MurderMotives.push(Motives[i]);
         }
 
+    },
 
-
-
-
-
+    readInImgObj : function(){
         //Detta sköter hand om att skjuta in data i form av bilder etc som behövs till
         //spelet och inte laddas in på annat vis.. (tex Rum/actor-bilder laddas in
         //samtidigt som de skapas och sparas i en "global" variabel i motor.js!
@@ -2322,37 +2336,37 @@ var GameData = {
 
         // 2 = nextButton
         var nextButton = new Image();
-        nextButton.src = "Data/Hudd/right.jpg";
+        nextButton.src = "Data/Hudd/right.png";
 
         // 3 = prevButton
         var prevButton = new Image();
-        prevButton.src = "Data/Hudd/left.jpg";
+        prevButton.src = "Data/Hudd/left.png";
 
         // 4 = upButton
         var upButton = new Image();
-        upButton.src = "Data/Hudd/up.jpg";
+        upButton.src = "Data/Hudd/up.png";
 
         // 5 = downButton
         var downButton = new Image();
-        downButton.src = "Data/Hudd/down.jpg";
+        downButton.src = "Data/Hudd/down.png";
 
         //disabled Buttons:
 
         //6 = nextButtonDisabled
         var nextButtonDisabled = new Image();
-        nextButtonDisabled.src = "Data/Hudd/rightDisabled.jpg";
+        nextButtonDisabled.src = "Data/Hudd/rightdisabled.png";
 
         //7 = prevButtonDisabled
         var prevButtonDisabled = new Image();
-        prevButtonDisabled.src = "Data/Hudd/leftDisabled.jpg";
+        prevButtonDisabled.src = "Data/Hudd/leftdisabled.png";
 
         //8 = upButtonDisabled
         var upButtonDisabled = new Image();
-        upButtonDisabled.src = "Data/Hudd/upDisabled.jpg";
+        upButtonDisabled.src = "Data/Hudd/updisabled.png";
 
         //9 = downButtonDisabled
         var downButtonDisabled = new Image();
-        downButtonDisabled.src = "Data/Hudd/downDisabled.jpg";
+        downButtonDisabled.src = "Data/Hudd/downdisabled.png";
 
         //HuddButtons
         var GuessMurderButton = new Image();
@@ -2361,6 +2375,10 @@ var GameData = {
         //ConfirmButton
         var ConfirmButton = new Image();
         ConfirmButton.src = "Data/Hudd/ConfirmButton.png";
+
+        //UnknownClue
+        var UnknownClue = new Image();
+        UnknownClue.src = "Data/Map/Extras/UnknownClue.png";
 
         GameData.GameDataImages = {
             HuddBackground : huddBackground,
@@ -2374,10 +2392,10 @@ var GameData = {
             upButtonDisabled : upButtonDisabled,
             downButtonDisabled : downButtonDisabled,
             GuessMurderButton  :GuessMurderButton,
-            ConfirmButton   : ConfirmButton
+            ConfirmButton   : ConfirmButton,
+            UnknownClue     : UnknownClue
 
         }
-
     }
 
 

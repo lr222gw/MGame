@@ -47,6 +47,7 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
                 GameEngine.Machines.PlayersHuddUpdate(); //Uppdaterar Hudden..
                 GameEngine.GoToButtons.GuessMurderButtons = [];
                 GameEngine.Actives.IsDialogActive = false;
+                GameEngine.Actives.MurderToGuessOn = null;
                 GameEngine.Machines.BuildRoom(Button.RoomToGo);
             }
 
@@ -91,6 +92,11 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
                 Button = GameEngine.GoToButtons.DialogButtonsActive[i];
                 if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
 
+                    GameEngine.Actives.Player.TimePoints -= 5;// tar bort 5 TP varje gång du går vidare på en fråga..
+                                                              //obs, vissa frågor tar mer eller mindre dessa är :
+                                                              //"I have to go" = 0
+                                                              //"Flirt"         = 15
+                                                              //"Threathen"    = 15  <-- detta adderas senare.. (i LoadstandardQuestions..)
                     Button.AnswerToSend();
                     return;
                 }
@@ -120,6 +126,7 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
                             GameEngine.Actives.Player.TimePoints -= 5;
                             GameEngine.Machines.PlayersHuddUpdate(); //Uppdaterar Hudden..
                             GameEngine.Machines.createBlippBox(Button);
+                            GameEngine.Actives.ClueButtonsOn = false;
                             return;
 
                         }
@@ -149,15 +156,18 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
             var SizeObj;
             for(var i = 0; i  < GameEngine.GoToButtons.ContainerButton.length; i++){
                 Button = GameEngine.GoToButtons.ContainerButton[i];
-                if(mX >= Button.PosX && mX < Button.PosX + Button.SizeWidth && mY >= Button.PosY && mY < Button.PosY + Button.SizeHeight){
-                    SizeObj = GameEngine.Machines.buildContainerBoxForClue(Button.PosX, Button.PosY);
+                if(GameEngine.Actives.ClueButtonsOn == true) {
+                    if (mX >= Button.PosX && mX < Button.PosX + Button.SizeWidth && mY >= Button.PosY && mY < Button.PosY + Button.SizeHeight) {
+                        SizeObj = GameEngine.Machines.buildContainerBoxForClue(Button.PosX, Button.PosY);
+                        GameEngine.GoToButtons.ContainerButton[i] = ""; // nollställer knappen så att man inte kan trycka på den
+                                                                        // när man väl tryckt på den en gång..
+                        GameEngine.Actives.Player.TimePoints -= 10;
+                        GameEngine.Machines.PlayersHuddUpdate(); //Uppdaterar Hudden..
+                        GameEngine.Machines.FillBoxWithClues(SizeObj.PosX, SizeObj.PosY, SizeObj.Width, SizeObj.Height, Button.GameCardOrContent.cardsOfContainer);
 
-                    GameEngine.Actives.Player.TimePoints -= 10;
-                    GameEngine.Machines.PlayersHuddUpdate(); //Uppdaterar Hudden..
-                    GameEngine.Machines.FillBoxWithClues(SizeObj.PosX, SizeObj.PosY, SizeObj.Width, SizeObj.Height, Button.GameCardOrContent.cardsOfContainer);
+                        return;
 
-                    return;
-
+                    }
                 }
 
             }
@@ -165,13 +175,14 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
             //Denna funktion är för Clues i Contanrar > klickas på...
             for(var i = 0; i < GameEngine.GoToButtons.ContainerClueButtons.length; i++){
                 Button = GameEngine.GoToButtons.ContainerClueButtons[i];
+                if(GameEngine.Actives.ClueButtonsOn == true) {
+                    if (mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height) {
 
-                if (mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height) {
-
-                    GameEngine.Actives.Player.TimePoints -= 5;
-                    GameEngine.Machines.PlayersHuddUpdate(); //Uppdaterar Hudden..
-                    GameEngine.Machines.createBlippBox(Button.GameCard);
-                    return;
+                        GameEngine.Actives.Player.TimePoints -= 5;
+                        GameEngine.Machines.PlayersHuddUpdate(); //Uppdaterar Hudden..
+                        GameEngine.Machines.createBlippBox(Button.GameCard);
+                        return;
+                    }
                 }
 
             }
@@ -211,11 +222,13 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
             //Kontrollerar om en ActorInterviewButtons trycks på..
             for (var i = 0; i < GameEngine.GoToButtons.ActorInterviewButtons.length; i++) {
                 Button = GameEngine.GoToButtons.ActorInterviewButtons[i];
-                if (mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height) {
-                    GameEngine.GoToButtons.ActorInterviewButtons = [];
-
-                    GameEngine.Machines.InterviewActor(Button.actor);
-                    return;
+                if(GameEngine.Actives.ClueButtonsOn == true) {
+                    if (mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height) {
+                        GameEngine.GoToButtons.ActorInterviewButtons = [];
+                        GameEngine.Actives.ClueButtonsOn = false;
+                        GameEngine.Machines.InterviewActor(Button.actor);
+                        return;
+                    }
                 }
             }
 
@@ -339,15 +352,16 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
             //Denna funktion är för Clues i Contanrar > hover...
             for (var i = 0; i < GameEngine.GoToButtons.ContainerClueButtons.length; i++) {
                 Button = GameEngine.GoToButtons.ContainerClueButtons[i];
+                if(GameEngine.Actives.ClueButtonsOn == true) {
+                    if (mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height) {
+                        document.body.style.cursor = "pointer";
+                        GameEngine.Machines.showCurrentValueOfTimePoints(5);
+                        return;
 
-                if (mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height) {
-                    document.body.style.cursor = "pointer";
-                    GameEngine.Machines.showCurrentValueOfTimePoints(5);
-                    return;
+                    } else {
+                        document.body.style.cursor = "default";
 
-                } else {
-                    document.body.style.cursor = "default";
-
+                    }
                 }
 
 
@@ -426,12 +440,14 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
             //Kontrollerar om en ActorInterviewButtons hovras över ..
             for (var i = 0; i < GameEngine.GoToButtons.ActorInterviewButtons.length; i++) {
                 Button = GameEngine.GoToButtons.ActorInterviewButtons[i];
-                if (mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height) {
-                    document.body.style.cursor = "pointer";
-                    return;
+                if(GameEngine.Actives.ClueButtonsOn == true) {
+                    if (mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height) {
+                        document.body.style.cursor = "pointer";
+                        return;
 
-                } else {
-                    document.body.style.cursor = "default";
+                    } else {
+                        document.body.style.cursor = "default";
+                    }
                 }
             }
         }
@@ -538,6 +554,12 @@ var GameEngine = {
 
         GameEngine.Machines.SelectRandomMotive();
 
+        GameEngine.Machines.FindRolesAndSendToInitDataFunkcionOfGameData();
+
+        //Uppdaterar korten som karaktärerna har, så de innehållar rätt data..
+        //Detta pga datan har  modifierats till att anpassa mordmotivet..
+        GameEngine.Machines.UpdateActorCards();
+
         GameEngine.Machines.placeClues();
 
         GameEngine.Machines.PlaceActorsInRoom();
@@ -554,7 +576,65 @@ var GameEngine = {
 
 	Machines : {
 
-        CanvasTut : function(){
+        UpdateActorCards : function(){
+
+            for(var i = 0; i < GameEngine.GlobalActors.length; i++){
+
+
+                GameEngine.GlobalActors[i].Intress = GameEngine.Machines.getGameCardFromID(GameEngine.GlobalActors[i].Intress.ID , "person");
+
+                GameEngine.GlobalActors[i].Other = GameEngine.Machines.getGameCardFromID(GameEngine.GlobalActors[i].Other.ID , "person");
+
+                GameEngine.GlobalActors[i].Relation = GameEngine.Machines.getGameCardFromID(GameEngine.GlobalActors[i].Relation.ID , "person");
+
+                GameEngine.GlobalActors[i].Secret = GameEngine.Machines.getGameCardFromID(GameEngine.GlobalActors[i].Secret.ID , "person");
+
+                for(var j = 0; j < GameEngine.GlobalActors[i].ClueList.length ; j++){
+                    GameEngine.GlobalActors[i].ClueList[j] = GameEngine.Machines.getGameCardFromID(GameEngine.GlobalActors[i].ClueList[j].ID, "clue")
+                }
+
+
+            }
+
+        },
+
+        FindRolesAndSendToInitDataFunkcionOfGameData : function(){
+            //Denna metod är till för att Uppdatera korten som karaktärerna har, så de innehållar rätt data
+            //Sen måste man uppdatera korten som finns hos karaktärerna, det gör en annan funktion..
+
+            var Murder, Victim, Actor1, Actor2, Actor3, Actor4, Motive;
+            var ArrOfOthers = [];
+
+
+            for(var i = 0 ; i < GameEngine.GlobalActors.length; i++){
+                if(GameEngine.GlobalActors[i].role == GameEngine.Enums.Roles.victim){
+                    Victim = GameEngine.GlobalActors[i].name;
+                }
+                if(GameEngine.GlobalActors[i].role == GameEngine.Enums.Roles.other){
+                    ArrOfOthers.push(GameEngine.GlobalActors[i].name);
+                }
+                if(GameEngine.GlobalActors[i].role == GameEngine.Enums.Roles.murder){
+                    Murder = GameEngine.GlobalActors[i].name;
+                }
+                if(GameEngine.GlobalActors[i].role == GameEngine.Enums.Roles.actor1){
+                    Actor1 = GameEngine.GlobalActors[i].name;
+                }
+                if(GameEngine.GlobalActors[i].role == GameEngine.Enums.Roles.actor2){
+                    Actor2 = GameEngine.GlobalActors[i].name;
+                }
+                if(GameEngine.GlobalActors[i].role == GameEngine.Enums.Roles.actor3){
+                    Actor3 = GameEngine.GlobalActors[i].name;
+                }
+                if(GameEngine.GlobalActors[i].role == GameEngine.Enums.Roles.actor4){
+                    Actor4 = GameEngine.GlobalActors[i].name;
+                }
+
+            };
+
+            Motive = GameEngine.Actives.MotiveThatIsActive;
+            //Eftersom vi ska instansiera all data på nytt så ska vi först tömma den gamla datan
+            GameData.GameCardsCollectionData = [];
+            GameData.initData(ArrOfOthers,Murder,Victim,Actor1,Actor2,Actor3,Actor4, Motive)
 
         },
 
@@ -1896,6 +1976,8 @@ var GameEngine = {
                     }
                 }
             }
+            var ClueWidth = GameEngine.Machines.getPosition(0.05, "x");
+            var ClueHeight = GameEngine.Machines.getPosition(0.05, "y");
 
             for(var j = 0; j < RoomToFillWithClues.TableClue_GameCards.length; j++){
                 var TableClueToPlace = RoomToFillWithClues.TableClue_GameCards[j].GameCardOrContent;
@@ -1904,11 +1986,11 @@ var GameEngine = {
                         "gameframe",
                         RoomToFillWithClues.TableClue_GameCards[j].PosX,
                         RoomToFillWithClues.TableClue_GameCards[j].PosY,
-                        GameEngine.Machines.getPosition(0.02, "x"),
-                        GameEngine.Machines.getPosition(0.02, "y")
+                        ClueWidth,
+                        ClueHeight
                     );
-                    RoomToFillWithClues.TableClue_GameCards[j].SizeHeight =GameEngine.Machines.getPosition(0.02, "x");
-                    RoomToFillWithClues.TableClue_GameCards[j].SizeWidth =GameEngine.Machines.getPosition(0.02, "y");
+                    RoomToFillWithClues.TableClue_GameCards[j].SizeHeight =ClueHeight;
+                    RoomToFillWithClues.TableClue_GameCards[j].SizeWidth =ClueWidth;
                 }
 
 
@@ -1921,11 +2003,11 @@ var GameEngine = {
                         "gameframe",
                         RoomToFillWithClues.WallClue_GameCards[j].PosX,
                         RoomToFillWithClues.WallClue_GameCards[j].PosY,
-                        GameEngine.Machines.getPosition(0.02, "x"),
-                        GameEngine.Machines.getPosition(0.02, "y")
+                        ClueWidth,
+                        ClueHeight
                     );
-                    RoomToFillWithClues.WallClue_GameCards[j].SizeHeight =GameEngine.Machines.getPosition(0.02, "x");
-                    RoomToFillWithClues.WallClue_GameCards[j].SizeWidth =GameEngine.Machines.getPosition(0.02, "y");
+                    RoomToFillWithClues.WallClue_GameCards[j].SizeHeight =ClueHeight;
+                    RoomToFillWithClues.WallClue_GameCards[j].SizeWidth =ClueWidth;
                 }
             }
 
@@ -2953,11 +3035,11 @@ var GameEngine = {
                         60  //YPosition
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.WayPoint(2,"Data/Map/Hallway_2/left.jpg", "Hallway"),
+                        new GameEngine.Classes.WayPoint(2,GameData.GameDataImages.prevButton.src, "Hallway"),
                         GameEngine.Machines.getPosition(0.46375 , "x"), //XPosition
-                        GameEngine.Machines.getPosition(0.252, "y"),  //YPosition
-                        GameEngine.Machines.getPosition(0.03, "x"),
-                        GameEngine.Machines.getPosition(0.03, "y")
+                        GameEngine.Machines.getPosition(0.259, "y"),  //YPosition
+                        GameEngine.Machines.getPosition(0.035, "x"),
+                        GameEngine.Machines.getPosition(0.035, "y")
                     ),
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.WayPoint(11,"Data/Map/Kitchen/door.png", "Kitchen"),
@@ -3004,11 +3086,11 @@ var GameEngine = {
 
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.WayPoint(3,"Data/Map/Hallway_3/right.jpg", "Hallway End"),
+                        new GameEngine.Classes.WayPoint(3,GameData.GameDataImages.nextButton.src, "Hallway End"),
                         GameEngine.Machines.getPosition(0.54625, "x" ), //XPosition
                         GameEngine.Machines.getPosition(0.26, "y" ),//YPosition
-                        GameEngine.Machines.getPosition(0.03, "x"), //Bredd
-                        GameEngine.Machines.getPosition(0.03, "y") //Höjd
+                        GameEngine.Machines.getPosition(0.035, "x"), //Bredd
+                        GameEngine.Machines.getPosition(0.035, "y") //Höjd
                     )
 
                 ],
@@ -3109,7 +3191,7 @@ var GameEngine = {
                     ),
                     new GameEngine.Classes.PlaceHolder(
                         null,
-                        GameEngine.Machines.getPosition(0.29227761485826004  , "x"),
+                        GameEngine.Machines.getPosition(0.29227761485826004, "x"),
                         GameEngine.Machines.getPosition(0.4649298597194389, "y")
                     ),
                     new GameEngine.Classes.PlaceHolder(
@@ -3240,8 +3322,8 @@ var GameEngine = {
                 height = PlaceholderWithContent.GameCardOrContent.image.height;
                 width = PlaceholderWithContent.GameCardOrContent.image.width;
             }else{
-                width = PlaceholderWithContent.SizeWidth,
-                height = PlaceholderWithContent.SizeHeight
+                width = PlaceholderWithContent.SizeWidth;
+                height = PlaceholderWithContent.SizeHeight;
             }
 
               GameEngine.Machines.WindowSizing(
@@ -3324,6 +3406,7 @@ var GameEngine = {
 //                    Ctx.drawImage(ImageToDraw, PosX, (600 + PosY), obSizeX, obSizeY);
 //                    break;
 //            }
+
         },
 
         getPosition : function(Pos_Percent, yORx){
@@ -3543,10 +3626,10 @@ var GameEngine = {
             }
             Actor.emotionState = emotionState;
 
-            var PosX =GameEngine.Machines.getPosition(0.718475073313783 ,"x" );
-            var PosY =GameEngine.Machines.getPosition(0.1145147437732608,"y");
-            var width =GameEngine.Machines.getPosition(0.20,"x");
-            var height =GameEngine.Machines.getPosition(0.40,"y");
+            var PosX =GameEngine.Machines.getPosition(0.6608015640273704 ,"x" );
+            var PosY =GameEngine.Machines.getPosition(0.010306326939593472,"y");
+            var width =GameEngine.Machines.getPosition(0.2482893450635386,"x");
+            var height =GameEngine.Machines.getPosition(0.4969939879759519,"y");
 
 
             GameEngine.Machines.WindowSizing(ImageToUse, "gameframe",PosX,PosY,width,height);
@@ -3807,6 +3890,7 @@ var GameEngine = {
                     GameEngine.Actives.IsDialogActive = false;
                     GameEngine.Machines.BuildRoom(GameEngine.Actives.RoomThatIsActive.ID);
                     GameEngine.Machines.cleanQuestionData();
+                    GameEngine.Actives.Player.TimePoints += 5;
                 }
             );
             GameEngine.Machines.ListQuestions(
