@@ -2395,6 +2395,19 @@ var GameData = {
         var RestartGameButton = new Image();
         RestartGameButton.src = "Data/Menu/RestartGameButton.png";
 
+        //Main Menu stuff
+        //MainMenuBackground
+        var MainMenuBackground = new Image();
+        MainMenuBackground.src = "Data/Menu/MainMenuBackground.png";
+
+        //StartGameButton
+        var StartGameButton = new Image();
+        StartGameButton.src = "Data/Menu/StartGameButton.png";
+
+        //HowToPlayButton
+        var HowToPlayButton = new Image();
+        HowToPlayButton.src = "Data/Menu/HowToPlayButton.png";
+
         GameData.GameDataImages = {
             HuddBackground : huddBackground,
             backButton : backButton,
@@ -2412,8 +2425,10 @@ var GameData = {
             MarkedDead      : MarkedDead,
             GameOverBackground  : GameOverBackground,
             ToMenuButton        : ToMenuButton,
-            RestartGameButton   : RestartGameButton
-
+            RestartGameButton   : RestartGameButton,
+            MainMenuBackground  : MainMenuBackground,
+            StartGameButton     : StartGameButton,
+            HowToPlayButton     : HowToPlayButton
         }
     }
 
