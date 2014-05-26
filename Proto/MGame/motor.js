@@ -640,6 +640,27 @@ var PrepareNewGameORMenu = function(PlayerWantsToPlayAgain){
     GameData.MurderMotives = [];
 
     if(PlayerWantsToPlayAgain == true){
+
+        //här ska vi kasta in en animation som demonstrear att det laddas..
+        var interval = 0;
+        var counter = 0;
+        Ctx.fillStyle = "rgb(63, 0, 0)";
+        var Load = setInterval(function(){
+            counter++;
+            Ctx.fillRect(
+                0,
+                ScreenSpec.SizeY/2,
+                (ScreenSpec.SizeX/3)*counter,
+                ScreenSpec.SizeY/16
+            );
+            if(counter === 3){
+                clearInterval(Load);
+            }
+
+        },500);
+
+
+
         //Eftersom all annan data försvinner så måste vi köra igång spelet i denna metod också, då denna
         //metod bara används av restartknappen och starta nytt spel knappen så gör detta ingenting!
         GameData.initData(); //Läser in Kort/Bild-data
@@ -814,12 +835,14 @@ var GameEngine = {
 
         GameEngine.Machines.PlaceActorsInRoom();
 
-        GameEngine.Machines.WaitForImagesToBeLoaded();
+        //Denna timeout löser att bilder inte laddas in ordetnligt..
+        //TODO: få hjälp med att bilder inte läses in ordetnligt.. och måste använda en timeout..
 
-        GameEngine.Machines.BuildRoom(1);
+        setTimeout(function(){
+            GameEngine.Machines.BuildRoom(1);
+            GameObj.GameIsOn = true;
+        },1500);
 
-
-        GameObj.GameIsOn = true;
         //AnimationsFunktion, till tex Hudden..
         //setInterval(GameEngine.Machines.PlayersHuddUpdate(),1000);
 
@@ -827,23 +850,6 @@ var GameEngine = {
 	},
 
 	Machines : {
-
-        WaitForImagesToBeLoaded : function(){
-
-
-
-            for(var i = 0 ; i < GameEngine.GlobalRooms.length ; i++){
-                while(GameEngine.GlobalRooms[i].image.width == 0){
-                    console.log(GameEngine.GlobalRooms[i].image.width);
-                }
-
-            }
-
-
-
-
-
-        },
 
         LoadGameOverScreen : function(){
             GameEngine.Machines.clearRoomData();
@@ -5010,6 +5016,7 @@ var GameEngine = {
 			this.TableClue_GameCards = _TableClue_GameCards_Arr;  //Varje rum kan innehålla max 5 GameCards av typen TableClue || Använder PLACEHOLDER
 			this.WallClue_GameCards = _WallClue_GameCards_Arr; 	//Varje rum kan innehålla max 2 Gamecards av typen WallClue || Använder PLACEHOLDER
             this.image = new Image();
+
 			this.image.src = _image; 		//URL till bilden som används för rummet.. || Använder PLACEHOLDER
 			this.ActorsInRoom = [];			//En Array som innehåller ID't på alla aktörer i rummet..
 			this.WayPoints = _waypointsArr; //En array med WayPoints-Object som är "Knappar" man kan trycka på för att ta sig till nästa rum eller tillbaka..

@@ -2428,7 +2428,7 @@ var GameData = {
             RestartGameButton   : RestartGameButton,
             MainMenuBackground  : MainMenuBackground,
             StartGameButton     : StartGameButton,
-            HowToPlayButton     : HowToPlayButton
+            HowToPlayButton     : HowToPlayButton,
         }
     }
 
