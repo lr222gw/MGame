@@ -863,6 +863,7 @@ var GameEngine = {
             GameEngine.GoToButtons.DialogDownorUp = [];
             GameEngine.GoToButtons.DialogButtonsActive = [];
             GameEngine.GoToButtons.prevOrNextButton = [];
+            GameEngine.GoToButtons.GuessMurderButtons = [];
             Ctx.drawImage(
                 GameData.GameDataImages.GameOverBackground,
                 0,
@@ -1297,7 +1298,101 @@ var GameEngine = {
             //Denna funktion anropas när man trycker på knappen som bekräftar att du valt ut vem du tror
             // är mördaren.
 
-            alert("Bipp* Bopp* Bupp* Actor is Murder ? " + actor.isMurder);
+            //alert("Bipp* Bopp* Bupp* Actor is Murder ? " + actor.isMurder);
+            if(actor.isMurder == false){
+                GameEngine.Actives.Player.TimePoints -=75;
+                GameEngine.Machines.PlayersHuddUpdate();
+            }else{
+                //kom till en vinnar skärm
+                GameEngine.Machines.loadWinningScreen(actor)
+            }
+        },
+
+        loadWinningScreen : function(actor){
+            GameEngine.Machines.clearRoomData();
+            GameEngine.Actives.ClueButtonsOn = false;
+            GameEngine.GoToButtons.backButton = "";
+            GameEngine.Actives.IsDialogActive = true;
+            GameEngine.GoToButtons.BlippButtons = [];
+            GameEngine.GoToButtons.ActorInterviewButtons = [];
+            GameEngine.GoToButtons.ContainerClueButtons = [];
+            GameEngine.GoToButtons.DialogButtons = [];
+            GameEngine.GoToButtons.DialogDownorUp = [];
+            GameEngine.GoToButtons.DialogButtonsActive = [];
+            GameEngine.GoToButtons.prevOrNextButton = [];
+            GameEngine.GoToButtons.GuessMurderButtons = [];
+
+            Ctx.fillStyle = "rgb(0,0,0)";
+            Ctx.fillRect(
+                0,
+                0,
+                ScreenSpec.SizeX,
+                ScreenSpec.SizeY
+            );
+
+            GameEngine.Machines.WindowSizing(
+                actor.EmotionObj.FreakedOut,
+                "gameframe",
+                (ScreenSpec.SizeX/2) - (GameEngine.Machines.getPosition(0.2482893450635386,"x"))/2,
+                ScreenSpec.SizeY/6,
+                GameEngine.Machines.getPosition(0.2482893450635386,"x"),
+                GameEngine.Machines.getPosition(0.4969939879759519,"y")
+            );
+
+            GameEngine.Machines.WindowSizing(
+                GameData.GameDataImages.WinScreen,
+                "gameframe",
+                0,
+                ScreenSpec.SizeY/2 + (ScreenSpec.SizeY/6)-2,
+                ScreenSpec.SizeX,
+                ScreenSpec.SizeY/6
+            );
+
+            var ToMenuButton = new GameEngine.Classes.NextOrPreviousButton(
+                    (ScreenSpec.SizeX / 3) - 10 - ((ScreenSpec.SizeX / 4)/2),
+                    ScreenSpec.SizeY - (ScreenSpec.SizeY/8),
+                    ScreenSpec.SizeX / 4,
+                    ScreenSpec.SizeY/16,
+                GameData.GameDataImages.ToMenuButton,
+                function(){
+                    //Funktion ska ladda  menyn!
+                    GameData.GameDataImages.ToMenuButton = "";
+                    PrepareNewGameORMenu(false);
+                    return;
+                }
+            );
+            GameEngine.GoToButtons.ToMenuButton = ToMenuButton;
+
+            var RestartGameButton = new GameEngine.Classes.NextOrPreviousButton(
+                    ScreenSpec.SizeX -(ScreenSpec.SizeX / 3) + 10 - ((ScreenSpec.SizeX / 4)/2),
+                    ScreenSpec.SizeY - (ScreenSpec.SizeY/8),
+                    ScreenSpec.SizeX / 4,
+                    ScreenSpec.SizeY/16,
+                GameData.GameDataImages.RestartGameButton,
+                function(){
+                    //Funktion ska ladda  menyn!
+                    GameData.GameDataImages.RestartGameButton = "";
+                    PrepareNewGameORMenu(true);
+                    return;
+                }
+            );
+            GameEngine.GoToButtons.RestartGameButton= RestartGameButton;
+
+            Ctx.drawImage(
+                ToMenuButton.image,
+                ToMenuButton.PosX,
+                ToMenuButton.PosY,
+                ToMenuButton.Width,
+                ToMenuButton.Height
+            );
+            Ctx.drawImage(
+                RestartGameButton.image,
+                RestartGameButton.PosX,
+                RestartGameButton.PosY,
+                RestartGameButton.Width,
+                RestartGameButton.Height
+            );
+
         },
 
         SelectActor : function(actor){
