@@ -2384,6 +2384,17 @@ var GameData = {
         var MarkedDead = new Image();
         MarkedDead.src = "Data/Hudd/MarkedDead.png";
 
+        //GameOver Stuff
+        //GameOverBackground
+        var GameOverBackground = new Image();
+        GameOverBackground.src = "Data/Menu/game-over.png";
+        //ToMenuButton
+        var ToMenuButton = new Image();
+        ToMenuButton.src = "Data/Menu/ToMainMenu.png";
+        //RestartGameButton
+        var RestartGameButton = new Image();
+        RestartGameButton.src = "Data/Menu/RestartGameButton.png";
+
         GameData.GameDataImages = {
             HuddBackground : huddBackground,
             backButton : backButton,
@@ -2398,7 +2409,10 @@ var GameData = {
             GuessMurderButton  :GuessMurderButton,
             ConfirmButton   : ConfirmButton,
             UnknownClue     : UnknownClue,
-            MarkedDead      : MarkedDead
+            MarkedDead      : MarkedDead,
+            GameOverBackground  : GameOverBackground,
+            ToMenuButton        : ToMenuButton,
+            RestartGameButton   : RestartGameButton
 
         }
     }

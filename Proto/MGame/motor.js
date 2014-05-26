@@ -243,6 +243,29 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
                 }
             }
 
+            //Kontrollerar om GameOvers ToMenuButton Trycks på..
+            Button = GameEngine.GoToButtons.ToMenuButton;
+            if (Button != null) {
+                if (mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height) {
+
+                    Button.pageToGo();
+                    return;
+
+                }
+
+            }
+            //Kontrollerar om GameOvers RestartGame Trycks på..
+            Button = GameEngine.GoToButtons.RestartGameButton;
+            if (Button != null) {
+                if (mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height) {
+
+                    Button.pageToGo();
+                    return;
+
+                }
+
+            }
+
 
         }
     });
@@ -467,6 +490,33 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
                     }
                 }
             }
+
+            //Kontrollerar om GameOvers ToMenuButton hovras över ..
+            Button = GameEngine.GoToButtons.ToMenuButton;
+            if (Button != null) {
+                if (mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height) {
+                    document.body.style.cursor = "pointer";
+                    return;
+
+                } else {
+                    document.body.style.cursor = "default";
+
+                }
+
+            }
+            //Kontrollerar om GameOvers RestartGameButton hovras över ..
+            Button = GameEngine.GoToButtons.RestartGameButton;
+            if (Button != null) {
+                if (mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height) {
+                    document.body.style.cursor = "pointer";
+                    return;
+
+                } else {
+                    document.body.style.cursor = "default";
+
+                }
+
+            }
         }
     });
 
@@ -474,7 +524,47 @@ setInterval(function(){
     GameEngine.Machines.PlaceActorsInRoom();
 },(1000*60)*5); // var 5e minut så ska acotrs byta rum..
 
+var CleanUpForNewGame = function(){
+    //detta är en cleanup, denna körs efter att ett sepl avslutas/stängts av
+    GameEngine.GlobalRooms  =[];
+    GameEngine.GlobalActors =[];
+    GameEngine.GoToButtons = {
+            backButton : "",
+            WayPoints : [],
+            ContainerButton : [],
+            prevOrNextButton : [],
+            DialogButtons : [],
+            DialogButtonsActive : [],
+            DialogDownorUp : [],
+            ClueButtons : [],
+            ContainerClueButtons : [],
+            BlippButtons : [],
+            HuddButtons : {
+            GuessMurderButton : null
+        },
+        GuessMurderButtons : [],
+            ActorInterviewButtons : [],
+            ToMenuButton : "",
+            RestartGameButton : ""
+    };
+    GameEngine.Actives = {
+        RoomThatIsActive : "",
+            MotiveThatIsActive : "",
+            ClueButtonsOn : true,
+            Player : null,
+            MurderToGuessOn : null,
+            TimeSinceLastHover : Date.now(),
+            IsDialogActive : false
+    };
+    GameEngine.DataPlaceHolder = [];
+    GameEngine.BusyCards = {
+        ClueCards : []
+    };
 
+    //Eftersom all annan data försvinner så måste vi köra igång spelet i denna metod också, då denna
+    //metod bara används av restartknappen och starta nytt spel knappen så gör detta ingenting!
+    GameEngine.init();
+};
 
 var GameEngine = {
     GlobalRooms : [],
@@ -494,7 +584,9 @@ var GameEngine = {
             GuessMurderButton : null
         },
         GuessMurderButtons : [],
-        ActorInterviewButtons : []
+        ActorInterviewButtons : [],
+        ToMenuButton : "",
+        RestartGameButton : ""
     },
     Enums : {
         Roles : {
@@ -593,10 +685,76 @@ var GameEngine = {
 
 	Machines : {
 
+        LoadGameOverScreen : function(){
+            GameEngine.Machines.clearRoomData();
+            GameEngine.Actives.ClueButtonsOn = false;
+            GameEngine.GoToButtons.backButton = "";
+            GameEngine.Actives.IsDialogActive = true;
+            GameEngine.GoToButtons.BlippButtons = [];
+            GameEngine.GoToButtons.ActorInterviewButtons = [];
+            GameEngine.GoToButtons.ContainerClueButtons = [];
+            GameEngine.GoToButtons.DialogButtons = [];
+            GameEngine.GoToButtons.DialogDownorUp = [];
+            GameEngine.GoToButtons.DialogButtonsActive = [];
+            GameEngine.GoToButtons.prevOrNextButton = [];
+            Ctx.drawImage(
+                GameData.GameDataImages.GameOverBackground,
+                0,
+                0,
+                ScreenSpec.SizeX,
+                ScreenSpec.SizeY
+            );
+
+            var ToMenuButton = new GameEngine.Classes.NextOrPreviousButton(
+                (ScreenSpec.SizeX / 3) - 10 - ((ScreenSpec.SizeX / 4)/2),
+                ScreenSpec.SizeY - (ScreenSpec.SizeY/4),
+                ScreenSpec.SizeX / 4,
+                ScreenSpec.SizeY/16,
+                GameData.GameDataImages.ToMenuButton,
+                function(){
+                    //Funktion ska ladda  menyn!
+                    GameData.GameDataImages.ToMenuButton = "";
+
+                    alert("ska ladda menyn, ej klart!");
+                }
+            );
+            GameEngine.GoToButtons.ToMenuButton = ToMenuButton;
+
+            var RestartGameButton = new GameEngine.Classes.NextOrPreviousButton(
+                ScreenSpec.SizeX -(ScreenSpec.SizeX / 3) + 10 - ((ScreenSpec.SizeX / 4)/2),
+                ScreenSpec.SizeY - (ScreenSpec.SizeY/4),
+                ScreenSpec.SizeX / 4,
+                ScreenSpec.SizeY/16,
+                GameData.GameDataImages.RestartGameButton,
+                function(){
+                    //Funktion ska ladda  menyn!
+                    GameData.GameDataImages.RestartGameButton = "";
+                    CleanUpForNewGame();
+                    return;
+                }
+            );
+            GameEngine.GoToButtons.RestartGameButton= RestartGameButton;
+
+            Ctx.drawImage(
+                ToMenuButton.image,
+                ToMenuButton.PosX,
+                ToMenuButton.PosY,
+                ToMenuButton.Width,
+                ToMenuButton.Height
+            );
+            Ctx.drawImage(
+                RestartGameButton.image,
+                RestartGameButton.PosX,
+                RestartGameButton.PosY,
+                RestartGameButton.Width,
+                RestartGameButton.Height
+            );
+
+        },
+
         UpdateActorCards : function(){
 
             for(var i = 0; i < GameEngine.GlobalActors.length; i++){
-
 
                 GameEngine.GlobalActors[i].Intress = GameEngine.Machines.getGameCardFromID(GameEngine.GlobalActors[i].Intress.ID , "person");
 
@@ -609,10 +767,7 @@ var GameEngine = {
                 for(var j = 0; j < GameEngine.GlobalActors[i].ClueList.length ; j++){
                     GameEngine.GlobalActors[i].ClueList[j] = GameEngine.Machines.getGameCardFromID(GameEngine.GlobalActors[i].ClueList[j].ID, "clue")
                 }
-
-
             }
-
         },
 
         FindRolesAndSendToInitDataFunkcionOfGameData : function(){
@@ -659,7 +814,7 @@ var GameEngine = {
             for(var i =0; i < GameEngine.GlobalActors.length; i++){
                 if(GameEngine.GlobalActors[i].role != GameEngine.Enums.Roles.victim){
                     //Placerar ut alla karaktärer i rummen förutom den som är död.
-                    GameEngine.GlobalActors[i].room = GameEngine.GlobalRooms[Math.floor(Math.random() * GameEngine.GlobalRooms.length + 0)].ID;
+                    GameEngine.GlobalActors[i].IsInThisRoom = GameEngine.GlobalRooms[Math.floor(Math.random() * GameEngine.GlobalRooms.length + 0)].ID;
                 }
 
             }
@@ -696,7 +851,7 @@ var GameEngine = {
             //Nu behöver vi ta reda på hur många Actors som finns i just detta rum
             var ActorsInThisRoom = [];
             for(var i= 0; i < GameEngine.GlobalActors.length; i++){
-                if(GameEngine.GlobalActors[i].room == GameEngine.Actives.RoomThatIsActive.ID){
+                if(GameEngine.GlobalActors[i].IsInThisRoom == GameEngine.Actives.RoomThatIsActive.ID){
                     ActorsInThisRoom.push(GameEngine.GlobalActors[i]);
                 }
             };
@@ -775,8 +930,9 @@ var GameEngine = {
                 //Denna sats är till för att kontrollera om Timepoints är 0 eller mindre
                 //om det är fallet så har spelaren förlorat och en funktion som presenterar
                 //gameover skärmen (med övrig data, som mördaren) ska anropas..
-                alert("Game over man! Game over.. Murdurer was " + GameEngine.Machines.whoWasMurder());
-
+                GameEngine.Machines.LoadGameOverScreen();
+                console.log("Murdurer was " + GameEngine.Machines.whoWasMurder());
+                return;
             }
             //Skriver ut timepoints
             Ctx.fillText(
@@ -4629,7 +4785,7 @@ var GameEngine = {
 							//-WallClue  	=Om ledtråden endast går att ha på väggen
 							//-TableClue	=Om ledtråden endast går att ha på en platt yta (golv, bord, etc)
 
-            this.Name = _name
+            this.Name = _name;
 
 			this.Description = _Description; // innehåller en beskrivning av ledtråden, om ej är ledtråd så blir denna null..
 								
@@ -4736,6 +4892,7 @@ var GameEngine = {
 
             };
             this.room = null;           //här sätter vi ID't på det rum som tillhör Actorn..
+            this.IsInThisRoom = null;
             this.icon = null;
 		},
 		
@@ -4793,6 +4950,8 @@ var GameEngine = {
 	}
 
 };
+
+
 var GameBubbleData = {
     PlayerBubblePosX: GameEngine.Machines.getPosition(0.04594330400782014, "x"),
     PlayerBubblePosY: GameEngine.Machines.getPosition(0.6756369882622387, "y"),
