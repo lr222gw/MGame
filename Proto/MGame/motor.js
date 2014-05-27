@@ -629,7 +629,8 @@ var PrepareNewGameORMenu = function(PlayerWantsToPlayAgain){
             Player : null,
             MurderToGuessOn : null,
             TimeSinceLastHover : Date.now(),
-            IsDialogActive : false
+            IsDialogActive : false,
+            actorInDialog : null
     };
     GameEngine.DataPlaceHolder = [];
     GameEngine.BusyCards = {
@@ -810,7 +811,8 @@ var GameEngine = {
         Player : null,
         MurderToGuessOn : null,
         TimeSinceLastHover : Date.now(),
-        IsDialogActive : false
+        IsDialogActive : false,
+        actorInDialog : null
     },
 
     DataPlaceHolder : [],  //används för att lagra tillfällig data..
@@ -4105,7 +4107,7 @@ var GameEngine = {
             Actor.emotionState = emotionState;
 
             var PosX =GameEngine.Machines.getPosition(0.6608015640273704 ,"x" );
-            var PosY =GameEngine.Machines.getPosition(0.010306326939593472,"y");
+            var PosY =GameEngine.Machines.getPosition(0.010306326939593472,"y")-8;
             var width =GameEngine.Machines.getPosition(0.2482893450635386,"x");
             var height =GameEngine.Machines.getPosition(0.4969939879759519,"y");
 
@@ -4320,7 +4322,7 @@ var GameEngine = {
                 );
             }
 
-            GameEngine.Machines.LoadStandardQuestions();
+            GameEngine.Machines.LoadStandardQuestions(actor);
 
             GameEngine.Machines.QuestionToBox(
                     GameBubbleData.PlayerBubblePosX+20,
@@ -4381,7 +4383,7 @@ var GameEngine = {
             }
 
             //Laddar in standardfrågor så att man ALLTID kan lämna/flörta/hota..
-            GameEngine.Machines.LoadStandardQuestions();
+            GameEngine.Machines.LoadStandardQuestions(actor);
 
             GameEngine.Machines.QuestionToBox(
                 GameBubbleData.PlayerBubblePosX+20,
@@ -4395,7 +4397,8 @@ var GameEngine = {
 
         },
 
-        LoadStandardQuestions : function(){
+        LoadStandardQuestions : function(actor){
+            GameEngine.Actives.actorInDialog = actor;
             GameEngine.Machines.ListQuestions(
                 "I have to go",
                     GameBubbleData.PlayerBubblePosX+20,
@@ -4406,6 +4409,7 @@ var GameEngine = {
                 function(){
                     GameEngine.Actives.IsDialogActive = false;
                     GameEngine.Actives.Player.TimePoints += 5;
+                    GameEngine.Actives.actorInDialog = null;
                     GameEngine.Machines.BuildRoom(GameEngine.Actives.RoomThatIsActive.ID);
                     GameEngine.Machines.cleanQuestionData();
 
@@ -4413,14 +4417,15 @@ var GameEngine = {
             );
             GameEngine.Machines.ListQuestions(
                 "Flirt*!  ",
-                    GameBubbleData.PlayerBubblePosX+20,
-                    GameBubbleData.PlayerBubblePosY+25,
-                    GameBubbleData.SizeWidth-15,
+                GameBubbleData.PlayerBubblePosX+20,
+                GameBubbleData.PlayerBubblePosY+25,
+                GameBubbleData.SizeWidth-15,
                 GameBubbleData.SizeHeight,
                 GameBubbleData.TextHeight,
                 function(){
                     //var card = GameEngine.Machines.getContentFromQuestion("secret", actor);
-
+                    GameEngine.Actives.actorInDialog.emotionState = GameEngine.Enums.EmotionState.Happy;
+                    GameEngine.Machines.loadActorImage(GameEngine.Actives.actorInDialog, GameEngine.Actives.actorInDialog.emotionState);
                     GameEngine.Actives.Player.TimePoints -= 10;
                     GameEngine.Machines.PlayersHuddUpdate(); //Uppdaterar Hudden..
 
@@ -4429,14 +4434,15 @@ var GameEngine = {
             );
             GameEngine.Machines.ListQuestions(
                 "Threathen*! ",
-                    GameBubbleData.PlayerBubblePosX+20,
-                    GameBubbleData.PlayerBubblePosY+25,
-                    GameBubbleData.SizeWidth-15,
+                GameBubbleData.PlayerBubblePosX+20,
+                GameBubbleData.PlayerBubblePosY+25,
+                GameBubbleData.SizeWidth-15,
                 GameBubbleData.SizeHeight,
                 GameBubbleData.TextHeight,
                 function(){
                     //var card = GameEngine.Machines.getContentFromQuestion("secret", actor);
-
+                    GameEngine.Actives.actorInDialog.emotionState = GameEngine.Enums.EmotionState.Angry;
+                    GameEngine.Machines.loadActorImage(GameEngine.Actives.actorInDialog, GameEngine.Actives.actorInDialog.emotionState);
                     GameEngine.Actives.Player.TimePoints -= 10;
                     GameEngine.Machines.PlayersHuddUpdate(); //Uppdaterar Hudden..
 
@@ -4506,7 +4512,7 @@ var GameEngine = {
             );
 
             //Laddar in standardfrågor så att man ALLTID kan lämna/flörta/hota..
-            GameEngine.Machines.LoadStandardQuestions();
+            GameEngine.Machines.LoadStandardQuestions(actor);
 
         },
 
