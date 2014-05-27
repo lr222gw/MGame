@@ -2414,6 +2414,15 @@ var GameData = {
         var WinScreen = new Image();
         WinScreen.src = "Data/Hudd/WinScreen.png";
 
+        //DoneButton
+        var DoneButton = new Image();
+        DoneButton.src = "Data/Hudd/DoneButton.png";
+
+        //InfoButton
+        var InfoButton = new Image();
+        InfoButton.src = "Data/Hudd/InfoButton.png";
+
+
 
 
         GameData.GameDataImages = {
@@ -2437,7 +2446,9 @@ var GameData = {
             MainMenuBackground  : MainMenuBackground,
             StartGameButton     : StartGameButton,
             HowToPlayButton     : HowToPlayButton,
-            WinScreen           : WinScreen
+            WinScreen           : WinScreen,
+            DoneButton          : DoneButton,
+            InfoButton          : InfoButton
         }
     }
 
