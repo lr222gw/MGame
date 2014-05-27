@@ -4282,8 +4282,8 @@ var GameEngine = {
             Ctx.font= TextHeight+"px arial, sans-serif";
             Ctx.fillText(//namn till karaktären..
                 actor.name,
-                    GameBubbleData.ActorBubblePosX + 10,
-                    NameBoxPosY + TextHeight + 5
+                GameBubbleData.ActorBubblePosX + 10,
+                NameBoxPosY + TextHeight + 5
             );
 
             GameEngine.Machines.loadActorImage(actor, card.emotionState);
@@ -4309,7 +4309,7 @@ var GameEngine = {
             //Lägg in ny fråge data
             for(var i = 0;i<card.followUp.length;i++){
                 GameEngine.Machines.ListQuestions(
-                    card.followUp[i].question,
+                    card.followUp[i].question+ " (Cost 5 TimePoints)",
                     GameBubbleData.PlayerBubblePosX+20,
                     GameBubbleData.PlayerBubblePosY+25,
                     GameBubbleData.SizeWidth-15,
@@ -4364,7 +4364,7 @@ var GameEngine = {
                 Data = card.AnswerCards[CardIDBasedOfEmotion].followUp[i];
 
                 GameEngine.Machines.ListQuestions(
-                    card.AnswerCards[CardIDBasedOfEmotion].followUp[i].question,
+                    card.AnswerCards[CardIDBasedOfEmotion].followUp[i].question+ " (Cost 5 TimePoints)",
                     GameBubbleData.PlayerBubblePosX+20,
                     GameBubbleData.PlayerBubblePosY+25,
                     GameBubbleData.SizeWidth-15,
@@ -4400,7 +4400,7 @@ var GameEngine = {
         LoadStandardQuestions : function(actor){
             GameEngine.Actives.actorInDialog = actor;
             GameEngine.Machines.ListQuestions(
-                "I have to go",
+                "I have to go.           (Cost 0 TimePoints)",
                     GameBubbleData.PlayerBubblePosX+20,
                     GameBubbleData.PlayerBubblePosY+25,
                     GameBubbleData.SizeWidth-15,
@@ -4416,7 +4416,7 @@ var GameEngine = {
                 }
             );
             GameEngine.Machines.ListQuestions(
-                "Flirt*!  ",
+                "Flirt*!                       (Cost 15 TimePoints)",
                 GameBubbleData.PlayerBubblePosX+20,
                 GameBubbleData.PlayerBubblePosY+25,
                 GameBubbleData.SizeWidth-15,
@@ -4433,7 +4433,7 @@ var GameEngine = {
                 }
             );
             GameEngine.Machines.ListQuestions(
-                "Threathen*! ",
+                "Threathen*!            (Cost 15 TimePoints)",
                 GameBubbleData.PlayerBubblePosX+20,
                 GameBubbleData.PlayerBubblePosY+25,
                 GameBubbleData.SizeWidth-15,
@@ -4454,7 +4454,7 @@ var GameEngine = {
 
         StartQuestions : function(PlayerBubblePosX,PlayerBubblePosY,SizeWidth,SizeHeight,TextHeight, actor ){
             GameEngine.Machines.ListQuestions(
-                "Ask about secret! ",
+                "Ask about secret! (Cost 5 TimePoints)",
                 PlayerBubblePosX+20,
                 PlayerBubblePosY+25,
                 SizeWidth-15,
@@ -4468,7 +4468,7 @@ var GameEngine = {
                 }
             );
             GameEngine.Machines.ListQuestions(
-                "Ask about Other! ",
+                "Ask about Other! (Cost 5 TimePoints)",
                     PlayerBubblePosX+20,
                     PlayerBubblePosY+25,
                     SizeWidth-15,
@@ -4483,7 +4483,7 @@ var GameEngine = {
 
             );
             GameEngine.Machines.ListQuestions(
-                "Ask about Relation! ",
+                "Ask about Relation! (Cost 5 TimePoints)",
                     PlayerBubblePosX+20,
                     PlayerBubblePosY+25,
                     SizeWidth-15,
@@ -4497,7 +4497,7 @@ var GameEngine = {
                 }
             );
             GameEngine.Machines.ListQuestions(
-                "Ask about intress! ",
+                "Ask about intress! (Cost 5 TimePoints)",
                     PlayerBubblePosX+20,
                     PlayerBubblePosY+25,
                     SizeWidth-15,
@@ -4727,7 +4727,7 @@ var GameEngine = {
                             GameCard,
                             actor
                             //TODO: ange vad Detta objekt ska göra när det trycks på! EDIT: Borde vara gjort nu
-                        )
+                        );
                         GameEngine.GoToButtons.DialogButtons.push(QuestionObj);
                     }
                 }
