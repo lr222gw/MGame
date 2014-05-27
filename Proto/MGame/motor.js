@@ -853,6 +853,10 @@ var GameEngine = {
 
 	Machines : {
 
+        LoadMotiveInfoScreen : function(){
+
+        },
+
         LoadGameOverScreen : function(){
             GameEngine.Machines.clearRoomData();
             GameEngine.Actives.ClueButtonsOn = false;
@@ -1421,6 +1425,28 @@ var GameEngine = {
                 GameBubbleData.WidthOfCrimBox - 40,
                 GameBubbleData.HeightOfCrimBox-10
             );
+
+            Ctx.fillStyle = "rgb(255, 144, 144)";
+            Ctx.fillRect(
+                GameBubbleData.PosXOfCrimBox + GameBubbleData.WidthOfCrimBox + 5 ,
+                (GameBubbleData.PosYOfCrimBox + (GameBubbleData.HeightOfCrimBox / 2))-50,
+                205,
+                50
+            );
+            Ctx.fillStyle = "rgb(0, 0, 0)";
+            Ctx.fillText(
+                "Are you sure you want to guess at "+actor.name,
+                    GameBubbleData.PosXOfCrimBox + GameBubbleData.WidthOfCrimBox + 5,
+                    ((GameBubbleData.PosYOfCrimBox + (GameBubbleData.HeightOfCrimBox / 2)))-(GameBubbleData.TextHeight)*2,
+                205
+            );
+            Ctx.fillText(
+                "(Guessing wrong will cost 75 TimePoints)",
+                GameBubbleData.PosXOfCrimBox + GameBubbleData.WidthOfCrimBox + 5,
+                ((GameBubbleData.PosYOfCrimBox + (GameBubbleData.HeightOfCrimBox / 2)))-GameBubbleData.TextHeight,
+                205
+            );
+
 
             GameEngine.Machines.WindowSizing(
                 GameData.GameDataImages.ConfirmButton,
@@ -5195,8 +5221,9 @@ var GameEngine = {
             this.InCurrentRoom = 0;         //Ett rum-Id som symboliserar vilket rum  någon befinner sig i!
 		},
 		
-		MotiveData : function(_motiveName, _LOC_other, _LOC_murderur, _LOC_victim, _LOC_actor1, _LOC_actor2, _LOC_actor3, _LOC_actor4){
+		MotiveData : function(_motiveName,_motiveDescription, _LOC_other, _LOC_murderur, _LOC_victim, _LOC_actor1, _LOC_actor2, _LOC_actor3, _LOC_actor4){
 		      this.motiveName     = _motiveName;      //string
+              this.motiveDescription = _motiveDescription; //Lång string som beskriver mordet i detalj, ger ledtrådar till användaren..
 		      this.LOC_other      = _LOC_other;       //Array med MotiveCardSpec (som innehåller GameCards)
 		      this.LOC_murderur   = _LOC_murderur;    //Array
 		      this.LOC_victim     = _LOC_victim;      //Array

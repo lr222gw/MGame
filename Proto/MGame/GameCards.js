@@ -1008,6 +1008,8 @@ var GameData = {
         var Motives = [ //Array med MotivData
             new GameEngine.Classes.MotiveData(
                 "Ett Test Mord",
+                "En lång beskrivning" +
+                "på mordfallet som skett.. Den kan vara skit lång!",
                 [ // GameCards ID'n tillhörande "Other"
                     1,5,4
                 ],
