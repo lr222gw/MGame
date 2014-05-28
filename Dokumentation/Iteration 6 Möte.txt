@@ -1,0 +1,50 @@
+
+vad har jag gjort:
+
+
+Review:
+
+Kvar:
+- Lägga till den krävda datan.
+
+- Göra tester och utföra dem.
+
+- Fixa buggar och lägga till "mini-funktioner".
+
+- Lite design ändringar kommer förhoppningsvis hinnas med (annars räknas designen som ej färdig)
+
+X- Programmet ska också upp på nätet (nu är allt lokalt på min dator..)  !!!TIDIGT GÖR DETTA TIDIGT!!! (BOrde ha gjorts i slutet på varje vecka!)
+	-VARJE ITERATION Bör ses som en leverans, därför borde detta ^ ha gjorts tidigare.
+
+Sista handledningsmötet :
+	-Om redovnisning :https://coursepress.lnu.se/kurs/individuellt-mjukvaruutvecklingsprojekt/projektet/projektredovisning/
+	-Öva på sin presentation! (så att man kan hålla ett tempo..) (Följ mall som finns ^)...
+	-Se till att ta upp punkter som krävs (finns på kurshemsidan..)
+	-Se också till att Puttsa upp dokumenten!
+	-TIPS:
+		-Skärmdumpar som förklarar
+		-Skärmdumpar som visar klurig kod
+		-Skärmdumpar som visar loggor kring saker vi använt..
+
+OM MAN INTE HINNER FÄRDIGT: (redovisningsmaterial, hela projektet)
+	-Allt borde gå smidigt
+	-Fokusera på presentationen
+	-OBS videon behöver ej vara inne förän den 9/6 (Enligt Mjukvaruutvecklingsprojekts kursen, hur är det med den andra kursen??)
+	-BÄTTRE att få in något än att komma tomhänt! :#)
+
+Slutinlämning :
+	-"Det jag lämnar in är jag inte nöjd med..Hur påverkar betyg på det man lämnar in"
+		-"Svår kurs att examinera, man kollar vad man bör kunna (vad man läst innan på programmet). Sen kollar man på teknikvalet man gjort och på 			komplexiteten på applikationen. Mna kollar på kvaliten, hur avancerat man gjort, etc!"
+
+	-"Hur påverkar presentationen?"
+		-"Presentationen kan ge lite + eller lite -. Men den lyfter inte så mycket, dock sänker den inte heller."
+
+	-"Kursvärdering?"
+		-"Kursvärdering kommer komma genom mail och mail kommer få fylla i den därifrån!.."
+
+Redovisningar:
+	-Under instruktioner för Presentation kan du se när andra redovisar. Du kan kolla på redovisningar där! 
+
+Frågor:
+	-Kan man ladda upp sitt projekt på vad som helst, typ DeviantArt? eller ska det presenteras som en webbsida?
+		-Så länge vem som helst kan nå det så är det ok att presentera det hur man vill!
