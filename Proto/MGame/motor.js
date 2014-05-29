@@ -3121,7 +3121,7 @@ var GameEngine = {
                 //TODO: Se till att Kort som slumpas nya inte finns bland de arrayerna i RandomMurderMotive Arrayen..
 
                 //TODO: se till att spelare inte kan få samma kort som en annan spelare redan har fått..
-                if(GameEngine.Machines.CardIsNotInMotives(GameCardToSendBack)){ //Denna måste returnera true då vi inte vill välja kort som finns i MotivDatan om vi ska välja ett nytt kort..
+//                if(GameEngine.Machines.CardIsNotInMotives(GameCardToSendBack)){ //Denna måste returnera true då vi inte vill välja kort som finns i MotivDatan om vi ska välja ett nytt kort..
 
                     if(CardsToLog.indexOf(GameCardToSendBack.ID) == -1){//if satsen = om kortId't inte finns i arrayen som lagrar kortID'n som har testats..
                         //: Här måste jag se till att logga de kortID'n som testas, på så sätt så behöver jag inte
@@ -3130,10 +3130,10 @@ var GameEngine = {
                         CardsToLog.push(GameCardToSendBack.ID);
 
                         if(GameCardToSendBack.ID != -1 ){// om det inte är ett ogiltigt Kort så fortsätt..
-                            if(GameEngine.Machines.gameCardDoesNotBelongWithOtherActor(GameCardToSendBack)){
+  //                          if(GameEngine.Machines.gameCardDoesNotBelongWithOtherActor(GameCardToSendBack)){
                                 // Om denna är true så är kortet ledigt och kan användas! och blir därför det kortet som skickas tillbaka..
                                 return GameCardToSendBack;
-                            }
+   //                         }
                         }
 
                         i++;
@@ -3147,7 +3147,7 @@ var GameEngine = {
                             break;
                         }
                     }
-                }
+//                }
 
 
             }
@@ -4578,8 +4578,11 @@ var GameEngine = {
                     GameBubbleData.TextHeight,
                     function(){
                         //Todo: anropa en funktion som Spinner vidare på CardData korten..
+                        GameEngine.Machines.ContinueWithCards(this.GameCard, this.actor);
 
-                    }
+                    },
+                    card.followUp[i],
+                    actor
                 );
             }
 
@@ -4592,6 +4595,11 @@ var GameEngine = {
                     GameBubbleData.SizeHeight-10,
                     GameBubbleData.TextHeight
             );
+        },
+
+        ContinueWithCards : function(GameCard, actor){
+            GameEngine.Machines.PlayersHuddUpdate();
+            GameEngine.Machines.CardDataToQuestions(GameCard, actor);
         },
 
         CardToQuestions : function(card, actor){

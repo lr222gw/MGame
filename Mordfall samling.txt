@@ -1865,20 +1865,20 @@ new GameEngine.Classes.GameCard(
                     ),
 		new GameEngine.Classes.CardData(
                         Sad,//Emotionstate:
-                        "",//Svaret på frågan	 som ställdes
+                        "åhh.. Jag vet inte riktigt vad du skulle tänkas vilja veta...",//Svaret på frågan	 som ställdes
                         [	//array med med CardDatas (som innehåller följdfrågor..)
                             	new GameEngine.Classes.CardData(
                         	Happy,//Emotionstate:
-                        	"",	//Svaret på frågan som ställdes
+                        	"Visst! Vi var väldigt nära vänner... ",	//Svaret på frågan som ställdes
                         	[	//array med med CardDatas (som innehåller följdfrågor..)
                             
                         	],
-                        	"",	//Frågan som kortet ställer 
+                        	"Har du några kopplingar till VICTIM ? ",	//Frågan som kortet ställer 
                         	null	//Null om det är ett personkort..
                     		),
                             	new GameEngine.Classes.CardData(
                         	Annoyed,//Emotionstate:
-                        	"",	//Svaret på frågan som ställdes
+                        	"Nej...",	//Svaret på frågan som ställdes
                         	[	//array med med CardDatas (som innehåller följdfrågor..)
                             		new GameEngine.Classes.CardData(
                         		Angry,//Emotionstate:
@@ -1890,7 +1890,7 @@ new GameEngine.Classes.GameCard(
                         		null	//Null om det är ett personkort..
                     			)
                         	],
-                        	"",	//Frågan som kortet ställer 
+                        	"Har du något att göra med VICTIM S död?",	//Frågan som kortet ställer 
                         	null	//Null om det är ett personkort..
                     		)
 
@@ -1901,7 +1901,7 @@ new GameEngine.Classes.GameCard(
                     )
 		    new GameEngine.Classes.CardData(
                         Angry,//Emotionstate:
-                        "",	//Svaret på frågan som ställdes
+                        "Ugh.. Lämna mig ifred...",	//Svaret på frågan som ställdes
                         [	//array med med CardDatas (som innehåller följdfrågor..)
                             
                         ],
@@ -1910,34 +1910,34 @@ new GameEngine.Classes.GameCard(
                     ),
                     new GameEngine.Classes.CardData(
                         Happy,//Emotionstate:
-                        "",	//Svaret på frågan som ställdes
+                        "Jag vet att VICTIM inte kunde vara tyst om en enda sak... Han var väldigt pratglad och inte rädd för att skryta.",	//Svaret på frågan som ställdes
                         [	//array med med CardDatas (som innehåller följdfrågor..)
 
                             	new GameEngine.Classes.CardData(
                         	Annoyed,//Emotionstate:
-                        	"",	//Svaret på frågan som ställdes
+                        	"Det hoppas jag verkligen inte...",	//Svaret på frågan som ställdes
                         	[	//array med med CardDatas (som innehåller följdfrågor..)
                             
                         	],
-                        	"",	//Frågan som kortet ställer 
+                        	"Har han berättat några av dina hemligheter?",	//Frågan som kortet ställer 
                         	null	//Null om det är ett personkort..
                     		),
 
 				new GameEngine.Classes.CardData(
                         	Neutral,//Emotionstate:
-                        	"",	//Svaret på frågan som ställdes
+                        	"Vanligtvis var det saker som han tyckte var 'coola' eller lite elaka... Han var inte en elak person för det... ",	//Svaret på frågan som ställdes
                         	[	//array med med CardDatas (som innehåller följdfrågor..)
                             		new GameEngine.Classes.CardData(
                         		Nervous,//Emotionstate:
-                        		"",	//Svaret på frågan som ställdes
+                        		"hmm, vi var rätt nära så jag antar att vi lärde känna varandra bättre än några andra i huset...",	//Svaret på frågan som ställdes
                         		[	//array med med CardDatas (som innehåller följdfrågor..)
 
                         		],
-                        		"",	//Frågan som kortet ställer 
+                        		"Vad är det som får dig att tycka att han inte är elak?",	//Frågan som kortet ställer 
                         		null	//Null om det är ett personkort..
                     			)
                         	],
-                        	"",	//Frågan som kortet ställer 
+                        	"Vad för saker berättade han?",	//Frågan som kortet ställer 
                         	null	//Null om det är ett personkort..
                     		)
                         ],
@@ -1946,7 +1946,7 @@ new GameEngine.Classes.GameCard(
                     ),
                     new GameEngine.Classes.CardData(
                         Annoyed,//Emotionstate:
-                        "",	//Svaret på frågan som ställdes
+                        "Hemligheter? Jag brukar inte vara den som skvallrar.. du kanske kan kolla med någon annan... fråga OTHER istället.",	//Svaret på frågan som ställdes
                         [	//array med med CardDatas (som innehåller följdfrågor..)
                             
                         ],
@@ -1955,7 +1955,7 @@ new GameEngine.Classes.GameCard(
                     ),
                     new GameEngine.Classes.CardData(
                         FreakedOut,//Emotionstate:
-                        "",	//Svaret på frågan som ställdes
+                        "... Jag hade sex med VICTIM, jag vet inte hur jag ska hantera det här... Han försvann innan jag hann berätta hur jag kände.",	//Svaret på frågan som ställdes
                         [	//array med med CardDatas (som innehåller följdfrågor..)
                             
                         ],
@@ -1964,35 +1964,17 @@ new GameEngine.Classes.GameCard(
                     ),
                     new GameEngine.Classes.CardData(
                         Nervous,//Emotionstate:
-                        "",	//Svaret på frågan som ställdes
+                        "Det finns massa saker antar jag.. Men jag vet inte riktigt vad jag kan hjälpa till med... Jag vet att MURDER och OTHER bråkade för några dagar sedan, märkte aldrig att de blev kompisar...",	//Svaret på frågan som ställdes
                         [	//array med med CardDatas (som innehåller följdfrågor..)
 
-                            	new GameEngine.Classes.CardData(
-                        	Nervous,//Emotionstate:
-                        	"Inget... Jag menar, det är väl något de flesta är medvetna om? heh..",	//Svaret på frågan som ställdes
-                        	[	//array med med CardDatas (som innehåller följdfrågor..)
-                            
-                        	],
-                        	"Vad skulle det vara för erfarenheter du pratar om?",	//Frågan som kortet ställer 
-                        	null	//Null om det är ett personkort..
-                    		),
                         ],
                         ,	//Frågan som kortet ställer 
                         null	//Null om det är ett personkort..
                     ),
                     new GameEngine.Classes.CardData(
                         Concerned,//Emotionstate:
-                        "",	//Svaret på frågan som ställdes
+                        "Det är jobbigt det här som har hänt, Det enda jag vet är att MURDER och VICTIM bråkade för några dagar sedan...",	//Svaret på frågan som ställdes
                         [	//array med med CardDatas (som innehåller följdfrågor..)
-				new GameEngine.Classes.CardData(
-                        	Annoyed,//Emotionstate:
-                        	"",	//Svaret på frågan som ställdes
-                        	[	//array med med CardDatas (som innehåller följdfrågor..)
-                            
-                        	],
-                        	"",	//Frågan som kortet ställer 
-                        	null	//Null om det är ett personkort..
-                    		),
                             
                         ],
                         ,	//Frågan som kortet ställer 
@@ -2012,7 +1994,7 @@ new GameEngine.Classes.GameCard(
 
                     new GameEngine.Classes.CardData(
                         Annoyed,	//Emotionstate:
-                        "",	//Svaret på frågan som ställdes
+                        "Hmm, Det är fint väder.. antar jag...",	//Svaret på frågan som ställdes
                         [	//array med med CardDatas (som innehåller följdfrågor..)
                             
                         ],
@@ -2021,7 +2003,7 @@ new GameEngine.Classes.GameCard(
                     ),
                     new GameEngine.Classes.CardData(
                         Happy,	//Emotionstate:
-                        "",	//Svaret på frågan som ställdes
+                        "Hmm, igår innan jag skulle gå och lägga mig så stannade min partner MURDER uppe sent, han sa att han skulle spela tvspel. Kanske vet han något?",	//Svaret på frågan som ställdes
                         [	//array med med CardDatas (som innehåller följdfrågor..)
                             
                         ],
@@ -2030,15 +2012,15 @@ new GameEngine.Classes.GameCard(
                     ),
                     new GameEngine.Classes.CardData(
                         Sad,	//Emotionstate:
-                        "",	//Svaret på frågan som ställdes
+                        "Det är hemskt det här som har hänt, har inte riktigt kunna tänka klart sedan jag fick reda på var som hänt", //Svaret på frågan som ställdes
                         [	//array med med CardDatas (som innehåller följdfrågor..)
                             	new GameEngine.Classes.CardData(
                         	Happpy,	//Emotionstate:
-                        	"",	//Svaret på frågan som ställdes
+                        	"Det får mig att känna mig lugnare, jag ska försöka tänka på andra saker nu.",	//Svaret på frågan som ställdes
                         	[	//array med med CardDatas (som innehåller följdfrågor..)
                             
                         	],
-                        	"",	//Frågan som kortet ställer 
+                        	"jag beklagar det som har hänt, jag kommer göra allt för att hitta den skyldige. ",	//Frågan som kortet ställer 
                         	null,	//Null om det är ett personkort..
 				)
                         ],
@@ -2047,7 +2029,7 @@ new GameEngine.Classes.GameCard(
                     ),
                     new GameEngine.Classes.CardData(
                         FreakedOut,	//Emotionstate:
-                        "",	//Svaret på frågan som ställdes
+                        "...",	//Svaret på frågan som ställdes
                         [	//array med med CardDatas (som innehåller följdfrågor..)
                             
                         ],
@@ -2056,7 +2038,7 @@ new GameEngine.Classes.GameCard(
                     ),
                     new GameEngine.Classes.CardData(
                         Neutral,	//Emotionstate:
-                        "",	//Svaret på frågan som ställdes
+                        "Att vara med om att någon dör, det är inte kul. Speciellt inte när det är någon som är så nära...",	//Svaret på frågan som ställdes
                         [	//array med med CardDatas (som innehåller följdfrågor..)
                             
                         ],
@@ -2065,7 +2047,7 @@ new GameEngine.Classes.GameCard(
                     ),
                     new GameEngine.Classes.CardData(
                         Nervous,	//Emotionstate:
-                        "",	//Svaret på frågan som ställdes
+                        "Jag tror jag ska gå och lägga mig, jag känner mig lite yr",	//Svaret på frågan som ställdes
                         [	//array med med CardDatas (som innehåller följdfrågor..)
                             
                         ],
@@ -2074,7 +2056,7 @@ new GameEngine.Classes.GameCard(
                     ),
 		    new GameEngine.Classes.CardData(
                         Angry,	//Emotionstate:
-                        "",	//Svaret på frågan som ställdes
+                        "Allt prat om VICTIM gör mig så arg, jag vill inte tänka på det mer. Förstår du inte det?!",	//Svaret på frågan som ställdes
                         [	//array med med CardDatas (som innehåller följdfrågor..)
                             
                         ],
@@ -2083,7 +2065,7 @@ new GameEngine.Classes.GameCard(
                     ),
 		    new GameEngine.Classes.CardData(
                         Concerned,	//Emotionstate:
-                        "",	//Svaret på frågan som ställdes
+                        "Kanske lite kaffe får mig på bättre humör...",	//Svaret på frågan som ställdes
                         [	//array med med CardDatas (som innehåller följdfrågor..)
                             
                         ],
