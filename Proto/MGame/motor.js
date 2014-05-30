@@ -4578,6 +4578,7 @@ var GameEngine = {
                     GameBubbleData.TextHeight,
                     function(){
                         //Todo: anropa en funktion som Spinner vidare på CardData korten..
+                        //TODO: kolla om denna fix inte förståör något annat...
                         GameEngine.Machines.ContinueWithCards(this.GameCard, this.actor);
 
                     },
@@ -4607,8 +4608,10 @@ var GameEngine = {
 
             var emotionstate = actor.emotionState;
 
-            var CardIDBasedOfEmotion = GameEngine.Machines.FindEmotionInCardData(card.AnswerCards, emotionstate);
-
+            //var CardIDBasedOfEmotion = GameEngine.Machines.FindEmotionInCardData(card.AnswerCards, emotionstate);
+            //^detta är orginalet, den som var tänkt att använda.. Nu baserar vi inte längre på emotionstate då det blir för mycket jobb
+            // Så lösningen blir att alltid köra på det kortet som i vanliga fall väljs när användaren är Neutral...
+            var CardIDBasedOfEmotion = GameEngine.Machines.FindEmotionInCardData(card.AnswerCards, GameEngine.Enums.EmotionState.Neutral);
             GameEngine.Machines.cleanActorOrPlayerBox("actor");
 
             GameEngine.Machines.wrapText(

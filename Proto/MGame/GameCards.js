@@ -1437,91 +1437,91 @@ var GameData = {
                     ],
                     "",	//Frågan som kortet ställer
                     null	//Null om det är ett personkort..
-                ),
-                new GameEngine.Classes.CardData(
-                    GameEngine.Enums.EmotionState.Angry,//Emotionstate:
-                    "Ugh.. Lämna mig ifred...",	//Svaret på frågan som ställdes
+                    ),
+                    new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Angry,//Emotionstate:
+                        "Ugh.. Lämna mig ifred...",	//Svaret på frågan som ställdes
+                        [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                        ],
+                        "",	//Frågan som kortet ställer
+                        null	//Null om det är ett personkort..
+                    ),
+                    new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Happy,//Emotionstate:
+                        "Jag vet att "+cardInMotive(7,Victim)+" inte kunde vara tyst om en enda sak... Han var väldigt pratglad och inte rädd för att skryta.",	//Svaret på frågan som ställdes
+                        [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            new GameEngine.Classes.CardData(
+                                GameEngine.Enums.EmotionState.Annoyed,//Emotionstate:
+                                "Det hoppas jag verkligen inte...",	//Svaret på frågan som ställdes
+                                [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                                ],
+                                "Har han berättat några av dina hemligheter?",	//Frågan som kortet ställer
+                                null	//Null om det är ett personkort..
+                            ),
+
+                            new GameEngine.Classes.CardData(
+                                GameEngine.Enums.EmotionState.Neutral,//Emotionstate:
+                                "Vanligtvis var det saker som han tyckte var 'coola' eller lite elaka... Han var inte en elak person för det... ",	//Svaret på frågan som ställdes
+                                [	//array med med CardDatas (som innehåller följdfrågor..)
+                                    new GameEngine.Classes.CardData(
+                                        GameEngine.Enums.EmotionState.Nervous,//Emotionstate:
+                                        "hmm, vi var rätt nära så jag antar att vi lärde känna varandra bättre än några andra i huset...",	//Svaret på frågan som ställdes
+                                        [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                                        ],
+                                        "Vad är det som får dig att tycka att han inte är elak?",	//Frågan som kortet ställer
+                                        null	//Null om det är ett personkort..
+                                    )
+                                ],
+                                "Vad för saker berättade han?",	//Frågan som kortet ställer
+                                null	//Null om det är ett personkort..
+                            )
+                        ],
+                       "",	//Frågan som kortet ställer 	//Frågan som kortet ställer
+                        null	//Null om det är ett personkort..
+                    ),
+                    new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Annoyed,//Emotionstate:
+                        "Hemligheter? Jag brukar inte vara den som skvallrar.. du kanske kan kolla med någon annan... fråga "+cardInMotive(7, Other)+" istället.",	//Svaret på frågan som ställdes
+                        [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                        ],
+                       "",	//Frågan som kortet ställer 	//Frågan som kortet ställer
+                        null	//Null om det är ett personkort..
+                    ),
+                    new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.FreakedOut,//Emotionstate:
+                        "... Jag hade sex med "+cardInMotive(7,Victim)+", jag vet inte hur jag ska hantera det här... Han försvann innan jag hann berätta hur jag kände.",	//Svaret på frågan som ställdes
+                        [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                        ],
+                       "",	//Frågan som kortet ställer 	//Frågan som kortet ställer
+                        null	//Null om det är ett personkort..
+                    ),
+                    new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Nervous,//Emotionstate:
+                        "Det finns massa saker antar jag.. Men jag vet inte riktigt vad jag kan hjälpa till med... Jag vet att "+cardInMotive(7, Murderer)+" och "+cardInMotive(7, Other)+" bråkade för några dagar sedan, märkte aldrig att de blev kompisar..." +	//Svaret på frågan
+                        "som ställdes",
                     [	//array med med CardDatas (som innehåller följdfrågor..)
 
                     ],
-                    "",	//Frågan som kortet ställer
+                   "",	//Frågan som kortet ställer 	//Frågan som kortet ställer
                     null	//Null om det är ett personkort..
-                ),
-                new GameEngine.Classes.CardData(
-                    GameEngine.Enums.EmotionState.Happy,//Emotionstate:
-                    "Jag vet att "+cardInMotive(7,Victim)+" inte kunde vara tyst om en enda sak... Han var väldigt pratglad och inte rädd för att skryta.",	//Svaret på frågan som ställdes
-                    [	//array med med CardDatas (som innehåller följdfrågor..)
-
+                    ),
                         new GameEngine.Classes.CardData(
-                            GameEngine.Enums.EmotionState.Annoyed,//Emotionstate:
-                            "Det hoppas jag verkligen inte...",	//Svaret på frågan som ställdes
+                            GameEngine.Enums.EmotionState.Concerned,//Emotionstate:
+                            "Det är jobbigt det här som har hänt, Det enda jag vet är att "+cardInMotive(7, Murderer)+" och "+cardInMotive(7,Victim)+" bråkade för några dagar sedan...",	//Svaret på frågan som ställdes
                             [	//array med med CardDatas (som innehåller följdfrågor..)
 
                             ],
-                            "Har han berättat några av dina hemligheter?",	//Frågan som kortet ställer
-                            null	//Null om det är ett personkort..
-                        ),
-
-                        new GameEngine.Classes.CardData(
-                            GameEngine.Enums.EmotionState.Neutral,//Emotionstate:
-                            "Vanligtvis var det saker som han tyckte var 'coola' eller lite elaka... Han var inte en elak person för det... ",	//Svaret på frågan som ställdes
-                            [	//array med med CardDatas (som innehåller följdfrågor..)
-                                new GameEngine.Classes.CardData(
-                                    GameEngine.Enums.EmotionState.Nervous,//Emotionstate:
-                                    "hmm, vi var rätt nära så jag antar att vi lärde känna varandra bättre än några andra i huset...",	//Svaret på frågan som ställdes
-                                    [	//array med med CardDatas (som innehåller följdfrågor..)
-
-                                    ],
-                                    "Vad är det som får dig att tycka att han inte är elak?",	//Frågan som kortet ställer
-                                    null	//Null om det är ett personkort..
-                                )
-                            ],
-                            "Vad för saker berättade han?",	//Frågan som kortet ställer
+                           "",	//Frågan som kortet ställer 	//Frågan som kortet ställer
                             null	//Null om det är ett personkort..
                         )
-                    ],
-                   "",	//Frågan som kortet ställer 	//Frågan som kortet ställer
-                    null	//Null om det är ett personkort..
-                ),
-                new GameEngine.Classes.CardData(
-                    GameEngine.Enums.EmotionState.Annoyed,//Emotionstate:
-                    "Hemligheter? Jag brukar inte vara den som skvallrar.. du kanske kan kolla med någon annan... fråga "+cardInMotive(7, Other)+" istället.",	//Svaret på frågan som ställdes
-                    [	//array med med CardDatas (som innehåller följdfrågor..)
-
-                    ],
-                   "",	//Frågan som kortet ställer 	//Frågan som kortet ställer
-                    null	//Null om det är ett personkort..
-                ),
-                new GameEngine.Classes.CardData(
-                    GameEngine.Enums.EmotionState.FreakedOut,//Emotionstate:
-                    "... Jag hade sex med "+cardInMotive(7,Victim)+", jag vet inte hur jag ska hantera det här... Han försvann innan jag hann berätta hur jag kände.",	//Svaret på frågan som ställdes
-                    [	//array med med CardDatas (som innehåller följdfrågor..)
-
-                    ],
-                   "",	//Frågan som kortet ställer 	//Frågan som kortet ställer
-                    null	//Null om det är ett personkort..
-                ),
-                new GameEngine.Classes.CardData(
-                    GameEngine.Enums.EmotionState.Nervous,//Emotionstate:
-                    "Det finns massa saker antar jag.. Men jag vet inte riktigt vad jag kan hjälpa till med... Jag vet att "+cardInMotive(7, Murderer)+" och "+cardInMotive(7, Other)+" bråkade för några dagar sedan, märkte aldrig att de blev kompisar..." +	//Svaret på frågan
-                    "som ställdes",
-                [	//array med med CardDatas (som innehåller följdfrågor..)
-
-                ],
-               "",	//Frågan som kortet ställer 	//Frågan som kortet ställer
-                null	//Null om det är ett personkort..
-        ),
-            new GameEngine.Classes.CardData(
-                GameEngine.Enums.EmotionState.Concerned,//Emotionstate:
-                "Det är jobbigt det här som har hänt, Det enda jag vet är att "+cardInMotive(7, Murderer)+" och "+cardInMotive(7,Victim)+" bråkade för några dagar sedan...",	//Svaret på frågan som ställdes
-                [	//array med med CardDatas (som innehåller följdfrågor..)
-
-                ],
-               "",	//Frågan som kortet ställer 	//Frågan som kortet ställer
-                null	//Null om det är ett personkort..
-            )
-        ]
-        ),
+                    ]
+                    ),
         new GameEngine.Classes.GameCard(
             8,	//ID,
             GameEngine.Enums.GameCardType.Other,	//Type : (secret, other, intress, relation)
