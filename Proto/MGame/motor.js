@@ -2884,6 +2884,7 @@ var GameEngine = {
             //var LoopThisManyTimes = Math.floor(Math.random() *( maxValue - minValue) + minValue);//TODO: Problem med Actor? ta bort "( maxValue - minValue)" och ersätt med "maxValue"
             //OLD ^, denna ändrar jag på för att nu vill jag istället att ALLA kort ska läggas in på Actors, eftersom jag sköter uppdelningen på ett annat ställe..
             var LoopThisManyTimes = Math.floor( (GameEngine.Machines.getAllPossibleCards("clue")).length/GameEngine.GlobalActors.length);
+
             //TODO: Är Karaktärens ClueCard problematiska ? denna kan behövas schysteras..
             while(roleIsSet == false){
                 //Hämtar ner en slumpad roll att testa
@@ -4616,7 +4617,7 @@ var GameEngine = {
 
             GameEngine.Machines.wrapText(
                 Ctx,
-                card.AnswerCards[CardIDBasedOfEmotion].answer,
+                card.AnswerCards[CardIDBasedOfEmotion].answer, // sätt denna till 0 för att alltid välja första kortet ..
                 GameBubbleData.ActorBubblePosX+20,
                 GameBubbleData.ActorBubblePosY+25,
                 GameBubbleData.SizeWidth-15,

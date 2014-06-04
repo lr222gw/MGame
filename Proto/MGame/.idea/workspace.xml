@@ -22,7 +22,7 @@
     <favorites_list name="MGame" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.81454164">
+    <splitter split-orientation="horizontal" split-proportion="0.13962065">
       <split-first>
         <leaf>
           <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
@@ -35,11 +35,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="GameCards.js" pinned="false" current="true" current-in-tab="true">
+          <file leaf-file-name="GameCards.js" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/GameCards.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.547763" vertical-offset="28209" max-vertical-offset="68578">
-                  <caret line="1686" column="0" selection-start-line="1686" selection-start-column="0" selection-end-line="1686" selection-end-column="0" />
+                <state vertical-scroll-proportion="1.483676" vertical-offset="8514" max-vertical-offset="93449">
+                  <caret line="573" column="232" selection-start-line="573" selection-start-column="232" selection-end-line="573" selection-end-column="232" />
                   <folding />
                 </state>
               </provider>
@@ -48,14 +48,14 @@
         </leaf>
       </split-first>
       <split-second>
-        <splitter split-orientation="horizontal" split-proportion="0.84495115">
+        <splitter split-orientation="horizontal" split-proportion="0.9">
           <split-first>
             <leaf>
-              <file leaf-file-name="motor.js" pinned="false" current="false" current-in-tab="true">
+              <file leaf-file-name="motor.js" pinned="false" current="true" current-in-tab="true">
                 <entry file="file://$PROJECT_DIR$/motor.js">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state vertical-scroll-proportion="0.35280374" vertical-offset="78051" max-vertical-offset="96305">
-                      <caret line="4609" column="0" selection-start-line="4609" selection-start-column="0" selection-end-line="4609" selection-end-column="0" />
+                    <state vertical-scroll-proportion="-2.348131" vertical-offset="33545" max-vertical-offset="96322">
+                      <caret line="1855" column="8" selection-start-line="1855" selection-start-column="8" selection-end-line="1855" selection-end-column="8" />
                       <folding />
                     </state>
                   </provider>
@@ -68,11 +68,11 @@
               <file leaf-file-name="motor.js" pinned="false" current="false" current-in-tab="true">
                 <entry file="file://$PROJECT_DIR$/motor.js">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state vertical-scroll-proportion="0.5046729" vertical-offset="10159" max-vertical-offset="96305">
+                    <state vertical-scroll-proportion="0.5046729" vertical-offset="10159" max-vertical-offset="96322">
                       <caret line="623" column="28" selection-start-line="623" selection-start-column="28" selection-end-line="623" selection-end-column="28" />
                       <folding>
-                        <marker date="1401457437426" expanded="true" signature="140364:142168" placeholder="{...}" />
-                        <marker date="1401457437426" expanded="true" signature="141112:141344" placeholder="{...}" />
+                        <marker date="1401472480757" expanded="true" signature="140365:142169" placeholder="{...}" />
+                        <marker date="1401472480757" expanded="true" signature="141113:141345" placeholder="{...}" />
                       </folding>
                     </state>
                   </provider>
@@ -237,8 +237,8 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32972974" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -520,18 +520,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/motor.js">
+    <entry file="file://$PROJECT_DIR$/GameCards.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.35280374" vertical-offset="78051" max-vertical-offset="96305">
-          <caret line="4609" column="0" selection-start-line="4609" selection-start-column="0" selection-end-line="4609" selection-end-column="0" />
+        <state vertical-scroll-proportion="1.483676" vertical-offset="8514" max-vertical-offset="93449">
+          <caret line="573" column="232" selection-start-line="573" selection-start-column="232" selection-end-line="573" selection-end-column="232" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GameCards.js">
+    <entry file="file://$PROJECT_DIR$/motor.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.547763" vertical-offset="28209" max-vertical-offset="68578">
-          <caret line="1686" column="0" selection-start-line="1686" selection-start-column="0" selection-end-line="1686" selection-end-column="0" />
+        <state vertical-scroll-proportion="-2.348131" vertical-offset="33545" max-vertical-offset="96322">
+          <caret line="1855" column="8" selection-start-line="1855" selection-start-column="8" selection-end-line="1855" selection-end-column="8" />
           <folding />
         </state>
       </provider>

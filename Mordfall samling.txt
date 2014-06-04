@@ -2344,3 +2344,27 @@ new GameEngine.Classes.GameCard(
 }
 
 }
+
+
+
+//Kort som bara ska användas för att ta plats...:
+new GameEngine.Classes.GameCard(
+           	,	//ID,
+		10,	//Type : (secret, other, intress, relation)
+                ,	//Frågan som ska ställas
+                null,	//Är null om detta är ett personkort
+                [],	//Array med ID'n som finns i detta motiv och krävs för att detta kort ska användas..
+                null, 	//Null om det är ett personkort
+                [	//Array med CardDatas..
+
+                    new GameEngine.Classes.CardData(
+                        Neutral,	//Emotionstate:
+                        ,	//Svaret på frågan som ställdes
+                        [	//array med med CardDatas (som innehåller följdfrågor..)
+                            
+                        ],
+                        ,	//Frågan som kortet ställer 
+                        null,	//Null om det är ett personkort..
+                    )
+                ]
+            )

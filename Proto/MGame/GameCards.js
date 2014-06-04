@@ -15,6 +15,8 @@ var GameData = {
         GameData.readInImgObj();//laddar in bilderna så de kan användas av initData funktionen..
 
        // cardInMotive är en Funktion som används för att ta fram rätt namn..
+       var ActiveGameCardID = 0;
+       var ActiveOther = "";
        var cardInMotive = function(ID, actor){ // Denna function tar reda på om ID't (som man får ange själv)
 
            if(Other == undefined){
@@ -23,7 +25,14 @@ var GameData = {
                ThisOther = "SOMONE OUTSIDE THIS GAME(Tip To Programmer, this happend BC No solution for " +
                    "Game motive without 'Other'-actor but Card for Actor needed 'other'. please ignore";
            }else{
-               var ThisOther = Other[Math.floor(Math.random() * Other.length + 0)];
+               if(ActiveGameCardID != ID){
+                   var ThisOther = Other[Math.floor(Math.random() * Other.length + 0)];
+                   ActiveOther = ThisOther;
+                   ActiveGameCardID = ID;
+               }else{
+                   ThisOther = ActiveOther;
+               }
+
            }
            if(Other == actor && Other != undefined){
                actor = Other[Math.floor(Math.random() * Other.length + 0)];
@@ -86,6 +95,475 @@ var GameData = {
         // och ID'n på de rumm som ledtrådarna kan finnas i!
         //denna array innehåller data av typen MotiveCardSpec
         var MotiveCardSpecToInit = [
+            new GameEngine.Classes.MotiveCardSpec(
+                new GameEngine.Classes.GameCard(
+                    37,	//ID,
+                    GameEngine.Enums.GameCardType.TableClue,	//Type GameEngine.Enums.GameCardType.TableClue eller GameEngine.Enums.GameCardType.WallClue
+                    "Tvspelet GTA 5",	//Namnet på ledtråden
+                    "Ett repigt spelfodral med titeln 'GTA V', spelet ser väldigt använt ut. ",	//Beskrivning av ledtråden
+                    [],	//Array med ID'n som finns i detta motiv och krävs för att detta kort ska användas..
+                    GameData.GameDataImages.UnknownClue.src, 	//Bild på ledtråd (just nu används standardbild)
+                    [	//Array med CardDatas..
+
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Neutral,	//Emotionstate:
+                            "Ser ut som ett tvspel! Hmm, den enda som spelar tvspel här är "+cardInMotive(2, Murderer)+" ",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.other	//Vilken typ av Aktor som kan använda kortet
+                        ),
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Happy,	//Emotionstate:
+                            "Ohh! Det är mitt tvspel! Snälla lägg tillbaka det när du är klar med den!",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.murder	//Vilken typ av Aktor som kan använda kortet
+                        ),
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Concerned,	//Emotionstate:
+                            "hmm! Jag vet vilket spel det där är.. Det ska tydligen vara jätte våldsamt... kan inte säga att jag vet vems det är...",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.other	//Vilken typ av Aktor som kan använda kortet
+                        ),
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Concerned,	//Emotionstate:
+                            "Uhee, ser smutsigt ut, ta bort det från mig",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.other	//Vilken typ av Aktor som kan använda kortet
+                        )
+                    ]
+            ),
+            [//Array med IDN på möjliga rum ledtråden kan finnas i om det är med i aktuellt mordfall
+               GameEngine.Enums.Room.tvroom
+            ]
+            ),
+            new GameEngine.Classes.MotiveCardSpec(
+                new GameEngine.Classes.GameCard(
+                    38,	//ID,
+                    GameEngine.Enums.GameCardType.TableClue,	//Type GameEngine.Enums.GameCardType.TableClue eller GameEngine.Enums.GameCardType.WallClue
+                    "Tvspelet Killer Ninja",	//Namnet på ledtråden
+                    "Ett repigt spelfodral med titeln 'Killer Ninja, spelet ser väldigt använt ut. ",	//Beskrivning av ledtråden
+                    [],	//Array med ID'n som finns i detta motiv och krävs för att detta kort ska användas..
+                    GameData.GameDataImages.UnknownClue.src, 	//Bild på ledtråd (just nu används standardbild)
+                    [	//Array med CardDatas..
+
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Neutral,	//Emotionstate:
+                            "Ser ut som ett tvspel! Hmm, den enda som spelar tvspel här är "+cardInMotive(2, Murderer)+"",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.other	//Vilken typ av Aktor som kan använda kortet
+                        ),
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Happy,	//Emotionstate:
+                            "Ohh! Det är mitt tvspel! Snälla lägg tillbaka det när du är klar med den!",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.murder	//Vilken typ av Aktor som kan använda kortet
+                        ),
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Concerned,	//Emotionstate:
+                            "hmm! Jag vet vilket spel det där är.. Det ska tydligen vara jätte våldsamt... kan inte säga att jag vet vems det är...",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.other	//Vilken typ av Aktor som kan använda kortet
+                        ),
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Concerned,	//Emotionstate:
+                            "Uhee, ser smutsigt ut, ta bort det från mig",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.other	//Vilken typ av Aktor som kan använda kortet
+                        )
+                    ]
+                ),
+                [//Array med IDN på möjliga rum ledtråden kan finnas i om det är med i aktuellt mordfall
+                    GameEngine.Enums.Room.tvroom
+                ]
+            ),
+            new GameEngine.Classes.MotiveCardSpec(
+                new GameEngine.Classes.GameCard(
+                    39,	//ID,
+                    GameEngine.Enums.GameCardType.TableClue,	//Type GameEngine.Enums.GameCardType.TableClue eller GameEngine.Enums.GameCardType.WallClue
+                    "Tvspelet Humanity Sux 7",	//Namnet på ledtråden
+                    "Ett repigt spelfodral med titeln 'Humanity Sux 7', spelet ser väldigt använt ut. ",	//Beskrivning av ledtråden
+                    [],	//Array med ID'n som finns i detta motiv och krävs för att detta kort ska användas..
+                    GameData.GameDataImages.UnknownClue.src, 	//Bild på ledtråd (just nu används standardbild)
+                    [	//Array med CardDatas..
+
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Neutral,	//Emotionstate:
+                            "Ser ut som ett tvspel! Hmm, den enda som spelar tvspel här är "+cardInMotive(2, Murderer)+"",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.other	//Vilken typ av Aktor som kan använda kortet
+                        ),
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Happy,	//Emotionstate:
+                            "Ohh! Det är mitt tvspel! Snälla lägg tillbaka det när du är klar med den!",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.murder	//Vilken typ av Aktor som kan använda kortet
+                        ),
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Concerned,	//Emotionstate:
+                            "hmm! Jag vet vilket spel det där är.. Det ska tydligen vara jätte våldsamt... kan inte säga att jag vet vems det är...",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.other	//Vilken typ av Aktor som kan använda kortet
+                        ),
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Concerned,	//Emotionstate:
+                            "Uhee, ser smutsigt ut, ta bort det från mig",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.other	//Vilken typ av Aktor som kan använda kortet
+                        )
+                    ]
+                ),
+                [//Array med IDN på möjliga rum ledtråden kan finnas i om det är med i aktuellt mordfall
+                    GameEngine.Enums.Room.tvroom
+                ]
+            ),
+            new GameEngine.Classes.MotiveCardSpec(
+                new GameEngine.Classes.GameCard(
+                    40,	//ID,
+                    GameEngine.Enums.GameCardType.TableClue,	//Type GameEngine.Enums.GameCardType.TableClue eller GameEngine.Enums.GameCardType.WallClue
+                    "Tvspelet Dark Days and Blood",	//Namnet på ledtråden
+                    "Ett repigt spelfodral med titeln 'Dark Days and Blood', spelet ser väldigt använt ut. ",	//Beskrivning av ledtråden
+                    [],	//Array med ID'n som finns i detta motiv och krävs för att detta kort ska användas..
+                    GameData.GameDataImages.UnknownClue.src, 	//Bild på ledtråd (just nu används standardbild)
+                    [	//Array med CardDatas..
+
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Neutral,	//Emotionstate:
+                            "Ser ut som ett tvspel! Hmm, den enda som spelar tvspel här är "+cardInMotive(2, Murderer)+"",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.other	//Vilken typ av Aktor som kan använda kortet
+                        ),
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Happy,	//Emotionstate:
+                            "Ohh! Det är mitt tvspel! Snälla lägg tillbaka det när du är klar med den!",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.murder	//Vilken typ av Aktor som kan använda kortet
+                        ),
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Concerned,	//Emotionstate:
+                            "hmm! Jag vet vilket spel det där är.. Det ska tydligen vara jätte våldsamt... kan inte säga att jag vet vems det är...",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.other	//Vilken typ av Aktor som kan använda kortet
+                        ),
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Concerned,	//Emotionstate:
+                            "Uhee, ser smutsigt ut, ta bort det från mig",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.other	//Vilken typ av Aktor som kan använda kortet
+                        )
+                    ]
+                ),
+                [//Array med IDN på möjliga rum ledtråden kan finnas i om det är med i aktuellt mordfall
+                    GameEngine.Enums.Room.tvroom
+                ]
+            ),
+            new GameEngine.Classes.MotiveCardSpec(
+                new GameEngine.Classes.GameCard(
+                    41,	//ID,
+                    GameEngine.Enums.GameCardType.TableClue,	//Type GameEngine.Enums.GameCardType.TableClue eller GameEngine.Enums.GameCardType.WallClue
+                    "Tvspelet Killed Or Killer",	//Namnet på ledtråden
+                    "Ett repigt spelfodral med titeln 'Killed Or Killer', spelet ser väldigt använt ut. ",	//Beskrivning av ledtråden
+                    [],	//Array med ID'n som finns i detta motiv och krävs för att detta kort ska användas..
+                    GameData.GameDataImages.UnknownClue.src, 	//Bild på ledtråd (just nu används standardbild)
+                    [	//Array med CardDatas..
+
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Neutral,	//Emotionstate:
+                            "Ser ut som ett tvspel! Hmm, den enda som spelar tvspel här är "+cardInMotive(2, Murderer)+"",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.other	//Vilken typ av Aktor som kan använda kortet
+                        ),
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Happy,	//Emotionstate:
+                            "Ohh! Det är mitt tvspel! Snälla lägg tillbaka det när du är klar med den!",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.murder	//Vilken typ av Aktor som kan använda kortet
+                        ),
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Concerned,	//Emotionstate:
+                            "hmm! Jag vet vilket spel det där är.. Det ska tydligen vara jätte våldsamt... kan inte säga att jag vet vems det är...",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.other	//Vilken typ av Aktor som kan använda kortet
+                        ),
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Concerned,	//Emotionstate:
+                            "Uhee, ser smutsigt ut, ta bort det från mig",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.other	//Vilken typ av Aktor som kan använda kortet
+                        )
+                    ]
+                ),
+                [//Array med IDN på möjliga rum ledtråden kan finnas i om det är med i aktuellt mordfall
+                    GameEngine.Enums.Room.tvroom
+                ]
+            ),
+            new GameEngine.Classes.MotiveCardSpec(
+                new GameEngine.Classes.GameCard(
+                    42,	//ID,
+                    GameEngine.Enums.GameCardType.TableClue,	//Type GameEngine.Enums.GameCardType.TableClue eller GameEngine.Enums.GameCardType.WallClue
+                    "Tvspelet Too Much Gore",	//Namnet på ledtråden
+                    "Ett repigt spelfodral med titeln 'Too Much Gore', spelet ser väldigt använt ut. ",	//Beskrivning av ledtråden
+                    [],	//Array med ID'n som finns i detta motiv och krävs för att detta kort ska användas..
+                    GameData.GameDataImages.UnknownClue.src, 	//Bild på ledtråd (just nu används standardbild)
+                    [	//Array med CardDatas..
+
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Neutral,	//Emotionstate:
+                            "Ser ut som ett tvspel! Hmm, den enda som spelar tvspel här är "+cardInMotive(2, Murderer)+"",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.other	//Vilken typ av Aktor som kan använda kortet
+                        ),
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Happy,	//Emotionstate:
+                            "Ohh! Det är mitt tvspel! Snälla lägg tillbaka det när du är klar med den!",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.murder	//Vilken typ av Aktor som kan använda kortet
+                        ),
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Concerned,	//Emotionstate:
+                            "hmm! Jag vet vilket spel det där är.. Det ska tydligen vara jätte våldsamt... kan inte säga att jag vet vems det är...",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.other	//Vilken typ av Aktor som kan använda kortet
+                        ),
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Concerned,	//Emotionstate:
+                            "Uhee, ser smutsigt ut, ta bort det från mig",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.other	//Vilken typ av Aktor som kan använda kortet
+                        )
+                    ]
+                ),
+                [//Array med IDN på möjliga rum ledtråden kan finnas i om det är med i aktuellt mordfall
+                    GameEngine.Enums.Room.tvroom
+                ]
+            ),
+            new GameEngine.Classes.MotiveCardSpec(
+                new GameEngine.Classes.GameCard(
+                    43,	//ID,
+                    GameEngine.Enums.GameCardType.TableClue,	//Type GameEngine.Enums.GameCardType.TableClue eller GameEngine.Enums.GameCardType.WallClue
+                    "Tvspelet FishMan 4",	//Namnet på ledtråden
+                    "Ett repigt spelfodral med titeln 'FishMan 4', spelet ser väldigt använt ut. ",	//Beskrivning av ledtråden
+                    [],	//Array med ID'n som finns i detta motiv och krävs för att detta kort ska användas..
+                    GameData.GameDataImages.UnknownClue.src, 	//Bild på ledtråd (just nu används standardbild)
+                    [	//Array med CardDatas..
+
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Neutral,	//Emotionstate:
+                            "Ser ut som ett tvspel! Hmm, den enda som spelar tvspel här är "+cardInMotive(2, Murderer)+"",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.other	//Vilken typ av Aktor som kan använda kortet
+                        ),
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Happy,	//Emotionstate:
+                            "Ohh! Det är mitt tvspel! Snälla lägg tillbaka det när du är klar med den!",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.murder	//Vilken typ av Aktor som kan använda kortet
+                        ),
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Concerned,	//Emotionstate:
+                            "hmm! Jag vet vilket spel det där är.. Det ska tydligen vara jätte våldsamt... kan inte säga att jag vet vems det är...",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.other	//Vilken typ av Aktor som kan använda kortet
+                        ),
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Concerned,	//Emotionstate:
+                            "Uhee, ser smutsigt ut, ta bort det från mig",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.other	//Vilken typ av Aktor som kan använda kortet
+                        )
+                    ]
+                ),
+                [//Array med IDN på möjliga rum ledtråden kan finnas i om det är med i aktuellt mordfall
+                    GameEngine.Enums.Room.tvroom
+                ]
+            ),
+            new GameEngine.Classes.MotiveCardSpec(
+                new GameEngine.Classes.GameCard(
+                    44,	//ID,
+                    GameEngine.Enums.GameCardType.TableClue,	//Type GameEngine.Enums.GameCardType.TableClue eller GameEngine.Enums.GameCardType.WallClue
+                    "Tvspelet Hide And Sneek",	//Namnet på ledtråden
+                    "Ett repigt spelfodral med titeln 'Hide And Sneek', spelet ser väldigt använt ut. ",	//Beskrivning av ledtråden
+                    [],	//Array med ID'n som finns i detta motiv och krävs för att detta kort ska användas..
+                    GameData.GameDataImages.UnknownClue.src, 	//Bild på ledtråd (just nu används standardbild)
+                    [	//Array med CardDatas..
+
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Neutral,	//Emotionstate:
+                            "Ser ut som ett tvspel! Hmm, den enda som spelar tvspel här är "+cardInMotive(2, Murderer)+"",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.other	//Vilken typ av Aktor som kan använda kortet
+                        ),
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Happy,	//Emotionstate:
+                            "Ohh! Det är mitt tvspel! Snälla lägg tillbaka det när du är klar med den!",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.murder	//Vilken typ av Aktor som kan använda kortet
+                        ),
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Concerned,	//Emotionstate:
+                            "hmm! Jag vet vilket spel det där är.. Det ska tydligen vara jätte våldsamt... kan inte säga att jag vet vems det är...",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.other	//Vilken typ av Aktor som kan använda kortet
+                        ),
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Concerned,	//Emotionstate:
+                            "Uhee, ser smutsigt ut, ta bort det från mig",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.other	//Vilken typ av Aktor som kan använda kortet
+                        )
+                    ]
+                ),
+                [//Array med IDN på möjliga rum ledtråden kan finnas i om det är med i aktuellt mordfall
+                    GameEngine.Enums.Room.tvroom
+                ]
+            ),
+            new GameEngine.Classes.MotiveCardSpec(
+                new GameEngine.Classes.GameCard(
+                    45,	//ID,
+                    GameEngine.Enums.GameCardType.TableClue,	//Type GameEngine.Enums.GameCardType.TableClue eller GameEngine.Enums.GameCardType.WallClue
+                    "Tvspelet God Of Glory",	//Namnet på ledtråden
+                    "Ett repigt spelfodral med titeln 'God Of Glory', spelet ser väldigt använt ut. ",	//Beskrivning av ledtråden
+                    [],	//Array med ID'n som finns i detta motiv och krävs för att detta kort ska användas..
+                    GameData.GameDataImages.UnknownClue.src, 	//Bild på ledtråd (just nu används standardbild)
+                    [	//Array med CardDatas..
+
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Neutral,	//Emotionstate:
+                            "Ser ut som ett tvspel! Hmm, den enda som spelar tvspel här är "+cardInMotive(2, Murderer)+"",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.other	//Vilken typ av Aktor som kan använda kortet
+                        ),
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Happy,	//Emotionstate:
+                            "Ohh! Det är mitt tvspel! Snälla lägg tillbaka det när du är klar med den!",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.murder	//Vilken typ av Aktor som kan använda kortet
+                        ),
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Concerned,	//Emotionstate:
+                            "hmm! Jag vet vilket spel det där är.. Det ska tydligen vara jätte våldsamt... kan inte säga att jag vet vems det är...",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.other	//Vilken typ av Aktor som kan använda kortet
+                        ),
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Concerned,	//Emotionstate:
+                            "Uhee, ser smutsigt ut, ta bort det från mig",	//Svaret på frågan som ställdes
+                            [	//array med med CardDatas (som innehåller följdfrågor..)
+
+                            ],
+                            "Känner du igen det här?",	//Frågan som kortet ställer
+                            GameEngine.Enums.Roles.other	//Vilken typ av Aktor som kan använda kortet
+                        )
+                    ]
+                ),
+                [//Array med IDN på möjliga rum ledtråden kan finnas i om det är med i aktuellt mordfall
+                    GameEngine.Enums.Room.tvroom
+                ]
+            )
+
 
 
         ];
@@ -93,18 +571,18 @@ var GameData = {
         var Motives = [ //Array med MotivData
             new GameEngine.Classes.MotiveData(
                 "",
-                "",
+                ""+cardInMotive(1, Victim)+" hittades i sitt rum. Av såren på den dödes kropp kan man se att ett vasst föremål har använts för att begå mordet. Tecken  på motstånd är också synligt vilket innebär att "+cardInMotive(1, Victim)+" måste vart beredd på att han var nära döden. Brottet anmäldes på morgonen strax innan kl 9.00.",//Beskrivning av mordfallet, nogrann (Innehåller ledtrådar till användaren om vapen etc...)",
                 [ // GameCards ID'n tillhörande "Other"
-                    1,2,3,4,5
+                    10,11,12,13,14,15,16,17,18,19,20,21
                 ],
                 [ // GameCards ID'n tillhörande "murder"
-                    6,7
+                    1,2,3,4,5,37
                 ],
                 [ // GameCards ID'n tillhörande "Victim"
-                    3,7
+                    31
                 ],
                 [ // GameCards ID'n tillhörande "Actor 1"
-                    8
+                    6,7, 8, 9
                 ],
                 [// GameCards ID'n tillhörande "Actor 2"
 
@@ -1678,7 +2156,992 @@ var GameData = {
                 null	//Null om det är ett personkort..
                 )
             ]
+            ),
+            //TODO: Kolla här
+
+
+
+
+
+
+
+
+            //Detta mellanrum markerar att det blir ny struktur på koden...
+
+
+
+
+
+
+
+
+
+            ///TODO: Kolla här
+            new GameEngine.Classes.GameCard(
+                9,
+                GameEngine.Enums.GameCardType.Intress,
+                "",
+                "",
+                [],
+                null,
+                [
+                    new GameEngine.Classes.CardData(
+                    GameEngine.Enums.EmotionState.Neutral,
+                    "Hmm. På fritiden brukar jag spela fotboll, ibland andra sporter också!",
+                    [
+                        new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Concerned,
+                        "Hmm, nej "+cardInMotive(9,Victim)+" var inte direkt den som uppskattade sport... Han var mer en nattuggla...",
+                        [
+                            new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Nervous,
+                            "m.. Det skulle förklara oljudet jag hörde runt 03.30... Jag bara antog att det var ett av "+cardInMotive(9,Murderer)+"s tvspel... tyckte dock att det lät lite väl mycket...",
+                            [
+
+                            ],
+                            "Eftersom ni först märkte dagen efter att "+cardInMotive(9,Victim)+" hade blivit mördad, så innebär det att han mest troligast dog under natten. Några kommntarer?",
+                            null
+                            ),
+                            new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Happy,
+                            "Hehe! Det är en rätt rolig.. eller ja.. inte så *fniss*. Låt mig bara säga att "+cardInMotive(9,Victim)+" och sitt sälskap inte är så tysta av sig...",
+                            [
+                                new GameEngine.Classes.CardData(
+                                GameEngine.Enums.EmotionState.Annoyed,
+                                "... De hade sex och de låter mycket.. okej?...",
+                                [
+
+                                ],
+                                "Jag är inte säker på att jag förstår hur du menar?",
+                                null
+                                ),
+                                new GameEngine.Classes.CardData(
+                                GameEngine.Enums.EmotionState.Happy,
+                                "Haha, ja det är vad jag säger... "+cardInMotive(9,Victim)+" var den typen som låg med allt och alla...",
+                                [
+                                    new GameEngine.Classes.CardData(
+                                    GameEngine.Enums.EmotionState.Nervous,
+                                    "ehm.. Nej... Jag vet inte mer än att det var flera personer...",
+                                    [
+
+                                    ],
+                                    "Vet du vilka eller vem som "+cardInMotive(9,Victim)+" hade sex med?",
+                                    null
+                                    )
+                                ],
+                                "Säger du att "+cardInMotive(9,Victim)+" hade mycket samlag? ",
+                                null
+                                )
+
+                            ],
+                            "Hur kommer det sig att du vet att han var en nattugla? Var ni nära?",
+                            null
+                            )
+
+                        ],
+                        "Spelade du någon gång fotboll med "+cardInMotive(9,Victim)+ "?",
+                        null
+                        ),
+                        new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Happy,
+                        "Allt möjligt! Så länge jag det rör sig om bollar så är det en sport jag gillar!",
+                        [
+
+                        ],
+                        "Vilka andra sporter?",
+                        null
+                        )
+                    ],
+                    "",
+                    null
+                    )
+                ]
+            ),
+            new GameEngine.Classes.GameCard(
+                10,
+                GameEngine.Enums.GameCardType.Other,
+                "",
+                "",
+                [],
+                null,
+                [
+                    new GameEngine.Classes.CardData(
+                    GameEngine.Enums.EmotionState.Neutral,
+                    "ughh, jag hittade en kniv i vardagsrummet. Ser ut som den vi använde till att skära kyckling med igår... Jag vet inte hur den har hamnat där men blodig var den.. usch...",
+                    [
+                        new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Concerned,
+                        "Hmm, jag hittade den i soffan. Den måste ha ramlat ner igår efter att vi åt kyckling... Jag vet dock inte hur den kan ha hamnat där, vi var trots allt inte i vardagsrummet och lagade maten...",
+                        [
+                            new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.FreakedOut,
+                            "AHHH!!! Att jag kunde vara så dum! Jag skulle ha gått till dig så fort jag hittade den... Att den låg i TV-soffan borde väll vara tillräckligt för att jag skulle fatta att något var fel...",
+                            [
+
+                            ],
+                            "Under omständigheterna känns det som du borde ha insett att kniven du hittade kan vara mordvapnet?",
+                            null
+                            ),
+
+                            new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Concerned,
+                            "Hmm.. Igår var det "+cardInMotive(10,Other)+ " som lagade mat... Men jag såg på hela tiden så jag är hundra procent säker på att den lade tillbakas...",
+                            [
+
+                            ],
+                            "Har du någon aning om hur knvien kan ha hamnat där?",
+                            null
+                            )
+                        ],
+                        "Var exakt hittade du kniven?",
+                        null
+                        ),
+
+                        new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.FreakedOut,
+                        "AHHH!!! Att jag kunde vara så dum! Jag skulle ha gått till dig så fort jag hittade den... Att den låg i TV-soffan borde väll vara tillräckligt för att jag skulle fatta att något var fel...",
+                        [
+
+                        ],
+                        "En kniv?"+cardInMotive(10,Victim)+ " blev dödat med en knviv. Tror du det finns möjligheter att du hittade mordvapnet? ",
+                        null
+                        )
+                    ],
+                    "",
+                    null
+                    )
+                ]
+            ),
+            new GameEngine.Classes.GameCard(
+                11,
+                GameEngine.Enums.GameCardType.Relationship,
+                "",
+                "",
+                [],
+                null,
+                [
+                    new GameEngine.Classes.CardData(
+                    GameEngine.Enums.EmotionState.Neutral,
+                    ""+cardInMotive(11,Victim)+ " var en nära vänn till mig. Bråkade inte riktigt med någon, "+cardInMotive(11,Victim)+ " och "+cardInMotive(11,Murderer)+ " var de två första som flyttade in här!",
+                    [
+                        new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Neutral,
+                        "Jag flyttade in ungefär samtidigt som "+cardInMotive(11,Actor1)+ ".. Vi kände varandra sedan ett tag innan.",
+                        [
+                            new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Happy,
+                            "Visst!"+cardInMotive(11,Actor1)+" är schyst! "+cardInMotive(11,Actor1)+" har också en partner som bor i huset, "+cardInMotive(11,Murderer)+ " heter den! Heh! Verkar inte som om de har vart så glada på varandra den senaste tiden...",
+                            [
+
+                            ],
+                            "Kan du berätta något om "+cardInMotive(11,Actor1)+ "?",
+                            null
+                            )
+                        ],
+                        "När flyttade du in här?",
+                        null
+                        ),
+
+                        new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Neutral,
+                        "Visst! "+cardInMotive(11,Victim)+ " var en schyst person! Visst hade "+cardInMotive(11,Victim)+ " inte alltid hjärtat på rätt ställe... Jag har sett många personer blivit sårade av "+cardInMotive(11,Victim)+ "...",
+                        [
+                            new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Concerned,
+                            ""+cardInMotive(11,Victim)+ " var en 'Player', inte riktigt den personen som ville sätta sig in i riktiga förhållanden...",
+                            [
+
+                            ],
+                            "Hur sårade "+cardInMotive(11,Victim)+ " andra?",
+                            null
+                            )
+                        ],
+                        "Kan du berätta något om "+cardInMotive(11,Victim)+ "?",
+                        null
+                        )
+                    ],
+                    "",
+                    null
+                    )
+
+                ]
+            ),
+            new GameEngine.Classes.GameCard(
+                12,
+                GameEngine.Enums.GameCardType.Secret,
+                "",
+                "",
+                [],
+                null,
+                [
+                    new GameEngine.Classes.CardData(
+                    GameEngine.Enums.EmotionState.Neutral,
+                    "Tsk, Tsk, Tsk. Hemligheter... Hmm Jag är inte riktigt den som har koll på hemligheter här, men vad vill du veta?",
+                    [
+                        new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Neutral,
+                        "Jag vet att det måste ha hänt någong gång under natten... Jag vet inte när, då jag vanligtvis sover rätt tungt. Du borde prata med "+cardInMotive(12,Murderer)+ ", oftast så stannar "+cardInMotive(11,Victim)+ " uppe länge på kvällarna och spelar tvspel.. ",
+                        [
+
+                        ],
+                        "Vad vet du om mordet?",
+                        null
+                        ),
+                        new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Concerned,
+                        "Jag har faktiskt inte en aning.. Jag menar "+cardInMotive(12,Victim)+ "  låg runt mycket, men jag tror ju inte att det är något som man skulle döda "+cardInMotive(12,Victim)+ "  över..",
+                        [
+
+                        ],
+                        "varför skulle någon vilja döda "+cardInMotive(12,Victim)+ "?",
+                        null
+                        )
+
+                    ],
+                    "",
+                    null
+                    )
+                ]
+            ),
+            new GameEngine.Classes.GameCard(
+                13,
+                GameEngine.Enums.GameCardType.Intress,
+                "",
+                "",
+                [],
+                null,
+                [
+                    new GameEngine.Classes.CardData(
+                    GameEngine.Enums.EmotionState.Neutral,
+                    "Hmm! På fritiden brukar jag spela pokémon tillsammans med "+cardInMotive(13,Murderer)+", jag brukar aldrig vinna när vi tävlar men det är roligt ändå!",
+                    [
+                        new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Happy,
+                        "Visst! "+cardInMotive(13,Murderer)+" är en riktig spelnörd! "+cardInMotive(13,Murderer)+" har också en partner, men de verkar inte ha prata mycket längre... tror att "+cardInMotive(13,Murderer)+" tar det rätt hårt...",
+                        [
+                            new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Concerned,
+                            "Vet inte riktigt vad jag kan berätta, "+cardInMotive(13,Actor1)+", alltså "+cardInMotive(13,Murderer)+"s partner var väldigt nära "+cardInMotive(13,Victim)+"... Tror att det är mest "+cardInMotive(13,Murderer)+"s fel då "+cardInMotive(13,Murderer)+" bara spelar tvspel..",
+                            [
+
+                            ],
+                            "Kan du berätta något om "+cardInMotive(13,Murderer)+"s partner?",
+                            null
+                            ),
+
+                            new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Neutral,
+                            "Hmm. Mest vanliga spel, GTA V är något av de nyare spelen han spelat...",
+                            [
+
+                            ],
+                            "Vilka spel spelar han utöver pokémon?",
+                            null
+                            )
+                        ],
+                        "Kan du berätta något om "+cardInMotive(13,Murderer)+"?",
+                        null
+                        )
+                    ],
+                    "",
+                    null
+                    )
+                ]
+            ),
+            new GameEngine.Classes.GameCard(
+                14,
+                GameEngine.Enums.GameCardType.Other,
+                "",
+                "",
+                [],
+                null,
+                [
+                    new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Neutral,
+                        "Hörde inget ljud från "+cardInMotive(14,Murderer)+"s tvspel igår...",
+                        [],
+                        "",
+                        null
+                    )
+                ]
+            ),
+            new GameEngine.Classes.GameCard(
+                15,
+                GameEngine.Enums.GameCardType.Relationship,
+                "",
+                "",
+                [],
+                null,
+                [
+                    new GameEngine.Classes.CardData(
+                    GameEngine.Enums.EmotionState.Neutral,
+                    "Jag brukade umgås rätt mycket med "+cardInMotive(15,Victim)+"... Vi brukade vara ute och leta efter ligg tillsammans... Känns jobbigt nu när "+cardInMotive(15,Victim)+" dog..",
+                    [
+                        new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Sad,
+                        "Ja det kan man säga... Vi pratade om allt...",
+                        [
+                            new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Sad,
+                            "Hm. I vanliga fall inte men under omständigheterna antar jag att det är för det bästa... Han hade sex då och då med "+cardInMotive(15,Actor1)+", det var något som "+cardInMotive(15,Victim)+" var stolt över. Men tyvärr verkade det som om dem blev kära... ",
+                            [
+
+                            ],
+                            "Kan du berätta några hemligheter ni pratade om?",
+                            null
+                            )
+                        ],
+                        "Så ni var alltså nära?",
+                        null
+                        )
+                    ],
+                    "",
+                    null
+                    )
+                ]
+            ),
+            new GameEngine.Classes.GameCard(
+                16,
+                GameEngine.Enums.GameCardType.Secret,
+                "",
+                "",
+                [],
+                null,
+                [
+                    new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Neutral,
+                        "Hmm, vet inte vad jag kan säga, "+cardInMotive(16,Victim)+" låg runt mycket... eller i alla fall sedan ett tag tillbaka. Vet inte vad det var som gjorde att "+cardInMotive(15,Victim)+" inte fortsatte dra hem människor...",
+                        [],
+                        "",
+                        null
+                    )
+                ]
+            ),
+            new GameEngine.Classes.GameCard(
+                17,
+                GameEngine.Enums.GameCardType.Intress,
+                "",
+                "",
+                [],
+                null,
+                [
+                    new GameEngine.Classes.CardData(
+                    GameEngine.Enums.EmotionState.Neutral,
+                    "Ibland så brukar jag och "+cardInMotive(17,Actor1)+" sminka oss... Det är roligt! Jag får höra allt möjligt skvaller...",
+                    [
+                        new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Annoyed,
+                        "hmm, Tydligen hade "+cardInMotive(17,Actor1)+" en crush på "+cardInMotive(17,Victim)+"... ",
+                        [
+                            new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Sad,
+                            "... Det är bara att "+cardInMotive(17,Actor1)+" har ett förhållande med "+cardInMotive(17,Murderer)+".. jag tycker inte att man ska bete sig så...",
+                            [],
+                            "Gör det dig irriterad?",
+                            null
+                            ),
+
+                            new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Happy,
+                            "Haha! Nej, tycker bara att det inte är rätt att bete sig så..",
+                            [],
+                            "Är du kär i "+cardInMotive(17,Actor1)+" ?",
+                            null
+                            )
+                        ],
+                        "Kan du ge något exempel?",
+                        null
+                        )
+                    ],
+                    "",
+                    null
+                    )
+                ]
+            ),
+            new GameEngine.Classes.GameCard(
+                18,
+                GameEngine.Enums.GameCardType.Other,
+                "",
+                "",
+                [],
+                null,
+                [
+                    new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Neutral,
+                        ""+cardInMotive(18,Murderer)+" bara spelar tvspel hela tiden.. Jag tycker man borde visa lite mer respekt när en så nära vänn har dött... ",
+                        [],
+                        "",
+                        null
+                    )
+                ]
+            ),
+            new GameEngine.Classes.GameCard(
+                19,
+                GameEngine.Enums.GameCardType.Relationship,
+                "",
+                "",
+                [],
+                null,
+                [
+                    new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Neutral,
+                        "I början när jag flyttade brukade vi ha brädspelskvällar! Det var roligt... Det var alltid jag och "+cardInMotive(18,Actor1)+" mot "+cardInMotive(18,Murderer)+" och "+cardInMotive(18,Other)+"",
+                        [],
+                        "",
+                        null
+                    )
+                ]
+            ),
+            new GameEngine.Classes.GameCard(
+                20,
+                GameEngine.Enums.GameCardType.Secret,
+                "",
+                "",
+                [],
+                null,
+                [
+                    new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Neutral,
+                        "Blääh. Jag kan tyvärr inte hjälpa dig just nu...",
+                        [],
+                        "",
+                        null
+                    )
+                ]
+            ),
+            new GameEngine.Classes.GameCard(
+                21,
+                GameEngine.Enums.GameCardType.Secret,
+                "",
+                "",
+                [],
+                null,
+                [
+                    new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Neutral,
+                        "Hmm hemligheter? Du borde kolla med "+cardInMotive(21,Actor1)+", om det är någon som vet något om "+cardInMotive(21,Victim)+" så är det "+cardInMotive(21,Actor1)+"",
+                        [],
+                        "",
+                        null
+                    )
+                ]
+            ),
+
+            new GameEngine.Classes.GameCard(
+                22,
+                GameEngine.Enums.GameCardType.Secret,
+                "",
+                "",
+                [],
+                null,
+                [
+                    new GameEngine.Classes.CardData(
+                    GameEngine.Enums.EmotionState.Neutral,
+                    "Jag vet att "+cardInMotive(22,Other)+" vänder ut och in på sina underkläder istället för att byta till ett rent par. Äckligt!",
+                    [
+                        new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Annoyed,
+                        "Låt oss säga att vi skulle vara intima med varandra med aldrig kom så långt av självklara anledningar...",
+                        [
+
+                        ],
+                        "Hur vet du det?",
+                        null
+                        ),
+                        new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Angry,
+                        "Vik hädan!",
+                        [
+
+                        ],
+                        "Jag kan vara lite slarvig med att byta strumpor ibland...",
+                        null
+                        )
+                    ],
+                    "",
+                    null
+                    )
+                ]
+            ),
+            new GameEngine.Classes.GameCard(
+                23,
+                GameEngine.Enums.GameCardType.Other,
+                "",
+                "",
+                [],
+                null,
+                [
+                    new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Neutral,
+                        "Vem ska ta hand om VICTIMS katt nu när de har dött?",
+                        [
+                            new GameEngine.Classes.CardData(
+                                GameEngine.Enums.EmotionState.Happy,
+                                "På riktigt? Nu känns livet lite lättare igen! "+cardInMotive(23,Victim)+" skulle ha gillat dej som person!",
+                                [
+                                    new GameEngine.Classes.CardData(
+                                    GameEngine.Enums.EmotionState.Sad,
+                                    "Självklart inte! Jag saknar "+cardInMotive(23,Victim)+" lika mycket som alla andra i huset!",
+                                    [
+
+                                    ],
+                                    "Igen? Blev livet lättare när "+cardInMotive(23,Victim)+" dog också menar du?",
+                                    null
+                                    ),
+
+                                    new GameEngine.Classes.CardData(
+                                    GameEngine.Enums.EmotionState.Happy,
+                                    "Absolut, de hade humor så det räckte och blev över!",
+                                    [
+
+                                    ],
+                                    "Kul att höra. Jag är säker på att "+cardInMotive(23,Victim)+" var en bra människa också.",
+                                    null
+                                    )
+                                ],
+                                "Jag kan ta hand om katten.",
+                                null
+                            ),
+                            new GameEngine.Classes.CardData(
+                                GameEngine.Enums.EmotionState.Concerned,
+                                    "Jag? Men jag är ju allergisk!",
+                                [
+                                    new GameEngine.Classes.CardData(
+                                    GameEngine.Enums.EmotionState.FreakedOut,
+                                        "Är du ur vettet, människa?! "+cardInMotive(23,Victim)+" var min vän! Om jag ville bli av med katten skulle jag väl döda den! Eller, jag menar... !! ",
+                                    [
+
+                                    ],
+                                        "Hm... Kan det vara så att du ville få ut katten ur huset och hoppades att den skulle försvinna tillsammans med "+cardInMotive(23,Victim)+"?",
+                                    null
+                                    ),
+
+                                    new GameEngine.Classes.CardData(
+                                    GameEngine.Enums.EmotionState.Happy,
+                                    "",
+                                    [
+
+                                    ],
+                                        "",
+                                    null
+                                    )
+                                ],
+                                "Kan inte du ta hand om katten?",
+                                null
+                            )
+                        ],
+                        "",
+                        null
+                    )
+                ]
+            ),
+            new GameEngine.Classes.GameCard(
+                24,
+                GameEngine.Enums.GameCardType.Intress,
+                "",
+                "",
+                [],
+                null,
+                [
+                    new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Neutral,
+                        "Jag och "+cardInMotive(24,Other)+" brukade ha filmkvällar tillsammans, men på senaste tiden är de antingen inte på humör eller stirrar rakt genom TV:n de få gångerna jag lyckas övertala dem.",
+                        [
+
+                        ],
+                        "",
+                        null
+                    )
+                ]
+            ),
+            new GameEngine.Classes.GameCard(
+                25,
+                GameEngine.Enums.GameCardType.Intress,
+                "",
+                "",
+                [],
+                null,
+                [
+                    new GameEngine.Classes.CardData(
+                    GameEngine.Enums.EmotionState.Neutral,
+                    "Jag och "+cardInMotive(25,Victim)+"  var vänner. När jag inte kunde sova brukade de hålla mej sällskap i vardagsrummet där vi spelade kort",
+                    [
+                        new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Neutral,
+                        "Stress, poker, UNO.. ",
+                        [
+                            new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Nervous,
+                            "Det hände, m-men det rörde sej aldrig om några stora summor... ",
+                            [
+                                new GameEngine.Classes.CardData(
+                                GameEngine.Enums.EmotionState.Sad,
+                                "Jag var skyldig "+cardInMotive(25,Victim)+" 50 kronor. Är jag misstänkt nu?",
+                                [
+
+                                ],
+                                "Var du skyldig "+cardInMotive(25,Victim)+" pengar?",
+                                null
+                                ),
+                                new GameEngine.Classes.CardData(
+                                GameEngine.Enums.EmotionState.Happy,
+                                "Om man inte satsar något så vinner man inget här i livet.",
+                                [
+
+                                ],
+                                "Ni borde inte spela om pengar i er ålder",
+                                null
+                                )
+                            ],
+                            "Poker? Spelade ni nånsin om pengar?",
+                            null
+                            ),
+                            new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Annoyed,
+                            "Hur är detta relevant för att hitta "+cardInMotive(25,Victim)+" mördare?... ",
+                            [
+
+                            ],
+                            "Poker? Spelade ni nånsin om varandras kläder?",
+                            null
+                            )
+
+                        ],
+                        "Vad brukade ni spela?",
+                        null
+                        ),
+                        new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Happy,
+                        "Det stämmer!",
+                        [
+
+                        ],
+                        "VICTIM verkade som en bra vän",
+                        null
+                        )
+                    ],
+                    "",
+                    null
+                    )
+                ]
+            ),
+            new GameEngine.Classes.GameCard(
+                26,
+                GameEngine.Enums.GameCardType.Secret,
+                "",
+                "",
+                [],
+                null,
+                [
+                    new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Neutral,
+                            "Jag har hört att "+cardInMotive(26,Other)+" blev tagen av polisen för narkotikabrott för nästan ett år sedan, men jag vet inte hur sant det är med alla rykten som sprids på det här stället...",
+                        [
+                            new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Neutral,
+                            "Kanske...",
+                            [
+                                new GameEngine.Classes.CardData(
+                                GameEngine.Enums.EmotionState.Happy,
+                                "Hemligheter är hemligheter av en anledning. Oj, där försa jag mej! Jag antar att du kan vara säker på att det inte bara var ett påhittat rykte jag hörde, haha!",
+                                [
+
+                                ],
+                                "Så "+cardInMotive(26,Other)+" sålde narkotika? Sålde han någonsin till någon i huset?",
+                                null
+                                )
+
+                            ],
+                            "Är det möjligt att ett sådant rykte kan ha fått "+cardInMotive(26,Victim)+" mördad?",
+                            null
+                            )
+
+                        ],
+                        "",
+                        null
+                    )
+                ]
+            ),
+            new GameEngine.Classes.GameCard(
+                27,
+                GameEngine.Enums.GameCardType.Other,
+                "",
+                "",
+                [],
+                null,
+                [
+                    new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Neutral,
+                        "Stämningen i huset har blivit bättre utan "+cardInMotive(27,Victim)+"",
+                        [
+                            new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Annoyed,
+                            "Inte direkt, men "+cardInMotive(27,Victim)+" hade en tendens att låna saker utan att fråga... och inte lämna tillbaka dem.",
+                            [
+
+                            ],
+                            "Var "+cardInMotive(27,Victim)+" i bråk med någon",
+                            null
+                            ),
+                            new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Annoyed,
+                            "Inte direkt, men "+cardInMotive(27,Victim)+" hade en tendens att låna saker utan att fråga... och inte lämna tillbaka dem.",
+                            [
+                                new GameEngine.Classes.CardData(
+                                GameEngine.Enums.EmotionState.Annoyed,
+                                "Jag hörde "+cardInMotive(27,Other)+" smälla i dörren och skrika 'GE FAN I MIN TANDBORSTE, KLEPTOMANJÄVEL!' en dag förra veckan. Det var tydligen inte första gången "+cardInMotive(27,Victim)+" hade lånat den utan att fråga.",
+                                [
+
+
+                                ],
+                                " Finns det någon i huset som blev riktigt arg på "+cardInMotive(27,Victim)+" över detta?",
+                                null
+                                ),
+
+                                new GameEngine.Classes.CardData(
+                                    GameEngine.Enums.EmotionState.Concerned,
+                                    "Nej, jag började låsa mitt rum när jag fick reda på det.... Jag antar att jag inte behöver göra det längre",
+                                    [
+
+
+                                    ],
+                                    "Har "+cardInMotive(27,Victim)+" någonsin 'lånat' något värdefullt av dej?",
+                                    null
+                                )
+                            ],
+                            "Ogillade ni varandra?",
+                            null
+                            )
+
+                        ],
+                        "",
+                        null
+                    )
+                ]
+            ),
+            new GameEngine.Classes.GameCard(
+                28,
+                GameEngine.Enums.GameCardType.Intress,
+                "",
+                "",
+                [],
+                null,
+                [
+                    new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Neutral,
+                            "Jag och "+cardInMotive(28,Victim)+"  var med i samma baksetklubb när vi var små. Vi brukade ses på gården och spela lite då och då.",
+                        [
+
+                        ],
+                        "",
+                        null
+                    )
+                ]
+            ),
+            new GameEngine.Classes.GameCard(
+                29,
+                GameEngine.Enums.GameCardType.Intress,
+                "",
+                "",
+                [],
+                null,
+                [
+                    new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Neutral,
+                        "Jag och "+cardInMotive(29,Victim)+" umgicks inte ofta utanför basketplanen. Av vad jag har hört av de andra var "+cardInMotive(29,Victim)+" något av en kleptoman.",
+                        [
+
+                        ],
+                        "",
+                        null
+                    )
+                ]
+            ),
+            new GameEngine.Classes.GameCard(
+                30,
+                GameEngine.Enums.GameCardType.Relationship,
+                "",
+                "",
+                [],
+                null,
+                [
+                    new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Neutral,
+                            "Jag och "+cardInMotive(30,Victim)+" umgicks inte ofta utanför basketplanen. Av vad jag har hört av de andra var "+cardInMotive(30,Victim)+" något av en kleptoman.",
+                        [
+
+                        ],
+                        "",
+                        null
+                    )
+                ]
+            ),
+            new GameEngine.Classes.GameCard(
+                31,
+                GameEngine.Enums.GameCardType.Relationship,
+                "",
+                "",
+                [],
+                null,
+                [
+                    new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Neutral,
+                            "Synd att det regnar ute idag. "+cardInMotive(31,Victim)+" gillade regniga dagar.",
+                        [
+
+                        ],
+                        "",
+                        null
+                    )
+                ]
+            ),
+            new GameEngine.Classes.GameCard(
+                32,
+                GameEngine.Enums.GameCardType.Secret,
+                "",
+                "",
+                [],
+                null,
+                [
+                    new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Neutral,
+                        "Visste du att Hitler letade efter den heliga gralen under andra världskriget? Han trodde den skulle ge honom evigt liv!",
+                        [
+
+                        ],
+                        "",
+                        null
+                    )
+                ]
+            ),
+            new GameEngine.Classes.GameCard(
+                33,
+                GameEngine.Enums.GameCardType.Secret,
+                "",
+                "",
+                [],
+                null,
+                [
+                    new GameEngine.Classes.CardData(
+                    GameEngine.Enums.EmotionState.Neutral,
+                    "Jag undrar vad jag ska ha på mej på "+cardInMotive(33,Victim)+"  begravning. Om jag ens är bjuden...",
+                    [
+                        new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Concerned,
+                            "Men svart är ju sorgens färg...",
+                        [
+                            new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Neutral,
+                            "Nej.",
+                            [
+
+                            ],
+                            "Sörjer du inte "+cardInMotive(33,Victim)+" död?",
+                            null
+                            ),
+
+                            new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Neutral,
+                            "Kanske någon annans begravning.",
+                            [
+
+                            ],
+                            "Svart passar väl på en begravning?",
+                            null
+                            )
+                        ],
+                        "Något svart kanske?",
+                        null
+                        ),
+                        new GameEngine.Classes.CardData(
+                            GameEngine.Enums.EmotionState.Happy,
+                            "Haha! Det är faktiskt ingen dum ide!",
+                            [
+
+                            ],
+                            "En partyhatt kanske?",
+                            null
+                        )
+                    ],
+                    "",
+                    null
+                    )
+                ]
+            ),
+            new GameEngine.Classes.GameCard(
+            34,
+            GameEngine.Enums.GameCardType.Intress,
+            "",
+            "",
+            [],
+            null,
+            [
+                new GameEngine.Classes.CardData(
+                GameEngine.Enums.EmotionState.Neutral,
+                "Jag tror de andra tycker jag är lite konstigt för att jag intresserar mej för alkemi och svartkonster.",
+                [
+
+                ],
+                "",
+                null
+                )
+            ]
+            ),
+            new GameEngine.Classes.GameCard(
+            35,
+            GameEngine.Enums.GameCardType.Relationship,
+            "",
+            "",
+            [],
+            null,
+            [
+                new GameEngine.Classes.CardData(
+                GameEngine.Enums.EmotionState.Neutral,
+                ""+cardInMotive(35,Victim)+" var en jobbig jävel.",
+                [
+                    new GameEngine.Classes.CardData(
+                    GameEngine.Enums.EmotionState.Angry,
+                    " På ALLA sätt! Det fanns inget med "+cardInMotive(35,Victim)+" jag INTE störde mej på",
+                    [
+
+                    ],
+                    "På vilket sätt?",
+                    null
+                    ),
+                    new GameEngine.Classes.CardData(
+                    GameEngine.Enums.EmotionState.Annoyed,
+                    "Jag vet inte, jag bryr mej inte om vad de andra tycker",
+                    [
+                        new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Annoyed,
+                        "Sorry, polarn, du har fel person. Aldrig att jag skulle lägga ner den tiden och energin på "+cardInMotive(35,Victim)+".",
+                        [
+
+                        ],
+                        "Vad säger du om jag säger att jag misstänker dej som mördaren?",
+                        null
+                        ),
+
+                        new GameEngine.Classes.CardData(
+                        GameEngine.Enums.EmotionState.Annoyed,
+                        "Vem skulle INTE vilja mörda "+cardInMotive(35,Victim)+"? Alla skulle vilja mörda "+cardInMotive(35,Victim)+"! Jag vet inte vem som skulle ta sej tid att faktiskt göra det dock.",
+                        [
+
+                        ],
+                        "Vem misstänker du mördade "+cardInMotive(35,Victim)+"?",
+                        null
+                        )
+                    ],
+                    " Var det fler än du i huset som tyckte "+cardInMotive(35,Victim)+" var en jobbig person?",
+                    null
+                    )
+                ],
+                "",
+                null
+                )
+            ]
             )
+
         ];
 
         //Arrayen PersonDataToInit och MotiveCardSpecToInit  skickas till
