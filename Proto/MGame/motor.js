@@ -1792,15 +1792,40 @@ var GameEngine = {
             Ctx.fillStyle = FillStyleOld;
         },
 
+
+        shuffle : function(array){
+            //funktion som blandar en array
+            var ArrayClone = [];
+            for(var j = 0; j < array.length; j++){
+                ArrayClone.push(array[j]);
+            }
+            var ArrayToReturn = [];
+            var randomFromArr = 0;
+            var randomArrNumbr = 0;
+
+            for(var i = 0; ArrayClone.length > 0; i++ ){
+                randomArrNumbr = Math.floor(Math.random() * ArrayClone.length)+ 0;
+                randomFromArr = ArrayClone[randomArrNumbr];
+
+                ArrayToReturn.push(randomFromArr);
+
+                ArrayClone.splice(randomArrNumbr, 1);
+            }
+
+            return ArrayToReturn;
+        },
+
         SelectAnswerForActor : function(Actor, GameCard){
             var ArrOfPossibleCards = [];
             var GameCardDataToUseWithActor;
             var AnswerCardToCheck;
 
+            var AnswerCardsOfGameCard = GameEngine.Machines.shuffle(GameCard.AnswerCards);
+
             //Vi kollar igenom alla AnswerCards tills vi hittar en
             // som passar för den roll vi har frågatt..
-            for(var i = 0; i < GameCard.AnswerCards.length; i++){
-                AnswerCardToCheck = GameCard.AnswerCards[i];
+            for(var i = 0; i < AnswerCardsOfGameCard.length; i++){
+                AnswerCardToCheck = AnswerCardsOfGameCard[i];
 
                 //Först av allt vill vi kolla om kortet istället har "Owner"
                 //som ett ID, om fallet är
@@ -1817,6 +1842,7 @@ var GameEngine = {
                     ArrOfPossibleCards.push(AnswerCardToCheck);
                 }
 
+                /* Koden nedan används inte då spelet inte längre baserar svar på emotionstate...
                 if(AnswerCardToCheck.owner == Actor.role && AnswerCardToCheck.emotionState == Actor.emotionState){
                     //Om både role och Emotionstate stämmer överens med Actor så SKA detta kort
                     //användas på direkten !
@@ -1827,6 +1853,7 @@ var GameEngine = {
                     return;
 
                 }
+                 */
 
             }
             //Väljer  ett slumpat kort av de korten som är tillgänliga!
