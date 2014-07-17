@@ -1830,7 +1830,7 @@ var GameEngine = {
 
             }
             //Väljer  ett slumpat kort av de korten som är tillgänliga!
-            if(ArrOfPossibleCards > 0){
+            if(ArrOfPossibleCards.length > 0){
                 GameCardDataToUseWithActor = ArrOfPossibleCards[Math.floor(Math.random()*(ArrOfPossibleCards.length)+0)];
                 //Sätter ID på kortet till Actors ID, för att markera att svaret är upptaget..
                 GameCardDataToUseWithActor.owner = Actor.ID;
