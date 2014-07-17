@@ -1,9 +1,42 @@
 "use strict";
 
+var HeOrShe = function(actor, lang){
+    //returnerar "he" eller "she" beroende på actorns kön.
+    for(var i = 0; i < GameEngine.GlobalActors.length; i++){
+        //Denna loop tar reda på aktören beroende på namnet.
+        if(GameEngine.GlobalActors[i].name == actor){
+            actor = GameEngine.GlobalActors[i];
+        }
+    }
+    if(actor == undefined){
+        return null;
+    }
+    if(lang == undefined || lang == "en"){
+        if(actor.Gender == "M"){
+            return "He";
+        }
+        if(actor.Gender == "F"){
+            return "She";
+        }
+    }
+    if(lang == "sv"){
+        if(actor.Gender == "M"){
+            return "Han";
+        }
+        if(actor.Gender == "F"){
+            return "Hon";
+        }
+    }
+
+
+}
+
 var GameData = {
 	GameCardsCollectionData : [],
     GameDataImages : {},
     MurderMotives : [], // består av en array med typen MotiveCardSpec so minnehar typen  MotiveData
+
+
 
 	initData : function(Other, Murderer, Victim, Actor1, Actor2, Actor3, Actor4, motive){
         //^Denna metod kontaktas när karaktärerna är klara och rollerna är valda,
@@ -567,11 +600,13 @@ var GameData = {
 
 
         ];
-
+        GameData.MurderMotives = [];
         var Motives = [ //Array med MotivData
             new GameEngine.Classes.MotiveData(
                 "",
-                ""+cardInMotive(1, Victim)+" hittades i sitt rum. Av såren på den dödes kropp kan man se att ett vasst föremål har använts för att begå mordet. Tecken  på motstånd är också synligt vilket innebär att "+cardInMotive(1, Victim)+" måste vart beredd på att han var nära döden. Brottet anmäldes på morgonen strax innan kl 9.00.",//Beskrivning av mordfallet, nogrann (Innehåller ledtrådar till användaren om vapen etc...)",
+                ""+cardInMotive(1, Victim)+" hittades i sitt rum. Av såren på den dödes kropp kan man se att ett vasst föremål har använts för att begå mordet. " +
+                    "Tecken  på motstånd är också synligt vilket innebär att "+cardInMotive(1, Victim)+" måste vart beredd på att "+HeOrShe(Victim, "sv")+" var nära döden. Brottet " +
+                    "anmäldes på morgonen strax innan kl 9.00.",//Beskrivning av mordfallet, nogrann (Innehåller ledtrådar till användaren om vapen etc...)",
                 [ // GameCards ID'n tillhörande "Other"
                     10,11,12,13,14,15,16,17,18,19,20,21
                 ],
@@ -649,7 +684,7 @@ var GameData = {
                             new GameEngine.Classes.CardData(
                                 GameEngine.Enums.EmotionState.Neutral,//Emotionstate:
                                 "Det är okej, jag förstår att ditt arbete är tidskrävande. Vi, jag och "+cardInMotive(1,Victim)+", var de första som flyttade in här. Sedan dess har vi haft våra upp och nedgångar, men ända till slutet har jag sett " +
-                                "honom som en vän. Dumma "+cardInMotive(1,Victim)+", inte en dag utan att han var med i något bråk..",	//Svaret på frågan som ställdes
+                                "honom som en vän. Dumma "+cardInMotive(1,Victim)+", inte en dag utan att "+HeOrShe(Victim, "sv")+" var med i något bråk..",	//Svaret på frågan som ställdes
                                 [	//array med med CardDatas (som innehåller följdfrågor..)
 
                                 ],
@@ -683,7 +718,7 @@ var GameData = {
                                     new GameEngine.Classes.CardData(
                                         GameEngine.Enums.EmotionState.Neutral,//Emotionstate:
                                         "Det är okej, jag förstår att ditt arbete är tidskrävande. Vi, jag och "+cardInMotive(1,Victim)+", var de första som flyttade in här. Sedan dess har vi haft våra upp och nedgångar, men ända till slutet har jag sett " +
-                                        "honom som en vän. Dumma "+cardInMotive(1,Victim)+", inte en dag utan att han var med i något bråk..",	//Svaret på frågan som ställdes
+                                        "honom som en vän. Dumma "+cardInMotive(1,Victim)+", inte en dag utan att "+HeOrShe(Other, "sv")+" var med i något bråk..",	//Svaret på frågan som ställdes
                         [	//array med med CardDatas (som innehåller följdfrågor..)
 
                         ],
@@ -782,7 +817,7 @@ var GameData = {
                                     [	//array med med CardDatas (som innehåller följdfrågor..)
 
                                     ],
-                                    ""+cardInMotive(1,Actor1)+" sa till mig att hon tycker du har blivit tråkig...",	//Frågan som kortet ställer
+                                    ""+cardInMotive(1,Actor1)+" sa till mig att "+HeOrShe(Actor1, "sv")+" tycker du har blivit tråkig...",	//Frågan som kortet ställer
                                     null	//Null om det är ett personkort..
                                     )
                             ],
@@ -900,7 +935,7 @@ var GameData = {
 
                         new GameEngine.Classes.CardData(
                         GameEngine.Enums.EmotionState.Annoyed,//Emotionstate:
-                        "...Jag antar att det var lite okänsligt. Om du nu måste veta något så kan jag väll berätta att "+cardInMotive(2,Victim)+" inte var speciellt schyst, han hade inte direkt hänsyn till andra i huset...",	//Svaret på frågan
+                        "...Jag antar att det var lite okänsligt. Om du nu måste veta något så kan jag väll berätta att "+cardInMotive(2,Victim)+" inte var speciellt schyst, "+HeOrShe(Victim, "sv")+" hade inte direkt hänsyn till andra i huset...",	//Svaret på frågan
                         [	//array med med CardDatas (som innehåller följdfrågor..)
                             new GameEngine.Classes.CardData(
                             GameEngine.Enums.EmotionState.Nervous,//Emotionstate:
@@ -996,7 +1031,7 @@ var GameData = {
 
                     new GameEngine.Classes.CardData(
                     GameEngine.Enums.EmotionState.Annoyed,//Emotionstate:
-                    "Jag bryr mig inte om pengar, dessutom så betalade han alltid tillbaka även om det tog några veckor extra...",	//Svaret på frågan som ställdes
+                    "Jag bryr mig inte om pengar, dessutom så betalade "+HeOrShe(Victim, "sv")+" alltid tillbaka även om det tog några veckor extra...",	//Svaret på frågan som ställdes
                     [	//array med med CardDatas (som innehåller följdfrågor..)
 
                     ],
@@ -1041,7 +1076,7 @@ var GameData = {
                 "FINT! SKIT BRA! Jag pallar inte längre! JAG KLARAR INTE DET HÄR! Allt jag har gjort. Allt jag har gått igenom, bara för att få en ny chans... Men nu när jag vet att "+cardInMotive(2,Actor1)+" har tröttnat på mig så vet jag också att " +
                 "hoppet är ute, jag trodde att jag skulle klara det här. ATT VI SKULLE KLARA DET!.. Ända sedan jag fick reda på att "+cardInMotive(2,Actor1)+" hade en affär med "+cardInMotive(2,Victim)+" så har jag.. har jag... försökt att lösa problemet. Men jag insåg inte att det inte var " +
                 ""+cardInMotive(2,Victim)+" som var problemet, det var jag.... Jag vill inte leva mer, jag vill inte finnas, jag vill bara bort. "+cardInMotive(2,Victim)+" var min vän! Vi gjorde allt tillsamans... men efter det som hände så kunde jag inte se honom i ögonen. Jag gick flera" +
-                "dagar och tänkte på hur jag kunde lösa problemet, lösningen var alltid där! DET VAR UPPENBART, "+cardInMotive(2,Victim)+" MÅSTE DÖ! HAHAHAHA! Förstår du inte?! Han var hindret, han var orsaken till att "+cardInMotive(2,Actor1)+" lämnade mig... Jag... bara anmäl mig.." +
+                "dagar och tänkte på hur jag kunde lösa problemet, lösningen var alltid där! DET VAR UPPENBART, "+cardInMotive(2,Victim)+" MÅSTE DÖ! HAHAHAHA! Förstår du inte?! "+HeOrShe(Victim, "sv")+" var hindret, "+HeOrShe(Other, "sv")+" var orsaken till att "+cardInMotive(2,Actor1)+" lämnade mig... Jag... bara anmäl mig.." +
                 "okej?...",	//Svaret på frågan som ställdes
                 [	//array med med CardDatas (som innehåller följdfrågor..)
 
@@ -1231,7 +1266,7 @@ var GameData = {
 
                         new GameEngine.Classes.CardData(
                         GameEngine.Enums.EmotionState.Concerned,	//Emotionstate:
-                        "ja.. det är synd, han var en nära vän. Han var nära "+cardInMotive(4,Actor1)+" också... så jag tror att jag har någon som kan behöva tröst...",	//Svaret på frågan som ställdes
+                        "ja.. det är synd, "+HeOrShe(Victim, "sv")+" var en nära vän. "+HeOrShe(Victim, "sv")+" var nära "+cardInMotive(4,Actor1)+" också... så jag tror att jag har någon som kan behöva tröst...",	//Svaret på frågan som ställdes
                         [	//array med med CardDatas (som innehåller följdfrågor..)
 
                             new GameEngine.Classes.CardData(
@@ -1596,13 +1631,13 @@ var GameData = {
                             [	//array med med CardDatas (som innehåller följdfrågor..)
 
                             ],
-                            "Vad för typ av tvspel spelar han?",	//Frågan som kortet ställer
+                            "Vad för typ av tvspel spelar "+HeOrShe(Murderer, "sv")+"?",	//Frågan som kortet ställer
                             null	//Null om det är ett personkort..
                             ),
 
                             new GameEngine.Classes.CardData(
                             GameEngine.Enums.EmotionState.Concerned,//Emotionstate:
-                            "Om det är fallet så behöver "+cardInMotive(6, Murderer)+" bli bättre på att berätta vad han tänker och känner...",	//Svaret på frågan som ställdes
+                            "Om det är fallet så behöver "+cardInMotive(6, Murderer)+" bli bättre på att berätta vad "+HeOrShe(Murderer, "sv")+" tänker och känner...",	//Svaret på frågan som ställdes
                             [	//array med med CardDatas (som innehåller följdfrågor..)
 
                             ],
@@ -1678,7 +1713,7 @@ var GameData = {
 
                     new GameEngine.Classes.CardData(
                     GameEngine.Enums.EmotionState.Sad,//Emotionstate:
-                    "Det är klart att jag vill veta vem som är bakom det här! Jag vill att han ska få sitt straff så jag kan gå vidare med mitt liv... ",	//Svaret på frågan som ställdes
+                    "Det är klart att jag vill veta vem som är bakom det här! Jag vill att "+HeOrShe(Murderer, "sv")+" ska få sitt straff så jag kan gå vidare med mitt liv... ",	//Svaret på frågan som ställdes
                     [	//array med med CardDatas (som innehåller följdfrågor..)
                         new GameEngine.Classes.CardData(
                         GameEngine.Enums.EmotionState.Sad,//Emotionstate:
@@ -1872,7 +1907,7 @@ var GameData = {
 
                         new GameEngine.Classes.CardData(
                         GameEngine.Enums.EmotionState.Concerned,//Emotionstate:
-                        "Jag vet att andra tyckte att han kunde vara elak och självisk... Men för mig så var han inget av det...",	//Svaret på frågan som ställdes
+                        "Jag vet att andra tyckte att "+HeOrShe(Victim, "sv")+" kunde vara elak och självisk... Men för mig så var "+HeOrShe(Victim, "sv")+" inget av det...",	//Svaret på frågan som ställdes
                         [	//array med med CardDatas (som innehåller följdfrågor..)
                             new GameEngine.Classes.CardData(
                             GameEngine.Enums.EmotionState.Sad,//Emotionstate:
@@ -1981,7 +2016,7 @@ var GameData = {
 
                 new GameEngine.Classes.CardData(
                 GameEngine.Enums.EmotionState.Happy,//Emotionstate:
-                "Jag vet att "+cardInMotive(7,Victim)+" inte kunde vara tyst om en enda sak... Han var väldigt pratglad och inte rädd för att skryta.",	//Svaret på frågan som ställdes
+                "Jag vet att "+cardInMotive(7,Victim)+" inte kunde vara tyst om en enda sak... "+HeOrShe(Victim, "sv")+" var väldigt pratglad och inte rädd för att skryta.",	//Svaret på frågan som ställdes
                 [	//array med med CardDatas (som innehåller följdfrågor..)
 
                     new GameEngine.Classes.CardData(
@@ -1990,13 +2025,13 @@ var GameData = {
                     [	//array med med CardDatas (som innehåller följdfrågor..)
 
                     ],
-                    "Har han berättat några av dina hemligheter?",	//Frågan som kortet ställer
+                    "Har "+HeOrShe(Victim, "sv")+" berättat några av dina hemligheter?",	//Frågan som kortet ställer
                     null	//Null om det är ett personkort..
                     ),
 
                     new GameEngine.Classes.CardData(
                     GameEngine.Enums.EmotionState.Neutral,//Emotionstate:
-                    "Vanligtvis var det saker som han tyckte var 'coola' eller lite elaka... Han var inte en elak person för det... ",	//Svaret på frågan som ställdes
+                    "Vanligtvis var det saker som "+HeOrShe(Victim, "sv")+" tyckte var 'coola' eller lite elaka... "+HeOrShe(Victim, "sv")+" var inte en elak person för det... ",	//Svaret på frågan som ställdes
                     [	//array med med CardDatas (som innehåller följdfrågor..)
                         new GameEngine.Classes.CardData(
                         GameEngine.Enums.EmotionState.Nervous,//Emotionstate:
@@ -2004,11 +2039,11 @@ var GameData = {
                         [	//array med med CardDatas (som innehåller följdfrågor..)
 
                         ],
-                        "Vad är det som får dig att tycka att han inte är elak?",	//Frågan som kortet ställer
+                        "Vad är det som får dig att tycka att "+HeOrShe(Victim, "sv")+" inte är elak?",	//Frågan som kortet ställer
                         null	//Null om det är ett personkort..
                         )
                     ],
-                    "Vad för saker berättade han?",	//Frågan som kortet ställer
+                    "Vad för saker berättade "+HeOrShe(Victim, "sv")+"?",	//Frågan som kortet ställer
                     null	//Null om det är ett personkort..
                     )
                 ],
@@ -2028,7 +2063,7 @@ var GameData = {
 
                 new GameEngine.Classes.CardData(
                 GameEngine.Enums.EmotionState.FreakedOut,//Emotionstate:
-                "... Jag hade sex med "+cardInMotive(7,Victim)+", jag vet inte hur jag ska hantera det här... Han försvann innan jag hann berätta hur jag kände.",	//Svaret på frågan som ställdes
+                "... Jag hade sex med "+cardInMotive(7,Victim)+", jag vet inte hur jag ska hantera det här... "+HeOrShe(Victim, "sv")+" försvann innan jag hann berätta hur jag kände.",	//Svaret på frågan som ställdes
                 [	//array med med CardDatas (som innehåller följdfrågor..)
 
                 ],
@@ -2081,7 +2116,7 @@ var GameData = {
 
                 new GameEngine.Classes.CardData(
                 GameEngine.Enums.EmotionState.Happy,	//Emotionstate:
-                "Hmm, igår innan jag skulle gå och lägga mig så stannade min partner "+cardInMotive(7, Murderer)+" uppe sent, han sa att han skulle spela tvspel. Kanske vet han något?",	//Svaret på frågan som ställdes
+                "Hmm, igår innan jag skulle gå och lägga mig så stannade min partner "+cardInMotive(7, Murderer)+" uppe sent, "+HeOrShe(Murderer, "sv")+" sa att "+HeOrShe(Murderer, "sv")+" skulle spela tvspel. Kanske vet "+HeOrShe(Murderer, "sv")+" något?",	//Svaret på frågan som ställdes
                 [	//array med med CardDatas (som innehåller följdfrågor..)
 
                 ],
@@ -2191,7 +2226,7 @@ var GameData = {
                     [
                         new GameEngine.Classes.CardData(
                         GameEngine.Enums.EmotionState.Concerned,
-                        "Hmm, nej "+cardInMotive(9,Victim)+" var inte direkt den som uppskattade sport... Han var mer en nattuggla...",
+                        "Hmm, nej "+cardInMotive(9,Victim)+" var inte direkt den som uppskattade sport... "+HeOrShe(Victim, "sv")+" var mer en nattuggla...",
                         [
                             new GameEngine.Classes.CardData(
                             GameEngine.Enums.EmotionState.Nervous,
@@ -2199,7 +2234,7 @@ var GameData = {
                             [
 
                             ],
-                            "Eftersom ni först märkte dagen efter att "+cardInMotive(9,Victim)+" hade blivit mördad, så innebär det att han mest troligast dog under natten. Några kommntarer?",
+                            "Eftersom ni först märkte dagen efter att "+cardInMotive(9,Victim)+" hade blivit mördad, så innebär det att "+HeOrShe(Victim, "sv")+" mest troligast dog under natten. Några kommntarer?",
                             null
                             ),
                             new GameEngine.Classes.CardData(
@@ -2234,7 +2269,7 @@ var GameData = {
                                 )
 
                             ],
-                            "Hur kommer det sig att du vet att han var en nattugla? Var ni nära?",
+                            "Hur kommer det sig att du vet att "+HeOrShe(Victim, "sv")+" var en nattugla? Var ni nära?",
                             null
                             )
 
@@ -2330,7 +2365,7 @@ var GameData = {
                         [
                             new GameEngine.Classes.CardData(
                             GameEngine.Enums.EmotionState.Happy,
-                            "Visst!"+cardInMotive(11,Actor1)+" är schyst! "+cardInMotive(11,Actor1)+" har också en partner som bor i huset, "+cardInMotive(11,Murderer)+ " heter den! Heh! Verkar inte som om de har vart så glada på varandra den senaste tiden...",
+                            "Visst! "+cardInMotive(11,Actor1)+" är schyst! "+cardInMotive(11,Actor1)+" har också en partner som bor i huset, "+cardInMotive(11,Murderer)+ " heter "+HeOrShe(Murderer, "sv")+"! Heh! Verkar inte som om de har vart så glada på varandra den senaste tiden...",
                             [
 
                             ],
@@ -2417,7 +2452,7 @@ var GameData = {
                     [
                         new GameEngine.Classes.CardData(
                         GameEngine.Enums.EmotionState.Happy,
-                        "Visst! "+cardInMotive(13,Murderer)+" är en riktig spelnörd! "+cardInMotive(13,Murderer)+" har också en partner, men de verkar inte ha prata mycket längre... tror att "+cardInMotive(13,Murderer)+" tar det rätt hårt...",
+                        "Visst! "+cardInMotive(13,Murderer)+" är en riktig spelnörd! "+HeOrShe(Murderer, "sv")+" har också en partner, men de verkar inte ha prata mycket längre... tror att "+cardInMotive(13,Murderer)+" tar det rätt hårt...",
                         [
                             new GameEngine.Classes.CardData(
                             GameEngine.Enums.EmotionState.Concerned,
@@ -2431,11 +2466,11 @@ var GameData = {
 
                             new GameEngine.Classes.CardData(
                             GameEngine.Enums.EmotionState.Neutral,
-                            "Hmm. Mest vanliga spel, GTA V är något av de nyare spelen han spelat...",
+                            "Hmm. Mest vanliga spel, GTA V är något av de nyare spelen "+HeOrShe(Murderer, "sv")+" spelat...",
                             [
 
                             ],
-                            "Vilka spel spelar han utöver pokémon?",
+                            "Vilka spel spelar "+HeOrShe(Murderer, "sv")+" utöver pokémon?",
                             null
                             )
                         ],
@@ -2483,7 +2518,7 @@ var GameData = {
                         [
                             new GameEngine.Classes.CardData(
                             GameEngine.Enums.EmotionState.Sad,
-                            "Hm. I vanliga fall inte men under omständigheterna antar jag att det är för det bästa... Han hade sex då och då med "+cardInMotive(15,Actor1)+", det var något som "+cardInMotive(15,Victim)+" var stolt över. Men tyvärr verkade det som om dem blev kära... ",
+                            "Hm. I vanliga fall inte men under omständigheterna antar jag att det är för det bästa... "+HeOrShe(Victim, "sv")+" hade sex då och då med "+cardInMotive(15,Actor1)+", det var något som "+cardInMotive(15,Victim)+" var stolt över. Men tyvärr verkade det som om dem blev kära... ",
                             [
 
                             ],
@@ -2847,7 +2882,7 @@ var GameData = {
                                 [
 
                                 ],
-                                "Så "+cardInMotive(26,Other)+" sålde narkotika? Sålde han någonsin till någon i huset?",
+                                "Så "+cardInMotive(26,Other)+" sålde narkotika? Sålde "+HeOrShe(Other, "sv")+" någonsin till någon i huset?",
                                 null
                                 )
 

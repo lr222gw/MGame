@@ -898,6 +898,7 @@ var GameEngine = {
     Actives : {
         RoomThatIsActive : "",
         MotiveThatIsActive : "",
+        MurderMotiveArrNumber : null,
         ClueButtonsOn : true,
         Player : null,
         MurderToGuessOn : null,
@@ -977,7 +978,7 @@ var GameEngine = {
             Ctx.fillStyle = "rgb(0,0,0)";
             GameEngine.Machines.wrapText(
                 Ctx,
-                GameEngine.Actives.MotiveThatIsActive.motiveDescription,
+                GameData.MurderMotives[GameEngine.Actives.MurderMotiveArrNumber].motiveDescription,
                 (ScreenSpec.SizeX / 8)*3 +10,
                 (ScreenSpec.SizeY / 8)+10,
                 (ScreenSpec.SizeX / 2)-20,
@@ -2108,10 +2109,12 @@ var GameEngine = {
             GameObj.CheckPointsForInit.SelectRandomMotive = false;
             //Först slumpar jag fram ett Motiv genom att ta längden på Motivarrayen och 0
             // då får jag alltså ett värde däremellan..GameData.MurderMotives
-            var RandomMurderMotive = GameData.MurderMotives[Math.floor(Math.random() * (GameData.MurderMotives.length - 1) + 0)];
+            var RandomMurderMotiveArrNumber = Math.floor(Math.random() * (GameData.MurderMotives.length - 1) + 0);
+            var RandomMurderMotive = GameData.MurderMotives[RandomMurderMotiveArrNumber];
 
             //Anger vilket motiv som är aktivt..
             GameEngine.Actives.MotiveThatIsActive = RandomMurderMotive;
+            GameEngine.Actives.MurderMotiveArrNumber = RandomMurderMotiveArrNumber;
 
             //Eftersom resten av koden jag skrivit är basearat på att RandomMurderMotive är en array som innehåller arrayer så
             //kommer jag göra om den till en array som går att skicka videre!
@@ -5038,7 +5041,7 @@ var GameEngine = {
             GameObj.CheckPointsForInit.CreateActors = false;
 
 			//Init all Actor
-			var actor1 = new GameEngine.Classes.Actor("Noah", 1, "Data/Characters/char_1/char1.png");
+			var actor1 = new GameEngine.Classes.Actor("Noah", 1, "Data/Characters/char_1/char1.png", "M");
             var img = new Image();
             (img.src = "Data/Characters/char_1/emotions/Angry.png");
             actor1.EmotionObj.Angry =       img;
@@ -5078,7 +5081,7 @@ var GameEngine = {
             actor1.room = GameEngine.Enums.Room.bedroom1;
 
 
-			var actor2 = new GameEngine.Classes.Actor("Ethan", 2, "Data/Characters/char_2/char2.png");
+			var actor2 = new GameEngine.Classes.Actor("Ethan", 2, "Data/Characters/char_2/char2.png", "M");
             var img = new Image();
             (img.src = "Data/Characters/char_2/emotions/Angry.png");
             actor2.EmotionObj.Angry =       img;
@@ -5118,7 +5121,7 @@ var GameEngine = {
             actor2.room = GameEngine.Enums.Room.bedroom2;
 
 
-			var actor3 = new GameEngine.Classes.Actor("Haley", 3, "Data/Characters/char_3/char3.png");
+			var actor3 = new GameEngine.Classes.Actor("Haley", 3, "Data/Characters/char_3/char3.png", "F");
 
             var img = new Image();
             (img.src = "Data/Characters/char_3/emotions/Angry.png");
@@ -5158,7 +5161,7 @@ var GameEngine = {
 
             actor3.room = GameEngine.Enums.Room.bedroom3;
 
-			var actor4 = new GameEngine.Classes.Actor("Lucy", 4, "Data/Characters/char_4/char4.png");
+			var actor4 = new GameEngine.Classes.Actor("Lucy", 4, "Data/Characters/char_4/char4.png", "F");
             var img = new Image();
             (img.src = "Data/Characters/char_4/emotions/Angry.png");
             actor4.EmotionObj.Angry =       img;
@@ -5197,7 +5200,7 @@ var GameEngine = {
 
             actor4.room = GameEngine.Enums.Room.bedroom4;
 
-			var actor5 = new GameEngine.Classes.Actor("Corey", 5, "Data/Characters/char_5/char5.png");
+			var actor5 = new GameEngine.Classes.Actor("Corey", 5, "Data/Characters/char_5/char5.png", "M");
             var img = new Image();
             (img.src = "Data/Characters/char_5/emotions/Angry.png");
             actor5.EmotionObj.Angry =       img;
@@ -5236,7 +5239,7 @@ var GameEngine = {
 
             actor5.room = GameEngine.Enums.Room.bedroom5;
 
-			var actor6 = new GameEngine.Classes.Actor("Kayla", 6, "Data/Characters/char_6/char6.png");
+			var actor6 = new GameEngine.Classes.Actor("Kayla", 6, "Data/Characters/char_6/char6.png", "F");
             var img = new Image();
             (img.src = "Data/Characters/char_6/emotions/Angry.png");
             actor6.EmotionObj.Angry =       img;
@@ -5438,7 +5441,7 @@ var GameEngine = {
 			this.RoomName = _RoomName; 	//Namnet på rummet som man kommer till när man trycker...
 		},
 		
-		Actor : function(_name, _ID, _image){
+		Actor : function(_name, _ID, _image, _gender){
 			this.name = _name;				//Namnet på aktören..
 			this.isMurder = false;
             this.isVictim = false;
@@ -5474,6 +5477,7 @@ var GameEngine = {
             this.room = null;           //här sätter vi ID't på det rum som tillhör Actorn..
             this.IsInThisRoom = null;
             this.icon = null;
+            this.Gender = _gender; //F = femaile, M = Maile
 		},
 		
 		Player : function(){
