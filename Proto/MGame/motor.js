@@ -100,7 +100,12 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
                                                                   //"Flirt"         = 15
                                                                   //"Threathen"    = 15  <-- detta adderas senare.. (i LoadstandardQuestions..)
                         GameEngine.Machines.PlayersHuddUpdate();
-                        Button.AnswerToSend();
+                        if(GameEngine.Actives.GameOverIsActive == false){
+                            //Detta är en säkerhetsspärr som förbjuder
+                            //dialogrutan att lägga sig över gameoverrutan...
+                            Button.AnswerToSend();
+                        }
+
                         return;
                     }
                 }
@@ -711,14 +716,16 @@ var PrepareNewGameORMenu = function(PlayerWantsToPlayAgain){
             InfoButton : null
     };
     GameEngine.Actives = {
-        RoomThatIsActive : "",
+            RoomThatIsActive : "",
             MotiveThatIsActive : "",
+            MurderMotiveArrNumber : null,
             ClueButtonsOn : true,
             Player : null,
             MurderToGuessOn : null,
             TimeSinceLastHover : Date.now(),
             IsDialogActive : false,
-            actorInDialog : null
+            actorInDialog : null,
+            GameOverIsActive : false
     };
     GameEngine.DataPlaceHolder = [];
     GameEngine.BusyCards = {
@@ -904,7 +911,8 @@ var GameEngine = {
         MurderToGuessOn : null,
         TimeSinceLastHover : Date.now(),
         IsDialogActive : false,
-        actorInDialog : null
+        actorInDialog : null,
+        GameOverIsActive : false
     },
 
     DataPlaceHolder : [],  //används för att lagra tillfällig data..
@@ -1090,6 +1098,14 @@ var GameEngine = {
                 RestartGameButton.Width,
                 RestartGameButton.Height
             );
+
+            GameEngine.Actives.GameOverIsActive = true;
+            /*
+            if(GameEngine.Actives.GameOverIsActive == false){
+                GameEngine.Actives.GameOverIsActive = true;
+                GameEngine.Machines.PlayersHuddUpdate();
+            }
+            */
 
         },
 
@@ -1288,12 +1304,17 @@ var GameEngine = {
                 return;
             }
             //Skriver ut timepoints
+            if(GameEngine.Actives.Player.TimePoints < 50){
+                Ctx.font= GameBubbleData.TextHeight+ 10 +"px arial, Bold sans-serif";
+            }
             Ctx.fillText(
                 "TimePoints Left: "+ GameEngine.Actives.Player.TimePoints,
                 ScreenSpec.SizeX - (ScreenSpec.SizeX / 4)+10,
                 ScreenSpec.gameFrameY + GameBubbleData.TextHeight + 5,
                 ScreenSpec.SizeX / 4
             );
+
+            Ctx.font= GameBubbleData.TextHeight +"px arial, bold sans-serif";
 
             //Skriver ut rummet
             Ctx.fillText(
