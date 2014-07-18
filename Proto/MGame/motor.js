@@ -2454,6 +2454,8 @@ var GameEngine = {
                                         CardToUse.push(CardToPutInCardToUse[i]);
                                         NumberOfRealCards_UseThisToSubtract - 1;
                                         Logger.push(CardToPutInCardToUse[i].ID);
+                                    }else{
+                                        Logger.push(CardToPutInCardToUse[0].ID);
                                     }
 
                                                 //GameEngine.BusyCards.ClueCards.push(CardToPutInCardToUse[i].ID); //TODO: kolla om denna fungerar eller har förstört..
@@ -2461,17 +2463,20 @@ var GameEngine = {
                                        // } //
                                     //}
 
+                                }else{
+                                    Logger.push(CardToPutInCardToUse[0].ID);
                                 }
+                            }
+
+                            }else {
+                            Logger.push(CardToPutInCardToUse[0].ID);
                             }
                         }else{
                             Logger.push(CardToPutInCardToUse[0].ID);
                         }
                         //TODO: Varning på denna under... ..
-                        Logger.push(CardToPutInCardToUse[0].ID);
+                        //Logger.push(CardToPutInCardToUse[0].ID);
                     }
-
-                }
-
 
 
                 if(Logger.length >= ArrayOfGameCards.length){
