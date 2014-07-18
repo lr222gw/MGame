@@ -3204,7 +3204,7 @@ var GameData = {
 
         // 0 = HuddBackground
         var huddBackground = new Image();
-        huddBackground.src = "Data/Hudd/black.jpg";
+        huddBackground.src = "Data/Hudd/black.png";
 
         // 1 = backButton
         var backButton = new Image();

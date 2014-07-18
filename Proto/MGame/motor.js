@@ -3444,7 +3444,7 @@ var GameEngine = {
                     )
                     /*,
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.jpg"),
+                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.png"),
                         GameEngine.Machines.getPosition(0.5865102639296188 , "x"),
                         GameEngine.Machines.getPosition(0.3103349556255368, "y"),
                         GameEngine.Machines.getPosition(0.03, "x"),
@@ -3492,7 +3492,7 @@ var GameEngine = {
                         GameEngine.Machines.getPosition(0.10, "y")
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.jpg"),
+                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.png"),
                         GameEngine.Machines.getPosition(0.002932551319648094  , "x"),
                         GameEngine.Machines.getPosition(0.24506155167477814, "y"),
                         GameEngine.Machines.getPosition(0.05, "x"),
@@ -3550,7 +3550,7 @@ var GameEngine = {
                         GameEngine.Machines.getPosition(0.10, "y")
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.jpg"),
+                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.png"),
                         GameEngine.Machines.getPosition(0.9100684261974584  , "x"),
                         GameEngine.Machines.getPosition(0.27483538505582594, "y"),
                         GameEngine.Machines.getPosition(0.05, "x"),
@@ -3608,7 +3608,7 @@ var GameEngine = {
                         GameEngine.Machines.getPosition(0.10, "y")
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.jpg"),
+                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.png"),
                         GameEngine.Machines.getPosition(0.002932551319648094  , "x"),
                         GameEngine.Machines.getPosition(0.24506155167477814, "y"),
                         GameEngine.Machines.getPosition(0.05, "x"),
@@ -3665,7 +3665,7 @@ var GameEngine = {
                         GameEngine.Machines.getPosition(0.10, "y")
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.jpg"),
+                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.png"),
                         GameEngine.Machines.getPosition(0.002932551319648094  , "x"),
                         GameEngine.Machines.getPosition(0.24506155167477814, "y"),
                         GameEngine.Machines.getPosition(0.05, "x"),
@@ -3722,7 +3722,7 @@ var GameEngine = {
                         GameEngine.Machines.getPosition(0.10, "y")
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.jpg"),
+                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.png"),
                         GameEngine.Machines.getPosition(0.002932551319648094  , "x"),
                         GameEngine.Machines.getPosition(0.24506155167477814, "y"),
                         GameEngine.Machines.getPosition(0.05, "x"),
@@ -3779,7 +3779,7 @@ var GameEngine = {
                         GameEngine.Machines.getPosition(0.10, "y")
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.jpg"),
+                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.png"),
                         GameEngine.Machines.getPosition(0.002932551319648094  , "x"),
                         GameEngine.Machines.getPosition(0.24506155167477814, "y"),
                         GameEngine.Machines.getPosition(0.05, "x"),
@@ -3968,7 +3968,7 @@ var GameEngine = {
                         GameEngine.Machines.getPosition(0.10, "y")
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.jpg"),
+                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.png"),
                         GameEngine.Machines.getPosition(0.6256109481915934, "x"),
                         GameEngine.Machines.getPosition(0.14543372459204124, "y"),
                         GameEngine.Machines.getPosition(0.075, "x"),
@@ -4026,7 +4026,7 @@ var GameEngine = {
                         GameEngine.Machines.getPosition(0.10, "y")
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.jpg"),
+                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.png"),
                         GameEngine.Machines.getPosition(0.8347996089931574 , "x"),
                         GameEngine.Machines.getPosition(0.195820211852276, "y"),
                         GameEngine.Machines.getPosition(0.075, "x"),
@@ -4144,10 +4144,13 @@ var GameEngine = {
             var widthOfObj;
             var heighOfObj;
 
+            //TODO: stänger av funktionen av anpassning på bilder efter
+
             if(PlaceholderWithContent.SizeWidth == undefined || PlaceholderWithContent.SizeHeight == undefined){
                 widthOfObj = PlaceholderWithContent.GameCardOrContent.image.width / (ScreenSpec.BackgroundStandardSizeX / ScreenSpec.SizeX);
                 heighOfObj = PlaceholderWithContent.GameCardOrContent.image.height /(ScreenSpec.BackgroundStandardSizeY / ScreenSpec.gameFrameY); //ScreenSpec.gameFrameY för att bara räkna in det som ska in på scene
             }else{
+
                 widthOfObj = PlaceholderWithContent.SizeWidth;
                 heighOfObj = PlaceholderWithContent.SizeHeight;
             }

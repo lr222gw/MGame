@@ -1,0 +1,5 @@
+Data OLD
+Innehåller alla bilder i sina största format,
+där är också alla bilder i sina egna format medan den nya versionen bara har PNG...
+Om den Data Old ska användas igen, vänligen konvertera allt innehåll till en ny map och se till att
+du converterar till PNG, du behöver inte förminska bilderna, så länge formaten är i PNG och inte JPG så är allt bra.
