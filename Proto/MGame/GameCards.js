@@ -30,6 +30,117 @@ var HeOrShe = function(actor, lang){
 
 
 }
+var NotOwnerOfThisCard = function(ID, Other){
+    var ArrOfPossbleNames = [];
+    var actor;
+    var whoWas;
+
+
+    for(var b = 0; b < Other.length; b++){
+        ArrOfPossbleNames.push(Other[b]);
+    }
+
+    for(var j = 0; j < GameEngine.GlobalActors.length; j++){
+        //Denna loop tar reda på aktören beroende på namnet.
+        for(var k = 0; k < Other.length; k++){
+            if(GameEngine.GlobalActors[j].name == Other[k]){
+                actor = GameEngine.GlobalActors[j];
+
+
+
+                if(actor.Secret.ID == ID){
+
+                    ArrOfPossbleNames.splice(ArrOfPossbleNames.indexOf(Other[k]), 1);
+                    whoWas = actor.name;
+                }
+
+                if(actor.Other.ID == ID){
+
+                    ArrOfPossbleNames.splice(ArrOfPossbleNames.indexOf(Other[k]), 1);
+                    whoWas = actor.name;
+                }
+
+                if(actor.Intress.ID == ID){
+
+                    ArrOfPossbleNames.splice(ArrOfPossbleNames.indexOf(Other[k]), 1);
+                    whoWas = actor.name;
+                }
+
+                if(actor.Relation.ID == ID){
+
+                    ArrOfPossbleNames.splice(ArrOfPossbleNames.indexOf(Other[k]), 1);
+                    whoWas = actor.name;
+
+                }
+            }
+        }
+
+    }
+    return ArrOfPossbleNames;
+
+
+
+};
+
+var getOwnerOfCard = function(cardID){
+    //Denna funktion tar fram namnet på personen som har kortet med KortID't som skickas in.
+    for(var i = 0; i < GameEngine.GlobalActors.length; i++){
+        var actor =GameEngine.GlobalActors[i];
+
+        if(actor.Secret.ID == cardID){
+            return actor.name;
+        }
+        if(actor.Other.ID == cardID){
+            return actor.name;
+        }
+        if(actor.Relation.ID == cardID){
+            return actor.name;
+        }
+        if(actor.Intress.ID == cardID){
+            return actor.name;
+        }
+    }
+}
+
+var findCardByID = function(ID, OnlyAnswerBool){
+    // Denna funktion hittar det kort man letar efter och personen som har kortet. om man anger True
+    // i OnlyAnswerbool så får man bara första svaret från svarskorten i kortet..
+    var ArrWithCardAndCardUser = [];
+    for(var i = 0; i < GameData.GameCardsCollectionData.length; i++){
+        if(GameData.GameCardsCollectionData[i].ID == undefined){
+            if(GameData.GameCardsCollectionData[i].theGameCard.ID == ID){
+
+
+
+                if(OnlyAnswerBool == true){
+                    ArrWithCardAndCardUser.push(GameData.GameCardsCollectionData[i].theGameCard.AnswerCards[0].answer);
+                }else{
+                    ArrWithCardAndCardUser.push(GameData.GameCardsCollectionData[i].theGameCard);
+                }
+
+                ArrWithCardAndCardUser.push(getOwnerOfCard(ID));
+
+                return ArrWithCardAndCardUser;
+            }
+        }
+        if(GameData.GameCardsCollectionData[i].ID == ID){
+            //return GameData.GameCardsCollectionData[i];
+
+            if(OnlyAnswerBool == true){
+                ArrWithCardAndCardUser.push(GameData.GameCardsCollectionData[i].AnswerCards[0].answer);
+            }else{
+                ArrWithCardAndCardUser.push(GameData.GameCardsCollectionData[i]);
+            }
+
+
+            ArrWithCardAndCardUser.push(getOwnerOfCard(ID));
+
+            return ArrWithCardAndCardUser;
+        }
+
+
+    }
+};
 
 var GameData = {
 	GameCardsCollectionData : [],
@@ -59,7 +170,8 @@ var GameData = {
                    "Game motive without 'Other'-actor but Card for Actor needed 'other'. please ignore";
            }else{
                if(ActiveGameCardID != ID){
-                   var ThisOther = Other[Math.floor(Math.random() * Other.length + 0)];
+                   var CompatibleOtherArr = NotOwnerOfThisCard(ID, Other);
+                   var ThisOther = CompatibleOtherArr[Math.floor(Math.random() * CompatibleOtherArr.length + 0)];
                    ActiveOther = ThisOther;
                    ActiveGameCardID = ID;
                }else{
@@ -68,7 +180,10 @@ var GameData = {
 
            }
            if(Other == actor && Other != undefined){
-               actor = Other[Math.floor(Math.random() * Other.length + 0)];
+               //Gammal säkerhetsspärr som förstörde för NotOwnerOfThisCard... EDIT: använder denna, modifierad
+               //actor = Other[Math.floor(Math.random() * Other.length + 0)]; <-- oldCode...
+               var CompatibleOtherArr = NotOwnerOfThisCard(ID, Other);
+               actor = CompatibleOtherArr[Math.floor(Math.random() * CompatibleOtherArr.length + 0)];
            }
 
            var i = 0;                           //finns med i Motivet. Om det gör det så Ska "Murdurer" väljas, annars "Other"
@@ -2620,7 +2735,7 @@ var GameData = {
                 [
                     new GameEngine.Classes.CardData(
                         GameEngine.Enums.EmotionState.Neutral,
-                        "I början när jag flyttade brukade vi ha brädspelskvällar! Det var roligt... Det var alltid jag och "+cardInMotive(18,Actor1)+" mot "+cardInMotive(18,Murderer)+" och "+cardInMotive(18,Other)+"",
+                        "I början när jag flyttade brukade vi ha brädspelskvällar! Det var roligt... Det var alltid jag och "+cardInMotive(19,Actor1)+" mot "+cardInMotive(19,Murderer)+" och "+cardInMotive(19,Other)+"",
                         [],
                         "",
                         null

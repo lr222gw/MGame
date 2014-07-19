@@ -22,7 +22,7 @@
     <favorites_list name="MGame" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.32086408">
+    <splitter split-orientation="horizontal" split-proportion="0.5590095">
       <split-first>
         <leaf>
           <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
@@ -35,21 +35,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="GameCards.js" pinned="false" current="false" current-in-tab="false">
+          <file leaf-file-name="GameCards.js" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/GameCards.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-269.49124" vertical-offset="602" max-vertical-offset="94044">
-                  <caret line="939" column="60" selection-start-line="939" selection-start-column="60" selection-end-line="939" selection-end-column="60" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="motor.js" pinned="false" current="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/motor.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.52262443" vertical-offset="70139" max-vertical-offset="97342">
-                  <caret line="4153" column="62" selection-start-line="4153" selection-start-column="62" selection-end-line="4153" selection-end-column="62" />
+                <state vertical-scroll-proportion="0.317757" vertical-offset="2652" max-vertical-offset="95999">
+                  <caret line="172" column="62" selection-start-line="172" selection-start-column="44" selection-end-line="172" selection-end-column="62" />
                   <folding />
                 </state>
               </provider>
@@ -58,14 +48,14 @@
         </leaf>
       </split-first>
       <split-second>
-        <splitter split-orientation="horizontal" split-proportion="0.4434352">
+        <splitter split-orientation="horizontal" split-proportion="0.5840708">
           <split-first>
             <leaf>
               <file leaf-file-name="motor.js" pinned="false" current="false" current-in-tab="true">
                 <entry file="file://$PROJECT_DIR$/motor.js">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state vertical-scroll-proportion="0.39252338" vertical-offset="69415" max-vertical-offset="97342">
-                      <caret line="4103" column="13" selection-start-line="4103" selection-start-column="13" selection-end-line="4103" selection-end-column="13" />
+                    <state vertical-scroll-proportion="0.25350466" vertical-offset="13196" max-vertical-offset="97342">
+                      <caret line="789" column="38" selection-start-line="789" selection-start-column="12" selection-end-line="789" selection-end-column="38" />
                       <folding />
                     </state>
                   </provider>
@@ -75,7 +65,7 @@
           </split-first>
           <split-second>
             <leaf>
-              <file leaf-file-name="motor.js" pinned="false" current="true" current-in-tab="true">
+              <file leaf-file-name="motor.js" pinned="false" current="false" current-in-tab="true">
                 <entry file="file://$PROJECT_DIR$/motor.js">
                   <provider selected="true" editor-type-id="text-editor">
                     <state vertical-scroll-proportion="0.41402715" vertical-offset="60664" max-vertical-offset="97342">
@@ -100,8 +90,8 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/index.html" />
-        <option value="$PROJECT_DIR$/GameCards.js" />
         <option value="$PROJECT_DIR$/motor.js" />
+        <option value="$PROJECT_DIR$/GameCards.js" />
       </list>
     </option>
   </component>
@@ -603,18 +593,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GameCards.js">
+    <entry file="file://$PROJECT_DIR$/motor.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-269.49124" vertical-offset="602" max-vertical-offset="94044">
-          <caret line="939" column="60" selection-start-line="939" selection-start-column="60" selection-end-line="939" selection-end-column="60" />
+        <state vertical-scroll-proportion="0.25350466" vertical-offset="13196" max-vertical-offset="97342">
+          <caret line="789" column="38" selection-start-line="789" selection-start-column="12" selection-end-line="789" selection-end-column="38" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/motor.js">
+    <entry file="file://$PROJECT_DIR$/GameCards.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.41402715" vertical-offset="60664" max-vertical-offset="97342">
-          <caret line="3590" column="18" selection-start-line="3590" selection-start-column="18" selection-end-line="3590" selection-end-column="18" />
+        <state vertical-scroll-proportion="0.317757" vertical-offset="2652" max-vertical-offset="95999">
+          <caret line="172" column="62" selection-start-line="172" selection-start-column="44" selection-end-line="172" selection-end-column="62" />
           <folding />
         </state>
       </provider>
