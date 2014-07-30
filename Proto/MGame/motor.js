@@ -100,6 +100,11 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
                                                                   //"Flirt"         = 15
                                                                   //"Threathen"    = 15  <-- detta adderas senare.. (i LoadstandardQuestions..)
                         GameEngine.Machines.PlayersHuddUpdate();
+
+                        //HÄR SKA JAG GÖRA NÅGOT!!
+                        // BlippBoxIsActive : false ???? ska hamna i blippboxen när man går tillbaka från i have to go
+
+
                         if(GameEngine.Actives.GameOverIsActive == false){
                             //Detta är en säkerhetsspärr som förbjuder
                             //dialogrutan att lägga sig över gameoverrutan...
@@ -155,6 +160,7 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
                             GameEngine.Machines.fillBackgroundGray(); // gör bakgrunden grå.
                             GameEngine.GoToButtons.BlippButtons = [];//innaktiverar BlippBoxKnappar..
                             GameEngine.GoToButtons.backButton = "";
+                            GameEngine.Actives.BlippBoxIsActive = true;
                             GameEngine.Machines.SelectAnswerForActor(Button.ActorOfBox, Button.GameCard);
                             return;
                         }else{
@@ -725,7 +731,10 @@ var PrepareNewGameORMenu = function(PlayerWantsToPlayAgain){
             TimeSinceLastHover : Date.now(),
             IsDialogActive : false,
             actorInDialog : null,
-            GameOverIsActive : false
+            GameOverIsActive : false,
+            BlippBoxIsActive : false,
+            ClueInterview : false,
+            ActiveClue : null
     };
     GameEngine.DataPlaceHolder = [];
     GameEngine.BusyCards = {
@@ -912,7 +921,10 @@ var GameEngine = {
         TimeSinceLastHover : Date.now(),
         IsDialogActive : false,
         actorInDialog : null,
-        GameOverIsActive : false
+        GameOverIsActive : false,
+        BlippBoxIsActive : false,
+        ClueInterview : false,
+        ActiveClue : null
     },
 
     DataPlaceHolder : [],  //används för att lagra tillfällig data..
@@ -1856,6 +1868,9 @@ var GameEngine = {
             var ArrOfPossibleCards = [];
             var GameCardDataToUseWithActor;
             var AnswerCardToCheck;
+            GameEngine.Actives.ClueInterview = true;
+
+            GameEngine.Machines.fillHudGray(false,false,false,true);
 
             var AnswerCardsOfGameCard = GameEngine.Machines.shuffle(GameCard.AnswerCards);
 
@@ -1919,6 +1934,11 @@ var GameEngine = {
 
         createBlippBox : function(GameCard){
             GameEngine.Actives.IsDialogActive = true;
+            GameEngine.Actives.BlippBoxIsActive = true;
+
+            //Genom att spara ner vilket kort som använts så kan vi kontakta
+            // denna funktion igen när vi vill återgå från en dialog...
+            GameEngine.Actives.ActiveClue = GameCard;
             //GameEngine.GoToButtons.backButton = "";
             //Vi måste tömma WayPoints i GoToButtons så att det inte finns osynliga knappar att trycka på..
             //För ClueButtons ska vi disabla, detta pga annan teknik..
@@ -2097,24 +2117,30 @@ var GameEngine = {
 
         },
 
-        fillHudGray : function(blackButtons, Actors, ifBackButtonIsUsable){
+        fillHudGray : function(blackButtons, Actors, ifBackButtonIsUsable, onlyBack){
             var OldFill = Ctx.fillStyle;
             Ctx.fillStyle = "rgba(185, 185, 185, 0.55)";
+            if(onlyBack){
 
-            if(blackButtons == true){
+                Ctx.fillRect(0, ScreenSpec.gameFrameY, (ScreenSpec.SizeX /4)*2 +0.2,ScreenSpec.SizeY - ScreenSpec.gameFrameY)
 
-                if(ifBackButtonIsUsable == true){
-                    Ctx.fillRect((ScreenSpec.SizeX /4)*2, ScreenSpec.gameFrameY, (ScreenSpec.SizeX /4),ScreenSpec.SizeY - ScreenSpec.gameFrameY)
-                }else{
-                    Ctx.fillRect(0, ScreenSpec.gameFrameY, (ScreenSpec.SizeX /4)*3,ScreenSpec.SizeY - ScreenSpec.gameFrameY)
+            }else{
+                if(blackButtons == true){
+
+                    if(ifBackButtonIsUsable == true){
+                        Ctx.fillRect((ScreenSpec.SizeX /4)*2, ScreenSpec.gameFrameY, (ScreenSpec.SizeX /4),ScreenSpec.SizeY - ScreenSpec.gameFrameY)
+                    }else{
+                        Ctx.fillRect(0, ScreenSpec.gameFrameY, (ScreenSpec.SizeX /4)*3,ScreenSpec.SizeY - ScreenSpec.gameFrameY)
+                    }
+
                 }
 
+                if(Actors == true){
+
+                    Ctx.fillRect((ScreenSpec.SizeX /4)*3, ScreenSpec.gameFrameY + ((ScreenSpec.SizeY - ScreenSpec.gameFrameY)/2), (ScreenSpec.SizeX /4),(ScreenSpec.SizeY - ScreenSpec.gameFrameY)/2)
+                }
             }
 
-            if(Actors == true){
-
-                Ctx.fillRect((ScreenSpec.SizeX /4)*3, ScreenSpec.gameFrameY + ((ScreenSpec.SizeY - ScreenSpec.gameFrameY)/2), (ScreenSpec.SizeX /4),(ScreenSpec.SizeY - ScreenSpec.gameFrameY)/2)
-            }
 
 
             Ctx.fillStyle = OldFill;
@@ -4771,22 +4797,45 @@ var GameEngine = {
 
         LoadStandardQuestions : function(actor){
             GameEngine.Actives.actorInDialog = actor;
-            GameEngine.Machines.ListQuestions(
-                "I have to go.           (Cost 0 TimePoints)",
-                    GameBubbleData.PlayerBubblePosX+20,
-                    GameBubbleData.PlayerBubblePosY+25,
-                    GameBubbleData.SizeWidth-15,
-                GameBubbleData.SizeHeight,
-                GameBubbleData.TextHeight,
-                function(){
-                    GameEngine.Actives.IsDialogActive = false;
-                    GameEngine.Actives.Player.TimePoints += 5;
-                    GameEngine.Actives.actorInDialog = null;
-                    GameEngine.Machines.BuildRoom(GameEngine.Actives.RoomThatIsActive.ID);
-                    GameEngine.Machines.cleanQuestionData();
+            if(GameEngine.Actives.BlippBoxIsActive == false){
+                GameEngine.Machines.ListQuestions(
+                    "I have to go.           (Cost 0 TimePoints)",
+                        GameBubbleData.PlayerBubblePosX+20,
+                        GameBubbleData.PlayerBubblePosY+25,
+                        GameBubbleData.SizeWidth-15,
+                    GameBubbleData.SizeHeight,
+                    GameBubbleData.TextHeight,
+                    function(){
+                        GameEngine.Actives.IsDialogActive = false;
+                        GameEngine.Actives.Player.TimePoints += 5;
+                        GameEngine.Actives.actorInDialog = null;
+                        GameEngine.Machines.BuildRoom(GameEngine.Actives.RoomThatIsActive.ID);
+                        GameEngine.Machines.cleanQuestionData();
 
-                }
-            );
+                    }
+                );
+            }else{
+                GameEngine.Machines.ListQuestions(
+                    "I have to go.           (Cost 0 TimePoints)",
+                        GameBubbleData.PlayerBubblePosX+20,
+                        GameBubbleData.PlayerBubblePosY+25,
+                        GameBubbleData.SizeWidth-15,
+                    GameBubbleData.SizeHeight,
+                    GameBubbleData.TextHeight,
+                    function(){
+                        GameEngine.Actives.IsDialogActive = false;
+                        GameEngine.Actives.Player.TimePoints += 5;
+                        GameEngine.Actives.actorInDialog = null;
+                        GameEngine.Machines.BuildRoom(GameEngine.Actives.RoomThatIsActive.ID);
+                        GameEngine.Machines.createBlippBox(GameEngine.Actives.ActiveClue);
+                        GameEngine.Actives.BlippBoxIsActive = false;
+
+                        GameEngine.Machines.cleanQuestionData();
+
+                    }
+                );
+            }
+
             GameEngine.Machines.ListQuestions(
                 "Flirt*!                       (Cost 15 TimePoints)",
                 GameBubbleData.PlayerBubblePosX+20,
