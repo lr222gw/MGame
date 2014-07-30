@@ -1287,7 +1287,7 @@ var GameEngine = {
                 ScreenSpec.SizeX - (ScreenSpec.SizeX / 4),
                 ScreenSpec.gameFrameY,
                 ScreenSpec.SizeX / 4,
-                (ScreenSpec.SizeY - ScreenSpec.gameFrameY)
+                (ScreenSpec.SizeY - ScreenSpec.gameFrameY) - (ScreenSpec.SizeY - ScreenSpec.gameFrameY)/2
 
             );
 
@@ -1343,89 +1343,104 @@ var GameEngine = {
                 Ctx.fillStyle = "rgb(255, 60, 60)";
             }
 
-            //Ritar upp en svart ruta bakom för att undvika att man ser att det blir
-            //Dubbelt med transaparrent lager..
-            Ctx.fillStyle = "rgb(0, 0, 0)";
-            Ctx.fillRect(
-                (ScreenSpec.SizeX - (ScreenSpec.SizeX / 3)) -(ScreenSpec.SizeX / 8),
-                ScreenSpec.gameFrameY,
-                ScreenSpec.SizeX / 6,
-                ScreenSpec.SizeY - ScreenSpec.gameFrameY
-            );
 
 
-            //Skriver ut knapp för GuessMurderButton
-            var GuessMurderButton = new GameEngine.Classes.NextOrPreviousButton(
-                (ScreenSpec.SizeX - (ScreenSpec.SizeX / 3)) -(ScreenSpec.SizeX / 8),
-                ScreenSpec.gameFrameY + 20,
-                GameEngine.Machines.getPosition(0.05, "x"),
-                GameEngine.Machines.getPosition(0.05, "y"),
-                GameData.GameDataImages.GuessMurderButton,
-                function(){
-                    //Denna anropar funktionen som tar fram GuessMurderBoxen...
-                    GameEngine.Machines.BuildMurderBox();
-                }
-            );
-            var colorForBack = "rgb(100, 81, 81)";
-            Ctx.fillStyle = colorForBack;
-            Ctx.fillRect(
-                    GuessMurderButton.PosX - 2.5,
-                    GuessMurderButton.PosY - 2.5,
-                    ScreenSpec.SizeX / 6+20,
-                    GuessMurderButton.Height + 5
-            );
-            Ctx.fillStyle = "rgb(255, 60, 60)";
-            Ctx.fillText(
-                "Accuse of murder",
-                GuessMurderButton.PosX + GuessMurderButton.Width + 10,
-                GuessMurderButton.PosY + (GuessMurderButton.Height/2)
-            );
-            GameEngine.Machines.WindowSizing(
-                GuessMurderButton.image,
-                "hudd",
-                GuessMurderButton.PosX,
-                GuessMurderButton.PosY,
-                GuessMurderButton.Width,
-                GuessMurderButton.Height
-            );
-            GameEngine.GoToButtons.HuddButtons.GuessMurderButton = GuessMurderButton;
 
-            //Skriver ut knapp för InfoButton
-            var InfoButton = new GameEngine.Classes.NextOrPreviousButton(
-                (ScreenSpec.SizeX - (ScreenSpec.SizeX / 3)) -(ScreenSpec.SizeX / 8),
-                ScreenSpec.gameFrameY + 20 + GameEngine.Machines.getPosition(0.05, "x") + 5,
-                GameEngine.Machines.getPosition(0.05, "x"),
-                GameEngine.Machines.getPosition(0.05, "y"),
-                GameData.GameDataImages.InfoButton,
-                function(){
-                    //Denna anropar funktionen som tar fram GuessMurderBoxen...
-                    GameEngine.Machines.LoadMotiveInfoScreen();
-                }
-            );
-            Ctx.fillStyle = colorForBack;
-            Ctx.fillRect(
-                    InfoButton.PosX - 2.5,
-                    InfoButton.PosY - 2.5,
-                    ScreenSpec.SizeX / 6+20,
-                    InfoButton.Height + 5
-            );
-            Ctx.fillStyle = "rgb(255, 60, 60)";
-            Ctx.fillText(
-                "Crime info",
-                InfoButton.PosX + InfoButton.Width + 10,
-                InfoButton.PosY + (InfoButton.Height/2)
-            );
-            GameEngine.Machines.WindowSizing(
-                InfoButton.image,
-                "hudd",
-                InfoButton.PosX,
-                InfoButton.PosY,
-                InfoButton.Width,
-                InfoButton.Height
-            );
-            GameEngine.GoToButtons.InfoButton = InfoButton;
 
-            GameEngine.Machines.CreateActorInRoomComponent(); //laddar actors i rummet..
+            if(GameEngine.Actives.ClueButtonsOn == true){
+                //Ritar upp en svart ruta bakom för att undvika att man ser att det blir
+                //Dubbelt med transaparrent lager..
+                Ctx.fillStyle = "rgb(0, 0, 0)";
+                Ctx.fillRect(
+                        (ScreenSpec.SizeX - (ScreenSpec.SizeX / 3)) -(ScreenSpec.SizeX / 8),
+                    ScreenSpec.gameFrameY,
+                        ScreenSpec.SizeX / 6,
+                        ScreenSpec.SizeY - ScreenSpec.gameFrameY
+                );
+
+                //Skriver ut knapp för GuessMurderButton
+                var GuessMurderButton = new GameEngine.Classes.NextOrPreviousButton(
+                    (ScreenSpec.SizeX - (ScreenSpec.SizeX / 3)) -(ScreenSpec.SizeX / 8),
+                    ScreenSpec.gameFrameY + 20,
+                    GameEngine.Machines.getPosition(0.05, "x"),
+                    GameEngine.Machines.getPosition(0.05, "y"),
+                    GameData.GameDataImages.GuessMurderButton,
+                    function(){
+                        //Denna anropar funktionen som tar fram GuessMurderBoxen...
+                        GameEngine.Machines.BuildMurderBox();
+                    }
+                );
+
+                //Om man ej ska kunna trycka på knapparna så ska de inte uppdateras..
+                var colorForBack = "rgb(100, 81, 81)";
+                Ctx.fillStyle = colorForBack;
+                Ctx.fillRect(
+                        GuessMurderButton.PosX - 2.5,
+                        GuessMurderButton.PosY - 2.5,
+                        ScreenSpec.SizeX / 6+20,
+                        GuessMurderButton.Height + 5
+                );
+                Ctx.fillStyle = "rgb(255, 60, 60)";
+                Ctx.fillText(
+                    "Accuse of murder",
+                        GuessMurderButton.PosX + GuessMurderButton.Width + 10,
+                        GuessMurderButton.PosY + (GuessMurderButton.Height/2)
+                );
+                GameEngine.Machines.WindowSizing(
+                    GuessMurderButton.image,
+                    "hudd",
+                    GuessMurderButton.PosX,
+                    GuessMurderButton.PosY,
+                    GuessMurderButton.Width,
+                    GuessMurderButton.Height
+                );
+                GameEngine.GoToButtons.HuddButtons.GuessMurderButton = GuessMurderButton;
+
+
+
+                //Skriver ut knapp för InfoButton
+                var InfoButton = new GameEngine.Classes.NextOrPreviousButton(
+                    (ScreenSpec.SizeX - (ScreenSpec.SizeX / 3)) -(ScreenSpec.SizeX / 8),
+                    ScreenSpec.gameFrameY + 20 + GameEngine.Machines.getPosition(0.05, "x") + 5,
+                    GameEngine.Machines.getPosition(0.05, "x"),
+                    GameEngine.Machines.getPosition(0.05, "y"),
+                    GameData.GameDataImages.InfoButton,
+                    function(){
+                        //Denna anropar funktionen som tar fram GuessMurderBoxen...
+                        GameEngine.Machines.LoadMotiveInfoScreen();
+                    }
+                );
+                Ctx.fillStyle = colorForBack;
+                Ctx.fillRect(
+                        InfoButton.PosX - 2.5,
+                        InfoButton.PosY - 2.5,
+                        ScreenSpec.SizeX / 6+20,
+                        InfoButton.Height + 5
+                );
+                Ctx.fillStyle = "rgb(255, 60, 60)";
+                Ctx.fillText(
+                    "Crime info",
+                    InfoButton.PosX + InfoButton.Width + 10,
+                    InfoButton.PosY + (InfoButton.Height/2)
+                );
+
+
+
+                GameEngine.Machines.WindowSizing(
+                    InfoButton.image,
+                    "hudd",
+                    InfoButton.PosX,
+                    InfoButton.PosY,
+                    InfoButton.Width,
+                    InfoButton.Height
+                );
+                GameEngine.GoToButtons.InfoButton = InfoButton;
+
+                GameEngine.Machines.CreateActorInRoomComponent(); //laddar actors i rummet..
+            }
+
+
+
             Ctx.fillStyle = oldFillStyle;
 
 
@@ -2056,7 +2071,8 @@ var GameEngine = {
                 GameEngine.Machines.getPosition(0.1035, "x")
             )
 
-
+            //Denna är till för att gråa ner rutor som inte kan tryckas på...
+            GameEngine.Machines.fillHudGray(true, true, true);
 
             Ctx.fillStyle = OldFillStyle;
         },
@@ -2079,6 +2095,29 @@ var GameEngine = {
             }
             return ArrOfBoxes;
 
+        },
+
+        fillHudGray : function(blackButtons, Actors, ifBackButtonIsUsable){
+            var OldFill = Ctx.fillStyle;
+            Ctx.fillStyle = "rgba(185, 185, 185, 0.55)";
+
+            if(blackButtons == true){
+
+                if(ifBackButtonIsUsable == true){
+                    Ctx.fillRect((ScreenSpec.SizeX /4)*2, ScreenSpec.gameFrameY, (ScreenSpec.SizeX /4),ScreenSpec.SizeY - ScreenSpec.gameFrameY)
+                }else{
+                    Ctx.fillRect(0, ScreenSpec.gameFrameY, (ScreenSpec.SizeX /4)*3,ScreenSpec.SizeY - ScreenSpec.gameFrameY)
+                }
+
+            }
+
+            if(Actors == true){
+
+                Ctx.fillRect((ScreenSpec.SizeX /4)*3, ScreenSpec.gameFrameY + ((ScreenSpec.SizeY - ScreenSpec.gameFrameY)/2), (ScreenSpec.SizeX /4),(ScreenSpec.SizeY - ScreenSpec.gameFrameY)/2)
+            }
+
+
+            Ctx.fillStyle = OldFill;
         },
 
         getPlaceHolderInfoFromCardIDForCurrentRoom : function(GameCardID){
@@ -4533,6 +4572,7 @@ var GameEngine = {
             GameEngine.GlobalRooms = GlobalRooms;
             GameEngine.GoToButtons = GoToButtons;
             GameEngine.GlobalActors = GlobalActors;
+            GameEngine.Machines.fillHudGray(true, true, false);
 
         },
 
