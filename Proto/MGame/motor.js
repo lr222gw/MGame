@@ -3492,11 +3492,11 @@ var GameEngine = {
                         GameEngine.Machines.getPosition(0.10, "y")
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.png"),
+                        new GameEngine.Classes.Container("Data/Map/Extras/transparens.png"),
                         GameEngine.Machines.getPosition(0.002932551319648094  , "x"),
                         GameEngine.Machines.getPosition(0.24506155167477814, "y"),
-                        GameEngine.Machines.getPosition(0.05, "x"),
-                        GameEngine.Machines.getPosition(0.20, "y")
+                        GameEngine.Machines.getPosition(0.08, "x"),
+                        GameEngine.Machines.getPosition(0.56, "y")
                     )
                 ],
                 [//TableClueArr
@@ -3550,11 +3550,11 @@ var GameEngine = {
                         GameEngine.Machines.getPosition(0.10, "y")
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.png"),
+                        new GameEngine.Classes.Container("Data/Map/Extras/transparens.png"),
                         GameEngine.Machines.getPosition(0.9100684261974584  , "x"),
                         GameEngine.Machines.getPosition(0.27483538505582594, "y"),
-                        GameEngine.Machines.getPosition(0.05, "x"),
-                        GameEngine.Machines.getPosition(0.20, "y")
+                        GameEngine.Machines.getPosition(0.075, "x"),
+                        GameEngine.Machines.getPosition(0.56, "y")
                     )
                 ],
                 [//TableClueArr
@@ -3602,17 +3602,17 @@ var GameEngine = {
                 [//Containers_Arr
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.Container("Data/Map/Extras/recyclebin.png"),
-                        GameEngine.Machines.getPosition(0.7086999022482894, "x"),
-                        GameEngine.Machines.getPosition(0.6069281419982823, "y"),
+                        GameEngine.Machines.getPosition(0.20625610948191594 , "x"),
+                        GameEngine.Machines.getPosition(0.6504437446321214, "y"),
                         GameEngine.Machines.getPosition(0.08, "x"),
                         GameEngine.Machines.getPosition(0.10, "y")
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.png"),
-                        GameEngine.Machines.getPosition(0.002932551319648094  , "x"),
-                        GameEngine.Machines.getPosition(0.24506155167477814, "y"),
-                        GameEngine.Machines.getPosition(0.05, "x"),
-                        GameEngine.Machines.getPosition(0.20, "y")
+                        new GameEngine.Classes.Container("Data/Map/Extras/transparens.png"),
+                        GameEngine.Machines.getPosition(0.9100684261974584  , "x"),
+                        GameEngine.Machines.getPosition(0.27483538505582594, "y"),
+                        GameEngine.Machines.getPosition(0.075, "x"),
+                        GameEngine.Machines.getPosition(0.56, "y")
                     )
                 ],
                 [//TableClueArr
@@ -3665,11 +3665,11 @@ var GameEngine = {
                         GameEngine.Machines.getPosition(0.10, "y")
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.png"),
+                        new GameEngine.Classes.Container("Data/Map/Extras/transparens.png"),
                         GameEngine.Machines.getPosition(0.002932551319648094  , "x"),
                         GameEngine.Machines.getPosition(0.24506155167477814, "y"),
-                        GameEngine.Machines.getPosition(0.05, "x"),
-                        GameEngine.Machines.getPosition(0.20, "y")
+                        GameEngine.Machines.getPosition(0.08, "x"),
+                        GameEngine.Machines.getPosition(0.56, "y")
                     )
                 ],
                 [//TableClueArr
@@ -3716,17 +3716,17 @@ var GameEngine = {
                 [//Containers_Arr
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.Container("Data/Map/Extras/recyclebin.png"),
-                        GameEngine.Machines.getPosition(0.7086999022482894, "x"),
-                        GameEngine.Machines.getPosition(0.6069281419982823, "y"),
+                        GameEngine.Machines.getPosition(0.19452590420332355 , "x"),
+                        GameEngine.Machines.getPosition(0.6744918408245062, "y"),
                         GameEngine.Machines.getPosition(0.08, "x"),
                         GameEngine.Machines.getPosition(0.10, "y")
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.png"),
+                        new GameEngine.Classes.Container("Data/Map/Extras/transparens.png"),
                         GameEngine.Machines.getPosition(0.002932551319648094  , "x"),
                         GameEngine.Machines.getPosition(0.24506155167477814, "y"),
-                        GameEngine.Machines.getPosition(0.05, "x"),
-                        GameEngine.Machines.getPosition(0.20, "y")
+                        GameEngine.Machines.getPosition(0.08, "x"),
+                        GameEngine.Machines.getPosition(0.56, "y")
                     )
                 ],
                 [//TableClueArr
@@ -3773,17 +3773,17 @@ var GameEngine = {
                 [//Containers_Arr
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.Container("Data/Map/Extras/recyclebin.png"),
-                        GameEngine.Machines.getPosition(0.7086999022482894, "x"),
-                        GameEngine.Machines.getPosition(0.6069281419982823, "y"),
+                        GameEngine.Machines.getPosition(0.7286999022482894, "x"),
+                        GameEngine.Machines.getPosition(0.6869281419982823, "y"),
                         GameEngine.Machines.getPosition(0.08, "x"),
                         GameEngine.Machines.getPosition(0.10, "y")
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.png"),
-                        GameEngine.Machines.getPosition(0.002932551319648094  , "x"),
-                        GameEngine.Machines.getPosition(0.24506155167477814, "y"),
-                        GameEngine.Machines.getPosition(0.05, "x"),
-                        GameEngine.Machines.getPosition(0.20, "y")
+                        new GameEngine.Classes.Container("Data/Map/Extras/transparens.png"),
+                        GameEngine.Machines.getPosition(0.9100684261974584  , "x"),
+                        GameEngine.Machines.getPosition(0.27483538505582594, "y"),
+                        GameEngine.Machines.getPosition(0.075, "x"),
+                        GameEngine.Machines.getPosition(0.56, "y")
                     )
                 ],
                 [//TableClueArr
@@ -3962,16 +3962,16 @@ var GameEngine = {
                 [//Containers_Arr
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.Container("Data/Map/Extras/recyclebin.png"),
-                        GameEngine.Machines.getPosition(0.03421309872922776, "x"),
-                        GameEngine.Machines.getPosition(0.7477812768393931, "y"),
+                        GameEngine.Machines.getPosition(0.3890518084066471, "x"),
+                        GameEngine.Machines.getPosition(0.4019467506441454, "y"),
                         GameEngine.Machines.getPosition(0.08, "x"),
                         GameEngine.Machines.getPosition(0.10, "y")
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.png"),
+                        new GameEngine.Classes.Container("Data/Map/Extras/transparens.png"),
                         GameEngine.Machines.getPosition(0.6256109481915934, "x"),
                         GameEngine.Machines.getPosition(0.14543372459204124, "y"),
-                        GameEngine.Machines.getPosition(0.075, "x"),
+                        GameEngine.Machines.getPosition(0.35, "x"),
                         GameEngine.Machines.getPosition(0.15, "y")
                     )
                 ],
@@ -4020,17 +4020,17 @@ var GameEngine = {
                 [//Containers_Arr
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.Container("Data/Map/Extras/recyclebin.png"),
-                        GameEngine.Machines.getPosition(0.39589442815249265, "x"),
-                        GameEngine.Machines.getPosition(0.7145720011451474, "y"),
-                        GameEngine.Machines.getPosition(0.08, "x"),
-                        GameEngine.Machines.getPosition(0.10, "y")
+                        GameEngine.Machines.getPosition(0.635386119257087, "x"),
+                        GameEngine.Machines.getPosition(0.5198969367306041, "y"),
+                        GameEngine.Machines.getPosition(0.06, "x"),
+                        GameEngine.Machines.getPosition(0.08, "y")
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.Container("Data/Map/Extras/placeholder.png"),
-                        GameEngine.Machines.getPosition(0.8347996089931574 , "x"),
-                        GameEngine.Machines.getPosition(0.195820211852276, "y"),
-                        GameEngine.Machines.getPosition(0.075, "x"),
-                        GameEngine.Machines.getPosition(0.15, "y")
+                        new GameEngine.Classes.Container("Data/Map/Extras/transparens.png"),
+                        GameEngine.Machines.getPosition(0.12903225806451613 , "x"),
+                        GameEngine.Machines.getPosition(0.31949613512739766, "y"),
+                        GameEngine.Machines.getPosition(0.24, "x"),
+                        GameEngine.Machines.getPosition(0.07, "y")
                     )
                 ],
                 [//TableClueArr
