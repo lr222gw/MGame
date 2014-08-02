@@ -1273,6 +1273,7 @@ var GameEngine = {
             //vi ska sätta dit en text också så att man berättar för användaren att detta är karaktärerna i rummet
             //Ctx.fillStyle = "rgb(0, 0, 0)"; //"rgb(255, 60, 60)" OLD
             Ctx.fillStyle = "rgb(255, 255, 255)";
+            Ctx.font = "thefont";
             Ctx.fillText(
                 "Actors In Room",
                 PosXOfBox + 2,
@@ -1320,7 +1321,7 @@ var GameEngine = {
 
             Ctx.fillStyle = "rgb(255, 60, 60)";
 
-            Ctx.font= GameBubbleData.TextHeight +"px arial, bold sans-serif";
+            Ctx.font= GameBubbleData.TextHeight +"px thefont";
 
             //Lägger denna sist pga kolliderade med "I have to go" knappen, hade man 5 eller mindre
             // poäng kvar när man använde knappen så hamna man på gameover...
@@ -1333,9 +1334,11 @@ var GameEngine = {
                 return;
             }
             //Skriver ut timepoints
+            Ctx.fillStyle = "rgb(255,255,255)";
             if(GameEngine.Actives.Player.TimePoints < 50){
-                Ctx.font= GameBubbleData.TextHeight+ 10 +"px arial, Bold sans-serif";
+                Ctx.font= GameBubbleData.TextHeight+ 10 +"px thefont";
             }
+
             Ctx.fillText(
                 "TimePoints Left: "+ GameEngine.Actives.Player.TimePoints,
                 ScreenSpec.SizeX - (ScreenSpec.SizeX / 4)+10,
@@ -1343,7 +1346,7 @@ var GameEngine = {
                 ScreenSpec.SizeX / 4
             );
 
-            Ctx.font= GameBubbleData.TextHeight +"px arial, bold sans-serif";
+            Ctx.font= GameBubbleData.TextHeight - 2 +"px thefont";
 
             //Skriver ut rummet
             Ctx.fillText(
@@ -1374,8 +1377,8 @@ var GameEngine = {
                 Ctx.fillStyle = "rgb(255, 60, 60)";
             }
 
-
-
+            //Ctx.font= GameBubbleData.TextHeight +"px arial, sans-serif";
+            //Denna fix^gjordes istället direkt i blippboxen...
 
 
             if(GameEngine.Actives.ClueButtonsOn == true){
@@ -1806,7 +1809,7 @@ var GameEngine = {
 
             var oldFillStyle  = Ctx.fillStyle;
             //först gör vi bordern, med en vald färg
-            Ctx.fillStyle = "rgb(144, 0, 201)";
+            Ctx.fillStyle = "rgb(64, 4, 0)";
             //nu ska vi rita ut triangeln, men för att försäkra oss att den inte hamnar utanför
             //måste vi göra lite matte..
             var Width = GameEngine.Machines.getPosition(0.175,"x");
@@ -1826,7 +1829,7 @@ var GameEngine = {
             );
 
             //Sedan gör vi boxen som ska göra själva innehållet
-            Ctx.fillStyle = "rgb(183, 101, 216)";
+            Ctx.fillStyle = "rgb(133, 9, 0)";
             Ctx.fillRect(
                 PosX ,
                 PosY ,
@@ -1859,7 +1862,7 @@ var GameEngine = {
                     height-3,
                     ArrOfClues[i]
                 );
-                Ctx.fillStyle = "rgb(106, 121, 233)";
+                Ctx.fillStyle = "rgb(61, 60, 61)";
                 Ctx.fillRect(
                     Button.PosX,
                     Button.PosY,
@@ -1867,8 +1870,13 @@ var GameEngine = {
                     Button.Height
                 )
 
-                Ctx.fillStyle = "rgb(241, 241, 241)";
-                Ctx.fillText(ArrOfClues[i].Name,PosX+4,PosY + 15,Width);
+                Ctx.fillStyle = "rgb(255, 255, 255)";
+                if(ArrOfClues[i] != undefined){
+                    Ctx.fillText(ArrOfClues[i].Name,PosX+4,PosY + 15,Width);
+                }else{
+                    return;
+                }
+
                 GameEngine.GoToButtons.ContainerClueButtons.push(Button);
 
                 PosY +=height;
@@ -2073,6 +2081,7 @@ var GameEngine = {
 
             }
 
+            Ctx.font= GameBubbleData.TextHeight +"px arial, sans-serif";
             //nu är alla knappar utsatta, vi ska lägga till en bild på Ledtråden samt beskrivning..
             var WidthOfClueBox = GameEngine.Machines.getPosition(0.20,"x");
             var HeightOfClueBox = GameEngine.Machines.getPosition(0.20,"y");
@@ -3506,34 +3515,34 @@ var GameEngine = {
                         0  //YPosition
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.WayPoint(5,"Data/Map/Bedrom_1/doors_1-left.png", "Bedroom 1"),
+                        new GameEngine.Classes.WayPoint(5,"Data/Map/Bedrom_1/doors_1-left.png", "Noahs Room"),
                         GameEngine.Machines.getPosition(0.0075  , "x"), //XPosition
                         0  //YPosition
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.WayPoint(6,"Data/Map/Bedrom_2/doors_2-left.png", "Bedroom 2"),
+                        new GameEngine.Classes.WayPoint(6,"Data/Map/Bedrom_2/doors_2-left.png", "Ethans Room"),
                         GameEngine.Machines.getPosition(0.23558162267839688, "x"), //XPosition
                         GameEngine.Machines.getPosition(0.17406241053535643  , "y")  //YPosition
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.WayPoint(7,"Data/Map/Bedrom_3/doors_3-left.png", "Bedroom 3"),
+                        new GameEngine.Classes.WayPoint(7,"Data/Map/Bedrom_3/doors_3-left.png", "Haleys Room"),
                         GameEngine.Machines.getPosition(0.3313782991202346  , "x"), //XPosition
                         GameEngine.Machines.getPosition(0.2565130260521042, "y")  //YPosition
                     ),
 
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.WayPoint(8,"Data/Map/Bedrom_4/doors_1-right.png", "Bedroom 4"),
+                        new GameEngine.Classes.WayPoint(8,"Data/Map/Bedrom_4/doors_1-right.png", "Lucys Room"),
                         GameEngine.Machines.getPosition(0.8367546432062561   , "x"), //XPosition
                         0  //YPosition
 
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.WayPoint(9,"Data/Map/Bedrom_5/doors_2-right.png", "Bedroom 5"),
+                        new GameEngine.Classes.WayPoint(9,"Data/Map/Bedrom_5/doors_2-right.png", "Coreys Room"),
                         GameEngine.Machines.getPosition(0.7047898338220919, "x"), //XPosition
                         GameEngine.Machines.getPosition(0.17406241053535643 , "y")  //YPosition
                     ),
                     new GameEngine.Classes.PlaceHolder(
-                        new GameEngine.Classes.WayPoint(10,"Data/Map/Bedrom_6/doors_3-right.png", "Bedroom 6"),
+                        new GameEngine.Classes.WayPoint(10,"Data/Map/Bedrom_6/doors_3-right.png", "Kaylas Room"),
                         GameEngine.Machines.getPosition(0.6412512218963832, "x"), //XPosition
                         GameEngine.Machines.getPosition(0.2565130260521042 , "y")  //YPosition
 
@@ -3579,7 +3588,7 @@ var GameEngine = {
 			var bedroom1 = new GameEngine.Classes.Room(
                 5,
                 "Data/Map/Bedrom_1/bedroom_1.png",
-                "Bedroom 1",
+                "Noahs Room",
                 [
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.WayPoint(4,"Data/Hudd/backbutton.png", "Bedroom Corridor"),
@@ -3637,7 +3646,7 @@ var GameEngine = {
 			var bedroom2 = new GameEngine.Classes.Room(
                 6,
                 "Data/Map/Bedrom_2/bedroom_2.png",
-                "Bedroom 2",
+                "Ethans Room",
                 [
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.WayPoint(4,"Data/Hudd/backbutton.png", "Bedroom Corridor"),
@@ -3695,7 +3704,7 @@ var GameEngine = {
 			var bedroom3 = new GameEngine.Classes.Room(
                 7,
                 "Data/Map/Bedrom_3/bedroom_3.png",
-                "Bedroom 3",
+                "Haleys Room",
                 [
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.WayPoint(4,"Data/Hudd/backbutton.png", "Bedroom Corridor"),
@@ -3753,7 +3762,7 @@ var GameEngine = {
 			var bedroom4 = new GameEngine.Classes.Room(
                 8,
                 "Data/Map/Bedrom_4/bedroom_4.png",
-                "Bedroom 4",
+                "Lucys Room",
                 [
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.WayPoint(4,"Data/Hudd/backbutton.png", "Bedroom Corridor"),
@@ -3810,7 +3819,7 @@ var GameEngine = {
 			var bedroom5 = new GameEngine.Classes.Room(
                 9,
                 "Data/Map/Bedrom_5/bedroom_5.png",
-                "Bedroom 5",
+                "Coreys Room",
                 [
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.WayPoint(4,"Data/Hudd/backbutton.png", "Bedroom Corridor"),
@@ -3867,7 +3876,7 @@ var GameEngine = {
 			var bedroom6 = new GameEngine.Classes.Room(
                 10,
                 "Data/Map/Bedrom_6/bedroom_6.png",
-                "Bedroom 6",
+                "Kaylas Room",
                 [
                     new GameEngine.Classes.PlaceHolder(
                         new GameEngine.Classes.WayPoint(4,"Data/Hudd/backbutton.png", "Bedroom Corridor"),
