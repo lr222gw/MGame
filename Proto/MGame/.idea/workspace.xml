@@ -48,16 +48,16 @@
         </leaf>
       </split-first>
       <split-second>
-        <splitter split-orientation="horizontal" split-proportion="0.6067019">
+        <splitter split-orientation="horizontal" split-proportion="0.3956496">
           <split-first>
-            <splitter split-orientation="horizontal" split-proportion="0.35833332">
+            <splitter split-orientation="horizontal" split-proportion="0.14663805">
               <split-first>
                 <leaf>
                   <file leaf-file-name="motor.js" pinned="false" current="false" current-in-tab="true">
                     <entry file="file://$PROJECT_DIR$/motor.js">
                       <provider selected="true" editor-type-id="text-editor">
-                        <state vertical-scroll-proportion="0.68421054" vertical-offset="22233" max-vertical-offset="99620">
-                          <caret line="1330" column="50" selection-start-line="1330" selection-start-column="50" selection-end-line="1330" selection-end-column="50" />
+                        <state vertical-scroll-proportion="0.23956443" vertical-offset="77694" max-vertical-offset="100861">
+                          <caret line="4578" column="30" selection-start-line="4578" selection-start-column="30" selection-end-line="4578" selection-end-column="30" />
                           <folding />
                         </state>
                       </provider>
@@ -70,8 +70,8 @@
                   <file leaf-file-name="motor.js" pinned="false" current="true" current-in-tab="true">
                     <entry file="file://$PROJECT_DIR$/motor.js">
                       <provider selected="true" editor-type-id="text-editor">
-                        <state vertical-scroll-proportion="0.72232306" vertical-offset="82256" max-vertical-offset="99620">
-                          <caret line="4862" column="52" selection-start-line="4862" selection-start-column="52" selection-end-line="4862" selection-end-column="52" />
+                        <state vertical-scroll-proportion="3.9618874" vertical-offset="98270" max-vertical-offset="100861">
+                          <caret line="5909" column="32" selection-start-line="5909" selection-start-column="32" selection-end-line="5909" selection-end-column="32" />
                           <folding />
                         </state>
                       </provider>
@@ -86,8 +86,8 @@
               <file leaf-file-name="motor.js" pinned="false" current="false" current-in-tab="true">
                 <entry file="file://$PROJECT_DIR$/motor.js">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state vertical-scroll-proportion="0.4246824" vertical-offset="1415" max-vertical-offset="99620">
-                      <caret line="97" column="42" selection-start-line="97" selection-start-column="42" selection-end-line="97" selection-end-column="42" />
+                    <state vertical-scroll-proportion="0.3321234" vertical-offset="59453" max-vertical-offset="100861">
+                      <caret line="3508" column="106" selection-start-line="3508" selection-start-column="97" selection-end-line="3508" selection-end-column="106" />
                       <folding />
                     </state>
                   </provider>
@@ -669,8 +669,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/motor.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.72232306" vertical-offset="82256" max-vertical-offset="99620">
-          <caret line="4862" column="52" selection-start-line="4862" selection-start-column="52" selection-end-line="4862" selection-end-column="52" />
+        <state vertical-scroll-proportion="3.9618874" vertical-offset="98270" max-vertical-offset="100861">
+          <caret line="5909" column="32" selection-start-line="5909" selection-start-column="32" selection-end-line="5909" selection-end-column="32" />
           <folding />
         </state>
       </provider>

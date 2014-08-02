@@ -4571,18 +4571,34 @@ var GameEngine = {
             //Laddar Karaktärbild
             GameEngine.Machines.loadActorImage(actor, actor.emotionState);
             //Ritar upp PratRuta för Aktör
-            Ctx.fillStyle = "rgb(0, 102, 255)";
+            //Ctx.fillStyle = "rgb(0, 102, 255)";
+
+            Ctx.fillStyle = "rgb(133, 9, 0)";
 
             ActorBubblePosX = GameEngine.Machines.getPosition(0.0469208211143695, "x");
             ActorBubblePosY = GameEngine.Machines.getPosition(0.4981391354136845, "y");
             SizeWidth   =     GameEngine.Machines.getPosition(0.90, "x");
             SizeHeight  =    GameEngine.Machines.getPosition(0.15, "y");
+
+            //Border
+            Ctx.fillStyle = "rgb(0, 0, 0)";
+            Ctx.fillRect(
+                ActorBubblePosX-2.5,
+                ActorBubblePosY-2.5,
+                    SizeWidth+5,
+                    SizeHeight+5
+            );
+            // ruta
+            Ctx.fillStyle = "rgb(133, 9, 0)";
             Ctx.fillRect(
                 ActorBubblePosX,
                 ActorBubblePosY,
                 SizeWidth,
                 SizeHeight
             );
+
+
+
             //ritar upp en liten ruta över för att fylla med Actors namn
             var NameBoxWidth = SizeWidth / 16;
             var NameBoxHeight = SizeHeight / 5;
@@ -4596,21 +4612,33 @@ var GameEngine = {
 
             //Byter till textfärg..
             TextHeight = GameEngine.Machines.getPosition(0.016, "x");
-            Ctx.fillStyle = "rgb(63, 0, 0)";
+            Ctx.fillStyle = "rgb(255, 255, 255)";
             Ctx.font= TextHeight+"px arial, sans-serif";
             Ctx.fillText(//namn till karaktären..
                 actor.name,
                 ActorBubblePosX + 10,
                 NameBoxPosY + TextHeight + 5
             );
+
+            Ctx.fillStyle = "rgb(63, 0, 0)";
             GameEngine.Machines.wrapText(Ctx,"Yes, well hello.."
              ,ActorBubblePosX+20, ActorBubblePosY +25,SizeWidth-15, 20, TextHeight +10, SizeHeight-10);
 
             //Ritar upp svarsruta för spelare
-            Ctx.fillStyle = "rgb(112, 0, 255)";
+            //Ctx.fillStyle = "rgb(112, 0, 255)";
+
 
             var PlayerBubblePosX = GameEngine.Machines.getPosition(0.04594330400782014, "x");
             var PlayerBubblePosY = GameEngine.Machines.getPosition(0.6756369882622387, "y");
+            //Border
+            Ctx.fillStyle = "rgb(0, 0, 0)";
+            Ctx.fillRect(
+                PlayerBubblePosX-2.5,
+                PlayerBubblePosY-2.5,
+                SizeWidth+5,
+                SizeHeight+5
+            );
+            Ctx.fillStyle = "rgb(64, 4, 0)";
             Ctx.fillRect(
                 PlayerBubblePosX,
                 PlayerBubblePosY,
@@ -4660,7 +4688,14 @@ var GameEngine = {
 
             switch (playerOrActor){
                 case "player":
-                    Ctx.fillStyle = "rgb(112, 0, 255)";
+                    Ctx.fillStyle = "rgb(0, 0, 0)";
+                    Ctx.fillRect(
+                            GameBubbleData.PlayerBubblePosX-2.5,
+                            GameBubbleData.PlayerBubblePosY-2.5,
+                            GameBubbleData.SizeWidth+5,
+                            GameBubbleData.SizeHeight+5
+                    );
+                    Ctx.fillStyle = "rgb(64, 4, 0)";
                     Ctx.fillRect(
                         GameBubbleData.PlayerBubblePosX,
                         GameBubbleData.PlayerBubblePosY,
@@ -4670,7 +4705,14 @@ var GameEngine = {
                     Ctx.fillStyle = "rgb(63, 0, 0)";
                     break;
                 case "actor":
-                    Ctx.fillStyle = "rgb(0, 102, 255)";
+                    Ctx.fillStyle = "rgb(0, 0, 0)";
+                    Ctx.fillRect(
+                            GameBubbleData.ActorBubblePosX-2.5,
+                            GameBubbleData.ActorBubblePosY-2.5,
+                            GameBubbleData.SizeWidth+5,
+                            GameBubbleData.SizeHeight+5
+                    );
+                    Ctx.fillStyle = "rgb(133, 9, 0)";
                     Ctx.fillRect(
                         GameBubbleData.ActorBubblePosX,
                         GameBubbleData.ActorBubblePosY,
@@ -4692,10 +4734,17 @@ var GameEngine = {
 
         CardDataToQuestions : function(card, actor){
 
+
+
+            GameEngine.Machines.loadActorImage(actor, card.emotionState);
+
+            GameEngine.Machines.cleanActorOrPlayerBox("actor");
+
+
             var NameBoxWidth = GameBubbleData.SizeWidth/ 16;
             var NameBoxHeight = GameBubbleData.SizeHeight / 5;
             var NameBoxPosY = GameBubbleData.ActorBubblePosY - (NameBoxHeight);
-            Ctx.fillStyle = "rgb(0, 102, 255)";
+            Ctx.fillStyle = "rgb(133, 9, 0)";
             Ctx.fillRect(
                 GameBubbleData.ActorBubblePosX,
                 NameBoxPosY,
@@ -4705,17 +4754,14 @@ var GameEngine = {
 
             //Byter till textfärg..
             var TextHeight = GameEngine.Machines.getPosition(0.016, "x");
-            Ctx.fillStyle = "rgb(63, 0, 0)";
+            Ctx.fillStyle = "rgb(255, 255, 255)";
             Ctx.font= TextHeight+"px arial, sans-serif";
             Ctx.fillText(//namn till karaktären..
                 actor.name,
-                GameBubbleData.ActorBubblePosX + 10,
-                NameBoxPosY + TextHeight + 5
+                    GameBubbleData.ActorBubblePosX + 10,
+                    NameBoxPosY + TextHeight + 5
             );
 
-            GameEngine.Machines.loadActorImage(actor, card.emotionState);
-
-            GameEngine.Machines.cleanActorOrPlayerBox("actor");
 
             GameEngine.Machines.wrapText(
                 Ctx,
@@ -4819,6 +4865,31 @@ var GameEngine = {
                 );
 
             }
+            // Namnrutan..
+            Ctx.fillStyle = "rgb(133, 9, 0)";
+            var NameBoxWidth   =     GameEngine.Machines.getPosition(0.90, "x")/16;
+            var NameBoxHeight  =    GameEngine.Machines.getPosition(0.15, "y")/5;
+            var ActorBubblePosX = GameEngine.Machines.getPosition(0.0469208211143695, "x");
+            var ActorBubblePosY = GameEngine.Machines.getPosition(0.4981391354136845, "y");
+            var NameBoxPosY = ActorBubblePosY - (NameBoxHeight);
+
+            Ctx.fillRect(
+                ActorBubblePosX,
+                NameBoxPosY,
+                NameBoxWidth,
+                NameBoxHeight
+            );
+
+            //Byter till textfärg..
+            var TextHeight = GameEngine.Machines.getPosition(0.016, "x");
+            Ctx.fillStyle = "rgb(255, 255, 255)";
+            Ctx.font= TextHeight+"px arial, sans-serif";
+            Ctx.fillText(//namn till karaktären..
+                actor.name,
+                    ActorBubblePosX + 10,
+                    NameBoxPosY + TextHeight + 5
+            );
+
 
             //Laddar in standardfrågor så att man ALLTID kan lämna/flörta/hota..
             GameEngine.Machines.LoadStandardQuestions(actor);
@@ -5031,14 +5102,16 @@ var GameEngine = {
                             break;
                         }
 
-                        Ctx.fillStyle = "rgb(200, 40, 255)";
+                        //Ctx.fillStyle = "rgb(200, 40, 255)";
+                        Ctx.fillStyle = "rgb(61, 60, 61)";
                         Ctx.fillRect(
                                 PosX - 5,
                                 PosY - heigtOfLetters + 2,
                                 maxWidth - 5,
                             heigtOfLetters
                         );
-                        Ctx.fillStyle = "rgb(63, 0, 0)";
+                        //Ctx.fillStyle = "rgb(63, 0, 0)";
+                        Ctx.fillStyle = "rgb(255, 255, 255)";
 
                         Ctx.fillText(GameEngine.GoToButtons.DialogButtons[Counter].LinesArr[j], PosX, PosY);
                         GameEngine.GoToButtons.DialogButtons[Counter].PosX = PosX;
@@ -5137,7 +5210,7 @@ var GameEngine = {
             var SizeWidth = GameEngine.Machines.getPosition(0.90, "x");
             var SizeHeight = GameEngine.Machines.getPosition(0.15, "y");
             //Ritar upp svarsruta för spelare
-            Ctx.fillStyle = "rgb(112, 0, 255)";
+            Ctx.fillStyle = "rgb(64, 4, 0)";
 
             var PlayerBubblePosX = GameEngine.Machines.getPosition(0.04594330400782014 , "x");
             var PlayerBubblePosY = GameEngine.Machines.getPosition(0.6756369882622387 , "y");
