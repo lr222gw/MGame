@@ -50,6 +50,7 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
                     GameEngine.GoToButtons.GuessMurderButtons = [];
                     GameEngine.Actives.IsDialogActive = false;
                     GameEngine.Actives.MurderToGuessOn = null;
+                    GameEngine.Actives.BlippBoxIsActive = false;
                     GameEngine.Machines.BuildRoom(Button.RoomToGo);
                 }
 
@@ -93,6 +94,10 @@ ScreenSpec.CreateCanvas(); //Skapar Canvasen..
                 for(var i = 0; i < GameEngine.GoToButtons.DialogButtonsActive.length; i++){
                     Button = GameEngine.GoToButtons.DialogButtonsActive[i];
                     if(mX >= Button.PosX && mX < Button.PosX + Button.Width && mY >= Button.PosY && mY < Button.PosY + Button.Height){
+
+                        if(Button.GameCard == false){
+                            GameEngine.Actives.Player.TimePoints += 5;
+                        }
 
                         GameEngine.Actives.Player.TimePoints -= 5;// tar bort 5 TP varje gång du går vidare på en fråga..
                                                                   //obs, vissa frågor tar mer eller mindre dessa är :
@@ -1037,6 +1042,7 @@ var GameEngine = {
                 BackToGame.Height
             );
             */
+            GameEngine.Machines.fillHudGray(true,true,true);
             //GameEngine.GoToButtons.DoneButton = BackToGame;
 
         },
@@ -1316,6 +1322,8 @@ var GameEngine = {
 
             Ctx.font= GameBubbleData.TextHeight +"px arial, bold sans-serif";
 
+            //Lägger denna sist pga kolliderade med "I have to go" knappen, hade man 5 eller mindre
+            // poäng kvar när man använde knappen så hamna man på gameover...
             if(GameEngine.Actives.Player.TimePoints <= 0){
                 //Denna sats är till för att kontrollera om Timepoints är 0 eller mindre
                 //om det är fallet så har spelaren förlorat och en funktion som presenterar
@@ -1476,6 +1484,7 @@ var GameEngine = {
 
         BuildMurderBox : function(){
             //TODO: this (downpil)
+
             //Förssta vi gör är att avaktiverar knappar som ej ska vara klickbara
             var OldBackButton = GameEngine.GoToButtons.backButton;
             GameEngine.Machines.clearRoomData();
@@ -1487,7 +1496,8 @@ var GameEngine = {
 
             //sen bygger vi själva boxen..
             var oldFill = Ctx.fillStyle;
-            Ctx.fillStyle = "rgb(233, 72, 72)";
+            //Ctx.fillStyle = "rgb(233, 72, 72)";
+            Ctx.fillStyle = "rgb(64, 4, 0)";
             var WidthOfMurderBox =ScreenSpec.SizeX-(ScreenSpec.SizeX /6)*2;
             var HeightOfMurderBox =ScreenSpec.gameFrameY -(ScreenSpec.gameFrameY / 8)*2;
             var PosXOfMurderBox =ScreenSpec.SizeX /6;
@@ -1498,7 +1508,8 @@ var GameEngine = {
                 WidthOfMurderBox+10,
                 HeightOfMurderBox+10
             );
-            Ctx.fillStyle = "rgb(255, 144, 144)";
+            //Ctx.fillStyle = "rgb(255, 144, 144)";
+            Ctx.fillStyle = "rgb(133, 9, 0)";
             Ctx.fillRect(
                 PosXOfMurderBox,
                 PosYOfMurderBox,
@@ -1595,7 +1606,7 @@ var GameEngine = {
             //Vi kommer använda en annan afunktion för att skriva ut knappen,
             // detta för att vi vill bara att den ska vara tryckbar när man har valt
             // karaktär..
-
+            GameEngine.Machines.fillHudGray(true,true,true);
             Ctx.fillStyle = oldFill;
         },
 
@@ -1707,6 +1718,7 @@ var GameEngine = {
             // knappen ska skrivas ut med denna funktion..
             var oldFill = Ctx.fillStyle;
 
+
             Ctx.fillStyle = "rgb(0, 0, 0)";
 
             Ctx.fillRect(
@@ -1725,19 +1737,29 @@ var GameEngine = {
                 GameBubbleData.HeightOfCrimBox-10
             );
 
-            Ctx.fillStyle = "rgb(255, 144, 144)";
+            //här gör vi bordern till texten
+            Ctx.fillStyle = "rgb(64, 4, 0)";
+
+            Ctx.fillRect(
+                    GameBubbleData.PosXOfCrimBox + GameBubbleData.WidthOfCrimBox + 5 -2.5,
+                    (GameBubbleData.PosYOfCrimBox + (GameBubbleData.HeightOfCrimBox / 2))-50 - 2.5,
+                    205 +5 +5 ,
+                    50 -5 + 5
+            );
+            //här gör vi själva rutan till texten
+            Ctx.fillStyle = "rgb(255, 255, 255)";
             Ctx.fillRect(
                 GameBubbleData.PosXOfCrimBox + GameBubbleData.WidthOfCrimBox + 5 ,
                 (GameBubbleData.PosYOfCrimBox + (GameBubbleData.HeightOfCrimBox / 2))-50,
-                205,
-                50
+                205 +5 ,
+                50 -5
             );
             Ctx.fillStyle = "rgb(0, 0, 0)";
             Ctx.fillText(
                 "Are you sure you want to guess at "+actor.name,
                     GameBubbleData.PosXOfCrimBox + GameBubbleData.WidthOfCrimBox + 5,
                     ((GameBubbleData.PosYOfCrimBox + (GameBubbleData.HeightOfCrimBox / 2)))-(GameBubbleData.TextHeight)*2,
-                205
+                205 + 2.5
             );
             Ctx.fillText(
                 "(Guessing wrong will cost 75 TimePoints)",
@@ -2140,13 +2162,13 @@ var GameEngine = {
             Ctx.fillStyle = "rgba(185, 185, 185, 0.55)";
             if(onlyBack){
 
-                Ctx.fillRect(0, ScreenSpec.gameFrameY, (ScreenSpec.SizeX /4)*2 +0.2,ScreenSpec.SizeY - ScreenSpec.gameFrameY)
+                Ctx.fillRect(0, ScreenSpec.gameFrameY, (ScreenSpec.SizeX /4)*1.75 +0.2,ScreenSpec.SizeY - ScreenSpec.gameFrameY)
 
             }else{
                 if(blackButtons == true){
 
                     if(ifBackButtonIsUsable == true){
-                        Ctx.fillRect((ScreenSpec.SizeX /4)*2, ScreenSpec.gameFrameY, (ScreenSpec.SizeX /4),ScreenSpec.SizeY - ScreenSpec.gameFrameY)
+                        Ctx.fillRect((ScreenSpec.SizeX /4*1.75), ScreenSpec.gameFrameY, (ScreenSpec.SizeX /4*1.25),ScreenSpec.SizeY - ScreenSpec.gameFrameY)
                     }else{
                         Ctx.fillRect(0, ScreenSpec.gameFrameY, (ScreenSpec.SizeX /4)*3,ScreenSpec.SizeY - ScreenSpec.gameFrameY)
                     }
@@ -4825,12 +4847,13 @@ var GameEngine = {
                     GameBubbleData.TextHeight,
                     function(){
                         GameEngine.Actives.IsDialogActive = false;
-                        GameEngine.Actives.Player.TimePoints += 5;
+                        //GameEngine.Actives.Player.TimePoints += 5; pga fix så behövs ej denna
                         GameEngine.Actives.actorInDialog = null;
                         GameEngine.Machines.BuildRoom(GameEngine.Actives.RoomThatIsActive.ID);
                         GameEngine.Machines.cleanQuestionData();
 
-                    }
+                    },
+                    false //obs se nedan på samma false...
                 );
             }else{
                 GameEngine.Machines.ListQuestions(
@@ -4842,7 +4865,7 @@ var GameEngine = {
                     GameBubbleData.TextHeight,
                     function(){
                         GameEngine.Actives.IsDialogActive = false;
-                        GameEngine.Actives.Player.TimePoints += 5;
+                        //GameEngine.Actives.Player.TimePoints += 5; pga fix så behövs ej denna
                         GameEngine.Actives.actorInDialog = null;
                         GameEngine.Machines.BuildRoom(GameEngine.Actives.RoomThatIsActive.ID);
                         GameEngine.Machines.createBlippBox(GameEngine.Actives.ActiveClue);
@@ -4850,7 +4873,11 @@ var GameEngine = {
 
                         GameEngine.Machines.cleanQuestionData();
 
-                    }
+                    },
+                    //OBS detta är inget riktigt gamecard, men ett fulhack för att
+                    //undvika att man får gameover när mna tar "i have to go" och har mindre än 5
+                    //TP kvar...
+                    false
                 );
             }
 

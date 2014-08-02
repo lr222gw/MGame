@@ -22,7 +22,7 @@
     <favorites_list name="MGame" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.18651211">
+    <splitter split-orientation="horizontal" split-proportion="0.1">
       <split-first>
         <leaf>
           <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
@@ -38,7 +38,7 @@
           <file leaf-file-name="GameCards.js" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/GameCards.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.37266356" vertical-offset="56138" max-vertical-offset="95999">
+                <state vertical-scroll-proportion="0.6041667" vertical-offset="56138" max-vertical-offset="95999">
                   <caret line="3321" column="45" selection-start-line="3321" selection-start-column="40" selection-end-line="3321" selection-end-column="45" />
                   <folding />
                 </state>
@@ -48,28 +48,46 @@
         </leaf>
       </split-first>
       <split-second>
-        <splitter split-orientation="horizontal" split-proportion="0.62849706">
+        <splitter split-orientation="horizontal" split-proportion="0.6067019">
           <split-first>
-            <leaf>
-              <file leaf-file-name="motor.js" pinned="false" current="true" current-in-tab="true">
-                <entry file="file://$PROJECT_DIR$/motor.js">
-                  <provider selected="true" editor-type-id="text-editor">
-                    <state vertical-scroll-proportion="0.25350466" vertical-offset="23328" max-vertical-offset="99161">
-                      <caret line="1385" column="91" selection-start-line="1385" selection-start-column="91" selection-end-line="1385" selection-end-column="91" />
-                      <folding />
-                    </state>
-                  </provider>
-                </entry>
-              </file>
-            </leaf>
+            <splitter split-orientation="horizontal" split-proportion="0.35833332">
+              <split-first>
+                <leaf>
+                  <file leaf-file-name="motor.js" pinned="false" current="false" current-in-tab="true">
+                    <entry file="file://$PROJECT_DIR$/motor.js">
+                      <provider selected="true" editor-type-id="text-editor">
+                        <state vertical-scroll-proportion="0.68421054" vertical-offset="22233" max-vertical-offset="99620">
+                          <caret line="1330" column="50" selection-start-line="1330" selection-start-column="50" selection-end-line="1330" selection-end-column="50" />
+                          <folding />
+                        </state>
+                      </provider>
+                    </entry>
+                  </file>
+                </leaf>
+              </split-first>
+              <split-second>
+                <leaf>
+                  <file leaf-file-name="motor.js" pinned="false" current="true" current-in-tab="true">
+                    <entry file="file://$PROJECT_DIR$/motor.js">
+                      <provider selected="true" editor-type-id="text-editor">
+                        <state vertical-scroll-proportion="0.72232306" vertical-offset="82256" max-vertical-offset="99620">
+                          <caret line="4862" column="52" selection-start-line="4862" selection-start-column="52" selection-end-line="4862" selection-end-column="52" />
+                          <folding />
+                        </state>
+                      </provider>
+                    </entry>
+                  </file>
+                </leaf>
+              </split-second>
+            </splitter>
           </split-first>
           <split-second>
             <leaf>
               <file leaf-file-name="motor.js" pinned="false" current="false" current-in-tab="true">
                 <entry file="file://$PROJECT_DIR$/motor.js">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state vertical-scroll-proportion="0.432243" vertical-offset="72934" max-vertical-offset="99161">
-                      <caret line="4312" column="14" selection-start-line="4312" selection-start-column="14" selection-end-line="4312" selection-end-column="14" />
+                    <state vertical-scroll-proportion="0.4246824" vertical-offset="1415" max-vertical-offset="99620">
+                      <caret line="97" column="42" selection-start-line="97" selection-start-column="42" selection-end-line="97" selection-end-column="42" />
                       <folding />
                     </state>
                   </provider>
@@ -228,6 +246,7 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32972974" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32972974" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32972974" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24973656" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.09957851" sideWeight="0.49945945" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -237,7 +256,6 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32972974" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -643,7 +661,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/GameCards.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.37266356" vertical-offset="56138" max-vertical-offset="95999">
+        <state vertical-scroll-proportion="0.6041667" vertical-offset="56138" max-vertical-offset="95999">
           <caret line="3321" column="45" selection-start-line="3321" selection-start-column="40" selection-end-line="3321" selection-end-column="45" />
           <folding />
         </state>
@@ -651,8 +669,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/motor.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.25350466" vertical-offset="23328" max-vertical-offset="99161">
-          <caret line="1385" column="91" selection-start-line="1385" selection-start-column="91" selection-end-line="1385" selection-end-column="91" />
+        <state vertical-scroll-proportion="0.72232306" vertical-offset="82256" max-vertical-offset="99620">
+          <caret line="4862" column="52" selection-start-line="4862" selection-start-column="52" selection-end-line="4862" selection-end-column="52" />
           <folding />
         </state>
       </provider>
