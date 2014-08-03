@@ -1007,6 +1007,7 @@ var GameEngine = {
                 (ScreenSpec.SizeY / 2)
             );
             Ctx.fillStyle = "rgb(0,0,0)";
+            Ctx.font = "15px arial, sans-serif";
             GameEngine.Machines.wrapText(
                 Ctx,
                 GameData.MurderMotives[GameEngine.Actives.MurderMotiveArrNumber].motiveDescription,
@@ -2018,12 +2019,23 @@ var GameEngine = {
             //Ctx.fillStyle = "rgb(0, 172, 196)"; Gammal...  innan färgtemat ändrades
             //Ctx.fillStyle = "rgb(64, 4, 0)";
             Ctx.fillStyle = "rgb(255, 255, 255)"; //White.. <- ser rätt fräscht ut! men något måste göras åt denna
-            Ctx.fillRect(
+            Ctx.fillStyle = "rgb(64, 4, 0)";
+            /*Ctx.fillRect(
                 GameBubbleData.BlippBoxPosX+5,
                 GameBubbleData.BlippBoxPosY+5,
                 GameBubbleData.BlippBoxWidth-10,
                 GameBubbleData.BlippBoxHeight-10
+            );*/ //stryker denna och använder en bild istället...
+            Ctx.drawImage(
+                GameData.GameDataImages.blippbackground,
+                GameBubbleData.BlippBoxPosX+5,
+                GameBubbleData.BlippBoxPosY+5,
+                GameBubbleData.BlippBoxWidth-10,
+                GameBubbleData.BlippBoxHeight-10
+
             );
+
+
              //rutan är klar och vi ska skjuta in de små klickbara rutorna i den större rutan som vi nyss ritat..
             ArrOfActorBoxes = GameEngine.Machines.createBlippBoxActorBoxes(GameCard);
             var addToPosX = 10;
@@ -2093,6 +2105,7 @@ var GameEngine = {
                 HeightOfClueBox + GameEngine.Machines.getPosition(0.11, "x")
             );
             Ctx.fillStyle = "rgb(146, 160, 160)";
+            Ctx.fillStyle = "rgb(61, 60, 61)";
 
             Ctx.fillRect(
                 GameBubbleData.BlippBoxPosX + GameBubbleData.BlippBoxWidth - WidthOfClueBox - 15,
@@ -2110,13 +2123,16 @@ var GameEngine = {
             );
             //nu ska vi lägga till texten under bilden..
             Ctx.fillStyle = "rgb(0, 0, 0)";
+            var oldFont = Ctx.font;
+            Ctx.font = GameBubbleData.TextHeight + "px thefont";
             Ctx.fillText(
                 GameCard.Name,
-                (GameBubbleData.BlippBoxPosX + GameBubbleData.BlippBoxWidth - WidthOfClueBox - 20) + WidthOfClueBox/4,
-                ((GameBubbleData.BlippBoxPosY + 10) + (HeightOfClueBox / 5)) + HeightOfClueBox / 2 + GameBubbleData.TextHeight + GameEngine.Machines.getPosition(0.10,"y")
+                (GameBubbleData.BlippBoxPosX + GameBubbleData.BlippBoxWidth - WidthOfClueBox - 15) + WidthOfClueBox/2 - (Ctx.measureText(GameCard.Name).width/2),
+                ((GameBubbleData.BlippBoxPosY + 10) + (HeightOfClueBox / 5)) + HeightOfClueBox / 2 + GameBubbleData.TextHeight + GameEngine.Machines.getPosition(0.10,"y"),
+                WidthOfClueBox-15
             );
 
-
+            Ctx.font = oldFont;
             // Nu ska vi göra själva texten till boxen..
             Ctx.fillStyle = "rgb(0, 0, 0)";
             Ctx.fillRect(
@@ -4647,7 +4663,8 @@ var GameEngine = {
                 SizeWidth+5,
                 SizeHeight+5
             );
-            Ctx.fillStyle = "rgb(64, 4, 0)";
+            Ctx.fillStyle = "rgb(64, 4, 0)";//Mörkröd
+            Ctx.fillStyle = "rgb(61, 60, 61)";//grå
             Ctx.fillRect(
                 PlayerBubblePosX,
                 PlayerBubblePosY,
@@ -4704,7 +4721,8 @@ var GameEngine = {
                             GameBubbleData.SizeWidth+5,
                             GameBubbleData.SizeHeight+5
                     );
-                    Ctx.fillStyle = "rgb(64, 4, 0)";
+                    Ctx.fillStyle = "rgb(64, 4, 0)";//Mörkröd
+                    Ctx.fillStyle = "rgb(61, 60, 61)";//grå
                     Ctx.fillRect(
                         GameBubbleData.PlayerBubblePosX,
                         GameBubbleData.PlayerBubblePosY,
@@ -4835,6 +4853,8 @@ var GameEngine = {
             var CardIDBasedOfEmotion = GameEngine.Machines.FindEmotionInCardData(card.AnswerCards, GameEngine.Enums.EmotionState.Neutral);
             GameEngine.Machines.cleanActorOrPlayerBox("actor");
 
+            Ctx.font = GameBubbleData.TextHeight+"px arial, sans-serif";
+
             GameEngine.Machines.wrapText(
                 Ctx,
                 card.AnswerCards[CardIDBasedOfEmotion].answer, // sätt denna till 0 för att alltid välja första kortet ..
@@ -4960,7 +4980,7 @@ var GameEngine = {
                     false
                 );
             }
-
+            /*
             GameEngine.Machines.ListQuestions(
                 "Flirt*!                       (Cost 15 TimePoints)",
                 GameBubbleData.PlayerBubblePosX+20,
@@ -4995,6 +5015,7 @@ var GameEngine = {
                     //GameEngine.Machines.CardToQuestions(card, actor);
                 }
             );
+             */
 
         },
 
@@ -5112,7 +5133,10 @@ var GameEngine = {
                         }
 
                         //Ctx.fillStyle = "rgb(200, 40, 255)";
-                        Ctx.fillStyle = "rgb(61, 60, 61)";
+                        //Ctx.fillStyle = "rgb(61, 60, 61)";//grå
+                        Ctx.fillStyle = "rgb(64, 4, 0)";//mörkröd
+                        //Ctx.fillStyle = "rgb(61, 60, 61)";//grå
+
                         Ctx.fillRect(
                                 PosX - 5,
                                 PosY - heigtOfLetters + 2,
@@ -5120,7 +5144,7 @@ var GameEngine = {
                             heigtOfLetters
                         );
                         //Ctx.fillStyle = "rgb(63, 0, 0)";
-                        Ctx.fillStyle = "rgb(255, 255, 255)";
+                        Ctx.fillStyle = "rgb(255, 255, 255)";//vit
 
                         Ctx.fillText(GameEngine.GoToButtons.DialogButtons[Counter].LinesArr[j], PosX, PosY);
                         GameEngine.GoToButtons.DialogButtons[Counter].PosX = PosX;
@@ -5219,7 +5243,10 @@ var GameEngine = {
             var SizeWidth = GameEngine.Machines.getPosition(0.90, "x");
             var SizeHeight = GameEngine.Machines.getPosition(0.15, "y");
             //Ritar upp svarsruta för spelare
-            Ctx.fillStyle = "rgb(64, 4, 0)";
+            ///Ctx.fillStyle = "rgb(64, 4, 0)";
+            Ctx.fillStyle = "rgb(61, 60, 61)";//mörkröd
+
+
 
             var PlayerBubblePosX = GameEngine.Machines.getPosition(0.04594330400782014 , "x");
             var PlayerBubblePosY = GameEngine.Machines.getPosition(0.6756369882622387 , "y");
@@ -5232,6 +5259,7 @@ var GameEngine = {
             //Byter till textfärg..
             //var TextHeight = GameEngine.Machines.getPosition(0.016, "x");
             Ctx.fillStyle = "rgb(63, 0, 0)";
+
         },
 
         ListQuestions : function(Question, PosX, PosY ,maxWidth,maxHeight, heigtOfLetters, functionToAdd, GameCard, actor){

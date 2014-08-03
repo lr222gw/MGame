@@ -3411,6 +3411,10 @@ var GameData = {
         var InfoButton = new Image();
         InfoButton.src = "Data/Hudd/InfoButton.png";
 
+        //Blippbox bakground
+        var blippbackground = new Image();
+        blippbackground.src = "Data/Hudd/blippbox.png";
+
 
 
 
@@ -3437,7 +3441,8 @@ var GameData = {
             HowToPlayButton     : HowToPlayButton,
             WinScreen           : WinScreen,
             DoneButton          : DoneButton,
-            InfoButton          : InfoButton
+            InfoButton          : InfoButton,
+            blippbackground     : blippbackground
         }
     }
 
