@@ -756,7 +756,8 @@ var PrepareNewGameORMenu = function(PlayerWantsToPlayAgain){
     GameData.MurderMotives = [];
 
     if(PlayerWantsToPlayAgain == true){
-
+        GameObj.HowToPlayButton = "";
+        GameObj.StartGameButton = "";
         //här ska vi kasta in en animation som demonstrear att det laddas..
         var interval = 0;
         var counter = 0;
@@ -771,16 +772,30 @@ var PrepareNewGameORMenu = function(PlayerWantsToPlayAgain){
             );
             if(counter === 16){
                 clearInterval(Load);
+                var oldFill = Ctx.fillStyle;
+                var oldFont = Ctx.font;
+                Ctx.fillStyle = "rgb(255, 255, 255)";
+                Ctx.font = "20px thefont";
+                Ctx.fillText(
+                    "Your Game is soon ready!",
+                    ScreenSpec.SizeX/2 - (Ctx.measureText("Your Game is soon ready!").width/2),
+                    ScreenSpec.SizeY/2+((ScreenSpec.SizeY/16)/2 + (ScreenSpec.SizeY/16)/8),
+                    (ScreenSpec.SizeX/16)*counter,
+                    ScreenSpec.SizeY/16
+                );
+                Ctx.fillStyle = oldFill;
+                Ctx.font = oldFont;
+                //Eftersom all annan data försvinner så måste vi köra igång spelet i denna metod också, då denna
+                //metod bara används av restartknappen och starta nytt spel knappen så gör detta ingenting!
+                GameData.initData(); //Läser in Kort/Bild-data
+                GameEngine.init();
             }
 
         },250);
 
 
 
-        //Eftersom all annan data försvinner så måste vi köra igång spelet i denna metod också, då denna
-        //metod bara används av restartknappen och starta nytt spel knappen så gör detta ingenting!
-        GameData.initData(); //Läser in Kort/Bild-data
-        GameEngine.init();
+
 
     }
     else if(PlayerWantsToPlayAgain == false){
