@@ -1,0 +1,27 @@
+body {
+    background-color: rgb(230, 230, 230);
+}
+
+
+#content {
+    background-color: rgb(146, 144, 144);
+    padding: 10px;
+    width: 60%;
+    margin: 0 auto;
+}
+
+h2 {
+    margin: 0 auto;
+    font-size: 45px;
+    font-family: sans-serif;
+    display: block;
+    text-align: center;
+}
+
+h3 {
+    font-family: sans-serif;
+}
+
+p b {
+    font-family: sans-serif;
+}

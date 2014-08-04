@@ -820,7 +820,7 @@ var MenuBuildFunction = function(){
         (ScreenSpec.SizeY / 12),
         GameData.GameDataImages.HowToPlayButton,
         function(){
-
+            window.open("rules.html",'_blank');
             return;
         }
     );
@@ -1276,7 +1276,7 @@ var GameEngine = {
             Ctx.fillStyle = "rgb(255, 255, 255)";
             Ctx.font = "thefont";
             Ctx.fillText(
-                "Actors In Room",
+                "People In This Room",
                 PosXOfBox + 2,
                 PosYOfBox + GameBubbleData.TextHeight + 2
             );
@@ -1760,7 +1760,7 @@ var GameEngine = {
             );
             Ctx.fillStyle = "rgb(0, 0, 0)";
             Ctx.fillText(
-                "Are you sure you want to guess at "+actor.name,
+                "Sure you want to accuse "+actor.name+"?",
                     GameBubbleData.PosXOfCrimBox + GameBubbleData.WidthOfCrimBox + 5,
                     ((GameBubbleData.PosYOfCrimBox + (GameBubbleData.HeightOfCrimBox / 2)))-(GameBubbleData.TextHeight)*2,
                 205 + 2.5
